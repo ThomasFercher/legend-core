@@ -156,8 +156,12 @@ class FixedAppBar extends StatelessWidget {
                               layoutType != LayoutType.FixedHeaderSider) ||
                           SizeProvider.of(context).isMobile)
                         Center(
-                          child:
-                              LayoutProvider.of(context)?.title ?? Container(),
+                          child: LegendText(
+                            text: LayoutProvider.of(context)?.title ?? "",
+                            textStyle: theme.typography.h6.copyWith(
+                              color: theme.colors.appBarColors.foreground,
+                            ),
+                          ),
                         ),
                     ],
                   ),

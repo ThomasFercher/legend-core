@@ -4,7 +4,7 @@ import 'package:legend_design_core/layout/fixed/fixed_footer.dart';
 class LayoutProvider extends InheritedWidget {
   final FixedFooter? globalFooter;
   final Widget? logo;
-  final Widget? title;
+  final String? title;
 
   LayoutProvider({
     Key? key,

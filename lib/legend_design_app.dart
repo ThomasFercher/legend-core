@@ -23,7 +23,7 @@ class LegendApp extends StatelessWidget {
   final Widget logo;
   final ThemeProvider theme;
   final FixedFooter? globalFooter;
-  final Widget? title;
+  final String? title;
   final Future<Object?>? future;
   final Widget? splashScreen;
 

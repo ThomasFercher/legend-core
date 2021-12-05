@@ -514,17 +514,22 @@ class _LegendScaffoldState extends State<LegendScaffold> with RouteAware {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            height: theme.appBarSizing.titleSize ??
-                                theme.appBarSizing.appBarHeight / 3 * 2,
-                            width: theme.appBarSizing.titleSize ??
-                                theme.appBarSizing.appBarHeight / 3 * 2,
-                            margin: EdgeInsets.only(right: 12.0, left: 16.0),
-                            child: Center(
-                              child: LayoutProvider.of(context)?.logo ??
-                                  Container(),
+                          if (LayoutProvider.of(context)?.title != null)
+                            Container(
+                              height: theme.appBarSizing.titleSize ??
+                                  theme.appBarSizing.appBarHeight / 3 * 2,
+                              width: theme.appBarSizing.titleSize ??
+                                  theme.appBarSizing.appBarHeight / 3 * 2,
+                              margin: EdgeInsets.only(right: 12.0, left: 16.0),
+                              child: Center(
+                                child: LegendText(
+                                  text: LayoutProvider.of(context)!.title!,
+                                  textStyle: theme.typography.h6.copyWith(
+                                    color: theme.colors.appBarColors.foreground,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
                           Container(
                             height: theme.appBarSizing.appBarHeight,
                             alignment: Alignment.center,

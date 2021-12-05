@@ -242,7 +242,12 @@ class Sider extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   if (LayoutProvider.of(context)?.title != null)
-                    LayoutProvider.of(context)!.title!,
+                    LegendText(
+                      text: LayoutProvider.of(context)!.title!,
+                      textStyle: theme.typography.h6.copyWith(
+                        color: theme.colors.siderColorTheme.foreground,
+                      ),
+                    ),
                   Container(
                     height: 42,
                     width: 42,
