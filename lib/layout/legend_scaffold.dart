@@ -530,12 +530,12 @@ class _LegendScaffoldState extends State<LegendScaffold> with RouteAware {
                                 ),
                               ),
                             ),
-                          Container(
-                            height: theme.appBarSizing.appBarHeight,
-                            alignment: Alignment.center,
-                            child:
-                                LayoutProvider.of(context)?.logo ?? Container(),
-                          ),
+                          if (LayoutProvider.of(context)?.logo != null)
+                            Container(
+                              height: theme.appBarSizing.appBarHeight,
+                              alignment: Alignment.center,
+                              child: LayoutProvider.of(context)!.logo,
+                            ),
                         ],
                       ),
                     ),

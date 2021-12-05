@@ -248,14 +248,15 @@ class Sider extends StatelessWidget {
                         color: theme.colors.siderColorTheme.foreground,
                       ),
                     ),
-                  Container(
-                    height: 42,
-                    width: 42,
-                    margin: const EdgeInsets.only(top: 6.0),
-                    child: Center(
-                      child: LayoutProvider.of(context)?.logo ?? Container(),
+                  if (LayoutProvider.of(context)?.logo != null)
+                    Container(
+                      height: 42,
+                      width: 42,
+                      margin: const EdgeInsets.only(top: 6.0),
+                      child: Center(
+                        child: LayoutProvider.of(context)!.logo,
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),

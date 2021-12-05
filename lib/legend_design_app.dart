@@ -20,7 +20,7 @@ class LegendApp extends StatelessWidget {
   final List<MenuOption> menuOptions;
   final List<RouteInfo> routes;
   final List<LegendDrawerRoute> drawerRoutes;
-  final Widget logo;
+  final Widget? logo;
   final ThemeProvider theme;
   final FixedFooter? globalFooter;
   final String? title;
