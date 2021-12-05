@@ -528,12 +528,8 @@ class _LegendScaffoldState extends State<LegendScaffold> with RouteAware {
                           Container(
                             height: theme.appBarSizing.appBarHeight,
                             alignment: Alignment.center,
-                            child: LegendText(
-                              text: 'Legend Design',
-                              textStyle: theme.typography.h6.copyWith(
-                                color: theme.colors.appBarColors.foreground,
-                              ),
-                            ),
+                            child:
+                                LayoutProvider.of(context)?.logo ?? Container(),
                           ),
                         ],
                       ),

@@ -23,6 +23,7 @@ class LegendApp extends StatelessWidget {
   final Widget logo;
   final ThemeProvider theme;
   final FixedFooter? globalFooter;
+  final Widget? title;
   final Future<Object?>? future;
   final Widget? splashScreen;
 
@@ -36,6 +37,7 @@ class LegendApp extends StatelessWidget {
     this.future,
     this.globalFooter,
     this.splashScreen,
+    this.title,
   }) : super(key: key);
 
   @override
@@ -64,6 +66,7 @@ class LegendApp extends StatelessWidget {
               ThemeProvider theme = Provider.of<ThemeProvider>(context);
               return LayoutProvider(
                 globalFooter: globalFooter,
+                title: title,
                 logo: logo,
                 child: RouterProvider(
                   routerDelegate: routerDelegate,
