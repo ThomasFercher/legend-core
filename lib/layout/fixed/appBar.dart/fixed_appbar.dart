@@ -134,37 +134,46 @@ class FixedAppBar extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if ((layoutType != LayoutType.FixedSider &&
-                              layoutType != LayoutType.FixedHeaderSider) ||
-                          SizeProvider.of(context).isMobile)
-                        if (LayoutProvider.of(context)?.logo != null)
-                          Container(
-                            height:
-                                sizing?.titleSize ?? sizing?.appBarHeight ?? 64,
-                            width:
-                                sizing?.titleSize ?? sizing?.appBarHeight ?? 64,
-                            margin: EdgeInsets.only(right: 12.0, left: 16.0),
-                            child: Center(
-                              child: LayoutProvider.of(context)!.logo,
-                            ),
-                          ),
-                      if ((layoutType != LayoutType.FixedSider &&
-                              layoutType != LayoutType.FixedHeaderSider) ||
-                          SizeProvider.of(context).isMobile)
-                        if (LayoutProvider.of(context)?.title != null)
-                          Center(
-                            child: LegendText(
-                              text: LayoutProvider.of(context)!.title!,
-                              textStyle: theme.typography.h6.copyWith(
-                                color: theme.colors.appBarColors.foreground,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if ((layoutType != LayoutType.FixedSider &&
+                                layoutType != LayoutType.FixedHeaderSider) ||
+                            SizeProvider.of(context).isMobile)
+                          if (LayoutProvider.of(context)?.logo != null)
+                            Container(
+                              height: sizing?.titleSize ??
+                                  sizing?.appBarHeight ??
+                                  64,
+                              width: sizing?.titleSize ??
+                                  sizing?.appBarHeight ??
+                                  64,
+                              margin: EdgeInsets.only(
+                                right: 12.0,
+                              ),
+                              child: Center(
+                                child: LayoutProvider.of(context)!.logo,
                               ),
                             ),
-                          ),
-                    ],
+                        if ((layoutType != LayoutType.FixedSider &&
+                                layoutType != LayoutType.FixedHeaderSider) ||
+                            SizeProvider.of(context).isMobile)
+                          if (LayoutProvider.of(context)?.title != null)
+                            Center(
+                              child: LegendText(
+                                text: LayoutProvider.of(context)!.title!,
+                                textStyle: theme.typography.h6.copyWith(
+                                  color: theme.colors.appBarColors.foreground,
+                                ),
+                              ),
+                            ),
+                      ],
+                    ),
                   ),
                 ),
                 Positioned(

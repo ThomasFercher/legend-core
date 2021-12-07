@@ -14,6 +14,7 @@ import 'package:legend_design_core/layout/sectionNavigation/section_navigation.d
 import 'package:legend_design_core/layout/sections/section.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/delegate.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/router/routes/route_info.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
@@ -78,93 +79,13 @@ class LegendScaffold extends StatefulWidget {
   _LegendScaffoldState createState() => _LegendScaffoldState();
 }
 
-class _LegendScaffoldState extends State<LegendScaffold> with RouteAware {
+class _LegendScaffoldState extends State<LegendScaffold> {
   List<SectionRouteInfo>? sections;
 
   late ScrollController controller;
 
   late bool showSettings;
   MenuOption? currentRoute;
-
-  // TODO: Move to Middleware https://medium.com/flutter-community/flutter-navigator-middleware-part1-9ebc47cea2f2
-  @override
-  void dispose() {
-    routeObserver.unsubscribe(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void didPush() {
-    final route = ModalRoute.of(context)?.settings.name;
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    MenuOption o = MenuOption(page: "");
-
-    for (MenuOption op in options) {
-      if (op.page == route) {
-        o = op;
-        break;
-      }
-      if (op.children != null)
-        for (MenuOption sub in op.children!) {
-          if (sub.page == route) {
-            o = sub;
-            break;
-          }
-        }
-    }
-
-    setState(() {
-      currentRoute = o;
-    });
-
-    RouterProvider.of(context).setMenuOption(o);
-    print('didPush route: $route');
-  }
-
-  @override
-  void didPopNext() {
-    final route = ModalRoute.of(context)?.settings.name;
-
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    MenuOption o = MenuOption(page: "");
-    for (MenuOption op in options) {
-      if (op.page == route) {
-        o = op;
-        break;
-      }
-      if (op.children != null)
-        for (MenuOption sub in op.children!) {
-          if (sub.page == route) {
-            o = sub;
-            break;
-          }
-        }
-    }
-
-    setState(() {
-      currentRoute = o;
-    });
-    RouterProvider.of(context).setMenuOption(o);
-    print('didPopNext route: $route');
-  }
-
-  @override
-  void didPushNext() {
-    final route = ModalRoute.of(context)?.settings.name;
-    print('didPushNext route: $route');
-  }
-
-  @override
-  void didPop() {
-    final route = ModalRoute.of(context)?.settings.name;
-    print('didPop route: $route');
-  }
 
   @override
   void initState() {
@@ -337,6 +258,22 @@ class _LegendScaffoldState extends State<LegendScaffold> with RouteAware {
     double? footerheight;
     ScreenSize? screenSize;
     SizeProvider? sizeProvider;
+
+    RouteSettings? route = RouteInfoProvider.of(context)?.route;
+    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    for (MenuOption op in options) {
+      if (op.page == route) {
+        currentRoute = op;
+        break;
+      }
+      if (op.children != null)
+        for (MenuOption sub in op.children!) {
+          if (sub.page == route) {
+            currentRoute = sub;
+            break;
+          }
+        }
+    }
 
     try {
       sizeProvider = SizeProvider.of(context);

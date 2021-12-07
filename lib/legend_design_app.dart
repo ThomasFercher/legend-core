@@ -32,7 +32,7 @@ class LegendApp extends StatelessWidget {
     required this.menuOptions,
     required this.routes,
     required this.drawerRoutes,
-    required this.logo,
+    this.logo,
     required this.theme,
     this.future,
     this.globalFooter,

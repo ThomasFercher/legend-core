@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 
 import '../objects/menu_option.dart';
 import 'delegate.dart';
@@ -73,41 +74,20 @@ class RouterProvider extends InheritedWidget {
   static Page createPage(RouteSettings s, RouteInfo route) {
     String now = DateTime.now().millisecondsSinceEpoch.toString();
 
-    // create full screen Page
-    if (kIsWeb) {
-      return MaterialPage(
-        child: Material(
-          color: Colors.transparent,
-          child: SectionProvider(
-            sections: route.sections,
+    return MaterialPage(
+      key: ValueKey(s.name! + now),
+      name: s.name,
+      arguments: s.arguments,
+      child: Material(
+        child: SectionProvider(
+          sections: route.sections,
+          child: RouteInfoProvider(
+            route: s,
             child: route.page,
           ),
         ),
-        key: ValueKey(s.name! + now),
-        name: s.name,
-        arguments: s.arguments,
-      );
-    } else if (Platform.isIOS || Platform.isMacOS) {
-      return CupertinoPage(
-        child: route.page,
-        key: ValueKey(s.name! + now),
-        name: s.name,
-        arguments: s.arguments,
-      );
-    } else {
-      return MaterialPage(
-        child: Material(
-          color: Colors.transparent,
-          child: SectionProvider(
-            sections: route.sections,
-            child: route.page,
-          ),
-        ),
-        key: ValueKey(s.name! + now),
-        name: s.name,
-        arguments: s.arguments,
-      );
-    }
+      ),
+    );
   }
 
   @override
