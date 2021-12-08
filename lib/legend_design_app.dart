@@ -4,6 +4,7 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 import 'layout/drawers/legend_drawer_info.dart';
 import 'layout/drawers/legend_drawer_provider.dart';
@@ -26,6 +27,7 @@ class LegendApp extends StatelessWidget {
   final String? title;
   final Future<Object?>? future;
   final Widget? splashScreen;
+  final List<SingleChildWidget>? providers;
 
   LegendApp({
     Key? key,
@@ -38,30 +40,34 @@ class LegendApp extends StatelessWidget {
     this.globalFooter,
     this.splashScreen,
     this.title,
+    this.providers,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<SingleChildWidget> _providers = [
+      ChangeNotifierProvider<ThemeProvider>(
+        create: (_) => theme,
+      ),
+      ChangeNotifierProvider<BottomBarProvider>(
+        create: (_) => BottomBarProvider(
+          menuOptions.first,
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => LegendDrawerProvider(
+          drawerRoutes: drawerRoutes,
+        ),
+      )
+    ];
+    if (providers != null) _providers.addAll(providers!);
+
     return FutureBuilder(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData || splashScreen == null) {
           return MultiProvider(
-            providers: [
-              ChangeNotifierProvider<ThemeProvider>(
-                create: (_) => theme,
-              ),
-              ChangeNotifierProvider<BottomBarProvider>(
-                create: (_) => BottomBarProvider(
-                  menuOptions.first,
-                ),
-              ),
-              ChangeNotifierProvider(
-                create: (context) => LegendDrawerProvider(
-                  drawerRoutes: drawerRoutes,
-                ),
-              )
-            ],
+            providers: _providers,
             child: Builder(builder: (context) {
               ThemeProvider theme = Provider.of<ThemeProvider>(context);
               return LayoutProvider(

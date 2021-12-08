@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_menu.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
+import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
@@ -11,55 +15,6 @@ import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/typography/typography.dart';
 
 import 'package:provider/provider.dart';
-
-class FixedAppBarColors {
-  final Color backgroundColor;
-
-  final Color? cardColor;
-  final Color iconColor;
-  final Color selectedColor;
-  final Color foreground;
-
-  FixedAppBarColors({
-    required this.backgroundColor,
-    this.cardColor,
-    required this.iconColor,
-    required this.selectedColor,
-    required this.foreground,
-  });
-}
-
-class FixedAppBarSizing {
-  final Radius? borderRadius;
-  final EdgeInsets contentPadding;
-  final ShapeBorder? shape;
-  final double? titleSize;
-  late final bool pinned;
-  late final bool floating;
-  final double? spacing;
-  final double appBarHeight;
-  final double? iconSize;
-
-  FixedAppBarSizing({
-    required this.appBarHeight,
-    this.borderRadius,
-    required this.contentPadding,
-    this.shape,
-    bool? pinned,
-    bool? floating,
-    this.iconSize,
-    this.spacing,
-    this.titleSize,
-  }) {
-    this.floating = floating ?? false;
-
-    if (this.floating) {
-      this.pinned = false;
-    } else {
-      this.pinned = pinned ?? true;
-    }
-  }
-}
 
 class FixedAppBar extends StatelessWidget {
   final void Function(int i)? onActionPressed;
@@ -72,6 +27,7 @@ class FixedAppBar extends StatelessWidget {
   FixedAppBarColors? colors;
   final BuildContext pcontext;
   final LayoutType? layoutType;
+
   FixedAppBar({
     this.showMenu,
     this.builder,
@@ -103,6 +59,11 @@ class FixedAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
+
+    bool isSubRoute = true;
+    bool showBackArrow = isSubRoute &&
+        !(showMenu ?? true) &&
+        layoutType == LayoutType.FixedHeader;
     sizing ??= theme.appBarSizing;
     colors ??= theme.appBarColors;
 
@@ -142,6 +103,16 @@ class FixedAppBar extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        if (showBackArrow)
+                          LegendAnimatedIcon(
+                              icon: Icons.arrow_back_ios,
+                              theme: LegendAnimtedIconTheme(
+                                enabled: theme.colors.selectionColor,
+                                disabled: theme.colors.appBarColors.foreground,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }),
                         if ((layoutType != LayoutType.FixedSider &&
                                 layoutType != LayoutType.FixedHeaderSider) ||
                             SizeProvider.of(context).isMobile)

@@ -49,6 +49,7 @@ class LegendScaffold extends StatefulWidget {
   late final bool isUnderlyingRoute;
   final bool? showSectionMenu;
   final bool? showTopSubMenu;
+  final bool? singleScreen;
 
   LegendScaffold({
     required this.pageName,
@@ -59,6 +60,7 @@ class LegendScaffold extends StatefulWidget {
     this.showAppBarMenu,
     this.appBarBuilder,
     this.showSiderSubMenu,
+    this.singleScreen,
     WidgetBuilder? contentBuilder,
     List<Widget>? children,
     bool? singlePage,
@@ -340,6 +342,9 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                 Container(
                                   constraints: BoxConstraints(
                                     minHeight: maxHeight,
+                                    maxHeight: widget.singleScreen ?? false
+                                        ? maxHeight
+                                        : double.infinity,
                                   ),
                                   color: theme.colors.scaffoldBackgroundColor,
                                   padding: EdgeInsets.all(
