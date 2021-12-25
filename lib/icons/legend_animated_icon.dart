@@ -7,13 +7,14 @@ class LegendAnimatedIcon extends StatefulWidget {
   final Function onPressed;
   final EdgeInsetsGeometry? padding;
   final double? iconSize;
-
+  final bool isSelected;
   late final bool disableShadow;
 
   LegendAnimatedIcon({
     required this.icon,
     required this.theme,
     required this.onPressed,
+    this.isSelected = false,
     this.iconSize,
     this.padding,
     bool? disableShadow,
@@ -48,6 +49,7 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
               });
             },
           );
+    if (widget.isSelected) _controller.forward();
     super.initState();
   }
 
@@ -68,12 +70,12 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
         highlightColor: Colors.transparent,
         onTap: () => widget.onPressed(),
         onHover: (value) {
-          if (value && !hovered) {
+          if (value && !hovered && !widget.isSelected) {
             if (!_controller.isAnimating || !hovered) {
               _controller.forward();
               hovered = true;
             }
-          } else {
+          } else if (!widget.isSelected) {
             if (!_controller.isAnimating || hovered) {
               _controller.reverse();
               hovered = false;

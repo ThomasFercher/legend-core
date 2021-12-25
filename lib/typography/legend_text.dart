@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LegendText extends StatelessWidget {
-  final String text;
+  final String? text;
   final TextStyle? textStyle;
   final bool? selectable;
   final TextAlign? textAlign;
   final EdgeInsets? padding;
+  final TextOverflow? overflow;
 
   LegendText({
     required this.text,
@@ -14,6 +15,7 @@ class LegendText extends StatelessWidget {
     this.textStyle,
     this.textAlign,
     this.padding,
+    this.overflow,
   });
 
   @override
@@ -27,7 +29,7 @@ class LegendText extends StatelessWidget {
 
   Widget webText() {
     return SelectableText(
-      text,
+      text ?? "",
       style: textStyle,
       textAlign: textAlign,
     );
@@ -35,9 +37,10 @@ class LegendText extends StatelessWidget {
 
   Widget normalText() {
     return Text(
-      text,
+      text ?? "",
       style: textStyle,
       textAlign: textAlign,
+      overflow: overflow,
     );
   }
 }

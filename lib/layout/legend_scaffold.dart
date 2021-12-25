@@ -43,13 +43,15 @@ class LegendScaffold extends StatefulWidget {
   final bool? showAppBarMenu;
   late final bool singlePage;
   late final List<Widget> children;
-  late final WidgetBuilder contentBuilder;
+  late final Widget Function(BuildContext context, Size size)? contentBuilder;
   late final FixedFooter? customFooter;
   final double? verticalChildrenSpacing;
   late final bool isUnderlyingRoute;
   final bool? showSectionMenu;
   final bool? showTopSubMenu;
   final bool? singleScreen;
+  final bool disableContentDecoration;
+  final double? maxContentWidth;
 
   LegendScaffold({
     required this.pageName,
@@ -61,7 +63,7 @@ class LegendScaffold extends StatefulWidget {
     this.appBarBuilder,
     this.showSiderSubMenu,
     this.singleScreen,
-    WidgetBuilder? contentBuilder,
+    this.contentBuilder,
     List<Widget>? children,
     bool? singlePage,
     Key? key,
@@ -70,10 +72,12 @@ class LegendScaffold extends StatefulWidget {
     bool? isUnderlyingRoute,
     this.showSectionMenu,
     this.showTopSubMenu,
+    this.maxContentWidth,
+    this.disableContentDecoration = false,
   }) : super(key: key) {
     this.singlePage = singlePage ?? false;
     this.children = children ?? [];
-    this.contentBuilder = contentBuilder ?? (f) => Container();
+
     this.isUnderlyingRoute = isUnderlyingRoute ?? false;
   }
 
@@ -176,7 +180,10 @@ class _LegendScaffoldState extends State<LegendScaffold> {
   }
 
   Widget getFooter(double height, BuildContext context) {
-    return LayoutProvider.of(context)?.globalFooter ?? Container();
+    if (widget.layoutType != LayoutType.Content)
+      return LayoutProvider.of(context)?.globalFooter ?? Container();
+    else
+      return Container();
   }
 
   Widget getHeader(BuildContext context) {
@@ -234,20 +241,18 @@ class _LegendScaffoldState extends State<LegendScaffold> {
     );
   }
 
-  double calculateMinContentHeight() {
+  double calculateMinContentHeight(double? footerHeight) {
     ThemeProvider theme = context.watch<ThemeProvider>();
     double height = MediaQuery.of(context).size.height;
-    double footerHeight =
-        LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
 
     if (theme.sizingTheme.sizingType != LegendSizingType.MOBILE) {
-      height -= footerHeight;
+      height -= footerHeight ?? 0;
     } else {
       height -= theme.bottomBarStyle?.height ?? 0;
     }
-    if (widget.layoutType == LayoutType.FixedSider ||
-        widget.layoutType == LayoutType.Content) {
+    if (widget.layoutType == LayoutType.FixedSider) {
       height -= theme.sizing.padding[0] * 4;
+    } else if (widget.layoutType == LayoutType.Content) {
     } else {
       height -= theme.appBarSizing.appBarHeight;
     }
@@ -276,20 +281,18 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           }
         }
     }
-
     try {
       sizeProvider = SizeProvider.of(context);
       screenSize = sizeProvider.screenSize;
 
-      if (!sizeProvider.isMobile) {
+      if (!sizeProvider.isMobile && widget.layoutType != LayoutType.Content) {
         footerheight =
             LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
       }
     } catch (e) {
       print(e);
     }
-
-    double maxHeight = calculateMinContentHeight();
+    double maxHeight = calculateMinContentHeight(footerheight);
 
     // TODO Improve
     List<Widget> a = getChildren(context);
@@ -335,7 +338,8 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                       controller: controller,
                       slivers: [
                         getHeader(context),
-                        if (widget.children.isEmpty)
+                        if (widget.children.isEmpty &&
+                            widget.contentBuilder != null)
                           SliverToBoxAdapter(
                             child: Column(
                               children: [
@@ -347,18 +351,12 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                         : double.infinity,
                                   ),
                                   color: theme.colors.scaffoldBackgroundColor,
-                                  padding: EdgeInsets.all(
-                                    theme.sizing.padding[0],
-                                  ),
+                                  padding: widget.disableContentDecoration
+                                      ? null
+                                      : EdgeInsets.all(
+                                          theme.sizing.padding[0],
+                                        ),
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      color: theme.colors.background[0],
-                                      borderRadius:
-                                          theme.sizing.borderRadius[0],
-                                    ),
-                                    padding: EdgeInsets.all(
-                                      theme.sizing.padding[0],
-                                    ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -401,8 +399,47 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                                 ),
                                               ),
                                             Expanded(
-                                              child: Builder(
-                                                builder: widget.contentBuilder,
+                                              child: Center(
+                                                child: Container(
+                                                  decoration: widget
+                                                          .disableContentDecoration
+                                                      ? null
+                                                      : BoxDecoration(
+                                                          color: theme.colors
+                                                              .background[0],
+                                                          borderRadius: theme
+                                                              .sizing
+                                                              .borderRadius[0],
+                                                        ),
+                                                  padding: widget
+                                                          .disableContentDecoration
+                                                      ? null
+                                                      : EdgeInsets.all(
+                                                          theme.sizing
+                                                              .padding[0],
+                                                        ),
+                                                  constraints: widget.singlePage
+                                                      ? BoxConstraints(
+                                                          minHeight: maxHeight,
+                                                        )
+                                                      : null,
+                                                  child: LayoutBuilder(builder:
+                                                      (context, constraints) {
+                                                    return Builder(
+                                                      builder: (context) {
+                                                        return widget
+                                                            .contentBuilder!(
+                                                          context,
+                                                          Size(
+                                                            constraints
+                                                                .maxWidth,
+                                                            maxHeight,
+                                                          ),
+                                                        );
+                                                      },
+                                                    );
+                                                  }),
+                                                ),
                                               ),
                                             ),
                                           ],

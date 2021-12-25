@@ -21,7 +21,10 @@ class LegendUtils {
     return s;
   }
 
-  static Size calcTextSize(String text, TextStyle style) {
+  static Size calcTextSize(
+    String text,
+    TextStyle style,
+  ) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: text, style: style),
       textDirection: TextDirection.ltr,
