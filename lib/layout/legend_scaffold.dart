@@ -49,9 +49,10 @@ class LegendScaffold extends StatefulWidget {
   late final bool isUnderlyingRoute;
   final bool? showSectionMenu;
   final bool? showTopSubMenu;
-  final bool? singleScreen;
+
   final bool disableContentDecoration;
   final double? maxContentWidth;
+  final bool enableDefaultSettings;
 
   LegendScaffold({
     required this.pageName,
@@ -62,7 +63,6 @@ class LegendScaffold extends StatefulWidget {
     this.showAppBarMenu,
     this.appBarBuilder,
     this.showSiderSubMenu,
-    this.singleScreen,
     this.contentBuilder,
     List<Widget>? children,
     bool? singlePage,
@@ -74,6 +74,7 @@ class LegendScaffold extends StatefulWidget {
     this.showTopSubMenu,
     this.maxContentWidth,
     this.disableContentDecoration = false,
+    this.enableDefaultSettings = false,
   }) : super(key: key) {
     this.singlePage = singlePage ?? false;
     this.children = children ?? [];
@@ -197,15 +198,17 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
-          onActionPressed: (i) {
-            switch (i) {
-              case 0:
-                Provider.of<LegendDrawerProvider>(context, listen: false)
-                    .showDrawer('/settings');
-                break;
-              default:
-            }
-          },
+          onActionPressed: widget.enableDefaultSettings
+              ? (i) {
+                  switch (i) {
+                    case 0:
+                      Provider.of<LegendDrawerProvider>(context, listen: false)
+                          .showDrawer('/settings');
+                      break;
+                    default:
+                  }
+                }
+              : null,
         );
       case LayoutType.FixedHeader:
         return FixedAppBar(
@@ -216,15 +219,17 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
-          onActionPressed: (i) {
-            switch (i) {
-              case 0:
-                Provider.of<LegendDrawerProvider>(context, listen: false)
-                    .showDrawer('/settings');
-                break;
-              default:
-            }
-          },
+          onActionPressed: widget.enableDefaultSettings
+              ? (i) {
+                  switch (i) {
+                    case 0:
+                      Provider.of<LegendDrawerProvider>(context, listen: false)
+                          .showDrawer('/settings');
+                      break;
+                    default:
+                  }
+                }
+              : null,
         );
       default:
         return SliverToBoxAdapter(
@@ -250,6 +255,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
     } else {
       height -= theme.bottomBarStyle?.height ?? 0;
     }
+
     if (widget.layoutType == LayoutType.FixedSider) {
       height -= theme.sizing.padding[0] * 4;
     } else if (widget.layoutType == LayoutType.Content) {
@@ -346,7 +352,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                 Container(
                                   constraints: BoxConstraints(
                                     minHeight: maxHeight,
-                                    maxHeight: widget.singleScreen ?? false
+                                    maxHeight: widget.singlePage
                                         ? maxHeight
                                         : double.infinity,
                                   ),
@@ -356,96 +362,28 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                       : EdgeInsets.all(
                                           theme.sizing.padding[0],
                                         ),
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (currentRoute?.isUnderlying ?? false)
-                                          LegendText(
-                                            padding: EdgeInsets.only(
-                                              bottom: 8,
-                                            ),
-                                            text: currentRoute?.title ?? "",
-                                            textStyle:
-                                                theme.typography.h5.copyWith(
-                                              color: theme.colors.textContrast,
-                                            ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (currentRoute?.isUnderlying ?? false)
+                                        LegendText(
+                                          padding: EdgeInsets.only(
+                                            bottom: 8,
                                           ),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            if (widget.layoutType ==
-                                                    LayoutType.FixedSider ||
-                                                widget.layoutType ==
-                                                    LayoutType.FixedHeaderSider)
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 3.0,
-                                                ),
-                                                child: Container(
-                                                  height: maxHeight,
-                                                  decoration: BoxDecoration(
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.black12,
-                                                        spreadRadius: 3,
-                                                        blurRadius: 6,
-                                                        offset: Offset(0, -6),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Container(
-                                                  decoration: widget
-                                                          .disableContentDecoration
-                                                      ? null
-                                                      : BoxDecoration(
-                                                          color: theme.colors
-                                                              .background[0],
-                                                          borderRadius: theme
-                                                              .sizing
-                                                              .borderRadius[0],
-                                                        ),
-                                                  padding: widget
-                                                          .disableContentDecoration
-                                                      ? null
-                                                      : EdgeInsets.all(
-                                                          theme.sizing
-                                                              .padding[0],
-                                                        ),
-                                                  constraints: widget.singlePage
-                                                      ? BoxConstraints(
-                                                          minHeight: maxHeight,
-                                                        )
-                                                      : null,
-                                                  child: LayoutBuilder(builder:
-                                                      (context, constraints) {
-                                                    return Builder(
-                                                      builder: (context) {
-                                                        return widget
-                                                            .contentBuilder!(
-                                                          context,
-                                                          Size(
-                                                            constraints
-                                                                .maxWidth,
-                                                            maxHeight,
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                  }),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                          text: currentRoute?.title ?? "",
+                                          textStyle:
+                                              theme.typography.h5.copyWith(
+                                            color: theme.colors.textContrast,
+                                          ),
                                         ),
-                                      ],
-                                    ),
+                                      widget.singlePage
+                                          ? Expanded(
+                                              child:
+                                                  getContent(maxHeight, theme),
+                                            )
+                                          : getContent(maxHeight, theme),
+                                    ],
                                   ),
                                 ),
                                 if (footerheight != null)
@@ -496,9 +434,8 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                           if (LayoutProvider.of(context)?.title != null)
                             Container(
                               height: theme.appBarSizing.titleSize ??
-                                  theme.appBarSizing.appBarHeight / 3 * 2,
-                              width: theme.appBarSizing.titleSize ??
-                                  theme.appBarSizing.appBarHeight / 3 * 2,
+                                  theme.appBarSizing.appBarHeight,
+                              width: theme.appBarSizing.titleSize,
                               margin: EdgeInsets.only(right: 12.0, left: 16.0),
                               child: Center(
                                 child: LegendText(
@@ -524,6 +461,77 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           ),
         ),
         getDrawer(context),
+      ],
+    );
+  }
+
+  Row getContent(double maxHeight, ThemeProvider theme) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.layoutType == LayoutType.FixedSider ||
+            widget.layoutType == LayoutType.FixedHeaderSider)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 3.0,
+            ),
+            child: Container(
+              height: maxHeight,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    spreadRadius: 3,
+                    blurRadius: 6,
+                    offset: Offset(0, -6),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        Expanded(
+          child: Center(
+            child: Container(
+              decoration: widget.disableContentDecoration
+                  ? null
+                  : BoxDecoration(
+                      color: theme.colors.background[0],
+                      borderRadius: theme.sizing.borderRadius[0],
+                    ),
+              padding: widget.disableContentDecoration
+                  ? null
+                  : EdgeInsets.all(
+                      theme.sizing.padding[0],
+                    ),
+              constraints: widget.singlePage
+                  ? BoxConstraints(
+                      minHeight: maxHeight -
+                          (widget.disableContentDecoration
+                              ? 0
+                              : theme.sizing.padding[0] * 2),
+                    )
+                  : null,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Builder(
+                    builder: (context) {
+                      return widget.contentBuilder!(
+                        context,
+                        Size(
+                          widget.maxContentWidth ?? constraints.maxWidth,
+                          maxHeight -
+                              (widget.disableContentDecoration
+                                  ? 0
+                                  : (theme.sizing.padding[0] * 2)),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

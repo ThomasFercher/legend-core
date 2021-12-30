@@ -164,19 +164,20 @@ class FixedAppBar extends StatelessWidget {
                             alignment: Alignment.center,
                             decoration: getCard(),
                             child: Builder(
-                              builder: builder ?? (c) => Container(),
+                              builder: builder!,
                             ),
                           ),
-                        LegendAnimatedIcon(
-                          icon: Icons.settings,
-                          theme: LegendAnimtedIconTheme(
-                            enabled: theme.colors.selectionColor,
-                            disabled: theme.appBarColors.foreground,
+                        if (onActionPressed != null)
+                          LegendAnimatedIcon(
+                            icon: Icons.settings,
+                            theme: LegendAnimtedIconTheme(
+                              enabled: theme.colors.selectionColor,
+                              disabled: theme.appBarColors.foreground,
+                            ),
+                            onPressed: () {
+                              onActionPressed!(0);
+                            },
                           ),
-                          onPressed: () {
-                            if (onActionPressed != null) onActionPressed!(0);
-                          },
-                        ),
                       ],
                     ),
                   ),

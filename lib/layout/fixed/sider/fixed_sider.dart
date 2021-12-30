@@ -26,6 +26,7 @@ class FixedSider extends StatelessWidget {
   late final bool showSectionMenu;
   late final bool showSubMenu;
   late final LayoutType layoutType;
+  final bool enableDefaultSettings;
 
   WidgetBuilder? builder;
 
@@ -35,6 +36,7 @@ class FixedSider extends StatelessWidget {
     bool? showSubMenu,
     this.builder,
     LayoutType? layoutType,
+    this.enableDefaultSettings = false,
   }) {
     this.showMenu = showMenu ?? true;
     this.showSubMenu = showSubMenu ?? true;
@@ -60,6 +62,7 @@ class FixedSider extends StatelessWidget {
                 showSectionMenu: showSectionMenu,
                 showSubMenu: showSubMenu,
                 layoutType: layoutType,
+                enableDefaultSettings: enableDefaultSettings,
               )
             : CollapsedSider(
                 context: context,
@@ -82,6 +85,7 @@ class Sider extends StatelessWidget {
     required this.showSectionMenu,
     required this.showSubMenu,
     required this.layoutType,
+    required this.enableDefaultSettings,
   }) : super(key: key);
 
   final bool? showMenu;
@@ -89,6 +93,7 @@ class Sider extends StatelessWidget {
   final WidgetBuilder? builder;
   final BuildContext context;
   final bool showSubMenu;
+  final bool enableDefaultSettings;
   final LayoutType layoutType;
 
   @override
@@ -269,7 +274,7 @@ class Sider extends StatelessWidget {
               ),
             ),
           ),
-          if (layoutType == LayoutType.FixedSider)
+          if (enableDefaultSettings)
             Container(
               padding: EdgeInsets.all(16),
               child: Row(

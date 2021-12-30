@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class LegendAnimatedIcon extends StatefulWidget {
   final IconData icon;
   final LegendAnimtedIconTheme theme;
-  final Function onPressed;
+  final void Function() onPressed;
   final EdgeInsetsGeometry? padding;
   final double? iconSize;
   final bool isSelected;
