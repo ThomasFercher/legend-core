@@ -21,6 +21,7 @@ class LegendColorTheme {
   final BottomBarColors bottomBarColors;
   final List<double>? elevations;
   final Color textContrast;
+  final Color disabledColor;
 
   final FixedFooterColors fixedFooterColors;
   final LegendTypographyColors typographyColors;
@@ -42,6 +43,7 @@ class LegendColorTheme {
     required this.typographyColors,
     required this.siderColorTheme,
     this.elevations,
+    required this.disabledColor,
   });
 
   // ranges from 0.0 to 1.0
