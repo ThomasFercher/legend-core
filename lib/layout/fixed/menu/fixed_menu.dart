@@ -15,7 +15,7 @@ class FixedMenu extends StatefulWidget {
   final Color? foreground;
   final bool showSubMenu;
 
-  const FixedMenu({
+  FixedMenu({
     Key? key,
     required this.context,
     required this.showSubMenu,

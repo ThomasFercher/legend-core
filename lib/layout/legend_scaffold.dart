@@ -1,10 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer_info.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
@@ -13,10 +9,8 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
 import 'package:legend_design_core/layout/sections/section.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/delegate.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/router/routes/route_info.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
@@ -24,13 +18,13 @@ import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'fixed/appBar.dart/fixed_appbar.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'fixed/bottomBar.dart/fixed_bottom_bar.dart';
 import 'fixed/fixed_footer.dart';
 import 'fixed/sider/fixed_sider.dart';
 import '../typography/legend_text.dart';
-import '../typography/typography.dart';
 
 class LegendScaffold extends StatefulWidget {
   final LayoutType? layoutType;
@@ -49,10 +43,10 @@ class LegendScaffold extends StatefulWidget {
   late final bool isUnderlyingRoute;
   final bool? showSectionMenu;
   final bool? showTopSubMenu;
-
   final bool disableContentDecoration;
   final double? maxContentWidth;
   final bool enableDefaultSettings;
+  final List<SingleChildWidget>? providers;
 
   LegendScaffold({
     required this.pageName,
@@ -75,6 +69,7 @@ class LegendScaffold extends StatefulWidget {
     this.maxContentWidth,
     this.disableContentDecoration = false,
     this.enableDefaultSettings = false,
+    this.providers,
   }) : super(key: key) {
     this.singlePage = singlePage ?? false;
     this.children = children ?? [];
@@ -136,17 +131,30 @@ class _LegendScaffoldState extends State<LegendScaffold> {
             }
           }
         },
-        child: Builder(
-          builder: (context) {
-            if (kIsWeb) {
-              return materialLayout(context);
-            } else if (Platform.isIOS || Platform.isMacOS) {
-              return cupertinoLayout(context);
-            } else {
-              return materialLayout(context);
-            }
-          },
-        ),
+        child: widget.providers != null
+            ? MultiProvider(
+                providers: widget.providers!,
+                builder: (context, child) {
+                  if (kIsWeb) {
+                    return materialLayout(context);
+                  } else if (Platform.isIOS || Platform.isMacOS) {
+                    return cupertinoLayout(context);
+                  } else {
+                    return materialLayout(context);
+                  }
+                },
+              )
+            : Builder(
+                builder: (context) {
+                  if (kIsWeb) {
+                    return materialLayout(context);
+                  } else if (Platform.isIOS || Platform.isMacOS) {
+                    return cupertinoLayout(context);
+                  } else {
+                    return materialLayout(context);
+                  }
+                },
+              ),
       ),
     );
   }
@@ -501,14 +509,14 @@ class _LegendScaffoldState extends State<LegendScaffold> {
               padding: widget.disableContentDecoration
                   ? null
                   : EdgeInsets.all(
-                      theme.sizing.padding[0],
+                      theme.sizing.padding[1],
                     ),
               constraints: widget.singlePage
                   ? BoxConstraints(
                       minHeight: maxHeight -
                           (widget.disableContentDecoration
                               ? 0
-                              : theme.sizing.padding[0] * 2),
+                              : theme.sizing.padding[1] * 2),
                     )
                   : null,
               child: LayoutBuilder(
@@ -522,7 +530,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                           maxHeight -
                               (widget.disableContentDecoration
                                   ? 0
-                                  : (theme.sizing.padding[0] * 2)),
+                                  : (theme.sizing.padding[1] * 2)),
                         ),
                       );
                     },

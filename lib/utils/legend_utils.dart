@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,5 +52,10 @@ class LegendUtils {
     final RenderBox? renderBox =
         key.currentContext?.findRenderObject() as RenderBox?;
     return renderBox?.size; // or _widgetKey.currentContext?.size
+  }
+
+  static String getPrettyJSONString(jsonObject) {
+    var encoder = new JsonEncoder.withIndent("     ");
+    return encoder.convert(jsonObject);
   }
 }

@@ -180,9 +180,9 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               title: option.title,
               path: option.page,
               left: false,
-              backgroundColor: theme.colors.cardBackgroundColor,
+              backgroundColor: theme.colors.foreground[1],
               activeColor: theme.colors.selectionColor,
-              color: theme.colors.textContrast,
+              color: theme.colors.textColorLight,
               collapsed: false,
               onClicked: () {
                 poppedFromtTop = true;
@@ -278,7 +278,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
                                 ),
                               ),
                             ),
-                            color: theme.colors.cardBackgroundColor,
+                            color: theme.colors.foreground[1],
                             margin: const EdgeInsets.all(0),
                             child: Padding(
                               padding: EdgeInsets.only(
