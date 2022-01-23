@@ -307,7 +307,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
       children: [
         Scaffold(
           endDrawer: MenuDrawer(),
-          bottomNavigationBar: sizeProvider?.isMobile ?? false
+          bottomNavigationBar: sizeProvider.isMobile
               ? FixedBottomBar(
                   colors: theme.bottomBarColors,
                   sizing: theme.bottomBarStyle,
@@ -325,7 +325,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
             children: [
               Row(
                 children: [
-                  getSider(screenSize ?? ScreenSize.Medium, context),
+                  getSider(screenSize, context),
                   Expanded(
                     child: CustomScrollView(
                       controller: controller,
@@ -406,7 +406,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                 ],
               ),
               if ((widget.layoutType == LayoutType.FixedHeaderSider) &&
-                  (sizeProvider?.isMobile == false))
+                  (sizeProvider.isMobile == false))
                 Positioned(
                   left: theme.appBarSizing.contentPadding.horizontal,
                   top: theme.appBarSizing.contentPadding.top,

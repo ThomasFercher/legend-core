@@ -193,6 +193,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               context: context,
               itemWidth: width,
               maxHeight: widget.maxHeight,
+              parentHeight: theme.appBarSizing.appBarHeight,
               key: key,
               onParentTap: () {
                 poppedFromtTop = true;

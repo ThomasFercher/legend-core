@@ -71,6 +71,7 @@ class LegendPopups {
     double? maxHeight,
     double? parentHeight,
     BorderRadiusGeometry? borderRadius,
+    double snappedRightPadding = 16,
   }) {
     double maxWidth = SizeProvider.of(context).width;
     double left_q = (menuWidth - itemWidth) / 2;
@@ -106,7 +107,7 @@ class LegendPopups {
               if (p.dy <= (parentHeight ?? 0)) {
                 if (snappedRight) {
                   if (event.localDelta.dy < 0) {
-                    left_q = menuWidth - itemWidth - 16;
+                    left_q = menuWidth - itemWidth - snappedRightPadding;
 
                     if (left_q >= p.dx) {
                       if (onParentExit != null) onParentExit(event, p);
@@ -131,9 +132,13 @@ class LegendPopups {
                     }
                   },
                   child: Container(
-                    height: theme.appBarSizing.appBarHeight,
+                    margin: snappedRight
+                        ? EdgeInsets.only(left: left_q + snappedRightPadding)
+                        : EdgeInsets.zero,
+                    height: parentHeight,
                     width: itemWidth,
                     color: Colors.transparent,
+                    //  color: Colors.green,
                   ),
                 ),
                 Container(
