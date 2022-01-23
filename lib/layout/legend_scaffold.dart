@@ -189,10 +189,11 @@ class _LegendScaffoldState extends State<LegendScaffold> {
   }
 
   Widget getFooter(double height, BuildContext context) {
-    if (widget.layoutType != LayoutType.Content)
+    if (widget.layoutType != LayoutType.Content) {
       return LayoutProvider.of(context)?.globalFooter ?? Container();
-    else
+    } else {
       return Container();
+    }
   }
 
   Widget getHeader(BuildContext context) {
@@ -205,7 +206,6 @@ class _LegendScaffoldState extends State<LegendScaffold> {
               ? widget.showAppBarMenu
               : false,
           builder: widget.appBarBuilder,
-          pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
         );
@@ -215,7 +215,6 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           showMenu: SizeProvider.of(context).isMobile == false
               ? widget.showAppBarMenu
               : false,
-          pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
         );
@@ -258,34 +257,34 @@ class _LegendScaffoldState extends State<LegendScaffold> {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
     double? footerheight;
     ScreenSize? screenSize;
-    SizeProvider? sizeProvider;
+    SizeProvider sizeProvider;
 
     RouteSettings? route = RouteInfoProvider.of(context)?.route;
     List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    for (MenuOption op in options) {
-      if (op.page == route) {
+    for (final MenuOption op in options) {
+      if (op.page == route?.name) {
         currentRoute = op;
         break;
       }
-      if (op.children != null)
-        for (MenuOption sub in op.children!) {
-          if (sub.page == route) {
+      if (op.children != null) {
+        for (final MenuOption sub in op.children!) {
+          if (sub.page == route?.name) {
             currentRoute = sub;
             break;
           }
         }
-    }
-    try {
-      sizeProvider = SizeProvider.of(context);
-      screenSize = sizeProvider.screenSize;
-
-      if (!sizeProvider.isMobile && widget.layoutType != LayoutType.Content) {
-        footerheight =
-            LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
       }
-    } catch (e) {
-      print(e);
     }
+
+    sizeProvider = SizeProvider.of(context);
+    screenSize = sizeProvider.screenSize;
+    theme.menuCollapsed = sizeProvider.isMenuCollapsed(theme.menuWidth, theme);
+
+    if (!sizeProvider.isMobile && widget.layoutType != LayoutType.Content) {
+      footerheight =
+          LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
+    }
+
     double maxHeight = calculateMinContentHeight(footerheight);
 
     // TODO Improve

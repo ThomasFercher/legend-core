@@ -30,6 +30,8 @@ class ThemeProvider extends ChangeNotifier {
   LegendSizingTheme sizingTheme;
   late LegendTypography typography;
 
+  bool menuCollapsed = true;
+
   ThemeProvider({
     required this.lightTheme,
     required this.darkTheme,

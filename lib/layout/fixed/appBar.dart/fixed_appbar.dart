@@ -24,7 +24,7 @@ class FixedAppBar extends StatelessWidget {
   final Radius? bottomBorderRadius;
   FixedAppBarSizing? sizing;
   FixedAppBarColors? colors;
-  final BuildContext pcontext;
+
   final LayoutType? layoutType;
 
   FixedAppBar({
@@ -34,7 +34,6 @@ class FixedAppBar extends StatelessWidget {
     this.bottomBorderRadius,
     this.sizing,
     this.layoutType,
-    required this.pcontext,
     this.showSubMenu = true,
   });
 
