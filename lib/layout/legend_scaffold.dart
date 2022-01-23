@@ -196,6 +196,8 @@ class _LegendScaffoldState extends State<LegendScaffold> {
   }
 
   Widget getHeader(BuildContext context) {
+    ThemeProvider theme = context.watch<ThemeProvider>();
+
     switch (widget.layoutType) {
       case LayoutType.FixedHeaderSider:
         return FixedAppBar(
@@ -206,17 +208,6 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
-          onActionPressed: widget.enableDefaultSettings
-              ? (i) {
-                  switch (i) {
-                    case 0:
-                      Provider.of<LegendDrawerProvider>(context, listen: false)
-                          .showDrawer('/settings');
-                      break;
-                    default:
-                  }
-                }
-              : null,
         );
       case LayoutType.FixedHeader:
         return FixedAppBar(
@@ -227,17 +218,6 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           pcontext: context,
           layoutType: widget.layoutType,
           showSubMenu: widget.showTopSubMenu ?? true,
-          onActionPressed: widget.enableDefaultSettings
-              ? (i) {
-                  switch (i) {
-                    case 0:
-                      Provider.of<LegendDrawerProvider>(context, listen: false)
-                          .showDrawer('/settings');
-                      break;
-                    default:
-                  }
-                }
-              : null,
         );
       default:
         return SliverToBoxAdapter(

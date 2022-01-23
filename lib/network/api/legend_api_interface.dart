@@ -1,8 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
-import 'package:http/http.dart';
-
 class LegendApiInterface {
   static Future<ApiReturn<T>> postCall<T>(Uri url) async {
     // check if Uri is valid
@@ -13,7 +11,7 @@ class LegendApiInterface {
       );
     }
 
-    Response response = await http.post(url);
+    http.Response response = await http.post(url);
 
     switch (response.statusCode) {
       case 200:
@@ -42,7 +40,7 @@ class LegendApiInterface {
       );
     }
 
-    Response response = await http.get(url);
+    http.Response response = await http.get(url);
 
     switch (response.statusCode) {
       case 200:

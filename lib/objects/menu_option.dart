@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:animations/animations.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/modals/legendPopups.dart';
@@ -11,6 +12,7 @@ import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 import '../router/router_provider.dart';
+import 'package:legend_design_core/modals/legendPopups.dart';
 
 class MenuOption {
   final String? title;
@@ -19,8 +21,8 @@ class MenuOption {
   final void Function(String page)? onSelected;
   late final bool isUnderlying;
   final List<MenuOption>? children;
-
   final bool showSubMenu;
+  final bool showInAppBar;
 
   MenuOption({
     this.title,
@@ -30,6 +32,7 @@ class MenuOption {
     bool? isUnderlying,
     this.children,
     this.showSubMenu = false,
+    this.showInAppBar = true,
   }) {
     this.isUnderlying = isUnderlying ?? false;
   }
@@ -125,37 +128,9 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
     });
   }
 
-  void showSubMenu(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    LegendPopups.showLegendModal(
-      context: context,
-      config: FadeScaleTransitionConfiguration(
-        barrierColor: Colors.transparent,
-        barrierDismissible: true,
-        transitionDuration: Duration(milliseconds: 40),
-        barrierLabel: "",
-        reverseTransitionDuration: Duration(milliseconds: 40),
-      ),
-      modal: ModalSheet(
-        child: Container(
-          margin: EdgeInsets.only(
-            top: theme.appBarSizing.appBarHeight,
-          ),
-          height: 200,
-          width: 200,
-          color: Colors.red,
-        ),
-        position: Point(
-          LegendUtils.getVerticalCenter(context, key, 200) ?? 0,
-          LegendUtils.getWidgetOffset(context, key)?.dy ?? 0,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    ThemeProvider theme = context.watch<ThemeProvider>();
     width =
         LegendUtils.calcTextSize(widget.option.title ?? '', theme.typography.h2)
                 .width +
@@ -163,17 +138,13 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
             (theme.appBarSizing.iconSize ?? 24) * 2.22 +
             8 +
             12 * 2;
-    double subMenuWidth = 200;
-
     theme.setMenuOptionWidth(width, widget.option);
-
-    double left_q = (subMenuWidth - width) / 2;
+    double menuWidth = 200;
 
     MenuOption? sel = RouterProvider.of(context).current;
-
-    List<Widget>? tiles;
+    List<Widget>? menuItems;
     if (widget.showSubMenu) {
-      tiles = widget.option.children!
+      menuItems = widget.option.children!
           .map(
             (option) => DrawerMenuTile(
               icon: option.icon,
@@ -184,15 +155,14 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               activeColor: theme.colors.selectionColor,
               color: theme.colors.textColorLight,
               collapsed: false,
-              onClicked: () {
-                poppedFromtTop = true;
-              },
+              onClicked: () => poppedFromtTop = true,
               forceColor: option == sel,
               bottomSpacing: 16,
             ),
           )
           .toList();
     }
+
     return Container(
       key: key,
       decoration: BoxDecoration(
@@ -216,93 +186,35 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
           controller.forward();
           if (widget.showSubMenu) {
             subMenuShown = true;
-
-            //Better
-            LegendPopups.showLegendModal(
+            LegendPopups.showSubMenu(
+              theme: theme,
+              menuWidth: menuWidth,
+              menuItems: menuItems,
               context: context,
-              config: FadeScaleTransitionConfiguration(
-                barrierColor: Colors.transparent,
-                barrierDismissible: true,
-                transitionDuration: Duration(milliseconds: 200),
-                barrierLabel: "",
-                reverseTransitionDuration: Duration(milliseconds: 100),
-              ),
-              modal: ModalSheet(
-                child: Material(
-                  color: Colors.transparent,
-                  child: MouseRegion(
-                    onHover: (event) {
-                      Offset p = event.localPosition;
-
-                      if (p.dy <= theme.appBarSizing.appBarHeight) {
-                        if (p.dx <= left_q || p.dx >= subMenuWidth - left_q) {
-                          poppedFromtTop = true;
-                          Navigator.of(context).pop();
-                        }
-                      }
-                    },
-                    onExit: (event) {
-                      if (poppedFromtTop == false) {
-                        Navigator.pop(context);
-                      } else {
-                        poppedFromtTop = false;
-                      }
-                      controller.reverse();
-                      subMenuShown = false;
-                    },
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            poppedFromtTop = true;
-                            RouterProvider.of(context).pushPage(
-                              settings: RouteSettings(name: widget.option.page),
-                            );
-                          },
-                          child: Container(
-                            height: theme.appBarSizing.appBarHeight,
-                            width: width,
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        Container(
-                          width: subMenuWidth,
-                          constraints: BoxConstraints(
-                            maxHeight: widget.maxHeight,
-                          ),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                bottom: Radius.circular(
-                                  theme.sizing.borderInset[0],
-                                ),
-                              ),
-                            ),
-                            color: theme.colors.foreground[1],
-                            margin: const EdgeInsets.all(0),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                top: theme.sizing.borderInset[0],
-                                bottom: theme.sizing.borderInset[0],
-                              ),
-                              child: ListView(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                children: tiles ?? [],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                position: Point(
-                  LegendUtils.getVerticalCenter(context, key, subMenuWidth) ??
-                      0,
-                  0.0,
-                ),
-              ),
+              itemWidth: width,
+              maxHeight: widget.maxHeight,
+              key: key,
+              onParentTap: () {
+                poppedFromtTop = true;
+                RouterProvider.of(context).pushPage(
+                  settings: RouteSettings(name: widget.option.page),
+                );
+              },
+              onExit: (event) {
+                if (poppedFromtTop == false) {
+                  Navigator.pop(context);
+                } else {
+                  poppedFromtTop = false;
+                }
+                controller.reverse();
+                subMenuShown = false;
+              },
+              onParentExit: (event, p) {
+                if (p.dy <= theme.appBarSizing.appBarHeight) {
+                  Navigator.of(context).pop();
+                  poppedFromtTop = true;
+                }
+              },
             );
           }
         },

@@ -17,7 +17,6 @@ import 'package:legend_design_core/typography/typography.dart';
 import 'package:provider/provider.dart';
 
 class FixedAppBar extends StatelessWidget {
-  final void Function(int i)? onActionPressed;
   final bool showSubMenu;
   final bool? showMenu;
   final WidgetBuilder? builder;
@@ -36,7 +35,6 @@ class FixedAppBar extends StatelessWidget {
     this.sizing,
     this.layoutType,
     required this.pcontext,
-    this.onActionPressed,
     this.showSubMenu = true,
   });
 
@@ -59,7 +57,9 @@ class FixedAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-
+    bool menuCollapsed =
+        SizeProvider.of(context).isMenuCollapsed(theme.menuWidth, theme);
+    bool isMobile = SizeProvider.of(context).isMobile;
     bool isSubRoute = true;
     bool showBackArrow = isSubRoute &&
         !(showMenu ?? true) &&
@@ -115,7 +115,7 @@ class FixedAppBar extends StatelessWidget {
                               }),
                         if ((layoutType != LayoutType.FixedSider &&
                                 layoutType != LayoutType.FixedHeaderSider) ||
-                            SizeProvider.of(context).isMobile)
+                            isMobile)
                           if (LayoutProvider.of(context)?.logo != null)
                             Container(
                               height: sizing?.titleSize ??
@@ -133,7 +133,7 @@ class FixedAppBar extends StatelessWidget {
                             ),
                         if ((layoutType != LayoutType.FixedSider &&
                                 layoutType != LayoutType.FixedHeaderSider) ||
-                            SizeProvider.of(context).isMobile)
+                            isMobile)
                           if (LayoutProvider.of(context)?.title != null)
                             Center(
                               child: LegendText(
@@ -147,59 +147,61 @@ class FixedAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  right: SizeProvider.of(context)
-                              .isMenuCollapsed(theme.menuWidth, theme) &&
-                          !SizeProvider.of(context).isMobile
-                      ? 96
-                      : 16,
-                  height: sizing?.appBarHeight,
-                  child: Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (builder != null)
-                          Container(
-                            height: theme.appBarSizing.appBarHeight,
-                            alignment: Alignment.center,
-                            decoration: getCard(),
-                            child: Builder(
-                              builder: builder!,
-                            ),
-                          ),
-                        if (onActionPressed != null)
-                          LegendAnimatedIcon(
-                            icon: Icons.settings,
-                            theme: LegendAnimtedIconTheme(
-                              enabled: theme.colors.selectionColor,
-                              disabled: theme.appBarColors.foreground,
-                            ),
-                            onPressed: () {
-                              onActionPressed!(0);
-                            },
-                          ),
-                      ],
+                if (menuCollapsed && (showMenu ?? true))
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      decoration: getCard(),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: sizing?.borderRadius?.x ?? 0,
+                      ),
+                      child: FixedMenu(
+                        menuCollapsed: menuCollapsed,
+                        context: context,
+                        iconColor: theme.appBarColors.iconColor,
+                        selected: theme.appBarColors.selectedColor,
+                        backgroundColor: theme.appBarColors.backgroundColor,
+                        foreground: theme.appBarColors.foreground,
+                        showSubMenu: showSubMenu,
+                      ),
                     ),
+                  ),
+                Positioned(
+                  right: 16,
+                  height: sizing?.appBarHeight,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: (builder != null)
+                            ? Container(
+                                height: theme.appBarSizing.appBarHeight,
+                                alignment: Alignment.center,
+                                decoration: getCard(),
+                                child: Builder(
+                                  builder: builder!,
+                                ),
+                              )
+                            : null,
+                      ),
+                      if (!menuCollapsed && (showMenu ?? true))
+                        Container(
+                          decoration: getCard(),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: sizing?.borderRadius?.x ?? 0,
+                          ),
+                          child: FixedMenu(
+                            menuCollapsed: menuCollapsed,
+                            context: context,
+                            iconColor: theme.appBarColors.iconColor,
+                            selected: theme.appBarColors.selectedColor,
+                            backgroundColor: theme.appBarColors.backgroundColor,
+                            foreground: theme.appBarColors.foreground,
+                            showSubMenu: showSubMenu,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
-                if (showMenu ?? true)
-                  Container(
-                    margin: EdgeInsets.only(
-                      right: (sizing?.contentPadding.horizontal ?? 0),
-                    ),
-                    decoration: getCard(),
-                    padding: EdgeInsets.symmetric(
-                      horizontal: sizing?.borderRadius?.x ?? 0,
-                    ),
-                    child: FixedMenu(
-                      context: context,
-                      iconColor: theme.appBarColors.iconColor,
-                      selected: theme.appBarColors.selectedColor,
-                      backgroundColor: theme.appBarColors.backgroundColor,
-                      foreground: theme.appBarColors.foreground,
-                      showSubMenu: showSubMenu,
-                    ),
-                  ),
               ],
             ),
           ),

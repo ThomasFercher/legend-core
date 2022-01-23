@@ -43,9 +43,10 @@ class LegendUtils {
 
   static double? getVerticalCenter(
       BuildContext context, GlobalKey key, double childWidth) {
-    return (getWidgetOffset(context, key)?.dx ?? 0) +
-        (0.5 * (getWidgetSize(context, key)?.width ?? 0)) -
-        (0.5 * childWidth);
+    double offset = getWidgetOffset(context, key)?.dx ?? 0;
+    double size = (0.5 * (getWidgetSize(context, key)?.width ?? 0));
+    double middleOffset = (0.5 * childWidth);
+    return offset + size - middleOffset;
   }
 
   static Size? getWidgetSize(BuildContext context, GlobalKey key) {

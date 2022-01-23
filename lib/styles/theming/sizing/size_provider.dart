@@ -58,7 +58,7 @@ class SizeProvider extends InheritedWidget {
                         theme.appBarSizing.appBarHeight / 3 * 2)) *
                 2 -
             8 - //
-            menuWidth <
+            menuWidth >
         0;
   }
 
