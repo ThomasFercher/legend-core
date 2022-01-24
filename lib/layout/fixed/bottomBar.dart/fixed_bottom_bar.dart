@@ -107,13 +107,9 @@ class FixedBottomBar extends StatelessWidget {
           decoration: sizing?.decoration.copyWith(
             color: colors.backgroundColor,
           ),
-          child: Container(
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: getItems(context),
-              ),
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: getItems(context),
           ),
           height: sizing?.height,
         ),

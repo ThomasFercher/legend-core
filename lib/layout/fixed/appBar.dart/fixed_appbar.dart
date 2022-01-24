@@ -59,7 +59,7 @@ class FixedAppBar extends StatelessWidget {
     bool menuCollapsed =
         SizeProvider.of(context).isMenuCollapsed(theme.menuWidth, theme);
     bool isMobile = SizeProvider.of(context).isMobile;
-    bool isSubRoute = true;
+    bool isSubRoute = RouterProvider.of(context).current?.isUnderlying ?? false;
     bool showBackArrow = isSubRoute &&
         !(showMenu ?? true) &&
         layoutType == LayoutType.FixedHeader;

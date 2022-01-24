@@ -107,7 +107,6 @@ class _BottomBarItemState extends State<BottomBarItem>
         return Material(
           color: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.all(4),
             child: InkWell(
               borderRadius: BorderRadius.all(
                 Radius.circular(widget.sizing?.height ?? 1 / 2),
@@ -120,7 +119,7 @@ class _BottomBarItemState extends State<BottomBarItem>
                 );
               },
               child: Container(
-                width: widget.sizing?.height,
+                height: widget.sizing?.height,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
