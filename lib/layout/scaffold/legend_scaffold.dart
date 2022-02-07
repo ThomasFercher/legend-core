@@ -1,10 +1,14 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer_info.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
 import 'package:legend_design_core/layout/drawers/menu_drawer.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/persistent_header.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
 import 'package:legend_design_core/layout/sections/section.dart';
@@ -19,12 +23,12 @@ import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+
+import '../typography/legend_text.dart';
 import 'fixed/appBar.dart/fixed_appbar.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'fixed/bottomBar.dart/fixed_bottom_bar.dart';
 import 'fixed/fixed_footer.dart';
 import 'fixed/sider/fixed_sider.dart';
-import '../typography/legend_text.dart';
 
 class LegendScaffold extends StatefulWidget {
   final LayoutType? layoutType;
@@ -47,6 +51,8 @@ class LegendScaffold extends StatefulWidget {
   final double? maxContentWidth;
   final bool enableDefaultSettings;
   final List<SingleChildWidget>? providers;
+  final Widget? appBarBottom;
+  final Size? appBarBottomSize;
 
   LegendScaffold({
     required this.pageName,
@@ -67,9 +73,11 @@ class LegendScaffold extends StatefulWidget {
     this.showSectionMenu,
     this.showTopSubMenu,
     this.maxContentWidth,
+    this.appBarBottom,
     this.disableContentDecoration = false,
     this.enableDefaultSettings = false,
     this.providers,
+    this.appBarBottomSize,
   }) : super(key: key) {
     this.singlePage = singlePage ?? false;
     this.children = children ?? [];
@@ -250,6 +258,10 @@ class _LegendScaffoldState extends State<LegendScaffold> {
       height -= theme.appBarSizing.appBarHeight;
     }
 
+    if (widget.appBarBottom != null) {
+      height -= widget.appBarBottomSize!.height;
+    }
+
     return height;
   }
 
@@ -331,6 +343,18 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                       controller: controller,
                       slivers: [
                         getHeader(context),
+                        if (widget.appBarBottom != null &&
+                            widget.appBarBottomSize != null)
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: PersistentHeader(
+                              child: widget.appBarBottom!,
+                              maxHeight: widget.appBarBottomSize!.height,
+                              minHeight: widget.appBarBottomSize!.width,
+                              backgroundColor:
+                                  theme.colors.scaffoldBackgroundColor,
+                            ),
+                          ),
                         if (widget.children.isEmpty &&
                             widget.contentBuilder != null)
                           SliverToBoxAdapter(
@@ -358,7 +382,7 @@ class _LegendScaffoldState extends State<LegendScaffold> {
                                           padding: EdgeInsets.only(
                                             bottom: 8,
                                           ),
-                                          text: currentRoute?.title ?? "",
+                                          text: currentRoute?.title ?? '',
                                           textStyle:
                                               theme.typography.h5.copyWith(
                                             color: theme.colors.textContrast,
