@@ -1,17 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'package:legend_design_core/styles/theming/colors/legend_colors.dart';
 
 class LegendTypographyColors {
   final List<Color>? textColors;
-  final Color baseColor;
+  final Color? baseColor;
 
   LegendTypographyColors({
     this.textColors,
-    required this.baseColor,
+    this.baseColor,
   });
 }
 
@@ -81,35 +78,59 @@ class LegendTypography {
     required LegendTypographyColors colors,
     required LegendTypography typography,
   }) {
-    this.sizing = sizing;
-    this.colors = colors;
-
+    Color? textColor = ((colors.textColors?.length ?? 0) > 0)
+        ? colors.textColors![0]
+        : colors.baseColor;
     h0 = typography.h0.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[0],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 1)
+        ? colors.textColors![1]
+        : colors.baseColor;
     h1 = typography.h1.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[1],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 2)
+        ? colors.textColors![2]
+        : colors.baseColor;
     h2 = typography.h2.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[2],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 3)
+        ? colors.textColors![3]
+        : colors.baseColor;
     h3 = typography.h3.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[3],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 4)
+        ? colors.textColors![4]
+        : colors.baseColor;
     h4 = typography.h4.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[4],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 5)
+        ? colors.textColors![5]
+        : colors.baseColor;
     h5 = typography.h5.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: sizing.sizes[5],
     );
+
+    textColor = ((colors.textColors?.length ?? 0) > 0)
+        ? colors.textColors![0]
+        : colors.baseColor;
     h6 = typography.h6.copyWith(
-      color: colors.baseColor,
+      color: textColor,
       fontSize: typography.h6.fontSize ?? sizing.sizes[6],
     );
   }

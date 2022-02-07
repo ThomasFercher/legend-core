@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/fixed_bottom_bar.dart';
 import 'package:legend_design_core/layout/fixed/fixed_footer.dart';

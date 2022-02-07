@@ -1,18 +1,13 @@
-import 'dart:math';
-import 'package:animations/animations.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/modals/legendPopups.dart';
-import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
+
 import '../router/router_provider.dart';
-import 'package:legend_design_core/modals/legendPopups.dart';
 
 class MenuOption {
   final String? title;

@@ -4,7 +4,6 @@ import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provid
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
-
 import 'package:provider/provider.dart';
 
 class BottomBarColors {

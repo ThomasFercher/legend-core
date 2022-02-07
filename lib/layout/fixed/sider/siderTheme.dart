@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
 
 class SiderColorTheme {
   final Color background;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 
+import '../sections/section.dart';
+
 class SectionNavigation extends InheritedWidget {
   SectionNavigation({
     Key? key,
@@ -29,5 +31,40 @@ class SectionNavigation extends InheritedWidget {
   @override
   bool updateShouldNotify(SectionNavigation oldWidget) {
     return true;
+  }
+
+  static List<Widget> findSections(
+    BuildContext context,
+    List<Widget> children,
+    List<SectionRouteInfo> sections,
+  ) {
+    List<Widget> childs = [];
+
+    for (final element in children) {
+      Widget w;
+      if (element is Section) {
+        Section s = element;
+        GlobalKey key = GlobalKey();
+
+        SectionRouteInfo se = sections.singleWhere(
+          (element) => element.name == s.name,
+          orElse: () {
+            return sections.last;
+          },
+        );
+        int i = sections.indexOf(se);
+        sections[i] = SectionRouteInfo(name: se.name, key: key);
+
+        w = Container(
+          key: key,
+          child: s,
+        );
+      } else {
+        w = element;
+      }
+      childs.add(w);
+    }
+
+    return childs;
   }
 }

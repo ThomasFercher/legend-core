@@ -1,20 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:legend_design_core/layout/drawers/legend_drawer.dart';
-import 'package:legend_design_core/layout/drawers/legend_drawer_info.dart';
-import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
 import 'package:legend_design_core/layout/drawers/menu_drawer.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/persistent_header.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_action_button.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_content.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_drawer.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_footer.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_header.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_sider.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
-import 'package:legend_design_core/layout/sections/section.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
-import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
@@ -24,224 +24,114 @@ import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import '../typography/legend_text.dart';
-import 'fixed/appBar.dart/fixed_appbar.dart';
-import 'fixed/bottomBar.dart/fixed_bottom_bar.dart';
-import 'fixed/fixed_footer.dart';
-import 'fixed/sider/fixed_sider.dart';
+import '../../typography/legend_text.dart';
+import '../fixed/bottomBar.dart/fixed_bottom_bar.dart';
+import '../fixed/fixed_footer.dart';
 
-class LegendScaffold extends StatefulWidget {
-  final LayoutType? layoutType;
+class LegendScaffold extends StatelessWidget {
+  final LayoutType layoutType;
   final String pageName;
-  final Function(BuildContext context)? onActionButtonPressed;
+  final void Function(BuildContext context)? onActionButtonPressed;
   final WidgetBuilder? siderBuilder;
   final WidgetBuilder? appBarBuilder;
-  final bool? showSiderMenu;
-  final bool? showSiderSubMenu;
-  final bool? showAppBarMenu;
-  late final bool singlePage;
-  late final List<Widget> children;
-  late final Widget Function(BuildContext context, Size size)? contentBuilder;
-  late final FixedFooter? customFooter;
-  final double? verticalChildrenSpacing;
-  late final bool isUnderlyingRoute;
-  final bool? showSectionMenu;
-  final bool? showTopSubMenu;
-  final bool disableContentDecoration;
-  final double? maxContentWidth;
-  final bool enableDefaultSettings;
-  final List<SingleChildWidget>? providers;
+  final Widget Function(BuildContext context, Size size)? contentBuilder;
+  final FixedFooter? customFooter;
   final Widget? appBarBottom;
   final Size? appBarBottomSize;
+  final double? maxContentWidth;
+  final List<Widget> children;
+  final double verticalChildrenSpacing;
+  final List<SingleChildWidget>? providers;
+  final bool disableContentDecoration;
+  final bool showSiderMenu;
+  final bool showSiderSubMenu;
+  final bool showAppBarMenu;
+  final bool showSectionMenu;
+  final bool showTopSubMenu;
+  final bool enableDefaultSettings;
+  final bool singlePage;
+  final bool isUnderlyingRoute;
+  List<SectionRouteInfo>? sections;
+  MenuOption? currentRoute;
 
   LegendScaffold({
+    Key? key,
     required this.pageName,
-    this.layoutType,
+    required this.layoutType,
     this.onActionButtonPressed,
     this.siderBuilder,
-    this.showSiderMenu,
-    this.showAppBarMenu,
+    this.showSiderMenu = false,
+    this.showAppBarMenu = true,
     this.appBarBuilder,
-    this.showSiderSubMenu,
+    this.showSiderSubMenu = false,
     this.contentBuilder,
-    List<Widget>? children,
-    bool? singlePage,
-    Key? key,
+    this.children = const [],
+    this.singlePage = false,
     this.customFooter,
-    this.verticalChildrenSpacing,
-    bool? isUnderlyingRoute,
-    this.showSectionMenu,
-    this.showTopSubMenu,
+    this.verticalChildrenSpacing = 8,
+    this.isUnderlyingRoute = false,
+    this.showSectionMenu = false,
+    this.showTopSubMenu = true,
     this.maxContentWidth,
     this.appBarBottom,
     this.disableContentDecoration = false,
     this.enableDefaultSettings = false,
     this.providers,
     this.appBarBottomSize,
-  }) : super(key: key) {
-    this.singlePage = singlePage ?? false;
-    this.children = children ?? [];
-
-    this.isUnderlyingRoute = isUnderlyingRoute ?? false;
-  }
-
-  @override
-  _LegendScaffoldState createState() => _LegendScaffoldState();
-}
-
-class _LegendScaffoldState extends State<LegendScaffold> {
-  List<SectionRouteInfo>? sections;
-
-  late ScrollController controller;
-
-  late bool showSettings;
-  MenuOption? currentRoute;
-
-  @override
-  void initState() {
-    super.initState();
-
-    showSettings = false;
-    controller = ScrollController(
-      initialScrollOffset: 0,
-    );
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     sections = SectionProvider.of(context)?.sections;
 
-    return SizeProvider(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      useMobilDesign: true,
-      context: context,
-      child: SectionNavigation(
-        sections: sections,
-        onNavigate: (section) {
-          // Jump to Section
+    return ScaffoldInfo(
+      scaffold: this,
+      child: SizeProvider(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        useMobilDesign: true,
+        context: context,
+        child: SectionNavigation(
+          sections: sections,
+          onNavigate: (section) {
+            // Jump to Section
 
-          if (sections != null) {
-            SectionRouteInfo s = sections!.singleWhere(
-              (element) => element.name == section.name,
-              orElse: () {
-                return sections!.first;
-              },
-            );
-            if (s.key != null && s.key?.currentContext != null) {
-              Scrollable.ensureVisible(
-                s.key!.currentContext!,
-                curve: Curves.easeInOut,
-                duration: Duration(
-                  milliseconds: 400,
-                ),
+            if (sections != null) {
+              SectionRouteInfo s = sections!.singleWhere(
+                (element) => element.name == section.name,
+                orElse: () {
+                  return sections!.first;
+                },
               );
+              if (s.key != null && s.key?.currentContext != null) {
+                Scrollable.ensureVisible(
+                  s.key!.currentContext!,
+                  curve: Curves.easeInOut,
+                  duration: Duration(
+                    milliseconds: 400,
+                  ),
+                );
+              }
             }
-          }
-        },
-        child: widget.providers != null
-            ? MultiProvider(
-                providers: widget.providers!,
-                builder: (context, child) {
-                  if (kIsWeb) {
-                    return materialLayout(context);
-                  } else if (Platform.isIOS || Platform.isMacOS) {
-                    return cupertinoLayout(context);
-                  } else {
-                    return materialLayout(context);
-                  }
-                },
-              )
-            : Builder(
-                builder: (context) {
-                  if (kIsWeb) {
-                    return materialLayout(context);
-                  } else if (Platform.isIOS || Platform.isMacOS) {
-                    return cupertinoLayout(context);
-                  } else {
-                    return materialLayout(context);
-                  }
-                },
-              ),
+          },
+          child: providers != null
+              ? MultiProvider(
+                  providers: providers!,
+                  builder: (context, child) {
+                    return layout(context);
+                  },
+                )
+              : Builder(
+                  builder: (context) {
+                    return layout(context);
+                  },
+                ),
+        ),
       ),
     );
   }
 
-  Widget cupertinoLayout(BuildContext context) {
-    return CupertinoPageScaffold(
-      child: Container(),
-    );
-  }
-
-  Widget getSider(ScreenSize screenSize, BuildContext context) {
-    if (widget.layoutType == LayoutType.FixedSider) {
-      return FixedSider(
-        builder: widget.siderBuilder,
-        showMenu: widget.showSiderMenu,
-        showSubMenu: widget.showSiderSubMenu,
-        showSectionMenu: widget.showSectionMenu,
-        layoutType: widget.layoutType,
-      );
-    } else if (widget.layoutType == LayoutType.FixedHeaderSider &&
-        screenSize != ScreenSize.Small) {
-      return FixedSider(
-        builder: widget.siderBuilder,
-        showMenu: widget.showSiderMenu,
-        showSubMenu: widget.showSiderSubMenu,
-        showSectionMenu: widget.showSectionMenu,
-        layoutType: widget.layoutType,
-      );
-    } else {
-      return Container();
-    }
-  }
-
-  Widget getFooter(double height, BuildContext context) {
-    if (widget.layoutType != LayoutType.Content) {
-      return LayoutProvider.of(context)?.globalFooter ?? Container();
-    } else {
-      return Container();
-    }
-  }
-
-  Widget getHeader(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
-
-    switch (widget.layoutType) {
-      case LayoutType.FixedHeaderSider:
-        return FixedAppBar(
-          showMenu: SizeProvider.of(context).isMobile == false
-              ? widget.showAppBarMenu
-              : false,
-          builder: widget.appBarBuilder,
-          layoutType: widget.layoutType,
-          showSubMenu: widget.showTopSubMenu ?? true,
-        );
-      case LayoutType.FixedHeader:
-        return FixedAppBar(
-          builder: widget.appBarBuilder,
-          showMenu: SizeProvider.of(context).isMobile == false
-              ? widget.showAppBarMenu
-              : false,
-          layoutType: widget.layoutType,
-          showSubMenu: widget.showTopSubMenu ?? true,
-        );
-      default:
-        return SliverToBoxAdapter(
-          child: Container(),
-        );
-    }
-  }
-
-  Widget getActionButton(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        widget.onActionButtonPressed!(context);
-      },
-    );
-  }
-
-  double calculateMinContentHeight(double? footerHeight) {
+  double calculateMinContentHeight(double? footerHeight, BuildContext context) {
     ThemeProvider theme = context.watch<ThemeProvider>();
     double height = MediaQuery.of(context).size.height;
 
@@ -251,69 +141,68 @@ class _LegendScaffoldState extends State<LegendScaffold> {
       height -= theme.bottomBarStyle?.height ?? 0;
     }
 
-    if (widget.layoutType == LayoutType.FixedSider) {
+    if (layoutType == LayoutType.FixedSider) {
       height -= theme.sizing.padding[0] * 4;
-    } else if (widget.layoutType == LayoutType.Content) {
+    } else if (layoutType == LayoutType.Content) {
     } else {
       height -= theme.appBarSizing.appBarHeight;
     }
 
-    if (widget.appBarBottom != null) {
-      height -= widget.appBarBottomSize!.height;
+    if (appBarBottom != null) {
+      height -= appBarBottomSize!.height;
     }
 
     return height;
   }
 
-  Widget materialLayout(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    double? footerheight;
-    ScreenSize? screenSize;
-    SizeProvider sizeProvider;
-
-    RouteSettings? route = RouteInfoProvider.of(context)?.route;
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    for (final MenuOption op in options) {
-      if (op.page == route?.name) {
-        currentRoute = op;
-        break;
-      }
-      if (op.children != null) {
-        for (final MenuOption sub in op.children!) {
-          if (sub.page == route?.name) {
-            currentRoute = sub;
-            break;
-          }
-        }
-      }
+  List<Widget> getChildren(BuildContext context, bool showFooter) {
+    ThemeProvider theme = context.watch<ThemeProvider>();
+    List<Widget> widgets = [];
+    List<Widget> s_widgets = [];
+    // Get Children
+    if (sections != null) {
+      s_widgets = SectionNavigation.findSections(context, children, sections!);
+    } else {
+      s_widgets = children;
     }
 
-    sizeProvider = SizeProvider.of(context);
-    screenSize = sizeProvider.screenSize;
-    theme.menuCollapsed = sizeProvider.isMenuCollapsed(theme.menuWidth, theme);
-
-    if (!sizeProvider.isMobile && widget.layoutType != LayoutType.Content) {
-      footerheight =
-          LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
-    }
-
-    double maxHeight = calculateMinContentHeight(footerheight);
-
-    // TODO Improve
-    List<Widget> a = getChildren(context);
-    List<Widget> children = List.of(
-      a.map(
-        (c) {
+    widgets = List.of(
+      s_widgets.map(
+        (widget) {
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: theme.sizing.padding[0],
-              //  vertical: widget.verticalChildrenSpacing ?? 0 / 2,
+              vertical: verticalChildrenSpacing,
             ),
-            child: c,
+            child: widget,
           );
         },
       ),
     );
+
+    if (showFooter) widgets.add(ScaffoldFooter());
+
+    return widgets;
+  }
+
+  Widget layout(BuildContext context) {
+    ThemeProvider theme = context.watch<ThemeProvider>();
+    SizeProvider sizeProvider = SizeProvider.of(context);
+    bool showBuilder = children.isEmpty && contentBuilder != null;
+    bool showAppBarBottom = appBarBottom != null && appBarBottomSize != null;
+    bool showTitle = (layoutType == LayoutType.FixedHeaderSider) &&
+        (sizeProvider.isMobile == false);
+
+    currentRoute = RouteInfoProvider.getCurrentMenuOption(context);
+    theme.menuWidthChanged(context);
+
+    // Footer
+    double? footerheight;
+    if (!sizeProvider.isMobile && layoutType != LayoutType.Content) {
+      footerheight =
+          LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
+    }
+    double maxHeight = calculateMinContentHeight(footerheight, context);
 
     return Stack(
       children: [
@@ -321,276 +210,92 @@ class _LegendScaffoldState extends State<LegendScaffold> {
           endDrawer: MenuDrawer(),
           bottomNavigationBar: sizeProvider.isMobile
               ? FixedBottomBar(
-                  colors: theme.bottomBarColors,
-                  sizing: theme.bottomBarStyle,
-                )
+                  colors: theme.bottomBarColors, sizing: theme.bottomBarStyle)
               : null,
           endDrawerEnableOpenDragGesture: false,
-          floatingActionButton: widget.onActionButtonPressed != null
-              ? Builder(
-                  builder: (context) {
-                    return getActionButton(context);
-                  },
-                )
-              : null,
-          body: Stack(
-            children: [
-              Row(
-                children: [
-                  getSider(screenSize, context),
-                  Expanded(
-                    child: CustomScrollView(
-                      controller: controller,
-                      slivers: [
-                        getHeader(context),
-                        if (widget.appBarBottom != null &&
-                            widget.appBarBottomSize != null)
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: PersistentHeader(
-                              child: widget.appBarBottom!,
-                              maxHeight: widget.appBarBottomSize!.height,
-                              minHeight: widget.appBarBottomSize!.width,
-                              backgroundColor:
-                                  theme.colors.scaffoldBackgroundColor,
+          floatingActionButton:
+              onActionButtonPressed != null ? ScaffoldActionButton() : null,
+          body: ColoredBox(
+            color: theme.colors.scaffoldBackgroundColor,
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    ScaffoldSider(),
+                    Expanded(
+                      child: CustomScrollView(
+                        slivers: [
+                          ScaffoldHeader(),
+                          if (showAppBarBottom)
+                            SliverPersistentHeader(
+                              pinned: true,
+                              delegate: PersistentHeader(
+                                child: appBarBottom!,
+                                maxHeight: appBarBottomSize!.height,
+                                minHeight: appBarBottomSize!.width,
+                                backgroundColor:
+                                    theme.colors.scaffoldBackgroundColor,
+                              ),
                             ),
-                          ),
-                        if (widget.children.isEmpty &&
-                            widget.contentBuilder != null)
-                          SliverToBoxAdapter(
-                            child: Column(
-                              children: [
-                                Container(
-                                  constraints: BoxConstraints(
-                                    minHeight: maxHeight,
-                                    maxHeight: widget.singlePage
-                                        ? maxHeight
-                                        : double.infinity,
-                                  ),
-                                  color: theme.colors.scaffoldBackgroundColor,
-                                  padding: widget.disableContentDecoration
-                                      ? null
-                                      : EdgeInsets.all(
-                                          theme.sizing.padding[0],
-                                        ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      if (currentRoute?.isUnderlying ?? false)
-                                        LegendText(
-                                          padding: EdgeInsets.only(
-                                            bottom: 8,
-                                          ),
-                                          text: currentRoute?.title ?? '',
-                                          textStyle:
-                                              theme.typography.h5.copyWith(
-                                            color: theme.colors.textContrast,
-                                          ),
-                                        ),
-                                      widget.singlePage
-                                          ? Expanded(
-                                              child:
-                                                  getContent(maxHeight, theme),
-                                            )
-                                          : getContent(maxHeight, theme),
-                                    ],
-                                  ),
-                                ),
-                                if (footerheight != null)
-                                  getFooter(footerheight, context),
-                              ],
-                            ),
-                          )
-                        else
-                          SliverToBoxAdapter(
-                            child: Container(
-                              color: theme.colors.scaffoldBackgroundColor,
+                          if (showBuilder)
+                            SliverToBoxAdapter(
                               child: Column(
                                 children: [
                                   Container(
                                     constraints: BoxConstraints(
                                       minHeight: maxHeight,
+                                      maxHeight: singlePage
+                                          ? maxHeight
+                                          : double.infinity,
                                     ),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: children,
-                                      ),
+                                    padding: disableContentDecoration
+                                        ? null
+                                        : EdgeInsets.all(
+                                            theme.sizing.padding[0],
+                                          ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (currentRoute?.isUnderlying ?? false)
+                                          LegendText(
+                                            padding: EdgeInsets.only(
+                                              bottom: 8,
+                                            ),
+                                            text: currentRoute?.title ?? '',
+                                            textStyle:
+                                                theme.typography.h5.copyWith(
+                                              color: theme.colors.textContrast,
+                                            ),
+                                          ),
+                                        ScaffoldContent(
+                                          maxHeight: maxHeight,
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  if (footerheight != null)
-                                    getFooter(footerheight, context)
+                                  if (footerheight != null) ScaffoldFooter(),
                                 ],
                               ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              if ((widget.layoutType == LayoutType.FixedHeaderSider) &&
-                  (sizeProvider.isMobile == false))
-                Positioned(
-                  left: theme.appBarSizing.contentPadding.horizontal,
-                  top: theme.appBarSizing.contentPadding.top,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Hero(
-                      tag: ValueKey('title'),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (LayoutProvider.of(context)?.title != null)
-                            Container(
-                              height: theme.appBarSizing.titleSize ??
-                                  theme.appBarSizing.appBarHeight,
-                              width: theme.appBarSizing.titleSize,
-                              margin: EdgeInsets.only(right: 12.0, left: 16.0),
-                              child: Center(
-                                child: LegendText(
-                                  text: LayoutProvider.of(context)!.title!,
-                                  textStyle: theme.typography.h6.copyWith(
-                                    color: theme.colors.appBarColors.foreground,
-                                  ),
-                                ),
+                            )
+                          else
+                            SliverList(
+                              delegate: SliverChildListDelegate(
+                                getChildren(context, footerheight != null),
                               ),
-                            ),
-                          if (LayoutProvider.of(context)?.logo != null)
-                            Container(
-                              height: theme.appBarSizing.appBarHeight,
-                              alignment: Alignment.center,
-                              child: LayoutProvider.of(context)!.logo,
                             ),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-            ],
-          ),
-        ),
-        getDrawer(context),
-      ],
-    );
-  }
-
-  Row getContent(double maxHeight, ThemeProvider theme) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.layoutType == LayoutType.FixedSider ||
-            widget.layoutType == LayoutType.FixedHeaderSider)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 3.0,
-            ),
-            child: Container(
-              height: maxHeight,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    spreadRadius: 3,
-                    blurRadius: 6,
-                    offset: Offset(0, -6),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        Expanded(
-          child: Center(
-            child: Container(
-              decoration: widget.disableContentDecoration
-                  ? null
-                  : BoxDecoration(
-                      color: theme.colors.background[0],
-                      borderRadius: theme.sizing.borderRadius[0],
-                    ),
-              padding: widget.disableContentDecoration
-                  ? null
-                  : EdgeInsets.all(
-                      theme.sizing.padding[1],
-                    ),
-              constraints: widget.singlePage
-                  ? BoxConstraints(
-                      minHeight: maxHeight -
-                          (widget.disableContentDecoration
-                              ? 0
-                              : theme.sizing.padding[1] * 2),
-                    )
-                  : null,
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Builder(
-                    builder: (context) {
-                      return widget.contentBuilder!(
-                        context,
-                        Size(
-                          widget.maxContentWidth ?? constraints.maxWidth,
-                          maxHeight -
-                              (widget.disableContentDecoration
-                                  ? 0
-                                  : (theme.sizing.padding[1] * 2)),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                if (showTitle) ScaffoldTitle(),
+              ],
             ),
           ),
         ),
+        ScaffoldDrawer(),
       ],
     );
-  }
-
-  Widget getDrawer(BuildContext context) {
-    List<LegendDrawerRoute> routes = Provider.of<LegendDrawerProvider>(context)
-        .drawerRoutes
-        .cast<LegendDrawerRoute>();
-    for (final LegendDrawerRoute route in routes) {
-      if (route.visible) {
-        return LegendDrawer(
-          route: route,
-          isMobile: SizeProvider.of(context).isMobile,
-        );
-      }
-    }
-    return Container();
-  }
-
-  List<Widget> getChildren(BuildContext context) {
-    List<Widget> childs = [];
-
-    for (final element in widget.children) {
-      Widget w;
-      if (element is Section) {
-        Section s = element;
-        GlobalKey key = GlobalKey();
-        if (sections != null) {
-          SectionRouteInfo se = sections!.singleWhere(
-            (element) => element.name == s.name,
-            orElse: () {
-              return sections!.last;
-            },
-          );
-          int i = sections!.indexOf(se);
-          sections![i] = SectionRouteInfo(name: se.name, key: key);
-        }
-
-        w = Container(
-          key: key,
-          child: s,
-        );
-      } else {
-        w = element;
-      }
-      childs.add(w);
-    }
-
-    return childs;
   }
 }

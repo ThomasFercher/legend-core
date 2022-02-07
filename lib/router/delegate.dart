@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'routes/route_info.dart';
+
 import 'router_provider.dart';
+import 'routes/route_info.dart';
 
 RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
 

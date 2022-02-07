@@ -6,6 +6,7 @@ import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/src/provider.dart';
+
 import '../../layouts/layout_type.dart';
 
 class SizeProvider extends InheritedWidget {

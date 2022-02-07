@@ -3,7 +3,6 @@ import 'package:legend_design_core/layout/sectionNavigation/section_navigation.d
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:legend_design_core/typography/typography.dart';
 import 'package:provider/src/provider.dart';
 
 extension StringExtension on String {

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/fixed_bottom_bar.dart';
@@ -12,6 +9,7 @@ import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing_theme.dart';
+import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/typography/typography.dart';
 import 'package:legend_design_core/utils/restart.dart';
 
@@ -30,7 +28,8 @@ class ThemeProvider extends ChangeNotifier {
   LegendSizingTheme sizingTheme;
   late LegendTypography typography;
 
-  bool menuCollapsed = true;
+  bool _menuCollapsed = true;
+  bool get menuCollapsed => _menuCollapsed;
 
   ThemeProvider({
     required this.lightTheme,
@@ -84,6 +83,10 @@ class ThemeProvider extends ChangeNotifier {
         // Platform Default
         return darkTheme;
     }
+  }
+
+  void menuWidthChanged(BuildContext context) {
+    _menuCollapsed = SizeProvider.of(context).isMenuCollapsed(menuWidth, this);
   }
 
   // Getter Clean

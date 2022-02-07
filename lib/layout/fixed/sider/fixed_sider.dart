@@ -4,7 +4,6 @@ import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
@@ -15,7 +14,6 @@ import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:legend_design_core/typography/typography.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 

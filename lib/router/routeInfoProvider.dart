@@ -7,11 +7,9 @@ class RouteInfoProvider extends InheritedWidget {
 
   RouteInfoProvider({
     Key? key,
-    required this.child,
+    required Widget child,
     required this.route,
   }) : super(key: key, child: child);
-
-  final Widget child;
 
   static RouteInfoProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<RouteInfoProvider>();
@@ -20,5 +18,25 @@ class RouteInfoProvider extends InheritedWidget {
   @override
   bool updateShouldNotify(RouteInfoProvider oldWidget) {
     return oldWidget.route != route;
+  }
+
+  static MenuOption? getCurrentMenuOption(BuildContext context) {
+    RouteSettings? route = RouteInfoProvider.of(context)?.route;
+    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+
+    for (final MenuOption op in options) {
+      if (op.page == route?.name) {
+        return op;
+      }
+      if (op.children != null) {
+        for (final MenuOption sub in op.children!) {
+          if (sub.page == route?.name) {
+            return sub;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 }

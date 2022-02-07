@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,6 @@ import '../objects/menu_option.dart';
 import 'delegate.dart';
 import 'errorpages/notfound.dart';
 import 'routes/route_info.dart';
-
 import 'routes/section_provider.dart';
 
 class RouterProvider extends InheritedWidget {

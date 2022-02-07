@@ -6,14 +6,11 @@ import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:legend_design_core/typography/typography.dart';
-
 import 'package:provider/provider.dart';
 
 class FixedAppBar extends StatelessWidget {

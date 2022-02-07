@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 typedef ItemCreator<S> = S Function(Map<String, dynamic>);
 
 class LegendParser<T> {

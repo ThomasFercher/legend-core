@@ -4,7 +4,6 @@ import 'package:flutter/painting.dart';
 import 'package:legend_design_core/objects/drawer.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
-import 'package:legend_design_core/typography/typography.dart';
 import 'package:provider/src/provider.dart';
 
 import '../typography/legend_text.dart';

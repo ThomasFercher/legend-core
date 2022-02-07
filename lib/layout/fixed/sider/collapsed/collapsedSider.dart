@@ -9,7 +9,6 @@ import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 

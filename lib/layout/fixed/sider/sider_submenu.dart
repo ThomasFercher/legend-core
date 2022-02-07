@@ -6,7 +6,6 @@ import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/src/provider.dart';
 
 class SiderSubMenu extends StatefulWidget {
