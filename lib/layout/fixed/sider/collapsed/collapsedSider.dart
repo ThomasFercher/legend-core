@@ -7,7 +7,7 @@ import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
+import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
@@ -91,10 +91,9 @@ class CollapsedSider extends StatelessWidget {
           if (showMenu)
             FixedSiderMenu(
               isCollapsed: true,
-              options: options,
               backgroundColorSub:
-                  LegendColorTheme.darken(theme.colors.primaryColor, 0.05),
-              foregroundColor: LegendColorTheme.darken(
+                  LegendColorPalette.darken(theme.colors.primaryColor, 0.05),
+              foregroundColor: LegendColorPalette.darken(
                   theme.colors.siderColorTheme.foreground, 0.05),
             ),
           if (showSectionMenu)

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
+import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/router_provider.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
+import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
-class FixedAppBar extends StatelessWidget {
+class FixedAppBar extends StatefulWidget {
   final bool showSubMenu;
   final bool? showMenu;
   final WidgetBuilder? builder;
   final Widget? leading;
   final Radius? bottomBorderRadius;
-  FixedAppBarSizing? sizing;
-  FixedAppBarColors? colors;
 
   final LayoutType? layoutType;
 
@@ -29,10 +27,32 @@ class FixedAppBar extends StatelessWidget {
     this.builder,
     this.leading,
     this.bottomBorderRadius,
-    this.sizing,
     this.layoutType,
     this.showSubMenu = true,
   });
+
+  @override
+  State<FixedAppBar> createState() => _FixedAppBarState();
+}
+
+class _FixedAppBarState extends State<FixedAppBar> {
+  FixedAppBarColors? colors;
+  FixedAppBarSizing? sizing;
+  late bool menuCollapsed;
+  late double lastX;
+  late double lastW;
+
+  bool fixedMenuPop = false;
+  bool collapsedMenuPop = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    lastX = -1;
+    lastW = -1;
+    menuCollapsed = false;
+  }
 
   BoxDecoration? getCard() {
     return colors?.cardColor != null
@@ -50,18 +70,59 @@ class FixedAppBar extends StatelessWidget {
         : null;
   }
 
+  void collapsedMenu(ThemeProvider theme, BuildContext context) {
+    double width = SizeProvider.of(context).width / 2;
+    double menuWidth = lastW / 2;
+    double titleWidth =
+        LegendUtils.getTitleIndent(theme.typography.h6, 'Legend Design');
+    double icon = theme.appBarSizing.titleSize ?? 64;
+
+    double horizontalPadding = theme.appBarSizing.contentPadding.left;
+    bool showCollapsedMenu =
+        width - menuWidth - titleWidth - icon - horizontalPadding < 0;
+
+    if (showCollapsedMenu != menuCollapsed && !collapsedMenuPop) {
+      setState(() {
+        collapsedMenuPop = true;
+        fixedMenuPop = false;
+        menuCollapsed = showCollapsedMenu;
+      });
+    }
+  }
+
+  void fixedMenu(ThemeProvider theme, double x, double w, String title) {
+    double icon = theme.appBarSizing.titleSize ?? 64;
+    icon += theme.appBarSizing.contentPadding.left;
+    double titleWidth = LegendUtils.getTitleIndent(theme.typography.h6, title);
+
+    bool showFixedMenu = x >= titleWidth + icon;
+
+    if (!showFixedMenu != menuCollapsed && !fixedMenuPop) {
+      setState(() {
+        fixedMenuPop = true;
+        collapsedMenuPop = false;
+        lastW = w;
+        lastX = x;
+        menuCollapsed = !showFixedMenu;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    bool menuCollapsed =
-        SizeProvider.of(context).isMenuCollapsed(theme.menuWidth, theme);
+    sizing = theme.appBarSizing;
+    colors = theme.appBarColors;
     bool isMobile = SizeProvider.of(context).isMobile;
-    bool isSubRoute = RouterProvider.of(context).current?.isUnderlying ?? false;
+    bool isSubRoute =
+        RouteInfoProvider.getCurrentMenuOption(context)?.isUnderlying ?? false;
     bool showBackArrow = isSubRoute &&
-        !(showMenu ?? true) &&
-        layoutType == LayoutType.FixedHeader;
-    sizing ??= theme.appBarSizing;
-    colors ??= theme.appBarColors;
+        !(widget.showMenu ?? true) &&
+        widget.layoutType == LayoutType.FixedHeader;
+
+    if (menuCollapsed) {
+      collapsedMenu(theme, context);
+    }
 
     return SliverAppBar(
       backgroundColor: colors?.backgroundColor,
@@ -79,8 +140,6 @@ class FixedAppBar extends StatelessWidget {
         height: theme.appBarSizing.appBarHeight +
             (sizing?.contentPadding.vertical ?? 0.0),
         padding: EdgeInsets.only(
-          left: sizing?.contentPadding.left ?? 0,
-          right: sizing?.contentPadding.right ?? 0,
           top: sizing?.contentPadding.top ?? 0,
           bottom: sizing?.contentPadding.bottom ?? 0,
         ),
@@ -92,8 +151,8 @@ class FixedAppBar extends StatelessWidget {
               children: [
                 Positioned(
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16,
+                    padding: EdgeInsets.only(
+                      left: sizing?.contentPadding.left ?? 0,
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -109,26 +168,23 @@ class FixedAppBar extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               }),
-                        if ((layoutType != LayoutType.FixedSider &&
-                                layoutType != LayoutType.FixedHeaderSider) ||
+                        if ((widget.layoutType != LayoutType.FixedSider &&
+                                widget.layoutType !=
+                                    LayoutType.FixedHeaderSider) ||
                             isMobile)
                           if (LayoutProvider.of(context)?.logo != null)
                             Container(
-                              height: sizing?.titleSize ??
-                                  sizing?.appBarHeight ??
-                                  64,
-                              width: sizing?.titleSize ??
-                                  sizing?.appBarHeight ??
-                                  64,
+                              width: sizing?.titleSize ?? 64,
+                              height: sizing?.titleSize ?? 64,
                               margin: EdgeInsets.only(
-                                right: 12.0,
+                                right: 6,
                               ),
-                              child: Center(
-                                child: LayoutProvider.of(context)!.logo,
-                              ),
+                              alignment: Alignment.centerRight,
+                              child: LayoutProvider.of(context)!.logo,
                             ),
-                        if ((layoutType != LayoutType.FixedSider &&
-                                layoutType != LayoutType.FixedHeaderSider) ||
+                        if ((widget.layoutType != LayoutType.FixedSider &&
+                                widget.layoutType !=
+                                    LayoutType.FixedHeaderSider) ||
                             isMobile)
                           if (LayoutProvider.of(context)?.title != null)
                             Center(
@@ -143,7 +199,7 @@ class FixedAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (menuCollapsed && (showMenu ?? true))
+                if (!menuCollapsed && (widget.showMenu ?? true))
                   Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -152,47 +208,43 @@ class FixedAppBar extends StatelessWidget {
                         horizontal: sizing?.borderRadius?.x ?? 0,
                       ),
                       child: FixedMenu(
-                        menuCollapsed: menuCollapsed,
-                        context: context,
+                        onPosChanged: (x, w) {
+                          fixedMenu(
+                              theme, x, w, LayoutProvider.of(context)!.title!);
+                        },
                         iconColor: theme.appBarColors.iconColor,
                         selected: theme.appBarColors.selectedColor,
                         backgroundColor: theme.appBarColors.backgroundColor,
                         foreground: theme.appBarColors.foreground,
-                        showSubMenu: showSubMenu,
+                        showSubMenu: widget.showSubMenu,
                       ),
                     ),
                   ),
                 Positioned(
-                  right: 16,
+                  right: sizing?.contentPadding.right ?? 0,
                   height: sizing?.appBarHeight,
                   child: Row(
                     children: [
                       Container(
-                        child: (builder != null)
+                        child: (widget.builder != null)
                             ? Container(
                                 height: theme.appBarSizing.appBarHeight,
                                 alignment: Alignment.center,
                                 decoration: getCard(),
                                 child: Builder(
-                                  builder: builder!,
+                                  builder: widget.builder!,
                                 ),
                               )
                             : null,
                       ),
-                      if (!menuCollapsed && (showMenu ?? true))
+                      if (menuCollapsed && (widget.showMenu ?? true))
                         Container(
-                          decoration: getCard(),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: sizing?.borderRadius?.x ?? 0,
+                          margin: EdgeInsets.only(
+                            left: sizing?.spacing ?? 8,
                           ),
-                          child: FixedMenu(
-                            menuCollapsed: menuCollapsed,
-                            context: context,
-                            iconColor: theme.appBarColors.iconColor,
-                            selected: theme.appBarColors.selectedColor,
-                            backgroundColor: theme.appBarColors.backgroundColor,
-                            foreground: theme.appBarColors.foreground,
-                            showSubMenu: showSubMenu,
+                          decoration: getCard(),
+                          child: CollapsedMenu(
+                            width: 48,
                           ),
                         ),
                     ],

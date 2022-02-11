@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:legend_design_core/layout/drawers/menu_drawer.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/persistent_header.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
@@ -18,13 +16,12 @@ import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import '../../typography/legend_text.dart';
 import '../fixed/bottomBar.dart/fixed_bottom_bar.dart';
 import '../fixed/fixed_footer.dart';
 
@@ -43,11 +40,14 @@ class LegendScaffold extends StatelessWidget {
   final double verticalChildrenSpacing;
   final List<SingleChildWidget>? providers;
   final bool disableContentDecoration;
+
   final bool showSiderMenu;
   final bool showSiderSubMenu;
   final bool showAppBarMenu;
   final bool showSectionMenu;
   final bool showTopSubMenu;
+  final bool showSiderChildMenu;
+
   final bool enableDefaultSettings;
   final bool singlePage;
   final bool isUnderlyingRoute;
@@ -64,6 +64,7 @@ class LegendScaffold extends StatelessWidget {
     this.showAppBarMenu = true,
     this.appBarBuilder,
     this.showSiderSubMenu = false,
+    this.showSiderChildMenu = false,
     this.contentBuilder,
     this.children = const [],
     this.singlePage = false,
@@ -83,10 +84,12 @@ class LegendScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sections = SectionProvider.of(context)?.sections;
+    ThemeProvider theme = context.watch<ThemeProvider>();
 
     return ScaffoldInfo(
       scaffold: this,
       child: SizeProvider(
+        splits: theme.sizingTheme.splits,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         useMobilDesign: true,
@@ -135,21 +138,32 @@ class LegendScaffold extends StatelessWidget {
     ThemeProvider theme = context.watch<ThemeProvider>();
     double height = MediaQuery.of(context).size.height;
 
-    if (theme.sizingTheme.sizingType != LegendSizingType.MOBILE) {
+    if (theme.bottomBarSizing == null) {
       height -= footerHeight ?? 0;
     } else {
-      height -= theme.bottomBarStyle?.height ?? 0;
+      height -= theme.bottomBarSizing!.height;
     }
-
-    if (layoutType == LayoutType.FixedSider) {
-      height -= theme.sizing.padding[0] * 4;
-    } else if (layoutType == LayoutType.Content) {
-    } else {
-      height -= theme.appBarSizing.appBarHeight;
+    switch (layoutType) {
+      case LayoutType.Content:
+        break;
+      case LayoutType.FixedHeader:
+        height -= theme.sizing.appBarSizing.appBarHeight;
+        break;
+      case LayoutType.FixedHeaderSider:
+        height -= theme.sizing.appBarSizing.appBarHeight;
+        height -= theme.sizing.padding[0] * 2;
+        break;
+      case LayoutType.FixedSider:
+        height -= theme.sizing.padding[0] * 2;
+        break;
     }
 
     if (appBarBottom != null) {
       height -= appBarBottomSize!.height;
+    }
+    if ((currentRoute?.isUnderlying ?? false) &&
+        layoutType == LayoutType.FixedSider) {
+      height -= 48;
     }
 
     return height;
@@ -158,16 +172,16 @@ class LegendScaffold extends StatelessWidget {
   List<Widget> getChildren(BuildContext context, bool showFooter) {
     ThemeProvider theme = context.watch<ThemeProvider>();
     List<Widget> widgets = [];
-    List<Widget> s_widgets = [];
+    List<Widget> sWidgets = [];
     // Get Children
     if (sections != null) {
-      s_widgets = SectionNavigation.findSections(context, children, sections!);
+      sWidgets = SectionNavigation.findSections(context, children, sections!);
     } else {
-      s_widgets = children;
+      sWidgets = children;
     }
 
     widgets = List.of(
-      s_widgets.map(
+      sWidgets.map(
         (widget) {
           return Padding(
             padding: EdgeInsets.symmetric(
@@ -194,7 +208,6 @@ class LegendScaffold extends StatelessWidget {
         (sizeProvider.isMobile == false);
 
     currentRoute = RouteInfoProvider.getCurrentMenuOption(context);
-    theme.menuWidthChanged(context);
 
     // Footer
     double? footerheight;
@@ -208,9 +221,11 @@ class LegendScaffold extends StatelessWidget {
       children: [
         Scaffold(
           endDrawer: MenuDrawer(),
-          bottomNavigationBar: sizeProvider.isMobile
+          bottomNavigationBar: theme.bottomBarSizing != null
               ? FixedBottomBar(
-                  colors: theme.bottomBarColors, sizing: theme.bottomBarStyle)
+                  colors: theme.bottomBarColors,
+                  sizing: theme.bottomBarSizing!,
+                )
               : null,
           endDrawerEnableOpenDragGesture: false,
           floatingActionButton:
@@ -224,6 +239,7 @@ class LegendScaffold extends StatelessWidget {
                     ScaffoldSider(),
                     Expanded(
                       child: CustomScrollView(
+                        controller: ScrollController(),
                         slivers: [
                           ScaffoldHeader(),
                           if (showAppBarBottom)
@@ -242,30 +258,34 @@ class LegendScaffold extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Container(
+                                    padding: disableContentDecoration
+                                        ? null
+                                        : EdgeInsets.all(
+                                            theme.sizing.padding[0],
+                                          ),
                                     constraints: BoxConstraints(
                                       minHeight: maxHeight,
                                       maxHeight: singlePage
                                           ? maxHeight
                                           : double.infinity,
                                     ),
-                                    padding: disableContentDecoration
-                                        ? null
-                                        : EdgeInsets.all(
-                                            theme.sizing.padding[0],
-                                          ),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         if (currentRoute?.isUnderlying ?? false)
-                                          LegendText(
-                                            padding: EdgeInsets.only(
-                                              bottom: 8,
-                                            ),
-                                            text: currentRoute?.title ?? '',
-                                            textStyle:
-                                                theme.typography.h5.copyWith(
-                                              color: theme.colors.textContrast,
+                                          SizedBox(
+                                            height: 48,
+                                            child: LegendText(
+                                              padding: EdgeInsets.only(
+                                                bottom: 8,
+                                              ),
+                                              text: currentRoute?.title ?? '',
+                                              textStyle:
+                                                  theme.typography.h5.copyWith(
+                                                color:
+                                                    theme.colors.textContrast,
+                                              ),
                                             ),
                                           ),
                                         ScaffoldContent(

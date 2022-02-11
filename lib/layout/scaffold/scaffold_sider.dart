@@ -22,6 +22,7 @@ class ScaffoldSider extends StatelessWidget {
         showSubMenu: scaffold.showSiderSubMenu,
         showSectionMenu: scaffold.showSectionMenu,
         layoutType: scaffold.layoutType,
+        showChildMenu: scaffold.showSiderChildMenu,
       );
     } else {
       return Container();

@@ -3,8 +3,8 @@ import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/src/provider.dart';
 
@@ -32,14 +32,14 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   @override
   void initState() {
     super.initState();
-    maxHeight = 400;
+    maxHeight = 200;
   }
 
   List<Widget> getWidgets(BuildContext context) {
     List<Widget> widgets = [];
     ThemeProvider theme = context.watch<ThemeProvider>();
-    MenuOption? sel = RouterProvider.of(context).current;
-    for (MenuOption op in widget.option.children!) {
+    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
+    for (final MenuOption op in widget.option.children!) {
       widgets.add(
         Padding(
           padding: const EdgeInsets.only(left: 12.0),
@@ -51,7 +51,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                 theme.colors.siderColorTheme.backgroundMenu,
             left: false,
             activeColor: theme.colors.selectionColor,
-            color: LegendColorTheme.lighten(
+            color: LegendColorPalette.lighten(
               widget.foregroundColor ?? theme.colors.siderColorTheme.foreground,
               0.04,
             ),
@@ -71,8 +71,8 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
     ThemeProvider theme = context.watch<ThemeProvider>();
     List<Widget> widgets = [];
 
-    MenuOption? sel = RouterProvider.of(context).current;
-    for (MenuOption op in widget.option.children!) {
+    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
+    for (final MenuOption op in widget.option.children!) {
       widgets.add(
         SiderMenuVerticalTile(
           icon: op.icon,
@@ -136,7 +136,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
           ),
           AnimatedContainer(
             color: widget.backgroundColor,
-            duration: Duration(milliseconds: 200),
+            duration: Duration(
+              milliseconds: 100,
+            ),
             constraints: BoxConstraints(
               maxHeight: maxHeight,
             ),

@@ -99,7 +99,6 @@ class MenuDrawer extends StatelessWidget {
               FixedSiderMenu(
                 backgroundColor: theme.colors.cardBackgroundColor,
                 foregroundColor: theme.colors.primaryColor,
-                options: RouterProvider.of(context).menuOptions,
               )
             ],
           ),

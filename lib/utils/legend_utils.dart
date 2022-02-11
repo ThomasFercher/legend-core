@@ -4,6 +4,13 @@ import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LegendUtils {
+  static double getTitleIndent(TextStyle style, String text) {
+    return calcTextSize(
+      text,
+      style,
+    ).width;
+  }
+
   static Future<void> launchInBrowser(String url) async {
     if (await canLaunch(url)) {
       await launch(
@@ -56,7 +63,7 @@ class LegendUtils {
   }
 
   static String getPrettyJSONString(jsonObject) {
-    var encoder = new JsonEncoder.withIndent("     ");
+    var encoder = JsonEncoder.withIndent('     ');
     return encoder.convert(jsonObject);
   }
 }

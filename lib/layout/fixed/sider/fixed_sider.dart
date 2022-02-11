@@ -3,14 +3,15 @@ import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
 import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
+import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
@@ -20,27 +21,23 @@ import 'package:provider/provider.dart';
 import 'collapsed/collapsedSider.dart';
 
 class FixedSider extends StatelessWidget {
-  late final bool showMenu;
-  late final bool showSectionMenu;
-  late final bool showSubMenu;
-  late final LayoutType layoutType;
+  final bool showMenu;
+  final bool showSectionMenu;
+  final bool showChildMenu;
+  final bool showSubMenu;
+  final LayoutType layoutType;
   final bool enableDefaultSettings;
+  final WidgetBuilder? builder;
 
-  WidgetBuilder? builder;
-
-  FixedSider({
-    bool? showMenu,
-    bool? showSectionMenu,
-    bool? showSubMenu,
-    this.builder,
-    LayoutType? layoutType,
+  const FixedSider({
+    this.showMenu = true,
+    this.showSectionMenu = false,
+    this.showSubMenu = false,
+    this.showChildMenu = false,
     this.enableDefaultSettings = false,
-  }) {
-    this.showMenu = showMenu ?? true;
-    this.showSubMenu = showSubMenu ?? true;
-    this.showSectionMenu = showSectionMenu ?? false;
-    this.layoutType = layoutType ?? LayoutType.FixedHeader;
-  }
+    this.builder,
+    this.layoutType = LayoutType.FixedHeader,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +47,20 @@ class FixedSider extends StatelessWidget {
 
     return Hero(
       tag: ValueKey('sider'),
-      child: Material(
-        elevation: 0,
-        child: showSider
-            ? Sider(
-                showMenu: showMenu,
-                builder: builder,
-                context: context,
-                showSectionMenu: showSectionMenu,
-                showSubMenu: showSubMenu,
-                layoutType: layoutType,
-                enableDefaultSettings: enableDefaultSettings,
-              )
-            : CollapsedSider(
-                context: context,
-                showMenu: showMenu,
-                showSectionMenu: showSectionMenu,
-                showSubMenu: showSubMenu,
-                layoutType: layoutType,
-              ),
+      child: SiderInfo(
+        fixedSider: this,
+        child: Material(
+          elevation: 0,
+          child: showSider
+              ? const Sider()
+              : CollapsedSider(
+                  context: context,
+                  showMenu: showMenu,
+                  showSectionMenu: showSectionMenu,
+                  showSubMenu: showChildMenu,
+                  layoutType: layoutType,
+                ),
+        ),
       ),
     );
   }
@@ -77,25 +69,12 @@ class FixedSider extends StatelessWidget {
 class Sider extends StatelessWidget {
   const Sider({
     Key? key,
-    required this.showMenu,
-    required this.builder,
-    required this.context,
-    required this.showSectionMenu,
-    required this.showSubMenu,
-    required this.layoutType,
-    required this.enableDefaultSettings,
   }) : super(key: key);
-
-  final bool? showMenu;
-  final bool? showSectionMenu;
-  final WidgetBuilder? builder;
-  final BuildContext context;
-  final bool showSubMenu;
-  final bool enableDefaultSettings;
-  final LayoutType layoutType;
 
   @override
   Widget build(BuildContext context) {
+    FixedSider fixedSider = SiderInfo.of(context)!.fixedSider;
+
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
 
     List<SectionRouteInfo> sections =
@@ -114,11 +93,11 @@ class Sider extends StatelessWidget {
         ),
       ),
     );
-    MenuOption? current = RouterProvider.of(context).current;
+    MenuOption? current = RouteInfoProvider.getCurrentMenuOption(context);
 
-    List<MenuOption> subMenu = current?.children ?? [];
-    List<DrawerMenuTile> subMenuTiles = List.of(
-      subMenu.map(
+    List<MenuOption> childMenuoptions = current?.children ?? [];
+    List<DrawerMenuTile> childMenuTiles = List.of(
+      childMenuoptions.map(
         (option) => DrawerMenuTile(
           icon: option.icon,
           path: option.page,
@@ -133,18 +112,18 @@ class Sider extends StatelessWidget {
     );
 
     List<Widget> children = [
-      if (showMenu ?? false)
+      if (fixedSider.showMenu)
         FixedSiderMenu(
-          backgroundColorSub: LegendColorTheme.darken(
+          backgroundColorSub: LegendColorPalette.darken(
             theme.colors.siderColorTheme.background,
             0.05,
           ),
-          foregroundColor: LegendColorTheme.darken(
+          foregroundColor: LegendColorPalette.darken(
             theme.colors.siderColorTheme.foreground,
             0.05,
           ),
         ),
-      if (showSubMenu && subMenuTiles.isNotEmpty)
+      if (fixedSider.showChildMenu && childMenuTiles.isNotEmpty)
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Column(
@@ -154,7 +133,7 @@ class Sider extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 32),
                 child: LegendText(
-                  text: current?.title ?? "",
+                  text: current?.title ?? '',
                   textStyle: theme.typography.h4.copyWith(
                     color: theme.colors.selectionColor,
                   ),
@@ -174,14 +153,14 @@ class Sider extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: ListView(
-                  children: subMenuTiles,
+                  children: childMenuTiles,
                   shrinkWrap: true,
                 ),
               ),
             ],
           ),
         ),
-      if ((showSectionMenu ?? false) && sectionTiles.isNotEmpty)
+      if (fixedSider.showSectionMenu && sectionTiles.isNotEmpty)
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Column(
@@ -191,7 +170,7 @@ class Sider extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 32),
                 child: LegendText(
-                  text: "Sections",
+                  text: 'Sections',
                   textStyle: theme.typography.h4.copyWith(
                     color: theme.colors.selectionColor,
                   ),
@@ -218,24 +197,24 @@ class Sider extends StatelessWidget {
             ],
           ),
         ),
-      if (builder != null)
+      if (fixedSider.builder != null)
         Builder(
-          builder: (context) => builder!(context),
+          builder: (context) => fixedSider.builder!(context),
         ),
     ];
 
     ScrollController controller = ScrollController();
 
     return Container(
-      width: layoutType == LayoutType.FixedSider ? 220 : 180,
+      width: fixedSider.layoutType == LayoutType.FixedSider ? 220 : 180,
       height: MediaQuery.of(context).size.height,
       color: theme.colors.siderColorTheme.background,
-      padding: layoutType == LayoutType.FixedHeaderSider
+      padding: fixedSider.layoutType == LayoutType.FixedHeaderSider
           ? EdgeInsets.only(top: theme.sizing.appBarSizing.appBarHeight)
           : EdgeInsets.all(0),
       child: Column(
         children: [
-          if (layoutType == LayoutType.FixedSider)
+          if (fixedSider.layoutType == LayoutType.FixedSider)
             Container(
               color: theme.colors.siderColorTheme.background,
               padding: const EdgeInsets.symmetric(
@@ -272,7 +251,7 @@ class Sider extends StatelessWidget {
               ),
             ),
           ),
-          if (enableDefaultSettings)
+          if (fixedSider.enableDefaultSettings)
             Container(
               padding: EdgeInsets.all(16),
               child: Row(

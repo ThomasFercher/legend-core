@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class LegendTypographyColors {
   final List<Color>? textColors;
@@ -131,7 +129,7 @@ class LegendTypography {
         : colors.baseColor;
     h6 = typography.h6.copyWith(
       color: textColor,
-      fontSize: typography.h6.fontSize ?? sizing.sizes[6],
+      fontSize: sizing.sizes[6],
     );
   }
 
@@ -160,12 +158,19 @@ class LegendTypography {
 
 class LegendTextStyle extends TextStyle {
   final Color? textColor;
+  @override
   final Color? backgroundColor;
+  @override
   final double? fontSize;
+  @override
   final FontWeight? fontWeight;
+  @override
   final String? fontFamily;
+  @override
   final double? height;
+  @override
   final double? wordSpacing;
+  @override
   final double? letterSpacing;
   final TextOverflow? textOverflow;
 

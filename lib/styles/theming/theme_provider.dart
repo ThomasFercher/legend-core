@@ -1,42 +1,31 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/fixed_bottom_bar.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_theme.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing_theme.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/typography/typography.dart';
 import 'package:legend_design_core/utils/restart.dart';
 
-enum LegendColorThemeType {
-  LIGHT,
-  DARK,
-  SYSTEM,
-}
-
 class ThemeProvider extends ChangeNotifier {
-  LegendColorThemeType themeType;
-  late LegendSizingType sizingType;
-
-  final LegendColorTheme lightTheme;
-  final LegendColorTheme darkTheme;
-  LegendSizingTheme sizingTheme;
   late LegendTypography typography;
 
-  bool _menuCollapsed = true;
+  final LegendColorTheme colorTheme;
+  final LegendSizingTheme sizingTheme;
+
+  final bool _menuCollapsed = false;
   bool get menuCollapsed => _menuCollapsed;
 
   ThemeProvider({
-    required this.lightTheme,
-    required this.darkTheme,
-    required this.themeType,
+    required this.colorTheme,
     required this.sizingTheme,
     required LegendTypography typography,
+    LegendColorThemeType? themeType,
+    LegendSizingType? sizingType,
   }) {
     this.typography = LegendTypography.applyStyles(
       sizing: sizing.typographySizing,
@@ -44,13 +33,10 @@ class ThemeProvider extends ChangeNotifier {
       typography: typography,
     );
 
-    sizingType = sizingTheme.sizingType;
     Color? _systemNavigationBarColor = bottomBarColors.backgroundColor;
-
-    if (bottomBarStyle?.margin.bottom != 0) {
+    if (bottomBarSizing?.margin.bottom != 0) {
       _systemNavigationBarColor = colors.scaffoldBackgroundColor;
     }
-
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -66,27 +52,27 @@ class ThemeProvider extends ChangeNotifier {
     if (!options.contains(o)) {
       options.add(o);
       menuWidth += w;
+      print(o);
     }
   }
 
-  void setSizing(LegendSizingType type) {
-    sizingTheme.sizingType = type;
+  void setSizing(int i) {
+    sizingTheme.i = i;
+    typography = LegendTypography.applyStyles(
+      sizing: sizing.typographySizing,
+      colors: colors.typographyColors,
+      typography: typography,
+    );
   }
 
-  LegendColorTheme get colors {
-    switch (themeType) {
-      case LegendColorThemeType.DARK:
-        return darkTheme;
-      case LegendColorThemeType.LIGHT:
-        return lightTheme;
-      default:
-        // Platform Default
-        return darkTheme;
+  LegendColorPalette get colors {
+    int index = colorTheme.type.index;
+
+    if (index < colorTheme.themes.length) {
+      return colorTheme.themes[index];
+    } else {
+      return colorTheme.themes[0];
     }
-  }
-
-  void menuWidthChanged(BuildContext context) {
-    _menuCollapsed = SizeProvider.of(context).isMenuCollapsed(menuWidth, this);
   }
 
   // Getter Clean
@@ -97,12 +83,12 @@ class ThemeProvider extends ChangeNotifier {
 
   FixedAppBarSizing get appBarSizing => sizing.appBarSizing;
 
-  BottomBarSizing? get bottomBarStyle => sizing.bottomBarSizing;
+  BottomBarSizing? get bottomBarSizing => sizing.bottomBarSizing;
 
   BottomBarColors get bottomBarColors => colors.bottomBarColors;
 
-  void changeColorTheme(LegendColorThemeType type, BuildContext context) {
-    this.themeType = type;
+  void changeColorTheme(PaletteType type, BuildContext context) {
+    colorTheme.setType(type);
 
     /* _appBarTheme = new LegendAppBarTheme(
       colors: colors,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/modals/legendPopups.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
@@ -129,14 +129,12 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
     width =
         LegendUtils.calcTextSize(widget.option.title ?? '', theme.typography.h2)
                 .width +
-            theme.appBarSizing.contentPadding.horizontal +
-            (theme.appBarSizing.iconSize ?? 24) * 2.22 +
-            8 +
-            12 * 2;
+            (theme.appBarSizing.iconSize ?? 24) * 2.22;
+
     theme.setMenuOptionWidth(width, widget.option);
     double menuWidth = 200;
 
-    MenuOption? sel = RouterProvider.of(context).current;
+    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
     List<Widget>? menuItems;
     if (widget.showSubMenu) {
       menuItems = widget.option.children!
@@ -227,32 +225,27 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               settings: RouteSettings(name: widget.option.page),
             );
           },
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: theme.appBarSizing.spacing ?? 12.0,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  widget.option.icon,
-                  color: color,
-                  size: theme.appBarSizing.iconSize,
-                ),
-                if (widget.option.title != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 2.0, left: 8.0),
-                    child: LegendText(
-                      text: widget.option.title!,
-                      selectable: false,
-                      textStyle: theme.typography.h2.copyWith(
-                        color: color,
-                      ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                widget.option.icon,
+                color: color,
+                size: theme.appBarSizing.iconSize,
+              ),
+              if (widget.option.title != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0, left: 8.0),
+                  child: LegendText(
+                    text: widget.option.title!,
+                    selectable: false,
+                    textStyle: theme.typography.h2.copyWith(
+                      color: color,
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),

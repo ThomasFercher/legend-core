@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
-class FixedMenu extends StatefulWidget {
+class FixedMenu extends StatelessWidget {
   final void Function(MenuOptionHeader option)? onSelected;
   final bool? showIconsOnly;
   final Color? iconColor;
@@ -13,96 +14,74 @@ class FixedMenu extends StatefulWidget {
   final Color? backgroundColor;
   final Color? foreground;
   final bool showSubMenu;
-  final bool menuCollapsed;
+  final void Function(double x, double w) onPosChanged;
+  final GlobalKey _key = GlobalKey();
 
   FixedMenu({
-    Key? key,
-    required this.context,
     required this.showSubMenu,
+    required this.onPosChanged,
     this.onSelected,
     this.showIconsOnly,
     this.iconColor,
     this.selected,
     this.backgroundColor,
     this.foreground,
-    required this.menuCollapsed,
-  }) : super(key: key);
+  });
 
-  final BuildContext context;
+  void checkCollapsed(ThemeProvider theme, BuildContext context) {
+    double? x = LegendUtils.getWidgetOffset(context, _key)?.dx;
+    double? w = LegendUtils.getWidgetSize(context, _key)?.width;
+    if (x == null || w == null) return;
 
-  @override
-  _FixedMenuState createState() => _FixedMenuState();
-}
-
-class _FixedMenuState extends State<FixedMenu> {
-  Widget getCollapsedMenu(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
-
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 8,
-      ),
-      child: LegendAnimatedIcon(
-        padding: EdgeInsets.all(0),
-        iconSize: theme.appBarSizing.iconSize ?? 32,
-        onPressed: () {
-          Scaffold.of(context).openEndDrawer();
-        },
-        icon: Icons.menu,
-        theme: LegendAnimtedIconTheme(
-          disabled: theme.colors.appBarColors.foreground,
-          enabled: theme.colors.selectionColor,
-        ),
-      ),
-    );
+    onPosChanged(x, w);
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    MenuOption? sel = RouterProvider.of(context).current;
+    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
 
     List<MenuOption> options = RouterProvider.of(context).menuOptions;
 
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => checkCollapsed(theme, context));
     List<MenuOptionHeader> headers = [];
 
-    options.forEach((option) {
+    for (final option in options) {
       if (option.showInAppBar) {
         headers.add(
           MenuOptionHeader(
             option: option,
-            activeColor: widget.selected,
-            color: widget.foreground,
-            backgroundColor: widget.backgroundColor,
-            showSubMenu: widget.showSubMenu,
+            activeColor: selected,
+            color: foreground,
+            backgroundColor: backgroundColor,
+            showSubMenu: showSubMenu,
             forceColor: option == sel,
           ),
         );
       }
-    });
+    }
 
     return Container(
       //  margin: const EdgeInsets.only(left: 16.0),
+
       height: theme.appBarSizing.appBarHeight,
+      key: _key,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (widget.menuCollapsed) {
-            return ListView.separated(
-              itemBuilder: (context, index) {
-                return headers[index];
-              },
-              separatorBuilder: (context, index) {
-                return Container(
-                  width: 12,
-                );
-              },
-              itemCount: headers.length,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-            );
-          } else {
-            return getCollapsedMenu(context);
-          }
+          return ListView.separated(
+            itemBuilder: (context, index) {
+              return headers[index];
+            },
+            separatorBuilder: (context, index) {
+              return Container(
+                width: theme.appBarSizing.spacing,
+              );
+            },
+            itemCount: headers.length,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+          );
         },
       ),
     );

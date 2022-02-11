@@ -3,7 +3,6 @@ import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_item.d
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class BottomBarColors {
@@ -39,7 +38,7 @@ class BottomBarSizing {
 
 class FixedBottomBar extends StatelessWidget {
   final bool? fit;
-  late BottomBarSizing? sizing;
+  late BottomBarSizing sizing;
   late BottomBarColors colors;
 
   FixedBottomBar({
@@ -94,23 +93,21 @@ class FixedBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    sizing ??= theme.bottomBarStyle;
 
     return Material(
       color: colors.backgroundColor,
       child: Hero(
         tag: ValueKey('BottomBar'),
         child: Container(
-          padding: sizing?.margin,
-          decoration: sizing?.decoration.copyWith(
+          padding: sizing.margin,
+          decoration: sizing.decoration.copyWith(
             color: colors.backgroundColor,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: getItems(context),
           ),
-          height: sizing?.height,
+          height: sizing.height,
         ),
       ),
     );

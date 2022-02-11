@@ -19,17 +19,26 @@ class ScaffoldTitle extends StatelessWidget {
         color: Colors.transparent,
         child: Hero(
           tag: ValueKey('title'),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (LayoutProvider.of(context)?.title != null)
-                Container(
-                  height: theme.appBarSizing.titleSize ??
-                      theme.appBarSizing.appBarHeight,
-                  width: theme.appBarSizing.titleSize,
-                  margin: EdgeInsets.only(right: 12.0, left: 16.0),
-                  child: Center(
+          child: SizedBox(
+            height: theme.sizing.appBarSizing.appBarHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                if (LayoutProvider.of(context)?.logo != null)
+                  Container(
+                    margin: const EdgeInsets.only(
+                      right: 12.0,
+                      left: 16.0,
+                    ),
+                    child: Container(
+                      height: theme.appBarSizing.titleSize,
+                      child: LayoutProvider.of(context)!.logo,
+                    ),
+                  ),
+                if (LayoutProvider.of(context)?.title != null)
+                  Container(
+                    alignment: Alignment.center,
+                    height: theme.appBarSizing.titleSize,
                     child: LegendText(
                       text: LayoutProvider.of(context)!.title!,
                       textStyle: theme.typography.h6.copyWith(
@@ -37,14 +46,8 @@ class ScaffoldTitle extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-              if (LayoutProvider.of(context)?.logo != null)
-                Container(
-                  height: theme.appBarSizing.appBarHeight,
-                  alignment: Alignment.center,
-                  child: LayoutProvider.of(context)!.logo,
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

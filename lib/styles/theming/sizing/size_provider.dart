@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/src/provider.dart';
 
 import '../../layouts/layout_type.dart';
 
 class SizeProvider extends InheritedWidget {
+  @override
   final Widget child;
   final double width;
   final bool useMobilDesign;
@@ -17,6 +17,7 @@ class SizeProvider extends InheritedWidget {
   final double height;
   late bool _isMobile;
   final BuildContext context;
+  final List<double> splits;
 
   SizeProvider({
     required this.child,
@@ -24,44 +25,33 @@ class SizeProvider extends InheritedWidget {
     required this.height,
     required this.context,
     required this.useMobilDesign,
+    required this.splits,
   }) : super(child: child) {
     screenSize = getScreenSizeFromWidth(width);
     ThemeProvider theme = context.watch<ThemeProvider>();
+
     _isMobile = !kIsWeb ? Platform.isIOS || Platform.isAndroid : false;
 
-    if (useMobilDesign) {
-      if (width <= 480) {
-        theme.setSizing(LegendSizingType.MOBILE);
-        _isMobile = true;
-      } else {
-        theme.setSizing(theme.sizingType);
-        _isMobile = false;
+    if (width < splits[0]) {
+      _isMobile = true;
+    }
+
+    for (var i = 0; i < splits.length; i++) {
+      double split = splits[i];
+      double? splitB = i > 0 ? splits[i - 1] : null;
+
+      if (width < split && width > (splitB ?? double.negativeInfinity)) {
+        if (theme.sizingTheme.i != i) {
+          print('Res: $split $i');
+          theme.setSizing(i);
+        }
       }
     }
   }
 
   bool get isMobile => _isMobile;
 
-  double getTitleIndent(TextStyle style) {
-    return calcTextSize(
-          'Legend Design',
-          style,
-        ).width +
-        26.0;
-  }
-
   List<MenuOption> options = [];
-
-  bool isMenuCollapsed(double menuWidth, ThemeProvider theme) {
-    return width -
-            (getTitleIndent(theme.typography.h6) +
-                    (theme.appBarSizing.titleSize ??
-                        theme.appBarSizing.appBarHeight / 3 * 2)) *
-                2 -
-            8 - //
-            menuWidth >
-        0;
-  }
 
   static ScreenSize getScreenSizeFromWidth(double width) {
     if (width < 480) {

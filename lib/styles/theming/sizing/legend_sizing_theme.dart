@@ -1,44 +1,23 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
 
 class LegendSizingTheme {
-  final LegendSizing mobile;
-  final LegendSizing tablet;
-  final LegendSizing web;
-  final LegendSizing desktop;
-  late LegendSizingType sizingType;
+  final List<LegendSizing> sizings;
+  late final List<double> splits;
+  int i = 0;
+
+  LegendSizing get getSizing => sizings[i];
 
   LegendSizingTheme({
-    required this.mobile,
-    required this.tablet,
-    required this.desktop,
-    required this.web,
+    required this.sizings,
+    required List<double> splits,
   }) {
-    if (kIsWeb) {
-      sizingType = LegendSizingType.WEB;
-    } else if (Platform.isIOS || Platform.isAndroid) {
-      sizingType = LegendSizingType.MOBILE;
-    } else if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
-      sizingType = LegendSizingType.DESTKOP;
-    } else {
-      LegendSizingType.WEB;
-    }
+    splits.sort();
+    this.splits = splits;
+
+    print(splits);
   }
 
   LegendSizing get sizing {
-    switch (sizingType) {
-      case LegendSizingType.WEB:
-        return web;
-      case LegendSizingType.MOBILE:
-        return mobile;
-      case LegendSizingType.TABLET:
-        return tablet;
-      case LegendSizingType.DESTKOP:
-        return desktop;
-      default:
-        return web;
-    }
+    return sizings[i];
   }
 }
