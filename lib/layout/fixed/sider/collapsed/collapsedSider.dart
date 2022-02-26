@@ -4,8 +4,8 @@ import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
@@ -47,8 +47,7 @@ class CollapsedSider extends StatelessWidget {
       ),
     );
 
-    List<SectionRouteInfo> sections =
-        SectionProvider.of(context)?.sections ?? [];
+    List<SectionInfo> sections = SectionProvider.of(context)?.sections ?? [];
     List<SiderMenuVerticalTile> sectionTiles = List.of(
       sections.map(
         (option) => SiderMenuVerticalTile(

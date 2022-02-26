@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/drawers/legend_drawer_provider.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
@@ -8,8 +7,9 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/router/router_provider.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
@@ -77,8 +77,7 @@ class Sider extends StatelessWidget {
 
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
 
-    List<SectionRouteInfo> sections =
-        SectionProvider.of(context)?.sections ?? [];
+    List<SectionInfo> sections = SectionProvider.of(context)?.sections ?? [];
 
     List<SiderMenuVerticalTile> sectionTiles = List.of(
       sections.map(
@@ -265,8 +264,8 @@ class Sider extends StatelessWidget {
                       disabled: theme.appBarColors.foreground,
                     ),
                     onPressed: () {
-                      Provider.of<LegendDrawerProvider>(context, listen: false)
-                          .showDrawer('/settings');
+                      RouterProvider.of(context).pushPage(
+                          settings: RouteSettings(name: '/siderMenu'));
                     },
                   ),
                 ],

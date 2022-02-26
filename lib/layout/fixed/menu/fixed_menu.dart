@@ -3,7 +3,6 @@ import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatelessWidget {
@@ -14,12 +13,11 @@ class FixedMenu extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foreground;
   final bool showSubMenu;
-  final void Function(double x, double w) onPosChanged;
+
   final GlobalKey _key = GlobalKey();
 
   FixedMenu({
     required this.showSubMenu,
-    required this.onPosChanged,
     this.onSelected,
     this.showIconsOnly,
     this.iconColor,
@@ -28,14 +26,6 @@ class FixedMenu extends StatelessWidget {
     this.foreground,
   });
 
-  void checkCollapsed(ThemeProvider theme, BuildContext context) {
-    double? x = LegendUtils.getWidgetOffset(context, _key)?.dx;
-    double? w = LegendUtils.getWidgetSize(context, _key)?.width;
-    if (x == null || w == null) return;
-
-    onPosChanged(x, w);
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = Provider.of<ThemeProvider>(context);
@@ -43,8 +33,6 @@ class FixedMenu extends StatelessWidget {
 
     List<MenuOption> options = RouterProvider.of(context).menuOptions;
 
-    WidgetsBinding.instance
-        ?.addPostFrameCallback((_) => checkCollapsed(theme, context));
     List<MenuOptionHeader> headers = [];
 
     for (final option in options) {

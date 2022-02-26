@@ -131,7 +131,6 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
                 .width +
             (theme.appBarSizing.iconSize ?? 24) * 2.22;
 
-    theme.setMenuOptionWidth(width, widget.option);
     double menuWidth = 200;
 
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);

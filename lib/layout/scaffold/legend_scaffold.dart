@@ -5,7 +5,6 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_action_button.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_content.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_drawer.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_header.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_sider.dart';
@@ -13,8 +12,8 @@ import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 import 'package:legend_design_core/router/routes/section_provider.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
@@ -51,7 +50,7 @@ class LegendScaffold extends StatelessWidget {
   final bool enableDefaultSettings;
   final bool singlePage;
   final bool isUnderlyingRoute;
-  List<SectionRouteInfo>? sections;
+  List<SectionInfo>? sections;
   MenuOption? currentRoute;
 
   LegendScaffold({
@@ -100,7 +99,7 @@ class LegendScaffold extends StatelessWidget {
             // Jump to Section
 
             if (sections != null) {
-              SectionRouteInfo s = sections!.singleWhere(
+              SectionInfo s = sections!.singleWhere(
                 (element) => element.name == section.name,
                 orElse: () {
                   return sections!.first;
@@ -217,105 +216,97 @@ class LegendScaffold extends StatelessWidget {
     }
     double maxHeight = calculateMinContentHeight(footerheight, context);
 
-    return Stack(
-      children: [
-        Scaffold(
-          endDrawer: MenuDrawer(),
-          bottomNavigationBar: theme.bottomBarSizing != null
-              ? FixedBottomBar(
-                  colors: theme.bottomBarColors,
-                  sizing: theme.bottomBarSizing!,
-                )
-              : null,
-          endDrawerEnableOpenDragGesture: false,
-          floatingActionButton:
-              onActionButtonPressed != null ? ScaffoldActionButton() : null,
-          body: ColoredBox(
-            color: theme.colors.scaffoldBackgroundColor,
-            child: Stack(
+    return Scaffold(
+      endDrawer: MenuDrawer(),
+      bottomNavigationBar: theme.bottomBarSizing != null
+          ? FixedBottomBar(
+              colors: theme.bottomBarColors,
+              sizing: theme.bottomBarSizing!,
+            )
+          : null,
+      endDrawerEnableOpenDragGesture: false,
+      floatingActionButton:
+          onActionButtonPressed != null ? ScaffoldActionButton() : null,
+      body: ColoredBox(
+        color: theme.colors.scaffoldBackgroundColor,
+        child: Stack(
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    ScaffoldSider(),
-                    Expanded(
-                      child: CustomScrollView(
-                        controller: ScrollController(),
-                        slivers: [
-                          ScaffoldHeader(),
-                          if (showAppBarBottom)
-                            SliverPersistentHeader(
-                              pinned: true,
-                              delegate: PersistentHeader(
-                                child: appBarBottom!,
-                                maxHeight: appBarBottomSize!.height,
-                                minHeight: appBarBottomSize!.width,
-                                backgroundColor:
-                                    theme.colors.scaffoldBackgroundColor,
-                              ),
-                            ),
-                          if (showBuilder)
-                            SliverToBoxAdapter(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: disableContentDecoration
-                                        ? null
-                                        : EdgeInsets.all(
-                                            theme.sizing.padding[0],
+                ScaffoldSider(),
+                Expanded(
+                  child: CustomScrollView(
+                    controller: ScrollController(),
+                    slivers: [
+                      ScaffoldHeader(),
+                      if (showAppBarBottom)
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: PersistentHeader(
+                            child: appBarBottom!,
+                            maxHeight: appBarBottomSize!.height,
+                            minHeight: appBarBottomSize!.width,
+                            backgroundColor:
+                                theme.colors.scaffoldBackgroundColor,
+                          ),
+                        ),
+                      if (showBuilder)
+                        SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: disableContentDecoration
+                                    ? null
+                                    : EdgeInsets.all(
+                                        theme.sizing.padding[0],
+                                      ),
+                                constraints: BoxConstraints(
+                                  minHeight: maxHeight,
+                                  maxHeight:
+                                      singlePage ? maxHeight : double.infinity,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (currentRoute?.isUnderlying ?? false)
+                                      SizedBox(
+                                        height: 48,
+                                        child: LegendText(
+                                          padding: EdgeInsets.only(
+                                            bottom: 8,
                                           ),
-                                    constraints: BoxConstraints(
-                                      minHeight: maxHeight,
-                                      maxHeight: singlePage
-                                          ? maxHeight
-                                          : double.infinity,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (currentRoute?.isUnderlying ?? false)
-                                          SizedBox(
-                                            height: 48,
-                                            child: LegendText(
-                                              padding: EdgeInsets.only(
-                                                bottom: 8,
-                                              ),
-                                              text: currentRoute?.title ?? '',
-                                              textStyle:
-                                                  theme.typography.h5.copyWith(
-                                                color:
-                                                    theme.colors.textContrast,
-                                              ),
-                                            ),
+                                          text: currentRoute?.title ?? '',
+                                          textStyle:
+                                              theme.typography.h5.copyWith(
+                                            color: theme.colors.textContrast,
                                           ),
-                                        ScaffoldContent(
-                                          maxHeight: maxHeight,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  if (footerheight != null) ScaffoldFooter(),
-                                ],
+                                        ),
+                                      ),
+                                    ScaffoldContent(
+                                      maxHeight: maxHeight,
+                                    )
+                                  ],
+                                ),
                               ),
-                            )
-                          else
-                            SliverList(
-                              delegate: SliverChildListDelegate(
-                                getChildren(context, footerheight != null),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
+                              if (footerheight != null) ScaffoldFooter(),
+                            ],
+                          ),
+                        )
+                      else
+                        SliverList(
+                          delegate: SliverChildListDelegate(
+                            getChildren(context, footerheight != null),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-                if (showTitle) ScaffoldTitle(),
               ],
             ),
-          ),
+            if (showTitle) ScaffoldTitle(),
+          ],
         ),
-        ScaffoldDrawer(),
-      ],
+      ),
     );
   }
 }

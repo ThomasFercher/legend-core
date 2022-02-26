@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 
 import '../sections/section.dart';
 
@@ -8,16 +8,17 @@ class SectionNavigation extends InheritedWidget {
     Key? key,
     required this.onNavigate,
     required this.child,
-    List<SectionRouteInfo>? sections,
+    List<SectionInfo>? sections,
   }) : super(key: key, child: child) {
     this.sections = sections ?? [];
   }
 
-  late final List<SectionRouteInfo> sections;
+  late final List<SectionInfo> sections;
+  @override
   final Widget child;
-  final void Function(SectionRouteInfo section) onNavigate;
+  final void Function(SectionInfo section) onNavigate;
 
-  void navigateToSection(SectionRouteInfo section) {
+  void navigateToSection(SectionInfo section) {
     onNavigate(section);
   }
 
@@ -36,7 +37,7 @@ class SectionNavigation extends InheritedWidget {
   static List<Widget> findSections(
     BuildContext context,
     List<Widget> children,
-    List<SectionRouteInfo> sections,
+    List<SectionInfo> sections,
   ) {
     List<Widget> childs = [];
 
@@ -46,14 +47,14 @@ class SectionNavigation extends InheritedWidget {
         Section s = element;
         GlobalKey key = GlobalKey();
 
-        SectionRouteInfo se = sections.singleWhere(
+        SectionInfo se = sections.singleWhere(
           (element) => element.name == s.name,
           orElse: () {
             return sections.last;
           },
         );
         int i = sections.indexOf(se);
-        sections[i] = SectionRouteInfo(name: se.name, key: key);
+        sections[i] = SectionInfo(name: se.name, key: key);
 
         w = Container(
           key: key,

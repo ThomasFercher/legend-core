@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/router/routeInfoProvider.dart';
 
@@ -13,6 +14,7 @@ class RouterProvider extends InheritedWidget {
   final Widget child;
   final List<RouteInfo> routes;
   final List<MenuOption> menuOptions;
+  BuildContext? context;
 
   RouterProvider({
     Key? key,
@@ -26,37 +28,116 @@ class RouterProvider extends InheritedWidget {
     final RouterProvider? result =
         context.dependOnInheritedWidgetOfExactType<RouterProvider>();
     assert(result != null, 'No RouterProvider found in context');
-    return result!;
+    result!.context = context;
+    return result;
   }
 
   void pushPage({required RouteSettings settings}) {
-    Page p = createPage(settings, getRouteWidget(settings, routes));
-    routerDelegate.pushPage(p);
+    RouteInfo info = getRouteWidget(settings, routes);
+
+    if (info is ModalRouteInfo) {
+      Navigator.of(context!).pushNamed(settings.name ?? '/');
+    } else {
+      Page<dynamic> p = createPage(settings, info);
+      routerDelegate.pushPage(p);
+    }
+  }
+
+  static Widget? _getModalBody(RouteSettings s, List<RouteInfo> routes) {
+    if (routes.isEmpty) {
+      return null;
+    }
+
+    for (final RouteInfo info in routes) {
+      if (info.name == s.name) {}
+    }
+
+    return Container();
   }
 
   static RouteInfo getRouteWidget(RouteSettings s, List<RouteInfo> routes) {
     if (routes.isEmpty) {
-      return RouteInfo(name: 'Not Found', page: NotFoundPage());
+      return PageRouteInfo(name: 'Not Found', page: NotFoundPage());
     }
 
     for (final RouteInfo routeinfo in routes) {
       if (routeinfo.name == s.name) {
         return routeinfo;
-      } else if (routeinfo.children != null) {
-        for (final RouteInfo r in routeinfo.children!) {
-          if (r.name == s.name) {
-            return r;
+      }
+      if (routeinfo is PageRouteInfo) {
+        if (routeinfo.children != null) {
+          for (final RouteInfo r in routeinfo.children!) {
+            if (r.name == s.name) {
+              return r;
+            }
+          }
+        }
+      }
+      if (routeinfo is SectionRouteInfo) {
+        if (routeinfo.children != null) {
+          for (final RouteInfo r in routeinfo.children!) {
+            if (r.name == s.name) {
+              return r;
+            }
           }
         }
       }
     }
 
-    return RouteInfo(name: '/notfound', page: NotFoundPage());
+    return PageRouteInfo(name: '/notfound', page: NotFoundPage());
   }
 
-  static Page createPage(RouteSettings s, RouteInfo route) {
+  static Page<dynamic> createPage(
+    RouteSettings s,
+    RouteInfo info,
+  ) {
+    if (info is PageRouteInfo) {
+      return createPageRoute(s, info);
+    } else if (info is SectionRouteInfo) {
+      return createSectionPage(s, info);
+    } else {
+      return createSimplePage(s, info);
+    }
+  }
+
+  static Page<dynamic> createSimplePage(RouteSettings s, RouteInfo route) {
     String now = DateTime.now().millisecondsSinceEpoch.toString();
 
+    return MaterialPage(
+      key: ValueKey(s.name! + now),
+      name: s.name,
+      arguments: s.arguments,
+      child: Material(
+        child: RouteInfoProvider(
+          route: s,
+          child: route.page,
+        ),
+      ),
+    );
+  }
+
+  static Page<dynamic> createPageRoute(RouteSettings s, PageRouteInfo route) {
+    String now = DateTime.now().millisecondsSinceEpoch.toString();
+
+    return MaterialPage(
+      key: ValueKey(s.name! + now),
+      name: s.name,
+      arguments: s.arguments,
+      child: Material(
+        child: RouteInfoProvider(
+          route: s,
+          child: route.page,
+        ),
+      ),
+    );
+  }
+
+  static Page<dynamic> createSectionPage(
+    RouteSettings s,
+    SectionRouteInfo route,
+  ) {
+    String now = DateTime.now().millisecondsSinceEpoch.toString();
+    route.sections;
     return MaterialPage(
       key: ValueKey(s.name! + now),
       name: s.name,

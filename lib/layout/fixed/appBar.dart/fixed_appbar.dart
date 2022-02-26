@@ -19,8 +19,9 @@ class FixedAppBar extends StatefulWidget {
   final WidgetBuilder? builder;
   final Widget? leading;
   final Radius? bottomBorderRadius;
-
+  final BuildContext context;
   final LayoutType? layoutType;
+  late final bool collapsed;
 
   FixedAppBar({
     this.showMenu,
@@ -29,7 +30,48 @@ class FixedAppBar extends StatefulWidget {
     this.bottomBorderRadius,
     this.layoutType,
     this.showSubMenu = true,
-  });
+    required this.context,
+  }) {
+    ThemeProvider theme = context.watch<ThemeProvider>();
+    double screenWidth = MediaQuery.of(context).size.width;
+    double titleWidth = LegendUtils.getTitleIndent(
+          theme.typography.h6,
+          LayoutProvider.of(context)?.title ?? '',
+        ) +
+        (theme.appBarSizing.titleSize ?? 32) +
+        (theme.appBarSizing.borderRadius?.x ?? 0) +
+        theme.appBarSizing.contentPadding.left;
+
+    collapsed = checkIfCollapsed(screenWidth, titleWidth);
+  }
+
+  bool checkIfCollapsed(double screenWidth, double titleWidth) {
+    double split = screenWidth / 8192;
+    double p = (titleWidth / screenWidth);
+    double pW = screenWidth * p;
+
+    double pP = 32 / screenWidth;
+    double pw = screenWidth * pP;
+    double flexP = pw / split;
+
+    double rB = 48 / screenWidth;
+    double rbw = screenWidth * rB;
+    double flexRB = rbw / split;
+
+    double flexTitle = pW / split;
+    double rem = 8192 - flexTitle * 2;
+    double rightident = rem / 2;
+
+    if (rightident < flexTitle) {
+      rightident = rem - flexTitle - flexP;
+    }
+    print('check');
+    if (rightident > flexRB) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   @override
   State<FixedAppBar> createState() => _FixedAppBarState();
@@ -38,20 +80,18 @@ class FixedAppBar extends StatefulWidget {
 class _FixedAppBarState extends State<FixedAppBar> {
   FixedAppBarColors? colors;
   FixedAppBarSizing? sizing;
-  late bool menuCollapsed;
-  late double lastX;
-  late double lastW;
 
-  bool fixedMenuPop = false;
-  bool collapsedMenuPop = false;
+  late bool collapsed;
 
   @override
   void initState() {
+    collapsed = widget.collapsed;
     super.initState();
+  }
 
-    lastX = -1;
-    lastW = -1;
-    menuCollapsed = false;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   BoxDecoration? getCard() {
@@ -70,49 +110,60 @@ class _FixedAppBarState extends State<FixedAppBar> {
         : null;
   }
 
-  void collapsedMenu(ThemeProvider theme, BuildContext context) {
-    double width = SizeProvider.of(context).width / 2;
-    double menuWidth = lastW / 2;
-    double titleWidth =
-        LegendUtils.getTitleIndent(theme.typography.h6, 'Legend Design');
-    double icon = theme.appBarSizing.titleSize ?? 64;
+  int getFlexMenu(double screenWidth, double titleWidth) {
+    double split = screenWidth / 8192;
+    double p = (titleWidth / screenWidth);
+    double pW = screenWidth * p;
 
-    double horizontalPadding = theme.appBarSizing.contentPadding.left;
-    bool showCollapsedMenu =
-        width - menuWidth - titleWidth - icon - horizontalPadding < 0;
+    double pP = 32 / screenWidth;
+    double pw = screenWidth * pP;
+    double flexP = pw / split;
 
-    if (showCollapsedMenu != menuCollapsed && !collapsedMenuPop) {
-      setState(() {
-        collapsedMenuPop = true;
-        fixedMenuPop = false;
-        menuCollapsed = showCollapsedMenu;
-      });
+    double rB = 48 / screenWidth;
+    double rbw = screenWidth * rB;
+    double flexRB = rbw / split;
+
+    double flexTitle = pW / split;
+    double rem = 8192 - flexTitle * 2;
+    double rightident = rem / 2;
+
+    if (rightident < flexTitle) {
+      rightident = rem - flexTitle - flexP;
     }
+
+    if (rightident < flexRB) {
+      collapsed = true;
+    }
+    print('left');
+    return rightident.ceil();
   }
 
-  void fixedMenu(ThemeProvider theme, double x, double w, String title) {
-    double icon = theme.appBarSizing.titleSize ?? 64;
-    icon += theme.appBarSizing.contentPadding.left;
-    double titleWidth = LegendUtils.getTitleIndent(theme.typography.h6, title);
+  int getFlexTitle(double screenWidth, double titleWidth) {
+    double split = screenWidth / 8192;
+    double p = (titleWidth / screenWidth);
+    double pW = screenWidth * p;
 
-    bool showFixedMenu = x >= titleWidth + icon;
+    double pP = 32 / screenWidth;
+    double pw = screenWidth * pP;
+    double flexP = pw / split;
 
-    if (!showFixedMenu != menuCollapsed && !fixedMenuPop) {
-      setState(() {
-        fixedMenuPop = true;
-        collapsedMenuPop = false;
-        lastW = w;
-        lastX = x;
-        menuCollapsed = !showFixedMenu;
-      });
+    double flexTitle = pW / split;
+    double rem = 8192 - 2 * flexTitle;
+    double leftident = rem / 2;
+
+    if (leftident < flexTitle + flexP) {
+      leftident = flexTitle + flexP;
     }
+    print('right');
+    return leftident.ceil();
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    ThemeProvider theme = context.watch<ThemeProvider>();
     sizing = theme.appBarSizing;
     colors = theme.appBarColors;
+
     bool isMobile = SizeProvider.of(context).isMobile;
     bool isSubRoute =
         RouteInfoProvider.getCurrentMenuOption(context)?.isUnderlying ?? false;
@@ -120,153 +171,181 @@ class _FixedAppBarState extends State<FixedAppBar> {
         !(widget.showMenu ?? true) &&
         widget.layoutType == LayoutType.FixedHeader;
 
-    if (menuCollapsed) {
-      collapsedMenu(theme, context);
-    }
+    double screenWidth = MediaQuery.of(context).size.width;
+    double titleWidth =
+        LegendUtils.getTitleIndent(theme.typography.h6, 'Legend Design') +
+            (sizing?.titleSize ?? 32) +
+            (sizing?.borderRadius?.x ?? 0) +
+            (sizing?.contentPadding.left ?? 0);
 
-    return SliverAppBar(
-      backgroundColor: colors?.backgroundColor,
-      shape: sizing?.shape,
-      leadingWidth: 0,
-      leading: Container(
-        width: 0,
-      ),
-      actions: [
-        Container(
+    return Container(
+      child: SliverAppBar(
+        backgroundColor: colors?.backgroundColor,
+        shape: sizing?.shape,
+        leadingWidth: 0,
+        leading: Container(
           width: 0,
-        )
-      ],
-      title: Container(
-        height: theme.appBarSizing.appBarHeight +
-            (sizing?.contentPadding.vertical ?? 0.0),
-        padding: EdgeInsets.only(
-          top: sizing?.contentPadding.top ?? 0,
-          bottom: sizing?.contentPadding.bottom ?? 0,
         ),
-        child: Hero(
-          tag: ValueKey('appBar'),
+        actions: [
+          Container(
+            width: 0,
+          )
+        ],
+        title: Container(
+          height: theme.appBarSizing.appBarHeight +
+              (sizing?.contentPadding.vertical ?? 0.0),
+          padding: EdgeInsets.only(
+            top: sizing?.contentPadding.top ?? 0,
+            bottom: sizing?.contentPadding.bottom ?? 0,
+          ),
           child: Material(
             color: Colors.transparent,
-            child: Stack(
-              children: [
-                Positioned(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: sizing?.contentPadding.left ?? 0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (showBackArrow)
-                          LegendAnimatedIcon(
-                              icon: Icons.arrow_back_ios,
-                              theme: LegendAnimtedIconTheme(
-                                enabled: theme.colors.selectionColor,
-                                disabled: theme.colors.appBarColors.foreground,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              }),
-                        if ((widget.layoutType != LayoutType.FixedSider &&
-                                widget.layoutType !=
-                                    LayoutType.FixedHeaderSider) ||
-                            isMobile)
-                          if (LayoutProvider.of(context)?.logo != null)
-                            Container(
-                              width: sizing?.titleSize ?? 64,
-                              height: sizing?.titleSize ?? 64,
-                              margin: EdgeInsets.only(
-                                right: 6,
-                              ),
-                              alignment: Alignment.centerRight,
-                              child: LayoutProvider.of(context)!.logo,
-                            ),
-                        if ((widget.layoutType != LayoutType.FixedSider &&
-                                widget.layoutType !=
-                                    LayoutType.FixedHeaderSider) ||
-                            isMobile)
-                          if (LayoutProvider.of(context)?.title != null)
-                            Center(
-                              child: LegendText(
-                                text: LayoutProvider.of(context)!.title!,
-                                textStyle: theme.typography.h6.copyWith(
-                                  color: theme.colors.appBarColors.foreground,
-                                ),
-                              ),
-                            ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (!menuCollapsed && (widget.showMenu ?? true))
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      decoration: getCard(),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: sizing?.borderRadius?.x ?? 0,
-                      ),
-                      child: FixedMenu(
-                        onPosChanged: (x, w) {
-                          fixedMenu(
-                              theme, x, w, LayoutProvider.of(context)!.title!);
-                        },
-                        iconColor: theme.appBarColors.iconColor,
-                        selected: theme.appBarColors.selectedColor,
-                        backgroundColor: theme.appBarColors.backgroundColor,
-                        foreground: theme.appBarColors.foreground,
-                        showSubMenu: widget.showSubMenu,
-                      ),
-                    ),
-                  ),
-                Positioned(
-                  right: sizing?.contentPadding.right ?? 0,
-                  height: sizing?.appBarHeight,
-                  child: Row(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: sizing?.contentPadding.left ?? 0,
+              ),
+              child: Stack(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        child: (widget.builder != null)
-                            ? Container(
-                                height: theme.appBarSizing.appBarHeight,
-                                alignment: Alignment.center,
-                                decoration: getCard(),
-                                child: Builder(
-                                  builder: widget.builder!,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (showBackArrow)
+                              LegendAnimatedIcon(
+                                  icon: Icons.arrow_back_ios,
+                                  theme: LegendAnimtedIconTheme(
+                                    enabled: theme.colors.selectionColor,
+                                    disabled:
+                                        theme.colors.appBarColors.foreground,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
+                            if ((widget.layoutType != LayoutType.FixedSider &&
+                                    widget.layoutType !=
+                                        LayoutType.FixedHeaderSider) ||
+                                isMobile)
+                              if (LayoutProvider.of(context)?.logo != null)
+                                Container(
+                                  width: sizing?.titleSize ?? 64,
+                                  height: sizing?.titleSize ?? 64,
+                                  margin: EdgeInsets.only(
+                                    right: 6,
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                  child: LayoutProvider.of(context)!.logo,
                                 ),
-                              )
-                            : null,
-                      ),
-                      if (menuCollapsed && (widget.showMenu ?? true))
-                        Container(
-                          margin: EdgeInsets.only(
-                            left: sizing?.spacing ?? 8,
-                          ),
-                          decoration: getCard(),
-                          child: CollapsedMenu(
-                            width: 48,
-                          ),
+                            if ((widget.layoutType != LayoutType.FixedSider &&
+                                    widget.layoutType !=
+                                        LayoutType.FixedHeaderSider) ||
+                                isMobile)
+                              if (LayoutProvider.of(context)?.title != null)
+                                Center(
+                                  child: LegendText(
+                                    text: LayoutProvider.of(context)!.title!,
+                                    textStyle: theme.typography.h6.copyWith(
+                                      color:
+                                          theme.colors.appBarColors.foreground,
+                                    ),
+                                  ),
+                                ),
+                          ],
                         ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            child: (widget.builder != null)
+                                ? Container(
+                                    height: theme.appBarSizing.appBarHeight,
+                                    alignment: Alignment.center,
+                                    decoration: getCard(),
+                                    child: Builder(
+                                      builder: widget.builder!,
+                                    ),
+                                  )
+                                : null,
+                          ),
+                          if (collapsed && (widget.showMenu ?? true))
+                            Builder(builder: (context) {
+                              collapsed = widget.checkIfCollapsed(
+                                  screenWidth -
+                                      (sizing?.contentPadding.left ?? 0),
+                                  titleWidth);
+                              return Container(
+                                margin: EdgeInsets.only(
+                                  left: sizing?.spacing ?? 8,
+                                ),
+                                decoration: getCard(),
+                                child: CollapsedMenu(
+                                  width: 48,
+                                ),
+                              );
+                            }),
+                        ],
+                      ),
                     ],
                   ),
-                ),
-              ],
+                  if (!collapsed)
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: getFlexTitle(
+                              screenWidth - (sizing?.contentPadding.left ?? 0),
+                              titleWidth),
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          decoration: getCard(),
+                          child: Opacity(
+                            opacity: 1,
+                            child: FixedMenu(
+                              iconColor: theme.appBarColors.iconColor,
+                              selected: theme.appBarColors.selectedColor,
+                              backgroundColor:
+                                  theme.appBarColors.backgroundColor,
+                              foreground: theme.appBarColors.foreground,
+                              showSubMenu: widget.showSubMenu,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: getFlexMenu(
+                              screenWidth - (sizing?.contentPadding.left ?? 0),
+                              titleWidth),
+                          child: Container(
+                            child: Container(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
             ),
           ),
         ),
+        titleSpacing: 0,
+        toolbarHeight: theme.appBarSizing.appBarHeight +
+            (sizing?.contentPadding.vertical ?? 0.0),
+        expandedHeight: theme.appBarSizing.appBarHeight +
+            (sizing?.contentPadding.vertical ?? 0.0),
+        collapsedHeight: theme.appBarSizing.appBarHeight +
+            (sizing?.contentPadding.vertical ?? 0.0),
+        pinned: sizing?.pinned ?? false,
+        snap: sizing?.floating ?? false,
+        floating: sizing?.floating ?? false,
+        elevation: 12.0,
+        automaticallyImplyLeading: false,
       ),
-      titleSpacing: 0,
-      toolbarHeight: theme.appBarSizing.appBarHeight +
-          (sizing?.contentPadding.vertical ?? 0.0),
-      expandedHeight: theme.appBarSizing.appBarHeight +
-          (sizing?.contentPadding.vertical ?? 0.0),
-      collapsedHeight: theme.appBarSizing.appBarHeight +
-          (sizing?.contentPadding.vertical ?? 0.0),
-      pinned: sizing?.pinned ?? false,
-      snap: sizing?.floating ?? false,
-      floating: sizing?.floating ?? false,
-      elevation: 12.0,
-      automaticallyImplyLeading: false,
     );
   }
 }

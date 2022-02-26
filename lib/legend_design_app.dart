@@ -6,8 +6,6 @@ import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'layout/drawers/legend_drawer_info.dart';
-import 'layout/drawers/legend_drawer_provider.dart';
 import 'layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
 import 'objects/menu_option.dart';
 import 'router/delegate.dart';
@@ -20,7 +18,6 @@ class LegendApp extends StatelessWidget {
   final routerDelegate = WebRouterDelegate();
   final List<MenuOption> menuOptions;
   final List<RouteInfo> routes;
-  final List<LegendDrawerRoute> drawerRoutes;
   final Widget? logo;
   final ThemeProvider theme;
   final FixedFooter? globalFooter;
@@ -33,7 +30,6 @@ class LegendApp extends StatelessWidget {
     Key? key,
     required this.menuOptions,
     required this.routes,
-    required this.drawerRoutes,
     this.logo,
     required this.theme,
     this.future,
@@ -54,11 +50,6 @@ class LegendApp extends StatelessWidget {
           menuOptions.first,
         ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => LegendDrawerProvider(
-          drawerRoutes: drawerRoutes,
-        ),
-      )
     ];
     if (providers != null) _providers.addAll(providers!);
 
@@ -90,9 +81,7 @@ class LegendApp extends StatelessWidget {
                         // Implement as method of LegendTheme
                         colorScheme: ColorScheme(
                           primary: theme.colors.primaryColor,
-                          primaryVariant: theme.colors.primaryColor,
                           secondary: theme.colors.secondaryColor,
-                          secondaryVariant: theme.colors.secondaryColor,
                           surface: theme.colors.foreground[1],
                           background: Colors.transparent,
                           error: Colors.redAccent,

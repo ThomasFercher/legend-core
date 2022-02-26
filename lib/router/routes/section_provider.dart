@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 
 class SectionProvider extends InheritedWidget {
   SectionProvider({
@@ -8,8 +8,9 @@ class SectionProvider extends InheritedWidget {
     required this.sections,
   }) : super(key: key, child: child);
 
+  @override
   final Widget child;
-  final List<SectionRouteInfo>? sections;
+  final List<SectionInfo>? sections;
 
   static SectionProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<SectionProvider>();

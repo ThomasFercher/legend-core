@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:legend_design_core/router/routes/popup_route/legend_popup_route.dart';
+import 'package:legend_design_core/router/routes/popup_route/popup_route_config.dart';
 
 import 'router_provider.dart';
 import 'routes/route_info.dart';
 
-RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<List<RouteSettings>> {
@@ -30,7 +31,20 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
       key: navigatorKey,
       observers: [routeObserver],
       onPopPage: _onPopPage,
+      onGenerateRoute: onGenerateRoute,
     );
+  }
+
+  Route<dynamic>? onGenerateRoute(RouteSettings s) {
+    RouteInfo info = RouterProvider.getRouteWidget(s, _routes);
+
+    if (info is ModalRouteInfo) {
+      return LegendPopupRoute(
+          settings: s,
+          widget: info.page,
+          config: PopupRouteConfig(aligment: Alignment.centerRight));
+    }
+    return null;
   }
 
   @override
@@ -67,20 +81,24 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
 
   @override
   Future<void> setNewRoutePath(List<RouteSettings> configuration) {
-    List<Page> p = configuration.map((route) {
-      return RouterProvider.createPage(
-        route,
-        RouterProvider.getRouteWidget(route, _routes),
+    List<Page> pages = [];
+    for (final RouteSettings s in configuration) {
+      pages.add(
+        RouterProvider.createPage(
+          s,
+          RouterProvider.getRouteWidget(s, _routes),
+        ),
       );
-    }).toList();
-    _setPath(p);
+    }
+
+    _setPath(pages);
     return Future.value(null);
   }
 
   void _setPath(List<Page> pages) {
     _pages.clear();
     _pages.addAll(pages);
-    if (_pages.first.name != '/')
+    if (_pages.first.name != '/') {
       _pages.insert(
         0,
         RouterProvider.createPage(
@@ -88,6 +106,7 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
           RouterProvider.getRouteWidget(RouteSettings(name: '/'), _routes),
         ),
       );
+    }
     notifyListeners();
   }
 }

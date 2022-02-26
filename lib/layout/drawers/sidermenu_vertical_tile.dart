@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
 import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/router/routes/section_route_info.dart';
+import 'package:legend_design_core/router/routes/section_info.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/src/provider.dart';
@@ -130,7 +129,7 @@ class _SiderMenuVerticalTileState extends State<SiderMenuVerticalTile>
         onTap: () {
           if (widget.isSection) {
             SectionNavigation.of(context)
-                ?.navigateToSection(SectionRouteInfo(name: widget.path));
+                ?.navigateToSection(SectionInfo(name: widget.path));
           } else {
             RouterProvider.of(context).pushPage(
               settings: RouteSettings(name: widget.path),

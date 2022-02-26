@@ -4,8 +4,6 @@ import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
 import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
@@ -30,14 +28,10 @@ class MenuDrawer extends StatelessWidget {
       ),
     );
 
-    SizeProvider ss = SizeProvider.of(context);
-
-    double width;
-
-    if (ss.screenSize == ScreenSize.Small) {
-      width = ss.width * 3 / 4;
-    } else {
-      width = 320;
+    double mWidth = MediaQuery.of(context).size.width;
+    double width = 320;
+    if (mWidth <= width) {
+      width = mWidth * 3 / 4;
     }
 
     return Container(

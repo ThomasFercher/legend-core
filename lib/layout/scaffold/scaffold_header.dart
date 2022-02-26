@@ -17,6 +17,7 @@ class ScaffoldHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeProvider theme = context.watch<ThemeProvider>();
     bool isMobile = SizeProvider.of(context).isMobile;
+
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
@@ -25,6 +26,7 @@ class ScaffoldHeader extends StatelessWidget {
           builder: scaffold.appBarBuilder,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
+          context: context,
         );
       case LayoutType.FixedHeader:
         return FixedAppBar(
@@ -32,6 +34,7 @@ class ScaffoldHeader extends StatelessWidget {
           showMenu: !isMobile ? scaffold.showAppBarMenu : false,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
+          context: context,
         );
       default:
         return SliverToBoxAdapter(

@@ -45,7 +45,9 @@ class MyRouteInformationParser
   }
 
   String _restoreArguments(RouteSettings routeSettings) {
-    if (routeSettings.name != '/products') return '';
+    /* if (routeSettings.name != '/products') return '';
     return '?id=${routeSettings.arguments}';
+  */
+    return '';
   }
 }
