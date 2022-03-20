@@ -15,7 +15,7 @@ dependencies:
   url_launcher: ^6.0.12
   animations: ^2.0.2
   http: ^0.13.4
-  rive: ^0.8.1
+  #rive: ^0.8.1
 
 
 dev_dependencies:

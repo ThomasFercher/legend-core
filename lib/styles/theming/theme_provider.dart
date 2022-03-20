@@ -53,6 +53,10 @@ class ThemeProvider extends ChangeNotifier {
     );
   }
 
+  int getSizingIndex() {
+    return sizingTheme.i;
+  }
+
   LegendColorPalette get colors {
     int index = colorTheme.type.index;
 
@@ -66,6 +70,8 @@ class ThemeProvider extends ChangeNotifier {
   // Getter Clean
 
   LegendSizing get sizing => sizingTheme.sizing;
+
+  List<double> get splits => sizingTheme.splits;
 
   FixedAppBarColors get appBarColors => colors.appBarColors;
 

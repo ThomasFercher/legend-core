@@ -9,3 +9,12 @@ extension ExpandWidget on Widget {
     }
   }
 }
+
+extension HttpParameter on dynamic {
+  String asHttpParameter(
+    String s, {
+    bool first = false,
+  }) {
+    return first ? '?$s=$this' : '&$s=$this';
+  }
+}

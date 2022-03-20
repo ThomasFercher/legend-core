@@ -30,6 +30,7 @@
 .pub/
 build/
 
+
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
@@ -73,3 +74,5 @@ build/
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+pubspec.lock
+pubspec.yaml

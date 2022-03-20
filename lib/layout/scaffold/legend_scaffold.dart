@@ -39,6 +39,7 @@ class LegendScaffold extends StatelessWidget {
   final double verticalChildrenSpacing;
   final List<SingleChildWidget>? providers;
   final bool disableContentDecoration;
+  final bool showContentHeader;
 
   final bool showSiderMenu;
   final bool showSiderSubMenu;
@@ -46,6 +47,7 @@ class LegendScaffold extends StatelessWidget {
   final bool showSectionMenu;
   final bool showTopSubMenu;
   final bool showSiderChildMenu;
+  final bool shareParentSiderMenu;
 
   final bool enableDefaultSettings;
   final bool singlePage;
@@ -57,6 +59,7 @@ class LegendScaffold extends StatelessWidget {
     Key? key,
     required this.pageName,
     required this.layoutType,
+    this.showContentHeader = false,
     this.onActionButtonPressed,
     this.siderBuilder,
     this.showSiderMenu = false,
@@ -76,6 +79,7 @@ class LegendScaffold extends StatelessWidget {
     this.appBarBottom,
     this.disableContentDecoration = false,
     this.enableDefaultSettings = false,
+    this.shareParentSiderMenu = false,
     this.providers,
     this.appBarBottomSize,
   }) : super(key: key);
@@ -268,7 +272,7 @@ class LegendScaffold extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    if (currentRoute?.isUnderlying ?? false)
+                                    if (showContentHeader)
                                       SizedBox(
                                         height: 48,
                                         child: LegendText(

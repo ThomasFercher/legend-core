@@ -28,6 +28,7 @@ class FixedSider extends StatelessWidget {
   final LayoutType layoutType;
   final bool enableDefaultSettings;
   final WidgetBuilder? builder;
+  final bool showParentMenu;
 
   const FixedSider({
     this.showMenu = true,
@@ -35,6 +36,7 @@ class FixedSider extends StatelessWidget {
     this.showSubMenu = false,
     this.showChildMenu = false,
     this.enableDefaultSettings = false,
+    this.showParentMenu = false,
     this.builder,
     this.layoutType = LayoutType.FixedHeader,
   });
@@ -95,6 +97,9 @@ class Sider extends StatelessWidget {
     MenuOption? current = RouteInfoProvider.getCurrentMenuOption(context);
 
     List<MenuOption> childMenuoptions = current?.children ?? [];
+    List<MenuOption> parentMenuoptions =
+        RouteInfoProvider.getParentMenuOption(context)?.children ?? [];
+
     List<DrawerMenuTile> childMenuTiles = List.of(
       childMenuoptions.map(
         (option) => DrawerMenuTile(
@@ -110,7 +115,29 @@ class Sider extends StatelessWidget {
       ),
     );
 
+    List<DrawerMenuTile> parentMenuTiles = List.of(
+      parentMenuoptions.map(
+        (option) => DrawerMenuTile(
+          icon: option.icon,
+          path: option.page,
+          title: option.title,
+          collapsed: false,
+          activeColor: theme.appBarColors.selectedColor,
+          backgroundColor: theme.colors.primaryColor,
+          color: theme.appBarColors.foreground,
+          left: false,
+        ),
+      ),
+    );
+
     List<Widget> children = [
+      Container(
+        height: 24,
+        color: theme.colors.primaryColor,
+        margin: EdgeInsets.only(
+          bottom: 12,
+        ),
+      ),
       if (fixedSider.showMenu)
         FixedSiderMenu(
           backgroundColorSub: LegendColorPalette.darken(
@@ -157,6 +184,14 @@ class Sider extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      if (fixedSider.showParentMenu)
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: ListView(
+            children: parentMenuTiles,
+            shrinkWrap: true,
           ),
         ),
       if (fixedSider.showSectionMenu && sectionTiles.isNotEmpty)

@@ -65,7 +65,7 @@ class FixedAppBar extends StatefulWidget {
     if (rightident < flexTitle) {
       rightident = rem - flexTitle - flexP;
     }
-    print('check');
+
     if (rightident > flexRB) {
       return false;
     } else {
@@ -134,7 +134,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
     if (rightident < flexRB) {
       collapsed = true;
     }
-    print('left');
+
     return rightident.ceil();
   }
 
@@ -154,7 +154,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
     if (leftident < flexTitle + flexP) {
       leftident = flexTitle + flexP;
     }
-    print('right');
+
     return leftident.ceil();
   }
 

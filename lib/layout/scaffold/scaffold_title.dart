@@ -13,7 +13,7 @@ class ScaffoldTitle extends StatelessWidget {
     ThemeProvider theme = context.watch<ThemeProvider>();
 
     return Positioned(
-      left: theme.appBarSizing.contentPadding.horizontal,
+      left: theme.appBarSizing.contentPadding.left,
       top: theme.appBarSizing.contentPadding.top,
       child: Material(
         color: Colors.transparent,

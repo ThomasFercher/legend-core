@@ -3,7 +3,6 @@ import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/router/router_provider.dart';
 import 'package:legend_design_core/styles/theming/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
 
 class CollapsedMenu extends StatefulWidget {
   final double width;
@@ -18,18 +17,6 @@ class CollapsedMenu extends StatefulWidget {
 }
 
 class _CollapsedMenuState extends State<CollapsedMenu> {
-  SMITrigger? _bump;
-
-  void _onRiveInit(Artboard artboard) {
-    final controller = StateMachineController.fromArtboard(artboard, 'Show');
-    artboard.addController(controller!);
-    _bump = controller.findInput<bool>('Show') as SMITrigger?;
-  }
-
-  void tap() {
-    _bump?.fire();
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeProvider theme = context.watch<ThemeProvider>();
@@ -38,7 +25,6 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
       width: widget.width,
       child: GestureDetector(
         onTap: () {
-          tap();
           RouterProvider.of(context).pushPage(
             settings: const RouteSettings(name: '/siderMenu'),
           );
