@@ -2,26 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/router/routes/popup_route/legend_popup_route.dart';
 import 'package:legend_design_core/router/routes/popup_route/popup_route_config.dart';
 
-import 'router_provider.dart';
-import 'routes/route_info.dart';
+import 'legend_router.dart';
 
-RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-
-class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
+class LegendRouterDelegate extends RouterDelegate<List<RouteSettings>>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<List<RouteSettings>> {
   final List<Page> _pages = [];
   List<RouteInfo> _routes = [];
 
   @override
   Widget build(BuildContext context) {
-    _routes = RouterProvider.of(context).routes;
+    _routes = LegendRouter.of(context).routes;
 
     if (_pages.isEmpty) {
       _pages.insert(
         0,
-        RouterProvider.createPage(
+        LegendRouter.createPage(
           RouteSettings(name: '/'),
-          RouterProvider.getRouteWidget(RouteSettings(name: '/'), _routes),
+          LegendRouter.getRouteWidget(RouteSettings(name: '/'), _routes),
         ),
       );
     }
@@ -29,14 +26,13 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
     return Navigator(
       pages: List.of(_pages),
       key: navigatorKey,
-      observers: [routeObserver],
       onPopPage: _onPopPage,
       onGenerateRoute: onGenerateRoute,
     );
   }
 
   Route<dynamic>? onGenerateRoute(RouteSettings s) {
-    RouteInfo info = RouterProvider.getRouteWidget(s, _routes);
+    RouteInfo info = LegendRouter.getRouteWidget(s, _routes);
 
     if (info is ModalRouteInfo) {
       return LegendPopupRoute(
@@ -84,9 +80,9 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
     List<Page> pages = [];
     for (final RouteSettings s in configuration) {
       pages.add(
-        RouterProvider.createPage(
+        LegendRouter.createPage(
           s,
-          RouterProvider.getRouteWidget(s, _routes),
+          LegendRouter.getRouteWidget(s, _routes),
         ),
       );
     }
@@ -101,9 +97,9 @@ class WebRouterDelegate extends RouterDelegate<List<RouteSettings>>
     if (_pages.first.name != '/') {
       _pages.insert(
         0,
-        RouterProvider.createPage(
+        LegendRouter.createPage(
           RouteSettings(name: '/'),
-          RouterProvider.getRouteWidget(RouteSettings(name: '/'), _routes),
+          LegendRouter.getRouteWidget(RouteSettings(name: '/'), _routes),
         ),
       );
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-class MyRouteInformationParser
+class LegendRouteInformationParser
     extends RouteInformationParser<List<RouteSettings>> {
-  const MyRouteInformationParser() : super();
+  const LegendRouteInformationParser() : super();
 
   @override
   Future<List<RouteSettings>> parseRouteInformation(

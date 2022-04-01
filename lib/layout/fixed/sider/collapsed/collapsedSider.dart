@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/router/routes/section_info.dart';
-import 'package:legend_design_core/router/routes/section_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/router/routes/section/section_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/utils/extensions.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -31,8 +29,8 @@ class CollapsedSider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    LegendTheme theme = Provider.of<LegendTheme>(context);
+    List<MenuOption> options = LegendRouter.of(context).menuOptions;
     List<SiderMenuVerticalTile> tiles = List.of(
       options.map(
         (option) => SiderMenuVerticalTile(
@@ -41,8 +39,8 @@ class CollapsedSider extends StatelessWidget {
           title: option.title,
           collapsed: true,
           activeColor: Colors.tealAccent,
-          backgroundColor: theme.colors.primaryColor,
-          color: theme.colors.textColorLight,
+          backgroundColor: theme.colors.primary,
+          color: theme.colors.textOnDark,
         ),
       ),
     );
@@ -55,9 +53,9 @@ class CollapsedSider extends StatelessWidget {
           path: option.name,
           isSection: true,
           collapsed: true,
-          activeColor: theme.colors.selectionColor,
-          backgroundColor: theme.colors.primaryColor,
-          color: theme.colors.textColorLight,
+          activeColor: theme.colors.selection,
+          backgroundColor: theme.colors.primary,
+          color: theme.colors.textOnDark,
         ),
       ),
     );
@@ -65,12 +63,13 @@ class CollapsedSider extends StatelessWidget {
     return Container(
       width: 80,
       height: MediaQuery.of(context).size.height,
-      color: theme.appBarColors.backgroundColor,
+      color: theme.appBarPalette.background,
+      padding: EdgeInsets.only(top: theme.sizing.appBarSizing.appBarHeight),
       child: ListView(
         children: [
           if (layoutType == LayoutType.FixedSider)
             Container(
-              color: theme.colors.siderColorTheme.background,
+              color: theme.colors.siderPalette.background,
               padding: const EdgeInsets.symmetric(
                 vertical: 12.0,
               ),
@@ -83,17 +82,16 @@ class CollapsedSider extends StatelessWidget {
               ),
             ),
           Divider(
-            color: theme.colors.secondaryColor.withOpacity(0.2),
+            color: theme.colors.secondary.withOpacity(0.2),
             height: 1.0,
             thickness: 1.0,
           ),
           if (showMenu)
             FixedSiderMenu(
               isCollapsed: true,
-              backgroundColorSub:
-                  LegendColorPalette.darken(theme.colors.primaryColor, 0.05),
-              foregroundColor: LegendColorPalette.darken(
-                  theme.colors.siderColorTheme.foreground, 0.05),
+              backgroundColorSub: theme.colors.primary.darken(0.05),
+              foregroundColor:
+                  theme.colors.siderPalette.foreground.darken(0.05),
             ),
           if (showSectionMenu)
             Padding(

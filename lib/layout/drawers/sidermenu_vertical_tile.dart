@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/router/routes/section_info.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/router/routes/section/section_info.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/src/provider.dart';
 
@@ -90,7 +90,7 @@ class _SiderMenuVerticalTileState extends State<SiderMenuVerticalTile>
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return Container(
       height: 48,
@@ -131,7 +131,7 @@ class _SiderMenuVerticalTileState extends State<SiderMenuVerticalTile>
             SectionNavigation.of(context)
                 ?.navigateToSection(SectionInfo(name: widget.path));
           } else {
-            RouterProvider.of(context).pushPage(
+            LegendRouter.of(context).pushPage(
               settings: RouteSettings(name: widget.path),
             );
           }

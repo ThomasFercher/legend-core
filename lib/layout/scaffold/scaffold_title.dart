@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,7 @@ class ScaffoldTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return Positioned(
       left: theme.appBarSizing.contentPadding.left,
@@ -42,7 +42,7 @@ class ScaffoldTitle extends StatelessWidget {
                     child: LegendText(
                       text: LayoutProvider.of(context)!.title!,
                       textStyle: theme.typography.h6.copyWith(
-                        color: theme.colors.appBarColors.foreground,
+                        color: theme.colors.appBarPalette.foreground,
                       ),
                     ),
                   ),

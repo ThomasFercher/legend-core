@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatelessWidget {
@@ -28,10 +27,10 @@ class FixedMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    LegendTheme theme = Provider.of<LegendTheme>(context);
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
 
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    List<MenuOption> options = LegendRouter.of(context).menuOptions;
 
     List<MenuOptionHeader> headers = [];
 

@@ -1,22 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
 
 import '../objects/menu_option.dart';
-import 'delegate.dart';
 import 'errorpages/notfound.dart';
+import 'router_delegate.dart';
 import 'routes/route_info.dart';
-import 'routes/section_provider.dart';
+import 'routes/section/section_provider.dart';
 
-class RouterProvider extends InheritedWidget {
-  final WebRouterDelegate routerDelegate;
+export '../objects/menu_option.dart';
+export 'errorpages/notfound.dart';
+export 'router_delegate.dart';
+export 'routes/route_info.dart';
+export 'routes/section/section_provider.dart';
+
+// ignore: must_be_immutable
+class LegendRouter extends InheritedWidget {
+  final LegendRouterDelegate routerDelegate;
   @override
   final Widget child;
   final List<RouteInfo> routes;
   final List<MenuOption> menuOptions;
   BuildContext? context;
 
-  RouterProvider({
+  LegendRouter({
     Key? key,
     required this.routerDelegate,
     required this.child,
@@ -24,9 +30,9 @@ class RouterProvider extends InheritedWidget {
     required this.menuOptions,
   }) : super(key: key, child: child);
 
-  static RouterProvider of(BuildContext context) {
-    final RouterProvider? result =
-        context.dependOnInheritedWidgetOfExactType<RouterProvider>();
+  static LegendRouter of(BuildContext context) {
+    final LegendRouter? result =
+        context.dependOnInheritedWidgetOfExactType<LegendRouter>();
     assert(result != null, 'No RouterProvider found in context');
     result!.context = context;
     return result;
@@ -155,7 +161,7 @@ class RouterProvider extends InheritedWidget {
   }
 
   @override
-  bool updateShouldNotify(covariant RouterProvider old) =>
+  bool updateShouldNotify(covariant LegendRouter old) =>
       routerDelegate.currentConfiguration !=
       old.routerDelegate.currentConfiguration;
 }

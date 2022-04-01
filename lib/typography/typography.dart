@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class LegendTypographyColors {
+class TypographyColors {
   final List<Color>? textColors;
   final Color? baseColor;
 
-  LegendTypographyColors({
+  TypographyColors({
     this.textColors,
     this.baseColor,
   });
@@ -61,7 +61,7 @@ class LegendTypographySizing {
 
 class LegendTypography {
   late final LegendTypographySizing? sizing;
-  late final LegendTypographyColors? colors;
+  late final TypographyColors? colors;
   late final TextStyle baseTextStyle;
   late final TextStyle h0;
   late final TextStyle h1;
@@ -73,7 +73,7 @@ class LegendTypography {
 
   LegendTypography.applyStyles({
     required LegendTypographySizing sizing,
-    required LegendTypographyColors colors,
+    required TypographyColors colors,
     required LegendTypography typography,
   }) {
     Color? textColor = ((colors.textColors?.length ?? 0) > 0)
@@ -125,7 +125,7 @@ class LegendTypography {
     );
 
     textColor = ((colors.textColors?.length ?? 0) > 0)
-        ? colors.textColors![0]
+        ? colors.textColors![6]
         : colors.baseColor;
     h6 = typography.h6.copyWith(
       color: textColor,

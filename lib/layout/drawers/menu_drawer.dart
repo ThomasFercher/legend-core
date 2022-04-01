@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    LegendTheme theme = Provider.of<LegendTheme>(context);
+    List<MenuOption> options = LegendRouter.of(context).menuOptions;
     List<DrawerMenuTile> tiles = List.of(
       options.map(
         (option) => DrawerMenuTile(
@@ -20,9 +19,9 @@ class MenuDrawer extends StatelessWidget {
           title: option.title,
           path: option.page,
           left: false,
-          backgroundColor: theme.colors.cardBackgroundColor,
-          activeColor: theme.colors.selectionColor,
-          color: theme.colors.primaryColor,
+          backgroundColor: theme.colors.background[1],
+          activeColor: theme.colors.selection,
+          color: theme.colors.primary,
           collapsed: true,
         ),
       ),
@@ -39,7 +38,7 @@ class MenuDrawer extends StatelessWidget {
       child: Drawer(
         elevation: 4,
         child: Container(
-          color: theme.colors.cardBackgroundColor,
+          color: theme.colors.background[1],
           padding: const EdgeInsets.symmetric(
             vertical: 32,
           ),
@@ -60,7 +59,7 @@ class MenuDrawer extends StatelessWidget {
                         ),
                         text: 'Legend Design',
                         textStyle: theme.typography.h5.copyWith(
-                          color: theme.colors.textColorDark,
+                          color: theme.colors.textOnLight,
                         ),
                       ),
                     ),
@@ -68,7 +67,7 @@ class MenuDrawer extends StatelessWidget {
                       icon: Icons.close,
                       disableShadow: true,
                       theme: LegendAnimtedIconTheme(
-                        enabled: theme.colors.selectionColor,
+                        enabled: theme.colors.selection,
                         disabled: theme.colors.foreground[1],
                       ),
                       onPressed: () {
@@ -91,8 +90,8 @@ class MenuDrawer extends StatelessWidget {
                 ),
               ),
               FixedSiderMenu(
-                backgroundColor: theme.colors.cardBackgroundColor,
-                foregroundColor: theme.colors.primaryColor,
+                backgroundColor: theme.colors.background[1],
+                foregroundColor: theme.colors.primary,
               )
             ],
           ),

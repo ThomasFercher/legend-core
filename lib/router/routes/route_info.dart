@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/router/routes/section_info.dart';
+import 'package:legend_design_core/router/routes/section/section_info.dart';
 
 abstract class RouteInfo {
   final String name;

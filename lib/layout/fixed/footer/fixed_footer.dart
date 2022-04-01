@@ -1,38 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/colors/sub_palettes/footer_palette.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
 import 'package:provider/provider.dart';
-
-class FixedFooterColors {
-  final Color backgroundColor;
-  final Color foreground;
-
-  FixedFooterColors({
-    required this.backgroundColor,
-    required this.foreground,
-  });
-}
-
-class FixedFooterSizing {
-  final double height;
-  final double maxWidth;
-  final EdgeInsets padding;
-
-  FixedFooterSizing({
-    required this.height,
-    required this.maxWidth,
-    required this.padding,
-  });
-}
 
 class FixedFooter extends StatefulWidget {
   late FixedFooterSizing? sizing;
-  late FixedFooterColors? colors;
+  late FooterPalette? colors;
 
   final Widget Function(
     BuildContext context,
     FixedFooterSizing? sizing,
-    FixedFooterColors? colors,
+    FooterPalette? colors,
   ) builder;
 
   FixedFooter({
@@ -52,16 +31,15 @@ class _FixedFooterState extends State<FixedFooter> {
     super.initState();
     if (widget.colors == null) {
       WidgetsBinding.instance?.addPostFrameCallback((_) {
-        ThemeProvider theme =
-            Provider.of<ThemeProvider>(context, listen: false);
-        widget.colors = theme.colors.fixedFooterColors;
+        LegendTheme theme = Provider.of<LegendTheme>(context, listen: false);
+        widget.colors = theme.colors.footerPalette;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return Hero(
       tag: ValueKey('footer'),
@@ -70,7 +48,7 @@ class _FixedFooterState extends State<FixedFooter> {
           width: MediaQuery.of(context).size.width,
           height: widget.sizing?.height,
           decoration: BoxDecoration(
-            color: theme.colors.fixedFooterColors.backgroundColor,
+            color: theme.colors.footerPalette.background,
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,

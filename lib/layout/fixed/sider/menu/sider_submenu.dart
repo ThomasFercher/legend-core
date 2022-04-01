@@ -3,9 +3,9 @@ import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
-import 'package:legend_design_core/styles/theming/colors/legend_color_palette.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/src/provider.dart';
 
 class SiderSubMenu extends StatefulWidget {
@@ -37,7 +37,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   List<Widget> getWidgets(BuildContext context) {
     List<Widget> widgets = [];
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
     for (final MenuOption op in widget.option.children!) {
       widgets.add(
@@ -48,13 +48,11 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             title: op.title,
             path: op.page,
             backgroundColor: widget.backgroundColor ??
-                theme.colors.siderColorTheme.backgroundMenu,
+                theme.colors.siderPalette.backgroundMenu,
             left: false,
-            activeColor: theme.colors.selectionColor,
-            color: LegendColorPalette.lighten(
-              widget.foregroundColor ?? theme.colors.siderColorTheme.foreground,
-              0.04,
-            ),
+            activeColor: theme.colors.selection,
+            color: widget.foregroundColor?.darken(0.05) ??
+                theme.colors.siderPalette.backgroundMenu.darken(0.05),
             collapsed: widget.collapsed,
             textSize: theme.typography.h1.fontSize,
             rectangleIndicator: true,
@@ -68,7 +66,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   }
 
   List<Widget> getCollapsedWidgets(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     List<Widget> widgets = [];
 
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
@@ -80,8 +78,8 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
           title: op.title,
           collapsed: true,
           activeColor: Colors.tealAccent,
-          backgroundColor: theme.colors.primaryColor,
-          color: theme.colors.textColorLight,
+          backgroundColor: theme.colors.primary,
+          color: theme.colors.textOnDark,
           fontSize: theme.typography.h0.fontSize,
           iconSize: 24,
         ),
@@ -93,7 +91,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     return Container(
       padding: const EdgeInsets.only(
         bottom: 8,
@@ -116,8 +114,8 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               iconSize: 28,
               disableShadow: true,
               theme: LegendAnimtedIconTheme(
-                disabled: theme.colors.siderColorTheme.foreground,
-                enabled: theme.colors.selectionColor,
+                disabled: theme.colors.siderPalette.foreground,
+                enabled: theme.colors.selection,
               ),
               onPressed: () {
                 if (isExpanded) {
@@ -173,17 +171,17 @@ class SiderSubMenuLeadTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     return !isCollapsed
         ? DrawerMenuTile(
             icon: option.icon,
             title: option.title,
             path: option.page,
             backgroundColor:
-                backgroundColor ?? theme.colors.siderColorTheme.backgroundMenu,
+                backgroundColor ?? theme.colors.siderPalette.backgroundMenu,
             left: false,
-            activeColor: theme.colors.selectionColor,
-            color: foregroundColor ?? theme.colors.siderColorTheme.foreground,
+            activeColor: theme.colors.selection,
+            color: foregroundColor ?? theme.colors.siderPalette.foreground,
             collapsed: false,
             bottomSpacing: 12,
           )
@@ -193,8 +191,8 @@ class SiderSubMenuLeadTile extends StatelessWidget {
             title: option.title,
             collapsed: true,
             activeColor: Colors.tealAccent,
-            backgroundColor: theme.colors.primaryColor,
-            color: theme.colors.textColorLight,
+            backgroundColor: theme.colors.primary,
+            color: theme.colors.textOnDark,
             bottomMargin: 12,
           );
   }

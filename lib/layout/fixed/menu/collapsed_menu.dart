@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
 class CollapsedMenu extends StatefulWidget {
@@ -19,13 +19,13 @@ class CollapsedMenu extends StatefulWidget {
 class _CollapsedMenuState extends State<CollapsedMenu> {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return Container(
       width: widget.width,
       child: GestureDetector(
         onTap: () {
-          RouterProvider.of(context).pushPage(
+          LegendRouter.of(context).pushPage(
             settings: const RouteSettings(name: '/siderMenu'),
           );
           /*  RouterProvider.of(context).pushPage(
@@ -42,8 +42,8 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
           icon: Icons.menu,
           disableShadow: true,
           theme: LegendAnimtedIconTheme(
-            disabled: theme.colors.appBarColors.foreground,
-            enabled: theme.colors.selectionColor,
+            disabled: theme.colors.appBarPalette.foreground,
+            enabled: theme.colors.selection,
           ),
         ),
       ),

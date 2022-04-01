@@ -3,8 +3,8 @@ import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:provider/provider.dart';
 
 import '../../styles/layouts/layout_type.dart';
-import '../../styles/theming/sizing/size_provider.dart';
-import '../../styles/theming/theme_provider.dart';
+import '../../styles/legend_theme.dart';
+import '../../styles/sizing/size_info.dart';
 import '../fixed/appBar.dart/fixed_appbar.dart';
 import 'legend_scaffold.dart';
 
@@ -15,14 +15,17 @@ class ScaffoldHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
-    bool isMobile = SizeProvider.of(context).isMobile;
-
+    LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
+
+    bool bottomBar =
+        theme.sizing.showBottomBar || SizeInfo.of(context).isMobile;
+    bool showMenu = !bottomBar && scaffold.showAppBarMenu;
+
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
         return FixedAppBar(
-          showMenu: !isMobile ? scaffold.showAppBarMenu : false,
+          showMenu: showMenu,
           builder: scaffold.appBarBuilder,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
@@ -31,7 +34,7 @@ class ScaffoldHeader extends StatelessWidget {
       case LayoutType.FixedHeader:
         return FixedAppBar(
           builder: scaffold.appBarBuilder,
-          showMenu: !isMobile ? scaffold.showAppBarMenu : false,
+          showMenu: showMenu,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
           context: context,

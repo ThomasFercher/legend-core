@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_colors.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/fixed_appbar_sizing.dart';
 import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +30,7 @@ class FixedAppBar extends StatefulWidget {
     this.showSubMenu = true,
     required this.context,
   }) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     double screenWidth = MediaQuery.of(context).size.width;
     double titleWidth = LegendUtils.getTitleIndent(
           theme.typography.h6,
@@ -78,7 +76,7 @@ class FixedAppBar extends StatefulWidget {
 }
 
 class _FixedAppBarState extends State<FixedAppBar> {
-  FixedAppBarColors? colors;
+  AppBarPalette? colors;
   FixedAppBarSizing? sizing;
 
   late bool collapsed;
@@ -95,10 +93,10 @@ class _FixedAppBarState extends State<FixedAppBar> {
   }
 
   BoxDecoration? getCard() {
-    return colors?.cardColor != null
+    return colors?.card != null
         ? BoxDecoration(
             borderRadius: BorderRadius.all(sizing?.borderRadius ?? Radius.zero),
-            color: colors?.cardColor,
+            color: colors?.card,
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
@@ -160,11 +158,11 @@ class _FixedAppBarState extends State<FixedAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     sizing = theme.appBarSizing;
-    colors = theme.appBarColors;
+    colors = theme.appBarPalette;
 
-    bool isMobile = SizeProvider.of(context).isMobile;
+    bool isMobile = SizeInfo.of(context).isMobile;
     bool isSubRoute =
         RouteInfoProvider.getCurrentMenuOption(context)?.isUnderlying ?? false;
     bool showBackArrow = isSubRoute &&
@@ -180,7 +178,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
 
     return Container(
       child: SliverAppBar(
-        backgroundColor: colors?.backgroundColor,
+        backgroundColor: colors?.background,
         shape: sizing?.shape,
         leadingWidth: 0,
         leading: Container(
@@ -218,9 +216,9 @@ class _FixedAppBarState extends State<FixedAppBar> {
                               LegendAnimatedIcon(
                                   icon: Icons.arrow_back_ios,
                                   theme: LegendAnimtedIconTheme(
-                                    enabled: theme.colors.selectionColor,
+                                    enabled: theme.colors.selection,
                                     disabled:
-                                        theme.colors.appBarColors.foreground,
+                                        theme.colors.appBarPalette.foreground,
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
@@ -249,7 +247,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
                                     text: LayoutProvider.of(context)!.title!,
                                     textStyle: theme.typography.h6.copyWith(
                                       color:
-                                          theme.colors.appBarColors.foreground,
+                                          theme.colors.appBarPalette.foreground,
                                     ),
                                   ),
                                 ),
@@ -301,21 +299,21 @@ class _FixedAppBarState extends State<FixedAppBar> {
                             color: Colors.transparent,
                           ),
                         ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          decoration: getCard(),
-                          child: Opacity(
-                            opacity: 1,
-                            child: FixedMenu(
-                              iconColor: theme.appBarColors.iconColor,
-                              selected: theme.appBarColors.selectedColor,
-                              backgroundColor:
-                                  theme.appBarColors.backgroundColor,
-                              foreground: theme.appBarColors.foreground,
-                              showSubMenu: widget.showSubMenu,
+                        if (widget.showMenu ?? false)
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            decoration: getCard(),
+                            child: Opacity(
+                              opacity: 1,
+                              child: FixedMenu(
+                                iconColor: theme.appBarPalette.icon,
+                                selected: theme.appBarPalette.selected,
+                                backgroundColor: theme.appBarPalette.background,
+                                foreground: theme.appBarPalette.foreground,
+                                showSubMenu: widget.showSubMenu,
+                              ),
                             ),
                           ),
-                        ),
                         Expanded(
                           flex: getFlexMenu(
                               screenWidth - (sizing?.contentPadding.left ?? 0),

@@ -1,11 +1,11 @@
-import 'package:legend_design_core/styles/theming/sizing/legend_sizing.dart';
+// ignore_for_file: prefer_initializing_formals
+
+import 'package:legend_design_core/styles/sizing/legend_sizing.dart';
 
 class LegendSizingTheme {
   final List<LegendSizing> sizings;
   late final List<double> splits;
-  int i = 0;
-
-  LegendSizing get getSizing => sizings[i];
+  int index = 0;
 
   LegendSizingTheme({
     required this.sizings,
@@ -13,11 +13,9 @@ class LegendSizingTheme {
   }) {
     splits.sort();
     this.splits = splits;
-
-    print(splits);
   }
 
-  LegendSizing get sizing {
-    return sizings[i];
-  }
+  LegendSizing get sizing => sizings[index];
+
+  void setSizing(int i) => index = i;
 }

@@ -11,18 +11,18 @@ import 'package:legend_design_core/layout/scaffold/scaffold_sider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
 import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
-import 'package:legend_design_core/router/routes/section_info.dart';
-import 'package:legend_design_core/router/routes/section_provider.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_design_core/router/routes/section/section_info.dart';
+import 'package:legend_design_core/router/routes/section/section_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import '../fixed/bottomBar.dart/fixed_bottom_bar.dart';
-import '../fixed/fixed_footer.dart';
+import '../fixed/footer/fixed_footer.dart';
 
 class LegendScaffold extends StatelessWidget {
   final LayoutType layoutType;
@@ -63,7 +63,7 @@ class LegendScaffold extends StatelessWidget {
     this.onActionButtonPressed,
     this.siderBuilder,
     this.showSiderMenu = false,
-    this.showAppBarMenu = true,
+    this.showAppBarMenu = false,
     this.appBarBuilder,
     this.showSiderSubMenu = false,
     this.showSiderChildMenu = false,
@@ -87,11 +87,11 @@ class LegendScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     sections = SectionProvider.of(context)?.sections;
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return ScaffoldInfo(
       scaffold: this,
-      child: SizeProvider(
+      child: SizeInfo(
         splits: theme.sizingTheme.splits,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -138,7 +138,7 @@ class LegendScaffold extends StatelessWidget {
   }
 
   double calculateMinContentHeight(double? footerHeight, BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     double height = MediaQuery.of(context).size.height;
 
     if (theme.bottomBarSizing == null) {
@@ -173,7 +173,7 @@ class LegendScaffold extends StatelessWidget {
   }
 
   List<Widget> getChildren(BuildContext context, bool showFooter) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     List<Widget> widgets = [];
     List<Widget> sWidgets = [];
     // Get Children
@@ -203,8 +203,8 @@ class LegendScaffold extends StatelessWidget {
   }
 
   Widget layout(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
-    SizeProvider sizeProvider = SizeProvider.of(context);
+    LegendTheme theme = context.watch<LegendTheme>();
+    SizeInfo sizeProvider = SizeInfo.of(context);
     bool showBuilder = children.isEmpty && contentBuilder != null;
     bool showAppBarBottom = appBarBottom != null && appBarBottomSize != null;
     bool showTitle = (layoutType == LayoutType.FixedHeaderSider) &&
@@ -224,7 +224,7 @@ class LegendScaffold extends StatelessWidget {
       endDrawer: MenuDrawer(),
       bottomNavigationBar: theme.bottomBarSizing != null
           ? FixedBottomBar(
-              colors: theme.bottomBarColors,
+              colors: theme.bottomBarPalette,
               sizing: theme.bottomBarSizing!,
             )
           : null,
@@ -232,7 +232,7 @@ class LegendScaffold extends StatelessWidget {
       floatingActionButton:
           onActionButtonPressed != null ? ScaffoldActionButton() : null,
       body: ColoredBox(
-        color: theme.colors.scaffoldBackgroundColor,
+        color: theme.colors.background[0],
         child: Stack(
           children: [
             Row(
@@ -250,8 +250,7 @@ class LegendScaffold extends StatelessWidget {
                             child: appBarBottom!,
                             maxHeight: appBarBottomSize!.height,
                             minHeight: appBarBottomSize!.width,
-                            backgroundColor:
-                                theme.colors.scaffoldBackgroundColor,
+                            backgroundColor: theme.colors.background[0],
                           ),
                         ),
                       if (showBuilder)
@@ -282,7 +281,7 @@ class LegendScaffold extends StatelessWidget {
                                           text: currentRoute?.title ?? '',
                                           textStyle:
                                               theme.typography.h5.copyWith(
-                                            color: theme.colors.textContrast,
+                                            color: theme.colors.textOnLight,
                                           ),
                                         ),
                                       ),

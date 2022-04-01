@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../styles/theming/theme_provider.dart';
+import '../../styles/legend_theme.dart';
 import 'legend_scaffold.dart';
 
 class ScaffoldContent extends StatelessWidget {
@@ -19,7 +18,7 @@ class ScaffoldContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

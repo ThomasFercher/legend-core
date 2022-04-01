@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/sections/section_header.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
 class Section extends StatelessWidget {
@@ -39,7 +39,7 @@ class Section extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
+    LegendTheme theme = Provider.of<LegendTheme>(context);
 
     return LayoutBuilder(builder: (context, constraints) {
       return Card(
@@ -48,7 +48,7 @@ class Section extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: theme.sizing.borderRadius[0],
         ),
-        elevation: theme.colors.elevations?[0],
+        elevation: theme.sizing.elevations[0],
         child: Container(
           width: constraints.maxWidth,
           padding: EdgeInsets.all(

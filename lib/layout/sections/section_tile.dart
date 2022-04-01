@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
-import 'package:legend_design_core/router/routes/section_info.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/routes/section/section_info.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/src/provider.dart';
 
@@ -24,7 +24,7 @@ class SectionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
 
     return ListTile(
       contentPadding: EdgeInsets.all(8),

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:legend_design_core/objects/drawer.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/src/provider.dart';
 
 import '../typography/legend_text.dart';
@@ -98,7 +96,7 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     double? iconSize = widget.textSize != null
         ? widget.textSize! * 1.8
         : theme.typography.h2.fontSize! * 1.8;
@@ -143,7 +141,7 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
         onTap: () {
           _isClicked = !_isClicked;
           if (widget.onClicked != null) widget.onClicked!();
-          RouterProvider.of(context).pushPage(
+          LegendRouter.of(context).pushPage(
             settings: RouteSettings(name: widget.path),
           );
         },

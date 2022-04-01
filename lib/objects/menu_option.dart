@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/legendPopups.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/router/routeInfoProvider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
-import '../router/router_provider.dart';
+import '../router/legend_router.dart';
 
 class MenuOption {
   final String? title;
@@ -125,7 +125,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     width =
         LegendUtils.calcTextSize(widget.option.title ?? '', theme.typography.h2)
                 .width +
@@ -144,8 +144,8 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               path: option.page,
               left: false,
               backgroundColor: theme.colors.foreground[1],
-              activeColor: theme.colors.selectionColor,
-              color: theme.colors.textColorLight,
+              activeColor: theme.colors.selection,
+              color: theme.colors.textOnDark,
               collapsed: false,
               onClicked: () => poppedFromtTop = true,
               forceColor: option == sel,
@@ -189,7 +189,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               key: key,
               onParentTap: () {
                 poppedFromtTop = true;
-                RouterProvider.of(context).pushPage(
+                LegendRouter.of(context).pushPage(
                   settings: RouteSettings(name: widget.option.page),
                 );
               },
@@ -220,7 +220,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
             if (widget.option.onSelected != null) {
               widget.option.onSelected!(widget.option.page);
             }
-            RouterProvider.of(context).pushPage(
+            LegendRouter.of(context).pushPage(
               settings: RouteSettings(name: widget.option.page),
             );
           },
