@@ -139,11 +139,12 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
       menuItems = widget.option.children!
           .map(
             (option) => DrawerMenuTile(
+              activeBackground: Colors.white,
               icon: option.icon,
               title: option.title,
               path: option.page,
               left: false,
-              backgroundColor: theme.colors.foreground[1],
+              backgroundColor: theme.colors.background[1],
               activeColor: theme.colors.selection,
               color: theme.colors.textOnDark,
               collapsed: false,

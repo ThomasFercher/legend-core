@@ -1,40 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
-import 'package:legend_design_core/layout/fixed/sider/menu/sider_submenu.dart';
-import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
+import 'package:legend_design_core/layout/fixed/sider/menu/submenu/sider_submenu.dart';
 import 'package:legend_design_core/objects/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/src/provider.dart';
 
 class FixedSiderMenu extends StatelessWidget {
-  final Color? backgroundColor;
-  final Color? foregroundColor;
-  final Color? backgroundColorSub;
-  final Color? foregroundColorSub;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final Color activeBackgroundColor;
+  final Color activeForegroundColor;
+  final Color subMenuColor;
+  final bool showMenuSubItems;
   final bool isCollapsed;
 
   FixedSiderMenu({
     Key? key,
-    this.backgroundColor,
-    this.foregroundColor,
-    this.backgroundColorSub,
-    this.foregroundColorSub,
+    required this.backgroundColor,
+    required this.foregroundColor,
+    required this.activeBackgroundColor,
+    required this.activeForegroundColor,
+    required this.subMenuColor,
+    this.showMenuSubItems = true,
     this.isCollapsed = false,
   }) : super(key: key);
 
+  /// This Method returns the whole menu.
+  /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
+  /// we add a [DrawerMenuTile].
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
     List<MenuOption> options = LegendRouter.of(context).menuOptions;
 
-    FixedSider? fixedSider = SiderInfo.of(context)?.fixedSider;
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (final MenuOption option in options) {
-      if (option.children == null || !(fixedSider?.showSubMenu ?? false)) {
+      if (option.children == null || !(showMenuSubItems)) {
         if (isCollapsed) {
           tiles.add(
             SiderMenuVerticalTile(
@@ -42,8 +47,8 @@ class FixedSiderMenu extends StatelessWidget {
               path: option.page,
               title: option.title,
               collapsed: true,
-              iconSize: 30,
-              activeColor: Colors.tealAccent,
+              iconSize: 24,
+              activeColor: theme.colors.selection,
               backgroundColor: theme.colors.primary,
               color: theme.colors.textOnDark,
             ),
@@ -51,26 +56,30 @@ class FixedSiderMenu extends StatelessWidget {
         } else {
           tiles.add(
             DrawerMenuTile(
+              activeBackground: activeBackgroundColor,
               icon: option.icon,
               title: option.title,
               path: option.page,
-              backgroundColor:
-                  backgroundColor ?? theme.colors.siderPalette.backgroundMenu,
+              backgroundColor: backgroundColor,
               left: false,
               activeColor: theme.colors.selection,
-              color: foregroundColor ?? theme.colors.siderPalette.foreground,
+              color: foregroundColor,
               collapsed: false,
               forceColor: option == sel,
+              borderRadius: theme.sizing.borderRadius[0],
             ),
           );
         }
-      } else if (fixedSider?.showSubMenu ?? false) {
+      } else if (showMenuSubItems) {
         tiles.add(
           SiderSubMenu(
             option: option,
-            backgroundColor: backgroundColorSub,
-            foregroundColor: foregroundColorSub,
+            backgroundColor: activeBackgroundColor,
+            activeBackground: Colors.indigo[900]!,
+            foregroundColor: foregroundColor,
             collapsed: isCollapsed,
+            disabledBackground: backgroundColor,
+            subMenuColor: subMenuColor,
           ),
         );
       }
@@ -81,18 +90,17 @@ class FixedSiderMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
     List<Widget> tiles = getTiles(context);
 
     return Container(
-      color: backgroundColor ?? theme.colors.siderPalette.backgroundMenu,
+      color: backgroundColor,
       padding: const EdgeInsets.only(
         top: 18.0,
       ),
       child: ListView(
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
-        children: tiles,
+        children: tiles.traillingPaddingCol(12),
       ),
     );
   }

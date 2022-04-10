@@ -20,6 +20,7 @@ class FixedAppBar extends StatefulWidget {
   final BuildContext context;
   final LayoutType? layoutType;
   late final bool collapsed;
+  final bool forceElevate;
 
   FixedAppBar({
     this.showMenu,
@@ -28,6 +29,7 @@ class FixedAppBar extends StatefulWidget {
     this.bottomBorderRadius,
     this.layoutType,
     this.showSubMenu = true,
+    this.forceElevate = false,
     required this.context,
   }) {
     LegendTheme theme = context.watch<LegendTheme>();
@@ -176,8 +178,19 @@ class _FixedAppBarState extends State<FixedAppBar> {
             (sizing?.borderRadius?.x ?? 0) +
             (sizing?.contentPadding.left ?? 0);
 
+    bool showHeader = widget.layoutType != LayoutType.FixedSider &&
+            widget.layoutType != LayoutType.FixedHeaderSider ||
+        isMobile;
+    String? title = LayoutProvider.of(context)?.title;
+    Widget? logo = LayoutProvider.of(context)?.logo;
+    bool showTitle = showHeader && title != null;
+    bool showLogo = showHeader && logo != null;
+
+    bool showMenuCollapsed = collapsed && (widget.showMenu ?? true);
+    bool showMenu;
     return Container(
       child: SliverAppBar(
+        forceElevated: widget.forceElevate,
         backgroundColor: colors?.background,
         shape: sizing?.shape,
         leadingWidth: 0,
@@ -214,76 +227,68 @@ class _FixedAppBarState extends State<FixedAppBar> {
                           children: [
                             if (showBackArrow)
                               LegendAnimatedIcon(
-                                  icon: Icons.arrow_back_ios,
-                                  theme: LegendAnimtedIconTheme(
-                                    enabled: theme.colors.selection,
-                                    disabled:
+                                icon: Icons.arrow_back_ios,
+                                theme: LegendAnimtedIconTheme(
+                                  enabled: theme.colors.selection,
+                                  disabled:
+                                      theme.colors.appBarPalette.foreground,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            if (showLogo)
+                              Container(
+                                width: sizing?.titleSize ?? 64,
+                                height: sizing?.titleSize ?? 64,
+                                margin: EdgeInsets.only(
+                                  right: 6,
+                                ),
+                                alignment: Alignment.centerRight,
+                                child: LayoutProvider.of(context)!.logo,
+                              ),
+                            if (showTitle)
+                              Center(
+                                child: LegendText(
+                                  text: LayoutProvider.of(context)!.title!,
+                                  textStyle: theme.typography.h6.copyWith(
+                                    color:
                                         theme.colors.appBarPalette.foreground,
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  }),
-                            if ((widget.layoutType != LayoutType.FixedSider &&
-                                    widget.layoutType !=
-                                        LayoutType.FixedHeaderSider) ||
-                                isMobile)
-                              if (LayoutProvider.of(context)?.logo != null)
-                                Container(
-                                  width: sizing?.titleSize ?? 64,
-                                  height: sizing?.titleSize ?? 64,
-                                  margin: EdgeInsets.only(
-                                    right: 6,
-                                  ),
-                                  alignment: Alignment.centerRight,
-                                  child: LayoutProvider.of(context)!.logo,
                                 ),
-                            if ((widget.layoutType != LayoutType.FixedSider &&
-                                    widget.layoutType !=
-                                        LayoutType.FixedHeaderSider) ||
-                                isMobile)
-                              if (LayoutProvider.of(context)?.title != null)
-                                Center(
-                                  child: LegendText(
-                                    text: LayoutProvider.of(context)!.title!,
-                                    textStyle: theme.typography.h6.copyWith(
-                                      color:
-                                          theme.colors.appBarPalette.foreground,
-                                    ),
-                                  ),
-                                ),
+                              ),
                           ],
                         ),
                       ),
                       Row(
                         children: [
-                          Container(
-                            child: (widget.builder != null)
-                                ? Container(
-                                    height: theme.appBarSizing.appBarHeight,
-                                    alignment: Alignment.center,
-                                    decoration: getCard(),
-                                    child: Builder(
-                                      builder: widget.builder!,
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          if (collapsed && (widget.showMenu ?? true))
-                            Builder(builder: (context) {
-                              collapsed = widget.checkIfCollapsed(
-                                  screenWidth -
-                                      (sizing?.contentPadding.left ?? 0),
-                                  titleWidth);
-                              return Container(
-                                margin: EdgeInsets.only(
-                                  left: sizing?.spacing ?? 8,
-                                ),
-                                decoration: getCard(),
-                                child: CollapsedMenu(
-                                  width: 48,
-                                ),
-                              );
-                            }),
+                          if (widget.builder != null)
+                            Container(
+                              height: theme.appBarSizing.appBarHeight,
+                              alignment: Alignment.center,
+                              decoration: getCard(),
+                              child: Builder(
+                                builder: widget.builder!,
+                              ),
+                            ),
+                          if (showMenuCollapsed)
+                            Builder(
+                              builder: (context) {
+                                collapsed = widget.checkIfCollapsed(
+                                    screenWidth -
+                                        (sizing?.contentPadding.left ?? 0),
+                                    titleWidth);
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                    left: sizing?.spacing ?? 8,
+                                  ),
+                                  decoration: getCard(),
+                                  child: CollapsedMenu(
+                                    width: 48,
+                                  ),
+                                );
+                              },
+                            ),
                         ],
                       ),
                     ],
@@ -319,9 +324,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
                               screenWidth - (sizing?.contentPadding.left ?? 0),
                               titleWidth),
                           child: Container(
-                            child: Container(
-                              color: Colors.transparent,
-                            ),
+                            height: 0,
                           ),
                         ),
                       ],

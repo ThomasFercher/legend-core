@@ -1,46 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/objects/drawer.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/src/provider.dart';
 
 import '../typography/legend_text.dart';
 
+const Duration duration = Duration(milliseconds: 300);
+
 class DrawerMenuTile extends StatefulWidget {
+  late final Color color;
   final IconData? icon;
   final String? title;
   final String path;
   final Color backgroundColor;
   final bool left;
-  Color color;
   final Color activeColor;
+  final Color activeBackground;
   final bool collapsed;
   final double? height;
   final void Function()? onClicked;
   final double? textSize;
   final bool rectangleIndicator;
+  final double iconSize;
   final bool forceColor;
+  final BorderRadiusGeometry? borderRadius;
   final double? bottomSpacing;
+  final bool forceBackground;
 
   DrawerMenuTile({
+    required Color color,
     required this.icon,
     required this.path,
     required this.title,
     required this.backgroundColor,
     required this.left,
-    required this.color,
     required this.activeColor,
     required this.collapsed,
+    required this.activeBackground,
+    this.iconSize = 24,
+    this.rectangleIndicator = false,
+    this.forceColor = false,
+    this.forceBackground = false,
+    this.borderRadius,
     this.bottomSpacing,
     this.onClicked,
     this.height,
     this.textSize,
-    this.rectangleIndicator = false,
-    this.forceColor = false,
   }) {
-    if (forceColor) {
-      color = activeColor;
-    }
+    this.color = forceColor ? activeColor : color;
   }
   @override
   _DrawerMenuTileState createState() => _DrawerMenuTileState();
@@ -54,21 +61,17 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
   late bool _isClicked;
   late bool _isHovered;
   late Color? color;
-  Color? borderColor;
+
   @override
   void initState() {
     _isClicked = false;
     _isHovered = false;
     color = widget.color;
-    borderColor = widget.backgroundColor;
+
     controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: duration,
     );
-    banimation = ColorTween(
-      begin: borderColor,
-      end: widget.activeColor,
-    ).animate(controller);
 
     animation = ColorTween(
       begin: widget.color,
@@ -80,48 +83,24 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
         color = animation.value;
       });
     });
-    banimation.addListener(() {
-      setState(() {
-        borderColor = banimation.value;
-      });
-    });
+
     super.initState();
   }
 
   @override
   void dispose() {
-    controller.dispose(); // you need this
+    controller.dispose();
     super.dispose();
   }
+
+  Color get backgroundColor =>
+      _isHovered ? widget.activeBackground : widget.backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    double? iconSize = widget.textSize != null
-        ? widget.textSize! * 1.8
-        : theme.typography.h2.fontSize! * 1.8;
-    // TODO: implement build
     return Container(
-      margin: EdgeInsets.only(
-        bottom: widget.bottomSpacing ?? 24.0,
-      ),
       height: widget.height,
-      decoration: !widget.rectangleIndicator
-          ? BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: borderColor ?? Colors.transparent,
-                  width: 4,
-                  style: widget.left ? BorderStyle.solid : BorderStyle.none,
-                ),
-                right: BorderSide(
-                  color: borderColor ?? Colors.transparent,
-                  width: 4,
-                  style: widget.left ? BorderStyle.none : BorderStyle.solid,
-                ),
-              ),
-            )
-          : null,
       child: InkWell(
         hoverColor: Colors.transparent,
         enableFeedback: true,
@@ -145,11 +124,16 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
             settings: RouteSettings(name: widget.path),
           );
         },
-        child: Container(
+        child: AnimatedContainer(
+          duration: duration,
           padding: EdgeInsets.only(
             left: widget.collapsed ? 0 : 26.0,
-            top: 2,
-            bottom: 2,
+            top: 12,
+            bottom: 12,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: widget.borderRadius,
+            color: backgroundColor,
           ),
           child: Row(
             mainAxisAlignment:
@@ -159,13 +143,14 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
                 Icon(
                   widget.icon,
                   color: color,
-                  size: iconSize,
+                  size: widget.iconSize,
                 ),
               if (widget.title != null)
                 Container(
                   margin: EdgeInsets.only(left: 12.0, right: 12.0),
                   child: LegendText(
                     text: widget.title!,
+                    selectable: false,
                     textStyle: theme.typography.h2.copyWith(
                       color: color,
                       fontSize: widget.textSize,
@@ -176,15 +161,8 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
                 Icon(
                   widget.icon,
                   color: color,
-                  size: iconSize,
+                  size: widget.iconSize,
                 ),
-              Expanded(child: Container()),
-              if (widget.rectangleIndicator)
-                Triangle(
-                  color: borderColor ?? Colors.transparent,
-                  height: 18,
-                  width: 9,
-                )
             ],
           ),
         ),

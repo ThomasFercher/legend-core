@@ -89,9 +89,12 @@ class CollapsedSider extends StatelessWidget {
           if (showMenu)
             FixedSiderMenu(
               isCollapsed: true,
-              backgroundColorSub: theme.colors.primary.darken(0.05),
+              activeBackgroundColor: theme.colors.primary.darken(0.05),
               foregroundColor:
                   theme.colors.siderPalette.foreground.darken(0.05),
+              activeForegroundColor: Colors.indigo,
+              backgroundColor: Colors.indigo,
+              subMenuColor: Colors.red,
             ),
           if (showSectionMenu)
             Padding(

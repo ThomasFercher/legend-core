@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
@@ -21,15 +21,27 @@ class ScaffoldSider extends StatelessWidget {
     bool collapsed = theme.sizing.collapsedSider;
 
     if (showSider) {
-      return FixedSider(
-        builder: scaffold.siderBuilder,
-        showMenu: scaffold.showSiderMenu,
-        showSubMenu: scaffold.showSiderSubMenu,
-        showSectionMenu: scaffold.showSectionMenu,
-        layoutType: scaffold.layoutType,
-        showChildMenu: scaffold.showSiderChildMenu,
-        showParentMenu: scaffold.shareParentSiderMenu,
-        collapsed: collapsed,
+      return Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              spreadRadius: 4,
+              blurRadius: 8,
+              offset: Offset(0, 0),
+            )
+          ],
+        ),
+        child: FixedSider(
+          builder: scaffold.siderBuilder,
+          showMenu: scaffold.showSiderMenu,
+          showSubMenu: scaffold.showSiderSubMenu,
+          showSectionMenu: scaffold.showSectionMenu,
+          layoutType: scaffold.layoutType,
+          showChildMenu: scaffold.showSiderChildMenu,
+          showParentMenu: scaffold.shareParentSiderMenu,
+          collapsed: collapsed,
+        ),
       );
     } else {
       return Container();

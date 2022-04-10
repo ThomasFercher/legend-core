@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/styles/colors/sub_palettes/footer_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
 import 'package:provider/provider.dart';
@@ -49,14 +48,14 @@ class _FixedFooterState extends State<FixedFooter> {
           height: widget.sizing?.height,
           decoration: BoxDecoration(
             color: theme.colors.footerPalette.background,
-            boxShadow: [
+            /*     boxShadow: [
               BoxShadow(
                 color: Colors.black12,
                 spreadRadius: 3,
                 blurRadius: 6,
                 offset: Offset(6, 0),
               )
-            ],
+            ],*/
           ),
           alignment: Alignment.center,
           child: Container(

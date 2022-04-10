@@ -48,6 +48,7 @@ class LegendScaffold extends StatelessWidget {
   final bool showTopSubMenu;
   final bool showSiderChildMenu;
   final bool shareParentSiderMenu;
+  final bool appBarForceElevate;
 
   final bool enableDefaultSettings;
   final bool singlePage;
@@ -81,6 +82,7 @@ class LegendScaffold extends StatelessWidget {
     this.enableDefaultSettings = false,
     this.shareParentSiderMenu = false,
     this.providers,
+    this.appBarForceElevate = false,
     this.appBarBottomSize,
   }) : super(key: key);
 
@@ -188,8 +190,8 @@ class LegendScaffold extends StatelessWidget {
         (widget) {
           return Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: theme.sizing.padding[0],
-              vertical: verticalChildrenSpacing,
+              horizontal: theme.sizing.padding[1],
+              // vertical: verticalChildrenSpacing,
             ),
             child: widget,
           );
@@ -232,7 +234,7 @@ class LegendScaffold extends StatelessWidget {
       floatingActionButton:
           onActionButtonPressed != null ? ScaffoldActionButton() : null,
       body: ColoredBox(
-        color: theme.colors.background[0],
+        color: theme.colors.background[1],
         child: Stack(
           children: [
             Row(
@@ -250,7 +252,7 @@ class LegendScaffold extends StatelessWidget {
                             child: appBarBottom!,
                             maxHeight: appBarBottomSize!.height,
                             minHeight: appBarBottomSize!.width,
-                            backgroundColor: theme.colors.background[0],
+                            backgroundColor: theme.colors.background[1],
                           ),
                         ),
                       if (showBuilder)
@@ -263,6 +265,7 @@ class LegendScaffold extends StatelessWidget {
                                     : EdgeInsets.all(
                                         theme.sizing.padding[0],
                                       ),
+                                //   color: Colors.red,
                                 constraints: BoxConstraints(
                                   minHeight: maxHeight,
                                   maxHeight:

@@ -48,6 +48,7 @@ class Sider extends StatelessWidget {
     List<DrawerMenuTile> childMenuTiles = List.of(
       childMenuoptions.map(
         (option) => DrawerMenuTile(
+          activeBackground: Colors.green,
           icon: option.icon,
           path: option.page,
           title: option.title,
@@ -63,6 +64,7 @@ class Sider extends StatelessWidget {
     List<DrawerMenuTile> parentMenuTiles = List.of(
       parentMenuoptions.map(
         (option) => DrawerMenuTile(
+          activeBackground: Colors.black,
           icon: option.icon,
           path: option.page,
           title: option.title,
@@ -85,8 +87,12 @@ class Sider extends StatelessWidget {
       ),
       if (fixedSider.showMenu)
         FixedSiderMenu(
-          backgroundColorSub: theme.colors.siderPalette.background.darken(0.05),
+          activeBackgroundColor:
+              theme.colors.siderPalette.background.darken(0.05),
           foregroundColor: theme.colors.siderPalette.foreground.lighten(0.05),
+          activeForegroundColor: Colors.indigo,
+          backgroundColor: Colors.indigo,
+          subMenuColor: Colors.red,
         ),
       if (fixedSider.showChildMenu && childMenuTiles.isNotEmpty)
         Padding(

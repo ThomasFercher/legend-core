@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../styles/layouts/layout_type.dart';
 import '../../styles/legend_theme.dart';
-import '../../styles/sizing/size_info.dart';
 import '../fixed/appBar.dart/fixed_appbar.dart';
 import 'legend_scaffold.dart';
 
@@ -18,8 +17,7 @@ class ScaffoldHeader extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
-    bool bottomBar =
-        theme.sizing.showBottomBar || SizeInfo.of(context).isMobile;
+    bool bottomBar = theme.sizing.showBottomBar;
     bool showMenu = !bottomBar && scaffold.showAppBarMenu;
 
     switch (scaffold.layoutType) {
@@ -29,6 +27,7 @@ class ScaffoldHeader extends StatelessWidget {
           builder: scaffold.appBarBuilder,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
+          forceElevate: scaffold.appBarForceElevate,
           context: context,
         );
       case LayoutType.FixedHeader:
@@ -37,6 +36,7 @@ class ScaffoldHeader extends StatelessWidget {
           showMenu: showMenu,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
+          forceElevate: scaffold.appBarForceElevate,
           context: context,
         );
       default:

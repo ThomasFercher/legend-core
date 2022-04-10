@@ -10,6 +10,30 @@ extension ExpandWidget on Widget {
   }
 }
 
+extension ListPadding on List<Widget> {
+  List<Widget> traillingPaddingRow(double padding, {bool last = false}) {
+    List<Widget> layout = [];
+    for (var i = 0; i < length; i++) {
+      layout.add(this[i]);
+      if (!(i == length - 1) || last) {
+        layout.add(SizedBox(width: padding));
+      }
+    }
+    return layout;
+  }
+
+  List<Widget> traillingPaddingCol(double padding, {bool last = false}) {
+    List<Widget> layout = [];
+    for (var i = 0; i < length; i++) {
+      layout.add(this[i]);
+      if (!(i == length - 1) || last) {
+        layout.add(SizedBox(height: padding));
+      }
+    }
+    return layout;
+  }
+}
+
 extension HttpParameter on dynamic {
   String asHttpParameter(
     String s, {
