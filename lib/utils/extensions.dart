@@ -10,6 +10,12 @@ extension ExpandWidget on Widget {
   }
 }
 
+extension NullInit on dynamic {
+  T? boolInit<T>(bool condition) {
+    return condition ? this as T : null;
+  }
+}
+
 extension ListPadding on List<Widget> {
   List<Widget> traillingPaddingRow(double padding, {bool last = false}) {
     List<Widget> layout = [];

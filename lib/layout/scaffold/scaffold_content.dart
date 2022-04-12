@@ -18,28 +18,27 @@ class ScaffoldContent extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
     LegendTheme theme = context.watch<LegendTheme>();
+    double paddingHeight =
+        scaffold.disableContentDecoration ? 0 : theme.sizing.padding[1] * 2;
+    double height = maxHeight - paddingHeight;
+
+    Decoration? decoration = BoxDecoration(
+      color: theme.colors.background[0],
+      borderRadius: theme.sizing.borderRadius[0],
+    ).boolInit(!scaffold.disableContentDecoration);
+
+    EdgeInsetsGeometry? padding = EdgeInsets.all(
+      theme.sizing.padding[1],
+    ).boolInit(!scaffold.disableContentDecoration);
+
+    BoxConstraints? constraints = BoxConstraints(
+      minHeight: height,
+    ).boolInit(scaffold.singlePage);
 
     return Container(
-      height: maxHeight,
-      decoration: scaffold.disableContentDecoration
-          ? null
-          : BoxDecoration(
-              color: theme.colors.background[0],
-              borderRadius: theme.sizing.borderRadius[0],
-            ),
-      padding: scaffold.disableContentDecoration
-          ? null
-          : EdgeInsets.all(
-              theme.sizing.padding[1],
-            ),
-      constraints: scaffold.singlePage
-          ? BoxConstraints(
-              minHeight: maxHeight -
-                  (scaffold.disableContentDecoration
-                      ? 0
-                      : theme.sizing.padding[1] * 2),
-            )
-          : null,
+      decoration: decoration,
+      padding: padding,
+      constraints: constraints,
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Builder(
@@ -48,10 +47,7 @@ class ScaffoldContent extends StatelessWidget {
                 context,
                 Size(
                   scaffold.maxContentWidth ?? constraints.maxWidth,
-                  maxHeight -
-                      (scaffold.disableContentDecoration
-                          ? 0
-                          : (theme.sizing.padding[1] * 2)),
+                  height,
                 ),
               );
             },
