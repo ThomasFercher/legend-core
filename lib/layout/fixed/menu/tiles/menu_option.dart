@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/legendPopups.dart';
-import 'package:legend_design_core/objects/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
-import '../router/legend_router.dart';
+import '../../../../router/legend_router.dart';
 
 class MenuOption {
   final String? title;
@@ -143,11 +143,9 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
               icon: option.icon,
               title: option.title,
               path: option.page,
-              left: false,
               backgroundColor: theme.colors.background[1],
               activeColor: theme.colors.selection,
               color: theme.colors.textOnDark,
-              collapsed: false,
               onClicked: () => poppedFromtTop = true,
               forceColor: option == sel,
               bottomSpacing: 16,

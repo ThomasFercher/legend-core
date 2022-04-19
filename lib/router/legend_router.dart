@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 
-import '../objects/menu_option.dart';
+import '../layout/fixed/menu/tiles/menu_option.dart';
 import 'errorpages/notfound.dart';
 import 'router_delegate.dart';
 import 'routes/route_info.dart';
 import 'routes/section/section_provider.dart';
 
-export '../objects/menu_option.dart';
+export '../layout/fixed/menu/tiles/menu_option.dart';
 export 'errorpages/notfound.dart';
 export 'router_delegate.dart';
 export 'routes/route_info.dart';

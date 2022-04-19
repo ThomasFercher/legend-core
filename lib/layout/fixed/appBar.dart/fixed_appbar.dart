@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
@@ -19,6 +20,7 @@ class FixedAppBar extends StatefulWidget {
   final Radius? bottomBorderRadius;
   final BuildContext context;
   final LayoutType? layoutType;
+  final List<Widget>? appBarActions;
   late final bool collapsed;
   final bool forceElevate;
 
@@ -28,6 +30,7 @@ class FixedAppBar extends StatefulWidget {
     this.leading,
     this.bottomBorderRadius,
     this.layoutType,
+    this.appBarActions,
     this.showSubMenu = true,
     this.forceElevate = false,
     required this.context,
@@ -168,8 +171,9 @@ class _FixedAppBarState extends State<FixedAppBar> {
     bool isSubRoute =
         RouteInfoProvider.getCurrentMenuOption(context)?.isUnderlying ?? false;
     bool showBackArrow = isSubRoute &&
-        !(widget.showMenu ?? true) &&
-        widget.layoutType == LayoutType.FixedHeader;
+        ((!(widget.showMenu ?? true) &&
+                widget.layoutType == LayoutType.FixedHeader) ||
+            theme.sizingTheme.sizeIs(420));
 
     double screenWidth = MediaQuery.of(context).size.width;
     double titleWidth =
@@ -188,6 +192,10 @@ class _FixedAppBarState extends State<FixedAppBar> {
 
     bool showMenuCollapsed = collapsed && (widget.showMenu ?? true);
     bool showMenu;
+
+    double appBarHeight = theme.appBarSizing.appBarHeight +
+        (sizing?.contentPadding.vertical ?? 0.0);
+
     return Container(
       child: SliverAppBar(
         forceElevated: widget.forceElevate,
@@ -203,8 +211,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
           )
         ],
         title: Container(
-          height: theme.appBarSizing.appBarHeight +
-              (sizing?.contentPadding.vertical ?? 0.0),
+          height: appBarHeight,
           padding: EdgeInsets.only(
             top: sizing?.contentPadding.top ?? 0,
             bottom: sizing?.contentPadding.bottom ?? 0,
@@ -227,6 +234,9 @@ class _FixedAppBarState extends State<FixedAppBar> {
                           children: [
                             if (showBackArrow)
                               LegendAnimatedIcon(
+                                padding: EdgeInsets.only(
+                                  right: 6,
+                                ),
                                 icon: Icons.arrow_back_ios,
                                 theme: LegendAnimtedIconTheme(
                                   enabled: theme.colors.selection,
@@ -335,12 +345,9 @@ class _FixedAppBarState extends State<FixedAppBar> {
           ),
         ),
         titleSpacing: 0,
-        toolbarHeight: theme.appBarSizing.appBarHeight +
-            (sizing?.contentPadding.vertical ?? 0.0),
-        expandedHeight: theme.appBarSizing.appBarHeight +
-            (sizing?.contentPadding.vertical ?? 0.0),
-        collapsedHeight: theme.appBarSizing.appBarHeight +
-            (sizing?.contentPadding.vertical ?? 0.0),
+        toolbarHeight: appBarHeight,
+        expandedHeight: appBarHeight,
+        collapsedHeight: appBarHeight,
         pinned: sizing?.pinned ?? false,
         snap: sizing?.floating ?? false,
         floating: sizing?.floating ?? false,

@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:flutter/painting.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/utils/extensions.dart';
@@ -12,10 +14,10 @@ class SiderSubMenu extends StatefulWidget {
   final MenuOption option;
   final Color backgroundColor;
   final Color disabledBackground;
-  final bool collapsed;
   final Color activeBackground;
   final Color foregroundColor;
   final Color subMenuColor;
+  final bool alwaysExpanded;
 
   const SiderSubMenu({
     required this.option,
@@ -24,7 +26,7 @@ class SiderSubMenu extends StatefulWidget {
     required this.foregroundColor,
     required this.subMenuColor,
     required this.disabledBackground,
-    this.collapsed = false,
+    required this.alwaysExpanded,
   });
 
   @override
@@ -38,8 +40,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   void initState() {
-    maxHeight = 0;
-    isExpanded = false;
+    bool alwaysExpanded = widget.alwaysExpanded;
+    maxHeight = alwaysExpanded ? 320 : 0;
+    isExpanded = alwaysExpanded;
     tiles = [];
     super.initState();
   }
@@ -62,12 +65,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             title: option.title,
             path: option.page,
             backgroundColor: widget.backgroundColor,
-            left: false,
             activeColor: theme.colors.selection,
             color: widget.foregroundColor.darken(0.05),
-            collapsed: widget.collapsed,
             textSize: theme.typography.h1.fontSize,
-            rectangleIndicator: true,
             forceColor: widget.option == sel,
             iconSize: 18,
           );
@@ -76,64 +76,68 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
     );
   }
 
+  void onExit(PointerExitEvent e) {
+    if (widget.alwaysExpanded) {
+      return;
+    } else if (isExpanded) {
+      // Only closes if the user hovers upward.
+      // With this we can avoid unwanted resizings of the menu.
+      if (e.delta.dy < 0) {
+        setState(() {
+          maxHeight = 0;
+          isExpanded = false;
+        });
+      }
+    }
+  }
+
+  void onEnter(PointerEnterEvent e) {
+    if (widget.alwaysExpanded) {
+      return;
+    } else if (!isExpanded) {
+      setState(() {
+        maxHeight = 320;
+        isExpanded = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(isExpanded);
     LegendTheme theme = context.watch<LegendTheme>();
+
     return MouseRegion(
-      onEnter: (event) {
-        if (!isExpanded) {
-          setState(() {
-            maxHeight = 320;
-            isExpanded = true;
-          });
-        }
-      },
-      onExit: (e) {
-        if (isExpanded) {
-          // Only closes if the user hovers upward.
-          // With this we can avoid unwanted resizings of the menu.
-          if (e.delta.dy < 0) {
-            setState(() {
-              maxHeight = 0;
-              isExpanded = false;
-            });
-          }
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.only(
-          bottom: 8,
-        ),
-        child: Column(
-          children: [
-            HeaderTile(
-              background: widget.disabledBackground,
-              activeBackground: widget.activeBackground,
-              foreground: widget.foregroundColor,
-              option: widget.option,
-              isExpanded: isExpanded,
-              expandedBackground: widget.backgroundColor,
+      onEnter: onEnter,
+      onExit: onExit,
+      child: Column(
+        children: [
+          HeaderTile(
+            background: widget.disabledBackground,
+            activeBackground: widget.activeBackground,
+            foreground: widget.foregroundColor,
+            option: widget.option,
+            isExpanded: isExpanded,
+            expandedBackground: widget.backgroundColor,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.vertical(
+              bottom: theme.sizing.borderRadius[0].bottomLeft,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                bottom: theme.sizing.borderRadius[0].bottomLeft,
+            child: AnimatedContainer(
+              color: widget.backgroundColor,
+              duration: Duration(
+                milliseconds: 200,
               ),
-              child: AnimatedContainer(
-                color: widget.backgroundColor,
-                duration: Duration(
-                  milliseconds: 200,
-                ),
-                curve: Curves.easeInOutCubic,
-                height: maxHeight,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: tiles,
-                ),
+              curve: Curves.easeInOutCubic,
+              height: maxHeight,
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                children: tiles,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

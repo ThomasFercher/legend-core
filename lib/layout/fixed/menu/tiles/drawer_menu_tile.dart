@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/src/provider.dart';
 
-import '../typography/legend_text.dart';
+import '../../../../typography/legend_text.dart';
 
 const Duration duration = Duration(milliseconds: 300);
 
@@ -13,14 +14,11 @@ class DrawerMenuTile extends StatefulWidget {
   final String? title;
   final String path;
   final Color backgroundColor;
-  final bool left;
   final Color activeColor;
   final Color activeBackground;
-  final bool collapsed;
   final double? height;
   final void Function()? onClicked;
   final double? textSize;
-  final bool rectangleIndicator;
   final double iconSize;
   final bool forceColor;
   final BorderRadiusGeometry? borderRadius;
@@ -33,12 +31,9 @@ class DrawerMenuTile extends StatefulWidget {
     required this.path,
     required this.title,
     required this.backgroundColor,
-    required this.left,
     required this.activeColor,
-    required this.collapsed,
     required this.activeBackground,
     this.iconSize = 24,
-    this.rectangleIndicator = false,
     this.forceColor = false,
     this.forceBackground = false,
     this.borderRadius,
@@ -126,43 +121,33 @@ class _DrawerMenuTileState extends State<DrawerMenuTile>
         },
         child: AnimatedContainer(
           duration: duration,
-          padding: EdgeInsets.only(
-            left: widget.collapsed ? 0 : 26.0,
-            top: 12,
-            bottom: 12,
-          ),
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius,
             color: backgroundColor,
           ),
+          padding: EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 24,
+          ),
           child: Row(
-            mainAxisAlignment:
-                widget.left ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (!widget.left)
-                Icon(
-                  widget.icon,
+              Icon(
+                widget.icon,
+                color: color,
+                size: widget.iconSize,
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              LegendText(
+                text: widget.title,
+                selectable: false,
+                textStyle: theme.typography.h2.copyWith(
                   color: color,
-                  size: widget.iconSize,
+                  fontSize: widget.textSize,
                 ),
-              if (widget.title != null)
-                Container(
-                  margin: EdgeInsets.only(left: 12.0, right: 12.0),
-                  child: LegendText(
-                    text: widget.title!,
-                    selectable: false,
-                    textStyle: theme.typography.h2.copyWith(
-                      color: color,
-                      fontSize: widget.textSize,
-                    ),
-                  ),
-                ),
-              if (widget.left)
-                Icon(
-                  widget.icon,
-                  color: color,
-                  size: widget.iconSize,
-                ),
+              ),
             ],
           ),
         ),

@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:provider/provider.dart';
 
@@ -24,20 +27,20 @@ class ScaffoldHeader extends StatelessWidget {
       case LayoutType.FixedHeaderSider:
         return FixedAppBar(
           showMenu: showMenu,
-          builder: scaffold.appBarBuilder,
           layoutType: scaffold.layoutType,
           showSubMenu: scaffold.showTopSubMenu,
           forceElevate: scaffold.appBarForceElevate,
           context: context,
         );
       case LayoutType.FixedHeader:
-        return FixedAppBar(
-          builder: scaffold.appBarBuilder,
-          showMenu: showMenu,
-          layoutType: scaffold.layoutType,
-          showSubMenu: scaffold.showTopSubMenu,
-          forceElevate: scaffold.appBarForceElevate,
-          context: context,
+        return LegendAppBar(
+          actions: scaffold.appBarActions,
+          config: LegendAppBarConfig(
+            appBarHeight: theme.appBarSizing.appBarHeight,
+            elevation: 1,
+            pinned: true,
+            horizontalPadding: theme.appBarSizing.contentPadding.left,
+          ),
         );
       default:
         return SliverToBoxAdapter(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/drawers/menu_drawer.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/persistent_header.dart';
+import 'package:legend_design_core/layout/fixed/slivers/persistent_header.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_action_button.dart';
@@ -10,7 +10,7 @@ import 'package:legend_design_core/layout/scaffold/scaffold_header.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_sider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/router/routes/section/section_info.dart';
 import 'package:legend_design_core/router/routes/section/section_provider.dart';
@@ -29,7 +29,6 @@ class LegendScaffold extends StatelessWidget {
   final String pageName;
   final void Function(BuildContext context)? onActionButtonPressed;
   final WidgetBuilder? siderBuilder;
-  final WidgetBuilder? appBarBuilder;
   final Widget Function(BuildContext context, Size size)? contentBuilder;
   final FixedFooter? customFooter;
   final Widget? appBarBottom;
@@ -50,6 +49,8 @@ class LegendScaffold extends StatelessWidget {
   final bool shareParentSiderMenu;
   final bool appBarForceElevate;
 
+  final List<Widget>? appBarActions;
+
   final bool enableDefaultSettings;
   final bool singlePage;
   final bool isUnderlyingRoute;
@@ -65,7 +66,6 @@ class LegendScaffold extends StatelessWidget {
     this.siderBuilder,
     this.showSiderMenu = false,
     this.showAppBarMenu = false,
-    this.appBarBuilder,
     this.showSiderSubMenu = false,
     this.showSiderChildMenu = false,
     this.contentBuilder,
@@ -84,6 +84,7 @@ class LegendScaffold extends StatelessWidget {
     this.providers,
     this.appBarForceElevate = false,
     this.appBarBottomSize,
+    this.appBarActions,
   }) : super(key: key);
 
   @override
@@ -94,11 +95,10 @@ class LegendScaffold extends StatelessWidget {
     return ScaffoldInfo(
       scaffold: this,
       child: SizeInfo(
-        splits: theme.sizingTheme.splits,
+        sizing: theme.sizingTheme,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         useMobilDesign: true,
-        context: context,
         child: SectionNavigation(
           sections: sections,
           onNavigate: (section) {
@@ -222,95 +222,100 @@ class LegendScaffold extends StatelessWidget {
     }
     double maxHeight = calculateMinContentHeight(footerheight, context);
 
-    return Scaffold(
-      endDrawer: MenuDrawer(),
-      bottomNavigationBar: theme.bottomBarSizing != null
-          ? FixedBottomBar(
-              colors: theme.bottomBarPalette,
-              sizing: theme.bottomBarSizing!,
-            )
-          : null,
-      endDrawerEnableOpenDragGesture: false,
-      floatingActionButton:
-          onActionButtonPressed != null ? ScaffoldActionButton() : null,
-      body: ColoredBox(
-        color: theme.colors.background[1],
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                ScaffoldSider(),
-                Expanded(
-                  child: CustomScrollView(
-                    controller: ScrollController(),
-                    slivers: [
-                      ScaffoldHeader(),
-                      if (showAppBarBottom)
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: PersistentHeader(
-                            child: appBarBottom!,
-                            maxHeight: appBarBottomSize!.height,
-                            minHeight: appBarBottomSize!.width,
-                            backgroundColor: theme.colors.background[1],
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        endDrawer: MenuDrawer(),
+        bottomNavigationBar: theme.bottomBarSizing != null
+            ? FixedBottomBar(
+                colors: theme.bottomBarPalette,
+                sizing: theme.bottomBarSizing!,
+              )
+            : null,
+        endDrawerEnableOpenDragGesture: false,
+        floatingActionButton:
+            onActionButtonPressed != null ? ScaffoldActionButton() : null,
+        body: ColoredBox(
+          color: theme.colors.background[1],
+          child: Stack(
+            children: [
+              Row(
+                children: [
+                  ScaffoldSider(),
+                  Expanded(
+                    child: CustomScrollView(
+                      controller: ScrollController(),
+                      slivers: [
+                        ScaffoldHeader(),
+                        if (showAppBarBottom)
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: PersistentHeader(
+                              child: appBarBottom!,
+                              maxHeight: appBarBottomSize!.height,
+                              minHeight: appBarBottomSize!.width,
+                              backgroundColor: theme.colors.background[1],
+                            ),
                           ),
-                        ),
-                      if (showBuilder)
-                        SliverToBoxAdapter(
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: disableContentDecoration
-                                    ? null
-                                    : EdgeInsets.all(
-                                        theme.sizing.padding[0],
-                                      ),
-                                //   color: Colors.red,
-                                constraints: BoxConstraints(
-                                  minHeight: maxHeight,
-                                  maxHeight:
-                                      singlePage ? maxHeight : double.infinity,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (showContentHeader)
-                                      SizedBox(
-                                        height: 48,
-                                        child: LegendText(
-                                          padding: EdgeInsets.only(
-                                            bottom: 8,
-                                          ),
-                                          text: currentRoute?.title ?? '',
-                                          textStyle:
-                                              theme.typography.h5.copyWith(
-                                            color: theme.colors.textOnLight,
+                        if (showBuilder)
+                          SliverToBoxAdapter(
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: disableContentDecoration
+                                      ? null
+                                      : EdgeInsets.all(
+                                          theme.sizing.padding[0],
+                                        ),
+                                  //   color: Colors.red,
+                                  constraints: BoxConstraints(
+                                    minHeight: maxHeight,
+                                    maxHeight: singlePage
+                                        ? maxHeight
+                                        : double.infinity,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      if (showContentHeader)
+                                        SizedBox(
+                                          height: 48,
+                                          child: LegendText(
+                                            padding: EdgeInsets.only(
+                                              bottom: 8,
+                                            ),
+                                            text: currentRoute?.title ?? '',
+                                            textStyle:
+                                                theme.typography.h5.copyWith(
+                                              color: theme.colors.textOnLight,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ScaffoldContent(
-                                      maxHeight: maxHeight,
-                                    )
-                                  ],
+                                      ScaffoldContent(
+                                        maxHeight: maxHeight,
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              if (footerheight != null) ScaffoldFooter(),
-                            ],
+                                if (footerheight != null) ScaffoldFooter(),
+                              ],
+                            ),
+                          )
+                        else
+                          SliverList(
+                            delegate: SliverChildListDelegate(
+                              getChildren(context, footerheight != null),
+                            ),
                           ),
-                        )
-                      else
-                        SliverList(
-                          delegate: SliverChildListDelegate(
-                            getChildren(context, footerheight != null),
-                          ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            if (showTitle) ScaffoldTitle(),
-          ],
+                ],
+              ),
+              if (showTitle) ScaffoldTitle(),
+            ],
+          ),
         ),
       ),
     );

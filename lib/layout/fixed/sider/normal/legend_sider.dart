@@ -5,7 +5,7 @@ import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/objects/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/router/routes/section/section_info.dart';
@@ -52,11 +52,9 @@ class Sider extends StatelessWidget {
           icon: option.icon,
           path: option.page,
           title: option.title,
-          collapsed: false,
           activeColor: theme.appBarPalette.selected,
           backgroundColor: theme.colors.primary,
           color: theme.appBarPalette.foreground,
-          left: false,
         ),
       ),
     );
@@ -68,11 +66,9 @@ class Sider extends StatelessWidget {
           icon: option.icon,
           path: option.page,
           title: option.title,
-          collapsed: false,
           activeColor: theme.appBarPalette.selected,
           backgroundColor: theme.colors.primary,
           color: theme.appBarPalette.foreground,
-          left: false,
         ),
       ),
     );

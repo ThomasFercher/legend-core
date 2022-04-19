@@ -54,7 +54,7 @@ class LegendTheme extends ChangeNotifier {
 
   BottomBarSizing? get bottomBarSizing => sizing.bottomBarSizing;
 
-  List<double> get splits => sizingTheme.splits;
+  List<double> get splits => sizingTheme.sizings.keys.toList();
 
   final bool _menuCollapsed = false;
   bool get menuCollapsed => _menuCollapsed;
@@ -89,20 +89,6 @@ class LegendTheme extends ChangeNotifier {
         systemNavigationBarColor: _systemNavigationBarColor,
       ),
     );
-  }
-
-  /// Returns true if the current [LegendSizing] index is the same as [i]
-  bool sizeIs(int i) => sizingTheme.index == i;
-
-  /// Returns true if the current [LegendSizing] index is in the range
-  /// [s] inclusive
-  /// [e] inclusive
-  bool sizeIsRange(int s, int e) =>
-      (s <= sizingTheme.index && e >= sizingTheme.index) ? true : false;
-
-  void setSizing(int i) {
-    sizingTheme.setSizing(i);
-    updateTypography();
   }
 
   /// Changes the current [LegendPalette] responding to the [type]

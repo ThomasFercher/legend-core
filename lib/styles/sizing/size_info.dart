@@ -12,48 +12,30 @@ class SizeInfo extends InheritedWidget {
   final bool useMobilDesign;
   final double height;
   late bool _isMobile;
-  final BuildContext context;
-
-  final List<double> splits;
+  final LegendSizingTheme sizing;
 
   SizeInfo({
     required this.child,
     required this.width,
     required this.height,
-    required this.context,
+    required this.sizing,
     required this.useMobilDesign,
-    required this.splits,
   }) : super(child: child) {
-    _isMobile = _isMobileCheck();
-    _updateSizing(context);
+    _isMobile = _checkIsMobile;
+    _updateSizing();
   }
 
   bool get isMobile => _isMobile;
 
-  bool _isMobileCheck() {
+  bool get _checkIsMobile {
     if (!kIsWeb ? Platform.isIOS || Platform.isAndroid : false) {
-      return true;
-    } else if (width < splits[0]) {
       return true;
     } else {
       return false;
     }
   }
 
-  void _updateSizing(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    for (var i = 0; i < splits.length; i++) {
-      double split = splits[i];
-      double? splitB = i > 0 ? splits[i - 1] : null;
-
-      if (width < split && width > (splitB ?? double.negativeInfinity)) {
-        if (theme.sizingTheme.index != i) {
-          print('Res: $split $i');
-          theme.setSizing(i);
-        }
-      }
-    }
-  }
+  void _updateSizing() => sizing.setWidth = width;
 
   static SizeInfo of(BuildContext context) {
     final SizeInfo? result =

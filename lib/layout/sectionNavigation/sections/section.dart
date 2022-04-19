@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/sections/section_header.dart';
+import 'package:legend_design_core/layout/sectionNavigation/sections/section_header.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 

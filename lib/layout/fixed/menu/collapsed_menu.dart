@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -23,28 +22,18 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
 
     return Container(
       width: widget.width,
-      child: GestureDetector(
-        onTap: () {
-          LegendRouter.of(context).pushPage(
-            settings: const RouteSettings(name: '/siderMenu'),
-          );
-          /*  RouterProvider.of(context).pushPage(
-              settings: const RouteSettings(name: '/siderMenu'),
-            );*/
-          //      Scaffold.of(context).openEndDrawer();
+      alignment: Alignment.center,
+      child: LegendAnimatedIcon(
+        padding: EdgeInsets.all(0),
+        iconSize: theme.appBarSizing.iconSize ?? 32,
+        onPressed: () {
+          Scaffold.of(context).openEndDrawer();
         },
-        child: LegendAnimatedIcon(
-          padding: EdgeInsets.all(0),
-          iconSize: theme.appBarSizing.iconSize ?? 32,
-          onPressed: () {
-            Scaffold.of(context).openEndDrawer();
-          },
-          icon: Icons.menu,
-          disableShadow: true,
-          theme: LegendAnimtedIconTheme(
-            disabled: theme.colors.appBarPalette.foreground,
-            enabled: theme.colors.selection,
-          ),
+        icon: Icons.menu,
+        disableShadow: true,
+        theme: LegendAnimtedIconTheme(
+          disabled: theme.colors.appBarPalette.foreground,
+          enabled: theme.colors.selection,
         ),
       ),
     );

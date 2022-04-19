@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -12,8 +13,6 @@ class FixedMenu extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foreground;
   final bool showSubMenu;
-
-  final GlobalKey _key = GlobalKey();
 
   FixedMenu({
     required this.showSubMenu,
@@ -29,9 +28,7 @@ class FixedMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
-
     List<MenuOption> options = LegendRouter.of(context).menuOptions;
-
     List<MenuOptionHeader> headers = [];
 
     for (final option in options) {
@@ -49,28 +46,27 @@ class FixedMenu extends StatelessWidget {
       }
     }
 
-    return Container(
-      //  margin: const EdgeInsets.only(left: 16.0),
-
-      height: theme.appBarSizing.appBarHeight,
-      key: _key,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return ListView.separated(
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth == 32) {
+        return CollapsedMenu(width: 32);
+      } else {
+        return Container(
+          height: theme.appBarSizing.appBarHeight,
+          child: ListView.separated(
             itemBuilder: (context, index) {
               return headers[index];
             },
             separatorBuilder: (context, index) {
-              return Container(
+              return SizedBox(
                 width: theme.appBarSizing.spacing,
               );
             },
             itemCount: headers.length,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-          );
-        },
-      ),
-    );
+          ),
+        );
+      }
+    });
   }
 }

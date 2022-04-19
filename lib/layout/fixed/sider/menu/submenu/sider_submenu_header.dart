@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -33,12 +33,10 @@ class HeaderTile extends StatelessWidget {
       title: option.title,
       path: option.page,
       backgroundColor: isExpanded ? expandedBackground : background,
-      left: false,
       forceBackground: isExpanded,
       activeColor: theme.colors.selection,
       color: foreground,
-      collapsed: false,
-      bottomSpacing: 12,
+      bottomSpacing: 0,
       borderRadius: BorderRadius.vertical(
         top: theme.sizing.borderRadius[0].bottomLeft,
         bottom:
