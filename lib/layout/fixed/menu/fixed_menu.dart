@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 class FixedMenu extends StatelessWidget {
   final void Function(MenuOptionHeader option)? onSelected;
   final bool? showIconsOnly;
-  final Color? iconColor;
   final Color? selected;
   final Color? backgroundColor;
   final Color? foreground;
@@ -18,7 +17,6 @@ class FixedMenu extends StatelessWidget {
     required this.showSubMenu,
     this.onSelected,
     this.showIconsOnly,
-    this.iconColor,
     this.selected,
     this.backgroundColor,
     this.foreground,

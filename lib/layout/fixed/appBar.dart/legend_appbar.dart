@@ -81,7 +81,13 @@ class LegendAppBar extends StatelessWidget {
                   ),
                 ),
             AppBarItem.LOGO: getLogo(context),
-            if (showMenu) AppBarItem.MENU: FixedMenu(showSubMenu: false),
+            if (showMenu)
+              AppBarItem.MENU: FixedMenu(
+                showSubMenu: false,
+                backgroundColor: theme.colors.appBarPalette.background,
+                foreground: theme.colors.appBarPalette.foreground,
+                selected: theme.colors.appBarPalette.selected,
+              ),
             if (actions != null && actions!.isNotEmpty)
               AppBarItem.ACTIONS: Row(
                 mainAxisSize: MainAxisSize.min,

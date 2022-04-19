@@ -321,7 +321,6 @@ class _FixedAppBarState extends State<FixedAppBar> {
                             child: Opacity(
                               opacity: 1,
                               child: FixedMenu(
-                                iconColor: theme.appBarPalette.icon,
                                 selected: theme.appBarPalette.selected,
                                 backgroundColor: theme.appBarPalette.background,
                                 foreground: theme.appBarPalette.foreground,
