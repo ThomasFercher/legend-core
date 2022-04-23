@@ -1,75 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider_menu.dart';
-import 'package:legend_design_core/objects/drawer_menu_tile.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
+import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ThemeProvider theme = Provider.of<ThemeProvider>(context);
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
-    List<DrawerMenuTile> tiles = List.of(
-      options.map(
-        (option) => DrawerMenuTile(
-          icon: option.icon,
-          title: option.title,
-          path: option.page,
-          left: false,
-          backgroundColor: theme.colors.cardBackgroundColor,
-          activeColor: theme.colors.selectionColor,
-          color: theme.colors.primaryColor,
-          collapsed: true,
-        ),
-      ),
-    );
+    LegendTheme theme = Provider.of<LegendTheme>(context);
+    SizeInfo sizeInfo = SizeInfo.of(context);
+    bool isMobile = sizeInfo.isMobile;
+    double mWidth = sizeInfo.width;
+    double width = isMobile ? mWidth * 0.8 : 400;
+    double topPadding = MediaQuery.of(context).padding.top;
 
-    double mWidth = MediaQuery.of(context).size.width;
-    double width = 320;
-    if (mWidth <= width) {
-      width = mWidth * 3 / 4;
-    }
+    EdgeInsetsGeometry padding = isMobile
+        ? EdgeInsets.only(
+            top: topPadding,
+            left: 12,
+            right: 12,
+          )
+        : EdgeInsets.symmetric(
+            horizontal: 24,
+          );
 
-    return Container(
+    return SizedBox(
       width: width,
       child: Drawer(
         elevation: 4,
         child: Container(
-          color: theme.colors.cardBackgroundColor,
-          padding: const EdgeInsets.symmetric(
-            vertical: 32,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          color: theme.colors.primary,
+          padding: padding,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            //   crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                ),
+              SizedBox(
+                height: theme.sizing.appBarSizing.appBarHeight - 4,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      child: LegendText(
-                        padding: EdgeInsets.only(
-                          right: 8,
-                        ),
-                        text: 'Legend Design',
-                        textStyle: theme.typography.h5.copyWith(
-                          color: theme.colors.textColorDark,
-                        ),
-                      ),
-                    ),
                     LegendAnimatedIcon(
                       icon: Icons.close,
                       disableShadow: true,
                       theme: LegendAnimtedIconTheme(
-                        enabled: theme.colors.selectionColor,
-                        disabled: theme.colors.foreground[1],
+                        enabled: theme.colors.selection,
+                        disabled: theme.colors.onPrimary,
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -78,22 +58,28 @@ class MenuDrawer extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 12.0,
-                  left: 24,
-                  right: 24,
-                ),
-                child: Divider(
-                  height: 1,
-                  thickness: 0.5,
-                  color: theme.colors.foreground[0],
-                ),
+              Divider(
+                height: 4,
+                thickness: 1,
+                color: theme.colors.onPrimary,
+              ),
+              const SizedBox(
+                height: 24,
               ),
               FixedSiderMenu(
-                backgroundColor: theme.colors.cardBackgroundColor,
-                foregroundColor: theme.colors.primaryColor,
-              )
+                background: theme.colors.primary,
+                activeForeground: theme.colors.selection,
+                subMenuColor: Colors.indigo[900]!,
+                foreground: theme.colors.textOnLight,
+                activeBackground: Colors.indigo[800]!,
+                spacing: 6,
+                options: LegendRouter.of(context).menuOptions,
+                showMenuSubItems: true,
+                collapsed: false,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
             ],
           ),
         ),

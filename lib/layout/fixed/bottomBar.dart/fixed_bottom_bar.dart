@@ -1,45 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/colors/sub_palettes/bottom_bar_palette.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 import 'package:provider/provider.dart';
-
-class BottomBarColors {
-  final Color? activeColor;
-  final Color? disabledColor;
-  final Color? backgroundColor;
-
-  BottomBarColors({
-    this.activeColor,
-    this.disabledColor,
-    this.backgroundColor,
-  });
-}
-
-class BottomBarSizing {
-  final EdgeInsets margin;
-  final BoxDecoration decoration;
-  final double height;
-  final bool showText;
-  final bool? textAtBottom;
-
-  final double? iconSize;
-
-  BottomBarSizing({
-    required this.showText,
-    required this.margin,
-    required this.decoration,
-    required this.height,
-    this.textAtBottom,
-    this.iconSize,
-  });
-}
 
 class FixedBottomBar extends StatelessWidget {
   final bool? fit;
   late BottomBarSizing sizing;
-  late BottomBarColors colors;
+  late BottomBarPalette colors;
 
   FixedBottomBar({
     Key? key,
@@ -52,7 +22,7 @@ class FixedBottomBar extends StatelessWidget {
   late List<BottomBarItem> items;
 
   List<BottomBarItem> getOptions(BuildContext c) {
-    List<MenuOption> options = RouterProvider.of(c).menuOptions;
+    List<MenuOption> options = LegendRouter.of(c).menuOptions;
     List<BottomBarItem> it = [];
 
     for (final MenuOption o in options) {
@@ -71,7 +41,7 @@ class FixedBottomBar extends StatelessWidget {
   }
 
   List<BottomBarItem> getItems(BuildContext context) {
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    List<MenuOption> options = LegendRouter.of(context).menuOptions;
     List<BottomBarItem> it = [];
     for (var i = 0; i < options.length; i++) {
       MenuOption option = options[i];
@@ -86,13 +56,13 @@ class FixedBottomBar extends StatelessWidget {
       );
       it.add(item);
     }
-    print(it);
+
     return it;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MenuOption> options = RouterProvider.of(context).menuOptions;
+    List<MenuOption> options = LegendRouter.of(context).menuOptions;
 
     return Material(
       color: colors.backgroundColor,

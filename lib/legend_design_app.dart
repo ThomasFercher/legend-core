@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/fixed_footer.dart';
+import 'package:legend_design_core/layout/fixed/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
-import 'objects/menu_option.dart';
-import 'router/delegate.dart';
-import 'router/parser.dart';
-import 'router/routes/route_info.dart';
-import 'styles/theming/colors/legend_colors.dart';
+import 'router/route_info_parser.dart';
+import 'styles/colors/legend_colors.dart';
 import 'utils/restart.dart';
 
 class LegendApp extends StatelessWidget {
-  final routerDelegate = WebRouterDelegate();
+  final routerDelegate = LegendRouterDelegate();
   final List<MenuOption> menuOptions;
   final List<RouteInfo> routes;
   final Widget? logo;
-  final ThemeProvider theme;
+  final LegendTheme theme;
   final FixedFooter? globalFooter;
   final String? title;
   final Future<Object?>? future;
@@ -42,7 +39,7 @@ class LegendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<SingleChildWidget> _providers = [
-      ChangeNotifierProvider<ThemeProvider>(
+      ChangeNotifierProvider<LegendTheme>(
         create: (_) => theme,
       ),
       ChangeNotifierProvider<BottomBarProvider>(
@@ -60,12 +57,12 @@ class LegendApp extends StatelessWidget {
           return MultiProvider(
             providers: _providers,
             child: Builder(builder: (context) {
-              ThemeProvider theme = Provider.of<ThemeProvider>(context);
+              LegendTheme theme = Provider.of<LegendTheme>(context);
               return LayoutProvider(
                 globalFooter: globalFooter,
                 title: title,
                 logo: logo,
-                child: RouterProvider(
+                child: LegendRouter(
                   routerDelegate: routerDelegate,
                   routes: routes,
                   menuOptions: menuOptions,
@@ -73,15 +70,16 @@ class LegendApp extends StatelessWidget {
                     child: MaterialApp.router(
                       title: 'Legend Design',
                       routerDelegate: routerDelegate,
-                      routeInformationParser: const MyRouteInformationParser(),
+                      routeInformationParser:
+                          const LegendRouteInformationParser(),
                       debugShowCheckedModeBanner: false,
                       backButtonDispatcher: RootBackButtonDispatcher(),
                       themeMode: ThemeMode.light,
                       theme: ThemeData(
                         // Implement as method of LegendTheme
                         colorScheme: ColorScheme(
-                          primary: theme.colors.primaryColor,
-                          secondary: theme.colors.secondaryColor,
+                          primary: theme.colors.primary,
+                          secondary: theme.colors.primary,
                           surface: theme.colors.foreground[1],
                           background: Colors.transparent,
                           error: Colors.redAccent,

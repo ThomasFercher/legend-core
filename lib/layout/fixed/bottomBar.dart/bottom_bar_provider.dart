@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
+import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
 
 class BottomBarProvider with ChangeNotifier {
   late MenuOption selected;

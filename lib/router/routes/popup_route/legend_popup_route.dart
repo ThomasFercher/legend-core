@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/router/routes/popup_route/popup_route_config.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:provider/provider.dart';
 
 const Duration duration = Duration(milliseconds: 200);
 
@@ -35,13 +37,12 @@ class LegendPopupRoute<T> extends PopupRoute<T> {
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
-    return SizeProvider(
-      context: context,
+    LegendTheme theme = context.watch<LegendTheme>();
+
+    return SizeInfo(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      splits: [
-        420,
-      ],
+      sizing: theme.sizingTheme,
       useMobilDesign: true,
       child: Stack(
         children: [

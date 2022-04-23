@@ -1,12 +1,11 @@
 import 'dart:math';
 
 import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
-import 'package:legend_design_core/styles/theming/sizing/size_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
 
 class LegendPopups {
@@ -59,7 +58,7 @@ class LegendPopups {
   }
 
   static void showSubMenu({
-    required ThemeProvider theme,
+    required LegendTheme theme,
     required double menuWidth,
     required double itemWidth,
     void Function(PointerExitEvent event)? onExit,
@@ -73,8 +72,8 @@ class LegendPopups {
     BorderRadiusGeometry? borderRadius,
     double snappedRightPadding = 16,
   }) {
-    double maxWidth = SizeProvider.of(context).width;
-    double left_q = (menuWidth - itemWidth) / 2;
+    double maxWidth = SizeInfo.of(context).width;
+    double leftQ = (menuWidth - itemWidth) / 2;
     double center = LegendUtils.getVerticalCenter(context, key, menuWidth) ?? 0;
 
     bool snappedRight = false;
@@ -94,7 +93,7 @@ class LegendPopups {
         barrierColor: Colors.transparent,
         barrierDismissible: true,
         transitionDuration: Duration(milliseconds: 200),
-        barrierLabel: "",
+        barrierLabel: '',
         reverseTransitionDuration: Duration(milliseconds: 100),
       ),
       modal: ModalSheet(
@@ -107,14 +106,14 @@ class LegendPopups {
               if (p.dy <= (parentHeight ?? 0)) {
                 if (snappedRight) {
                   if (event.localDelta.dy < 0) {
-                    left_q = menuWidth - itemWidth - snappedRightPadding;
+                    leftQ = menuWidth - itemWidth - snappedRightPadding;
 
-                    if (left_q >= p.dx) {
+                    if (leftQ >= p.dx) {
                       if (onParentExit != null) onParentExit(event, p);
                     }
                   }
                 } else {
-                  if (p.dx <= left_q || p.dx >= (menuWidth - left_q)) {
+                  if (p.dx <= leftQ || p.dx >= (menuWidth - leftQ)) {
                     if (onParentExit != null) onParentExit(event, p);
                   }
                 }
@@ -133,7 +132,7 @@ class LegendPopups {
                   },
                   child: Container(
                     margin: snappedRight
-                        ? EdgeInsets.only(left: left_q + snappedRightPadding)
+                        ? EdgeInsets.only(left: leftQ + snappedRightPadding)
                         : EdgeInsets.zero,
                     height: parentHeight,
                     width: itemWidth,
@@ -157,7 +156,7 @@ class LegendPopups {
                             ),
                           ),
                     ),
-                    color: theme.colors.foreground[1],
+                    color: theme.colors.background[1],
                     margin: const EdgeInsets.all(0),
                     child: Padding(
                       padding: EdgeInsets.only(

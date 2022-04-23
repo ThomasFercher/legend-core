@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/fixed_bottom_bar.dart';
-import 'package:legend_design_core/objects/menu_option.dart';
-import 'package:legend_design_core/router/router_provider.dart';
-import 'package:legend_design_core/styles/theming/theme_provider.dart';
+import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:provider/provider.dart';
 
 class BottomBarItem extends StatefulWidget {
   final MenuOption option;
   final BottomBarSizing? sizing;
-  final BottomBarColors colors;
+  final BottomBarPalette colors;
   final void Function(MenuOption option) onSelected;
 
   const BottomBarItem({
@@ -39,7 +37,7 @@ class _BottomBarItemState extends State<BottomBarItem>
   @override
   void initState() {
     super.initState();
-    _disabledColor = widget.colors.disabledColor ?? Colors.black38;
+    _disabledColor = widget.colors.disabledColor;
     _activeColor = _disabledColor;
     _isSelected = false;
 
@@ -79,7 +77,7 @@ class _BottomBarItemState extends State<BottomBarItem>
   }
 
   Widget getText(BuildContext context) {
-    ThemeProvider theme = context.watch<ThemeProvider>();
+    LegendTheme theme = context.watch<LegendTheme>();
     return LegendText(
       text: widget.option.title!,
       textStyle: theme.typography.h0.copyWith(
@@ -112,7 +110,7 @@ class _BottomBarItemState extends State<BottomBarItem>
               onTap: () {
                 widget.onSelected(widget.option);
 
-                RouterProvider.of(context).pushPage(
+                LegendRouter.of(context).pushPage(
                   settings: RouteSettings(name: widget.option.page),
                 );
               },
