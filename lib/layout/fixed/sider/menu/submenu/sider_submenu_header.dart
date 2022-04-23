@@ -28,20 +28,20 @@ class HeaderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     return DrawerMenuTile(
-      activeBackground: activeBackground,
+      selBackground: activeBackground,
       icon: option.icon,
       title: option.title,
       path: option.page,
-      backgroundColor: isExpanded ? expandedBackground : background,
-      forceBackground: isExpanded,
-      activeColor: theme.colors.selection,
-      color: foreground,
-      bottomSpacing: 0,
+      background: isExpanded ? expandedBackground : background,
+      selForeground: theme.colors.selection,
+      foreground: foreground,
       borderRadius: BorderRadius.vertical(
         top: theme.sizing.borderRadius[0].bottomLeft,
         bottom:
             isExpanded ? Radius.zero : theme.sizing.borderRadius[0].bottomLeft,
       ),
+      isHovered: true,
+      isSelected: false,
     );
   }
 }

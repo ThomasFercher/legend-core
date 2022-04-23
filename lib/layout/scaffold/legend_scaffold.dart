@@ -156,10 +156,9 @@ class LegendScaffold extends StatelessWidget {
         break;
       case LayoutType.FixedHeaderSider:
         height -= theme.sizing.appBarSizing.appBarHeight;
-        height -= theme.sizing.padding[0] * 2;
+
         break;
       case LayoutType.FixedSider:
-        height -= theme.sizing.padding[0] * 2;
         break;
     }
 
@@ -236,7 +235,7 @@ class LegendScaffold extends StatelessWidget {
         floatingActionButton:
             onActionButtonPressed != null ? ScaffoldActionButton() : null,
         body: ColoredBox(
-          color: theme.colors.background[1],
+          color: theme.colors.background[0],
           child: Stack(
             children: [
               Row(
@@ -254,7 +253,7 @@ class LegendScaffold extends StatelessWidget {
                               child: appBarBottom!,
                               maxHeight: appBarBottomSize!.height,
                               minHeight: appBarBottomSize!.width,
-                              backgroundColor: theme.colors.background[1],
+                              backgroundColor: theme.colors.background[0],
                             ),
                           ),
                         if (showBuilder)

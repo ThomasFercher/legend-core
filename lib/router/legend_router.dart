@@ -49,6 +49,10 @@ class LegendRouter extends InheritedWidget {
     }
   }
 
+  void popPage() {
+    routerDelegate.popRoute();
+  }
+
   static Widget? _getModalBody(RouteSettings s, List<RouteInfo> routes) {
     if (routes.isEmpty) {
       return null;

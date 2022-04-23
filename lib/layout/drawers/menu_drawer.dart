@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
+import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:provider/provider.dart';
@@ -66,12 +67,15 @@ class MenuDrawer extends StatelessWidget {
                 height: 24,
               ),
               FixedSiderMenu(
-                backgroundColor: theme.colors.primary,
-                activeForegroundColor: theme.colors.selection,
+                background: theme.colors.primary,
+                activeForeground: theme.colors.selection,
                 subMenuColor: Colors.indigo[900]!,
-                foregroundColor: theme.colors.textOnLight,
-                activeBackgroundColor: Colors.indigo[800]!,
+                foreground: theme.colors.textOnLight,
+                activeBackground: Colors.indigo[800]!,
                 spacing: 6,
+                options: LegendRouter.of(context).menuOptions,
+                showMenuSubItems: true,
+                collapsed: false,
               ),
               const SizedBox(
                 height: 24,

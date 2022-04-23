@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
 
 class SiderInfo extends InheritedWidget {
-  final FixedSider fixedSider;
+  final LegendSider fixedSider;
 
   SiderInfo({
     Key? key,

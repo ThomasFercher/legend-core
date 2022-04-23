@@ -3,6 +3,8 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart'
 import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 import 'package:legend_design_core/typography/typography.dart';
 
+import 'sub_sizing/sider_sizing.dart';
+
 export 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 export 'package:legend_design_core/typography/typography.dart';
@@ -14,6 +16,7 @@ class LegendSizing {
   final FixedAppBarSizing appBarSizing;
   final BottomBarSizing? bottomBarSizing;
   final LegendTypographySizing typographySizing;
+  final SiderSizing siderSizing;
   final List<double> elevations;
 
   // Layout
@@ -32,6 +35,7 @@ class LegendSizing {
     required this.appBarSizing,
     required this.typographySizing,
     required this.elevations,
+    required this.siderSizing,
     this.collapsedSider = false,
     this.bottomBarSizing,
     this.hideSider = false,

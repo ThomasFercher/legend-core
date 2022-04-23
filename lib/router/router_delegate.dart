@@ -27,6 +27,9 @@ class LegendRouterDelegate extends RouterDelegate<List<RouteSettings>>
       pages: List.of(_pages),
       key: navigatorKey,
       onPopPage: _onPopPage,
+      observers: [
+        HeroController(),
+      ],
       onGenerateRoute: onGenerateRoute,
     );
   }

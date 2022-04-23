@@ -56,7 +56,7 @@ class FixedBottomBar extends StatelessWidget {
       );
       it.add(item);
     }
-    print(it);
+
     return it;
   }
 

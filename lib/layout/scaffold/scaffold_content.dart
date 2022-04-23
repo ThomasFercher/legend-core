@@ -23,7 +23,7 @@ class ScaffoldContent extends StatelessWidget {
     double height = maxHeight - paddingHeight;
 
     Decoration? decoration = BoxDecoration(
-      color: theme.colors.background[0],
+      color: theme.colors.background[1],
       borderRadius: theme.sizing.borderRadius[0],
     ).boolInit(!scaffold.disableContentDecoration);
 
@@ -38,7 +38,6 @@ class ScaffoldContent extends StatelessWidget {
     return Container(
       decoration: decoration,
       padding: padding,
-      constraints: constraints,
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Builder(

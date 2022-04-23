@@ -40,36 +40,31 @@ class _FixedFooterState extends State<FixedFooter> {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
 
-    return Hero(
-      tag: ValueKey('footer'),
-      child: Material(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: widget.sizing?.height,
-          decoration: BoxDecoration(
-            color: theme.colors.footerPalette.background,
-            /*     boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 3,
-                blurRadius: 6,
-                offset: Offset(6, 0),
-              )
-            ],*/
-          ),
-          alignment: Alignment.center,
-          child: Container(
-            constraints: BoxConstraints(
-              maxWidth: widget.sizing?.maxWidth ?? 800,
-            ),
-            padding: widget.sizing?.padding,
-            child: Builder(
-              builder: (context) => widget.builder(
-                context,
-                widget.sizing,
-                widget.colors,
-              ),
-            ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: widget.sizing?.height,
+      decoration: BoxDecoration(
+        color: theme.colors.footerPalette.background,
+        /*     boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            spreadRadius: 3,
+            blurRadius: 6,
+            offset: Offset(6, 0),
+          )
+        ],*/
+      ),
+      alignment: Alignment.center,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: widget.sizing?.maxWidth ?? 800,
+        ),
+        padding: widget.sizing?.padding,
+        child: Builder(
+          builder: (context) => widget.builder(
+            context,
+            widget.sizing,
+            widget.colors,
           ),
         ),
       ),

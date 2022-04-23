@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
@@ -23,6 +24,8 @@ class LegendAppBar extends StatelessWidget {
   final Widget? title;
   final Widget? logo;
   final bool showMenu;
+  final bool showTitle;
+  final bool showLogo;
 
   const LegendAppBar({
     required this.config,
@@ -30,6 +33,8 @@ class LegendAppBar extends StatelessWidget {
     this.logo,
     this.title,
     this.showMenu = true,
+    this.showLogo = true,
+    this.showTitle = true,
   });
 
   Widget getLogo(BuildContext context) {
@@ -45,8 +50,8 @@ class LegendAppBar extends StatelessWidget {
       },
       child: logo ??
           Container(
-            width: theme.appBarSizing.titleSize ?? 64,
-            height: theme.appBarSizing.titleSize ?? 64,
+            width: theme.appBarSizing.logoSize,
+            height: theme.appBarSizing.logoSize,
             margin: EdgeInsets.only(
               right: 6,
             ),
@@ -73,20 +78,25 @@ class LegendAppBar extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarLayout(
           children: {
-            AppBarItem.TITLE: title ??
-                LegendText(
-                  text: LayoutProvider.of(context)!.title!,
-                  textStyle: theme.typography.h6.copyWith(
-                    color: theme.colors.appBarPalette.foreground,
+            if (showTitle)
+              AppBarItem.TITLE: title ??
+                  LegendText(
+                    text: LayoutProvider.of(context)!.title!,
+                    textStyle: theme.typography.h6.copyWith(
+                      color: theme.colors.appBarPalette.foreground,
+                    ),
                   ),
-                ),
-            AppBarItem.LOGO: getLogo(context),
+            if (showLogo) AppBarItem.LOGO: getLogo(context),
             if (showMenu)
               AppBarItem.MENU: FixedMenu(
-                showSubMenu: false,
-                backgroundColor: theme.colors.appBarPalette.background,
+                height: 48,
+                // showSubMenu: config.showSubMenu,
+                showMenuSubItems: false,
+                background: theme.colors.appBarPalette.background,
                 foreground: theme.colors.appBarPalette.foreground,
-                selected: theme.colors.appBarPalette.selected,
+                activeForeground: theme.colors.appBarPalette.selected,
+                options: LegendRouter.of(context).menuOptions,
+                activeBackground: theme.appBarPalette.background.lighten(),
               ),
             if (actions != null && actions!.isNotEmpty)
               AppBarItem.ACTIONS: Row(

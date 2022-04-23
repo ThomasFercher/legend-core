@@ -10,6 +10,7 @@ import 'colors/sub_palettes/footer_palette.dart';
 import 'colors/sub_palettes/sider_palette.dart';
 import 'sizing/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
+import 'sizing/sub_sizing/sider_sizing.dart';
 
 export '../typography/typography.dart';
 export 'colors/legend_color_theme.dart';
@@ -53,6 +54,8 @@ class LegendTheme extends ChangeNotifier {
   FixedAppBarSizing get appBarSizing => sizing.appBarSizing;
 
   BottomBarSizing? get bottomBarSizing => sizing.bottomBarSizing;
+
+  SiderSizing get siderSizing => sizing.siderSizing;
 
   List<double> get splits => sizingTheme.sizings.keys.toList();
 

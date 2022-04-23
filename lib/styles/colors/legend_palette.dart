@@ -127,6 +127,7 @@ class LegendPalette {
       foreground: onPrimary,
       background: primary,
       backgroundMenu: primary,
+      selection: selection,
     );
   }
 }

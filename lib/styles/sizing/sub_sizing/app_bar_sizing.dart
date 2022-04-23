@@ -4,7 +4,7 @@ class FixedAppBarSizing {
   final Radius? borderRadius;
   final EdgeInsets contentPadding;
   final ShapeBorder? shape;
-  final double? titleSize;
+  final double logoSize;
   late final bool pinned;
   late final bool floating;
   final double? spacing;
@@ -20,7 +20,7 @@ class FixedAppBarSizing {
     bool? floating,
     this.iconSize,
     this.spacing,
-    this.titleSize,
+    required this.logoSize,
   }) {
     this.floating = floating ?? false;
 

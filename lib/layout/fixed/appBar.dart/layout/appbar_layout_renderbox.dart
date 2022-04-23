@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 
 import 'appbar_layout.dart';
 
@@ -10,12 +11,13 @@ class AppBarLayoutRenderBox extends RenderBox
   final Color? background;
   late Size contentSize;
   final List<AppBarItem> items;
-
   late List<Size> sizes;
+  final double? siderOverlap;
 
   AppBarLayoutRenderBox({
     this.background,
     required this.items,
+    this.siderOverlap,
   });
 
   double getWidthWithoutMenu(BoxConstraints constraints) {
@@ -72,7 +74,7 @@ class AppBarLayoutRenderBox extends RenderBox
     RenderBox? logo = childForSlot(AppBarItem.LOGO);
     RenderBox? menu = childForSlot(AppBarItem.MENU);
 
-    double spacingLogoTitle = 4;
+    double spacingLogoTitle = spacing;
 
     bool isMenuCollapsed = false;
     double menuWidth = 0;
@@ -138,11 +140,33 @@ class AppBarLayoutRenderBox extends RenderBox
       offset = offset.translate(remaining, 0);
     }
 
+    // Actions When not collapsed
+    Size actionSize = Size.zero;
+    if (actions != null && !isMenuCollapsed) {
+      // Layout
+      actions.layout(childConstraints, parentUsesSize: true);
+      actionSize = actions.size;
+
+      // Center Vertically
+      Offset offset_action = Offset(
+        maxWidth - actionSize.width,
+        centerVertically(maxHeight, actionSize),
+      );
+
+      final BoxParentData parentData = actions.parentData! as BoxParentData;
+      parentData.offset = offset_action;
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - actionSize.width,
+      );
+    }
+
     // Menu
     Size menuSize = Size.zero;
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
       double left = titleSize.width + logoSize.width;
+      if (siderOverlap != null && left == 0) left = siderOverlap!;
+
       double padd = menuCenter - left;
       if (padd < 0) padd = 0;
       offset = offset.translate(padd, 0);
@@ -178,28 +202,26 @@ class AppBarLayoutRenderBox extends RenderBox
       parentData.offset = offset;
     }
 
-    // Actions
-    Size actionSize = Size.zero;
-    if (actions != null) {
+    // Actions When Collapsed
+    actionSize = Size.zero;
+    if (actions != null && isMenuCollapsed) {
       // Layout
       actions.layout(childConstraints, parentUsesSize: true);
       actionSize = actions.size;
 
       // Center Vertically
-      offset = Offset(
+      Offset offset_action = Offset(
         maxWidth - (isMenuCollapsed ? menuSize.width : 0) - actionSize.width,
         centerVertically(maxHeight, actionSize),
       );
 
       final BoxParentData parentData = actions.parentData! as BoxParentData;
-      parentData.offset = offset;
+      parentData.offset = offset_action;
       childConstraints = childConstraints.copyWith(
         maxWidth: childConstraints.maxWidth - actionSize.width,
       );
-      offset = offset.translate(actionSize.width, 0);
     }
 
-    print(childConstraints);
     size = contentSize;
   }
 

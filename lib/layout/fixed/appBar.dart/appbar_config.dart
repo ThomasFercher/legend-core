@@ -6,9 +6,11 @@ class LegendAppBarConfig {
   final bool floating;
   final double horizontalPadding;
   final double actionSpaceing;
+  final bool showSubMenu;
 
   LegendAppBarConfig({
     required this.appBarHeight,
+    required this.showSubMenu,
     required this.elevation,
     this.floating = false,
     this.pinned = false,

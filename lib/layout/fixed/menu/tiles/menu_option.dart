@@ -33,7 +33,7 @@ class MenuOption {
   }
 }
 
-class MenuOptionHeader extends StatefulWidget {
+/*class MenuOptionHeader extends StatefulWidget {
   final MenuOption option;
   Color? color;
   final Color? activeColor;
@@ -250,3 +250,4 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
     );
   }
 }
+*/

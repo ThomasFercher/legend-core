@@ -32,7 +32,7 @@ class ScaffoldSider extends StatelessWidget {
             )
           ],
         ),
-        child: FixedSider(
+        child: LegendSider(
           builder: scaffold.siderBuilder,
           showMenu: scaffold.showSiderMenu,
           showSubMenu: scaffold.showSiderSubMenu,
