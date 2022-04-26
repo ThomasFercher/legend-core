@@ -97,6 +97,7 @@ class LegendAppBar extends StatelessWidget {
                 activeForeground: theme.colors.appBarPalette.selected,
                 options: LegendRouter.of(context).menuOptions,
                 activeBackground: theme.appBarPalette.background.lighten(),
+                iconSize: theme.appBarSizing.iconSize,
               ),
             if (actions != null && actions!.isNotEmpty)
               AppBarItem.ACTIONS: Row(

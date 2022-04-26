@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/app_bar_palette.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/bottom_bar_palette.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/footer_palette.dart';
+import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/sider_palette.dart';
 import 'package:legend_design_core/typography/typography.dart';
+import 'package:legend_design_core/utils/extensions.dart';
 
 class LegendPalette {
   ///  Primary Color
@@ -70,6 +72,9 @@ class LegendPalette {
   /// Typography Color Palette
   late final TypographyColors typographyColors;
 
+  /// Typography Color Palette
+  late final MenuDrawerPalette menuDrawerPalette;
+
   /// Custom Color Palette for the whole Application
   /// Each Color is overridable in each single Widget
   LegendPalette({
@@ -92,6 +97,7 @@ class LegendPalette {
     AppBarPalette? appBarPalette,
     SiderPalette? siderPalette,
     BottomBarPalette? bottomBarPalette,
+    MenuDrawerPalette? menuDrawerPalette,
   }) {
     // Typography
     typographyColors ??= TypographyColors(baseColor: textOnDark);
@@ -128,6 +134,18 @@ class LegendPalette {
       background: primary,
       backgroundMenu: primary,
       selection: selection,
+    );
+
+    // Menu Drawer
+    this.menuDrawerPalette = MenuDrawerPalette.from(
+      palette: menuDrawerPalette,
+      background: primary,
+      backgroundMenu: primary,
+      foreground: onPrimary,
+      foreground_selection: selection,
+      foreground_menu_selction: selection,
+      background_menu_selection: primary.darken(0.2),
+      background_selection: primary.darken(),
     );
   }
 }

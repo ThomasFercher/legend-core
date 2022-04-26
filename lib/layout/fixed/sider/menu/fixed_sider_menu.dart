@@ -22,7 +22,9 @@ class FixedSiderMenu extends StatefulWidget {
   final bool collapsed;
   final BorderRadius? borderRadius;
   final List<MenuOption> options;
-  final double? height;
+  final double itemHeight;
+  final double subMenuHeaderHeight;
+  final double iconSize;
 
   FixedSiderMenu({
     Key? key,
@@ -37,8 +39,10 @@ class FixedSiderMenu extends StatefulWidget {
     required this.showMenuSubItems,
     this.subMenuExpanded = true,
     this.spacing = 12,
-    this.height,
+    this.itemHeight = 48,
     required this.collapsed,
+    this.subMenuHeaderHeight = 52,
+    this.iconSize = 24,
   }) : super(key: key);
 
   @override
@@ -48,6 +52,7 @@ class FixedSiderMenu extends StatefulWidget {
 class _FixedSiderMenuState extends State<FixedSiderMenu> {
   late int selected;
   late int? hovered;
+  late Map<int, bool> expanded;
 
   @override
   void initState() {
@@ -55,6 +60,8 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
 
     selected = 0;
     hovered = null;
+    expanded = {};
+    widget.subMenuExpanded;
   }
 
   @override
@@ -84,9 +91,11 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             selForeground: widget.activeForeground,
             background: widget.background,
             selBackground: widget.activeBackground,
-            isSelected: i == selected,
+            isSelected: option == sel,
             isHovered: i == hovered,
             icon: option.icon,
+            height: widget.itemHeight,
+            iconSize: widget.iconSize,
             title: widget.collapsed ? null : option.title,
             path: option.page,
             borderRadius: widget.borderRadius ?? theme.sizing.borderRadius[0],
@@ -96,11 +105,9 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
               });
             },
             onClicked: () {
-              setState(() {
-                selected = i;
-              });
-              LegendRouter.of(context)
-                  .pushPage(settings: RouteSettings(name: option.page));
+              LegendRouter.of(context).pushPage(
+                settings: RouteSettings(name: option.page),
+              );
             },
           ),
         );
@@ -108,12 +115,27 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
         tiles.add(
           SiderSubMenu(
             option: option,
-            backgroundColor: widget.activeBackground,
-            activeBackground: widget.activeBackground.darken(0.05),
-            foregroundColor: widget.foreground,
-            activeForeground: widget.activeForeground,
-            alwaysExpanded: widget.subMenuExpanded,
+            backgroundColor: (expanded[i] ?? false)
+                ? theme.menuDrawerPalette.backgroundMenu
+                : theme.menuDrawerPalette.background,
+            activeBackground: theme.menuDrawerPalette.background_menu_selection,
+            foregroundColor: theme.menuDrawerPalette.foreground,
+            activeForeground: theme.menuDrawerPalette.foreground_menu_selction,
+            expanded: expanded[i] ?? false,
             borderRadius: widget.borderRadius,
+            headerHeight: widget.subMenuHeaderHeight,
+            iconSize: widget.iconSize - 4,
+            headerIconSize: widget.iconSize,
+            itemHeight: widget.itemHeight - 12,
+            onResisize: (val) {
+              setState(() {
+                expanded.putIfAbsent(
+                  i,
+                  () => val,
+                );
+                expanded.update(i, (value) => val);
+              });
+            },
           ),
         );
       }
@@ -125,16 +147,52 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   Widget build(BuildContext context) {
     List<Widget> tiles = getTiles(context);
+    List<SiderSubMenu> subMenus = List.of(tiles.whereType<SiderSubMenu>());
+    List<int> indexes = subMenus.map((e) => tiles.indexOf(e)).toList();
+
+    List<DrawerMenuTile> drawer_tiles =
+        tiles.whereType<DrawerMenuTile>().toList();
 
     return Container(
       color: widget.background,
       padding: widget.padding,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        children: tiles.traillingPaddingCol(widget.spacing),
-      ),
+      child: LayoutBuilder(builder: (context, snapshot) {
+        double maxHeight = snapshot.maxHeight;
+        double drawer_tiles_height = drawer_tiles.length * widget.itemHeight;
+        double spacing = widget.spacing * (tiles.length);
+        double remaining = maxHeight - drawer_tiles_height - spacing;
+
+        for (var i = 0; i < indexes.length; i++) {
+          int index = indexes[i];
+          bool isExpanded = expanded[index] ?? false;
+
+          if (isExpanded) {
+            Widget child = tiles[index];
+            print(remaining);
+            tiles[index] = Container(
+              constraints: BoxConstraints(maxHeight: remaining),
+              child: child,
+            );
+          } else {
+            Widget child = tiles[index];
+            print(remaining);
+            tiles[index] = Container(
+              constraints:
+                  BoxConstraints(maxHeight: widget.subMenuHeaderHeight),
+              child: child,
+            );
+          }
+        }
+        print(snapshot);
+
+        return Container(
+          height: maxHeight,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: tiles.traillingPaddingCol(widget.spacing, last: true),
+          ),
+        );
+      }),
     );
   }
 }

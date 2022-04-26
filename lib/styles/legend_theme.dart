@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 
 import '../utils/restart.dart';
 import 'colors/legend_color_theme.dart';
@@ -10,6 +11,7 @@ import 'colors/sub_palettes/footer_palette.dart';
 import 'colors/sub_palettes/sider_palette.dart';
 import 'sizing/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
+import 'sizing/sub_sizing/menu_drawer_sizing.dart';
 import 'sizing/sub_sizing/sider_sizing.dart';
 
 export '../typography/typography.dart';
@@ -44,6 +46,9 @@ class LegendTheme extends ChangeNotifier {
   /// Gets the current [SiderPalette]
   SiderPalette get siderPalette => colors.siderPalette;
 
+  /// Gets the current [MenuDrawerPalette]
+  MenuDrawerPalette get menuDrawerPalette => colors.menuDrawerPalette;
+
   /// Sizing Theme for the whole applications. Contains a List of [LegendSizing] for multiple
   /// Screen Resolutions and platforms.
   final LegendSizingTheme sizingTheme;
@@ -56,6 +61,9 @@ class LegendTheme extends ChangeNotifier {
   BottomBarSizing? get bottomBarSizing => sizing.bottomBarSizing;
 
   SiderSizing get siderSizing => sizing.siderSizing;
+
+  /// Gets the current [MenuDrawerSizing]
+  MenuDrawerSizing get menuDrawerSizing => sizing.menuDrawerSizing;
 
   List<double> get splits => sizingTheme.sizings.keys.toList();
 

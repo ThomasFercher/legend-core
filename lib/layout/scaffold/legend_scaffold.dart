@@ -159,6 +159,9 @@ class LegendScaffold extends StatelessWidget {
 
         break;
       case LayoutType.FixedSider:
+        if (theme.sizing.hideSider) {
+          height -= theme.sizing.appBarSizing.appBarHeight;
+        }
         break;
     }
 

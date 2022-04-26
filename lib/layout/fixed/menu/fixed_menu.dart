@@ -24,6 +24,7 @@ class FixedMenu extends StatefulWidget {
   final bool subMenuExpanded;
   final List<MenuOption> options;
   final double height;
+  final double iconSize;
 
   FixedMenu({
     Key? key,
@@ -37,6 +38,7 @@ class FixedMenu extends StatefulWidget {
     required this.showMenuSubItems,
     this.subMenuExpanded = true,
     this.spacing = 12,
+    required this.iconSize,
     required this.height,
   }) : super(key: key);
 
@@ -78,6 +80,7 @@ class _FixedMenuState extends State<FixedMenu> {
 
       tiles.add(
         DrawerMenuTile(
+          iconSize: widget.iconSize,
           foreground: widget.foreground,
           selForeground: widget.activeForeground,
           background: widget.background,

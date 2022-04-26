@@ -20,6 +20,7 @@ class DrawerMenuTile extends StatelessWidget {
   final IconData? icon;
   final String? title;
   final String path;
+  final List<Widget>? actions;
 
   final double? height;
 
@@ -42,6 +43,8 @@ class DrawerMenuTile extends StatelessWidget {
 
   final bool disableRightPadding;
 
+  final TextStyle? textStyle;
+
   DrawerMenuTile({
     required this.foreground,
     required this.selForeground,
@@ -50,12 +53,14 @@ class DrawerMenuTile extends StatelessWidget {
     required this.path,
     required this.isHovered,
     required this.isSelected,
+    required this.iconSize,
+    this.spacing = 8,
+    this.actions,
+    this.textStyle,
     this.title,
     this.icon,
-    this.iconSize = 24,
     this.verticalPadding = 12,
     this.horizontalPadding = 24,
-    this.spacing = 12,
     this.borderRadius,
     this.height,
     this.onClicked,
@@ -104,17 +109,20 @@ class DrawerMenuTile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: iconSize,
-                child: Icon(
-                  icon,
-                  color: _foreground,
-                  size: iconSize,
+              if (icon != null)
+                Container(
+                  alignment: Alignment.center,
+                  width: iconSize,
+                  child: Icon(
+                    icon,
+                    color: _foreground,
+                    size: iconSize,
+                  ),
                 ),
-              ),
-              Container(
-                width: spacing,
-              ),
+              if (icon != null)
+                Container(
+                  width: spacing,
+                ),
               if (title != null)
                 SizedBox(
                   width:
@@ -124,11 +132,20 @@ class DrawerMenuTile extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     text: title,
                     selectable: false,
-                    textStyle: theme.typography.h2.copyWith(
-                      color: _foreground,
-                    ),
+                    textStyle: textStyle?.copyWith(color: _foreground) ??
+                        theme.typography.h2.copyWith(
+                          color: _foreground,
+                        ),
                   ),
                 ),
+              if (actions != null)
+                Expanded(
+                  child: Container(),
+                ),
+              if (actions != null)
+                Row(
+                  children: actions!,
+                )
             ],
           ),
         ),

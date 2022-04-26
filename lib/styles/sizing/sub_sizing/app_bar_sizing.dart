@@ -9,7 +9,7 @@ class FixedAppBarSizing {
   late final bool floating;
   final double? spacing;
   final double appBarHeight;
-  final double? iconSize;
+  final double iconSize;
 
   FixedAppBarSizing({
     required this.appBarHeight,
@@ -18,7 +18,7 @@ class FixedAppBarSizing {
     this.shape,
     bool? pinned,
     bool? floating,
-    this.iconSize,
+    required this.iconSize,
     this.spacing,
     required this.logoSize,
   }) {

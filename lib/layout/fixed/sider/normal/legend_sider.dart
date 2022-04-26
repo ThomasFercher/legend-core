@@ -24,128 +24,7 @@ class Sider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
-
     LegendTheme theme = Provider.of<LegendTheme>(context);
-    List<SectionInfo> sections = SectionProvider.of(context)?.sections ?? [];
-    List<SiderMenuVerticalTile> sectionTiles = List.of(
-      sections.map(
-        (option) => SiderMenuVerticalTile(
-          title: LegendUtils.capitalite(option.name.replaceAll('/', '')),
-          path: option.name,
-          isSection: true,
-          collapsed: false,
-          activeColor: theme.appBarPalette.selected,
-          backgroundColor: theme.appBarPalette.background,
-          color: theme.appBarPalette.foreground,
-        ),
-      ),
-    );
-    MenuOption? current = RouteInfoProvider.getCurrentMenuOption(context);
-
-    List<MenuOption> parentMenuoptions =
-        RouteInfoProvider.getParentMenuOption(context)?.children ?? [];
-
-    List<DrawerMenuTile> parentMenuTiles = List.of(
-      parentMenuoptions.map(
-        (option) => DrawerMenuTile(
-          icon: option.icon,
-          path: option.page,
-          title: option.title,
-          background: theme.appBarPalette.background,
-          foreground: theme.appBarPalette.foreground,
-          selForeground: theme.appBarPalette.selected,
-          selBackground: theme.appBarPalette.background,
-          isSelected: true,
-          isHovered: true,
-          borderRadius: theme.sizing.borderRadius[0],
-        ),
-      ),
-    );
-
-    List<Widget> children = [
-      Container(
-        height: 10,
-        color: theme.colors.onPrimary,
-        margin: EdgeInsets.only(
-          bottom: 24,
-        ),
-      ),
-      if (fixedSider.showMenu)
-        FixedSiderMenu(
-          activeBackground: theme.colors.siderPalette.background.darken(0.05),
-          foreground: theme.siderPalette.foreground,
-          activeForeground: theme.siderPalette.selection,
-          background: theme.siderPalette.background,
-          options: LegendRouter.of(context).menuOptions,
-          showMenuSubItems: true,
-          spacing: 4,
-          collapsed: false,
-        ),
-      if (fixedSider.showParentMenu && !fixedSider.showMenu)
-        FixedSiderMenu(
-          activeBackground: theme.colors.siderPalette.background.darken(0.05),
-          foreground: theme.siderPalette.foreground,
-          activeForeground: theme.siderPalette.selection,
-          background: theme.siderPalette.background,
-          options:
-              RouteInfoProvider.getParentMenuOption(context)?.children ?? [],
-          showMenuSubItems: true,
-          spacing: 4,
-          collapsed: false,
-        ),
-      if (fixedSider.showChildMenu && !fixedSider.showMenu)
-        FixedSiderMenu(
-          activeBackground: theme.colors.siderPalette.background.darken(0.05),
-          foreground: theme.siderPalette.foreground,
-          activeForeground: theme.siderPalette.selection,
-          background: theme.siderPalette.background,
-          options:
-              RouteInfoProvider.getCurrentMenuOption(context)?.children ?? [],
-          showMenuSubItems: true,
-          spacing: 4,
-          collapsed: false,
-        ),
-      if (fixedSider.showSectionMenu && sectionTiles.isNotEmpty)
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 32),
-                child: LegendText(
-                  text: 'Sections',
-                  textStyle: theme.typography.h4.copyWith(
-                    color: theme.colors.selection,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 8.0,
-                ),
-                child: Divider(
-                  color: theme.colors.selection,
-                  height: 1,
-                  thickness: 1,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: ListView(
-                  children: sectionTiles,
-                  shrinkWrap: true,
-                ),
-              ),
-            ],
-          ),
-        ),
-    ];
-
-    ScrollController controller = ScrollController();
-
     double maxWidth = theme.siderSizing.width;
 
     return Container(
@@ -194,12 +73,74 @@ class Sider extends StatelessWidget {
               ),
             ),
           Expanded(
-            child: Scrollbar(
-              controller: controller,
-              child: ListView(
-                controller: controller,
-                children: children,
-              ),
+            child: Column(
+              children: [
+                Container(
+                  height: 10,
+                  color: theme.colors.onPrimary,
+                  margin: EdgeInsets.only(
+                    bottom: 24,
+                  ),
+                ),
+                if (fixedSider.showMenu)
+                  Expanded(
+                    child: FixedSiderMenu(
+                      activeBackground:
+                          theme.colors.siderPalette.background.darken(0.05),
+                      foreground: theme.siderPalette.foreground,
+                      activeForeground: theme.siderPalette.selection,
+                      background: theme.siderPalette.background,
+                      options: LegendRouter.of(context).menuOptions,
+                      itemHeight: theme.siderSizing.itemHeight,
+                      subMenuHeaderHeight:
+                          theme.siderSizing.subMenuHeaderHeight,
+                      showMenuSubItems: true,
+                      spacing: theme.siderSizing.spacing,
+                      collapsed: false,
+                      iconSize: theme.siderSizing.iconSize,
+                    ),
+                  ),
+                if (fixedSider.showParentMenu && !fixedSider.showMenu)
+                  Expanded(
+                    child: FixedSiderMenu(
+                      activeBackground:
+                          theme.colors.siderPalette.background.darken(0.05),
+                      foreground: theme.siderPalette.foreground,
+                      activeForeground: theme.siderPalette.selection,
+                      background: theme.siderPalette.background,
+                      options: RouteInfoProvider.getParentMenuOption(context)
+                              ?.children ??
+                          [],
+                      showMenuSubItems: true,
+                      spacing: theme.siderSizing.spacing,
+                      collapsed: false,
+                      itemHeight: theme.siderSizing.itemHeight,
+                      subMenuHeaderHeight:
+                          theme.siderSizing.subMenuHeaderHeight,
+                      iconSize: theme.siderSizing.iconSize,
+                    ),
+                  ),
+                if (fixedSider.showChildMenu && !fixedSider.showMenu)
+                  Expanded(
+                    child: FixedSiderMenu(
+                      activeBackground:
+                          theme.colors.siderPalette.background.darken(0.05),
+                      foreground: theme.siderPalette.foreground,
+                      activeForeground: theme.siderPalette.selection,
+                      background: theme.siderPalette.background,
+                      options: RouteInfoProvider.getCurrentMenuOption(context)
+                              ?.children ??
+                          [],
+                      showMenuSubItems: true,
+                      spacing: theme.siderSizing.spacing,
+                      collapsed: false,
+                      itemHeight: theme.siderSizing.itemHeight,
+                      subMenuHeaderHeight:
+                          theme.siderSizing.subMenuHeaderHeight,
+                      iconSize: theme.siderSizing.iconSize,
+                    ),
+                  ),
+              ],
             ),
           ),
           if (fixedSider.builder != null)

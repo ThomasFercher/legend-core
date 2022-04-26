@@ -20,7 +20,8 @@ class ScaffoldHeader extends StatelessWidget {
 
     bool bottomBar = theme.sizing.showBottomBar;
     bool showMenu = !bottomBar && scaffold.showAppBarMenu;
-
+    bool siderCollapsed = theme.sizing.hideSider;
+    print(siderCollapsed);
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
         return LegendAppBar(
@@ -46,6 +47,21 @@ class ScaffoldHeader extends StatelessWidget {
             horizontalPadding: theme.appBarSizing.contentPadding.left,
           ),
         );
+      case LayoutType.FixedSider:
+        return siderCollapsed
+            ? LegendAppBar(
+                actions: scaffold.appBarActions,
+                config: LegendAppBarConfig(
+                  appBarHeight: theme.appBarSizing.appBarHeight,
+                  elevation: 1,
+                  showSubMenu: scaffold.showTopSubMenu,
+                  pinned: true,
+                  horizontalPadding: theme.appBarSizing.contentPadding.left,
+                ),
+              )
+            : SliverToBoxAdapter(
+                child: Container(),
+              );
       default:
         return SliverToBoxAdapter(
           child: Container(),
