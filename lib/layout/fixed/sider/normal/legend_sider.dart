@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
-import 'package:legend_design_core/router/routes/section/section_info.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';

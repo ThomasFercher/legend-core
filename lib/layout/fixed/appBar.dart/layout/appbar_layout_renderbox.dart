@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 
 import 'appbar_layout.dart';
 
@@ -211,7 +211,10 @@ class AppBarLayoutRenderBox extends RenderBox
 
       // Center Vertically
       Offset offset_action = Offset(
-        maxWidth - (isMenuCollapsed ? menuSize.width : 0) - actionSize.width,
+        maxWidth -
+            (isMenuCollapsed ? menuSize.width : 0) -
+            actionSize.width -
+            spacing,
         centerVertically(maxHeight, actionSize),
       );
 

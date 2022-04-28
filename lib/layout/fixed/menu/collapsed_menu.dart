@@ -25,7 +25,7 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
       alignment: Alignment.center,
       child: LegendAnimatedIcon(
         padding: EdgeInsets.all(0),
-        iconSize: theme.appBarSizing.iconSize ?? 32,
+        iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
           Scaffold.of(context).openEndDrawer();
         },

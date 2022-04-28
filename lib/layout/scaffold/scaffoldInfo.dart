@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 
 class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;
@@ -16,6 +17,13 @@ class ScaffoldInfo extends InheritedWidget {
     assert(result != null, 'No ScaffoldInfo found in context');
     return result!;
   }
+
+  ScaffoldConfig get getConfig => ScaffoldConfig(
+        layoutType: scaffold.layoutType,
+        builders: scaffold.builders,
+        whether: scaffold.whether,
+        sizing: scaffold.sizing,
+      );
 
   @override
   bool updateShouldNotify(ScaffoldInfo old) {

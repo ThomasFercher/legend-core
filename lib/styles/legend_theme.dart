@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
+import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 
 import '../utils/restart.dart';
 import 'colors/legend_color_theme.dart';
@@ -26,6 +27,7 @@ export 'sizing/legend_sizing_theme.dart';
 export 'sizing/sub_sizing/app_bar_sizing.dart';
 
 class LegendTheme extends ChangeNotifier {
+  /// Class containing a list of different Textstyles
   late LegendTypography typography;
 
   /// Color Theme for the whole applications. Contains a List of [LegendPalette]
@@ -70,7 +72,13 @@ class LegendTheme extends ChangeNotifier {
   final bool _menuCollapsed = false;
   bool get menuCollapsed => _menuCollapsed;
 
+  /// A global Theme for Legendscaffold which which be used every unless overwritten locally
+  late final ScaffoldConfig? scaffoldConfig;
+
+  final ScaffoldConfig Function(LegendTheme theme)? buildConfig;
+
   LegendTheme({
+    this.buildConfig,
     required this.colorTheme,
     required this.sizingTheme,
     required LegendTypography typography,
@@ -82,6 +90,12 @@ class LegendTheme extends ChangeNotifier {
     );
 
     systemUIOverrides();
+
+    if (buildConfig != null) {
+      scaffoldConfig = buildConfig!(this);
+    } else {
+      scaffoldConfig = null;
+    }
   }
 
   /// System UI Overrides. This is used to change the colors of the status bar and navigation bar

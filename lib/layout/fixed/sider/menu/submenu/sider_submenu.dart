@@ -106,7 +106,6 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               : BorderRadius.zero,
           height: widget.itemHeight,
           textStyle: theme.typography.h1,
-          verticalPadding: 8,
           iconSize: widget.iconSize,
           onHover: (value) {
             setState(() {

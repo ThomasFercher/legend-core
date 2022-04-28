@@ -1,18 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
-import 'package:legend_design_core/modals/legendPopups.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatefulWidget {
+  final List<Widget>? actions;
+
+  const MenuDrawer({Key? key, this.actions}) : super(key: key);
+
   @override
   State<MenuDrawer> createState() => _MenuDrawerState();
 }
@@ -42,7 +43,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
       widget = DrawerMenuTile(
         foreground: theme.colors.textOnLight,
-        verticalPadding: 4,
+
         icon: menuOption.icon,
         selForeground: theme.colors.onSecondary,
         background: theme.colors.background[0],
@@ -247,6 +248,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
               const SizedBox(
                 height: 12,
               ),
+              if (widget.actions != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Row(
+                    children: widget.actions!,
+                  ),
+                )
             ],
           ),
         ),

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:legend_design_core/layout/drawers/sidermenu_vertical_tile.dart';
 import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/fixed/sider/menu/submenu/sider_submenu.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/utils/extensions.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
   final Color background;

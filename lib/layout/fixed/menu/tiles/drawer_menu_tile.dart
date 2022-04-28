@@ -38,7 +38,6 @@ class DrawerMenuTile extends StatelessWidget {
   late final Color _background;
 
   final double horizontalPadding;
-  final double verticalPadding;
   final double spacing;
 
   final bool disableRightPadding;
@@ -59,7 +58,6 @@ class DrawerMenuTile extends StatelessWidget {
     this.textStyle,
     this.title,
     this.icon,
-    this.verticalPadding = 12,
     this.horizontalPadding = 24,
     this.borderRadius,
     this.height,
@@ -101,27 +99,22 @@ class DrawerMenuTile extends StatelessWidget {
           duration: duration,
           color: _background,
           padding: EdgeInsets.only(
-            top: verticalPadding,
-            bottom: verticalPadding,
             left: horizontalPadding,
             right: disableRightPadding ? 0 : horizontalPadding,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               if (icon != null)
                 Container(
-                  alignment: Alignment.center,
                   width: iconSize,
                   child: Icon(
                     icon,
                     color: _foreground,
                     size: iconSize,
                   ),
-                ),
-              if (icon != null)
-                Container(
-                  width: spacing,
+                  margin: EdgeInsets.only(right: spacing),
                 ),
               if (title != null)
                 SizedBox(

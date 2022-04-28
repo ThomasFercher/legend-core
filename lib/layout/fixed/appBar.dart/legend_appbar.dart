@@ -20,7 +20,7 @@ const List<Widget> actionsFiller = [
 
 class LegendAppBar extends StatelessWidget {
   final LegendAppBarConfig config;
-  final List<Widget>? actions;
+  final WidgetBuilder? actions;
   final Widget? title;
   final Widget? logo;
   final bool showMenu;
@@ -99,12 +99,7 @@ class LegendAppBar extends StatelessWidget {
                 activeBackground: theme.appBarPalette.background.lighten(),
                 iconSize: theme.appBarSizing.iconSize,
               ),
-            if (actions != null && actions!.isNotEmpty)
-              AppBarItem.ACTIONS: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: actions!
-                    .traillingPaddingRow(config.actionSpaceing, last: true),
-              ),
+            if (actions != null) AppBarItem.ACTIONS: Builder(builder: actions!),
           },
         ),
       ),

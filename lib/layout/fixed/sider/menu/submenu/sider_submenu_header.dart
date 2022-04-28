@@ -56,7 +56,6 @@ class HeaderTile extends StatelessWidget {
       title: option.title,
       path: option.page,
       height: height,
-      verticalPadding: 14,
       actions: [
         LegendAnimatedIcon(
           icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,

@@ -4,9 +4,9 @@ import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:provider/provider.dart';
-import '../../styles/layouts/layout_type.dart';
-import '../../styles/legend_theme.dart';
-import 'legend_scaffold.dart';
+import '../../../styles/layouts/layout_type.dart';
+import '../../../styles/legend_theme.dart';
+import '../legend_scaffold.dart';
 
 class ScaffoldHeader extends StatelessWidget {
   const ScaffoldHeader({
@@ -19,18 +19,18 @@ class ScaffoldHeader extends StatelessWidget {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
     bool bottomBar = theme.sizing.showBottomBar;
-    bool showMenu = !bottomBar && scaffold.showAppBarMenu;
+    bool showMenu = !bottomBar && (scaffold.whether.showAppBarMenu ?? false);
     bool siderCollapsed = theme.sizing.hideSider;
     print(siderCollapsed);
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
         return LegendAppBar(
-          actions: scaffold.appBarActions,
-          showLogo: false,
-          showTitle: false,
+          actions: scaffold.builders.appBarActions,
+          showLogo: siderCollapsed,
+          showTitle: siderCollapsed,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,
-            showSubMenu: scaffold.showTopSubMenu,
+            showSubMenu: scaffold.whether.showTopSubMenu ?? false,
             elevation: 1,
             pinned: true,
             horizontalPadding: theme.appBarSizing.contentPadding.left,
@@ -38,11 +38,11 @@ class ScaffoldHeader extends StatelessWidget {
         );
       case LayoutType.FixedHeader:
         return LegendAppBar(
-          actions: scaffold.appBarActions,
+          actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,
             elevation: 1,
-            showSubMenu: scaffold.showTopSubMenu,
+            showSubMenu: scaffold.whether.showTopSubMenu ?? false,
             pinned: true,
             horizontalPadding: theme.appBarSizing.contentPadding.left,
           ),
@@ -50,11 +50,11 @@ class ScaffoldHeader extends StatelessWidget {
       case LayoutType.FixedSider:
         return siderCollapsed
             ? LegendAppBar(
-                actions: scaffold.appBarActions,
+                actions: scaffold.builders.appBarActions,
                 config: LegendAppBarConfig(
                   appBarHeight: theme.appBarSizing.appBarHeight,
                   elevation: 1,
-                  showSubMenu: scaffold.showTopSubMenu,
+                  showSubMenu: scaffold.whether.showTopSubMenu ?? false,
                   pinned: true,
                   horizontalPadding: theme.appBarSizing.contentPadding.left,
                 ),
