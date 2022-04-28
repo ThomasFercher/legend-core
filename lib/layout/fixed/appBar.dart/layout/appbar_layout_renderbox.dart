@@ -1,6 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 
 import 'appbar_layout.dart';
 
@@ -13,11 +13,15 @@ class AppBarLayoutRenderBox extends RenderBox
   final List<AppBarItem> items;
   late List<Size> sizes;
   final double? siderOverlap;
+  final double spacing;
+  final AppBarLayoutType type;
 
   AppBarLayoutRenderBox({
     this.background,
     required this.items,
     this.siderOverlap,
+    this.spacing = 6,
+    required this.type,
   });
 
   double getWidthWithoutMenu(BoxConstraints constraints) {
@@ -40,6 +44,20 @@ class AppBarLayoutRenderBox extends RenderBox
 
     if (menu == null) return 0;
 
+    menu.layout(
+        BoxConstraints(
+          maxWidth: 1000,
+        ),
+        parentUsesSize: true);
+
+    return menu.size.width;
+  }
+
+  double getTitleWidth() {
+    RenderBox? menu = childForSlot(AppBarItem.TITLE);
+
+    if (menu == null) return 0;
+
     menu.layout(BoxConstraints(), parentUsesSize: true);
 
     return menu.size.width;
@@ -58,63 +76,21 @@ class AppBarLayoutRenderBox extends RenderBox
   double centerVertically(double maxHeight, Size s) =>
       (maxHeight - s.height) / 2;
 
-  @override
-  void performLayout() {
-    // Children are allowed to be as big as they want (= unconstrained).
-    BoxConstraints constraints = this.constraints;
-    double maxWidth = constraints.maxWidth;
-    double maxHeight = constraints.maxHeight;
-    contentSize = Size(maxWidth, constraints.maxHeight);
+  /// Layout
 
-    BoxConstraints childConstraints = constraints;
-
-    //RenderBoxes
-    RenderBox? actions = childForSlot(AppBarItem.ACTIONS);
-    RenderBox? title = childForSlot(AppBarItem.TITLE);
-    RenderBox? logo = childForSlot(AppBarItem.LOGO);
-    RenderBox? menu = childForSlot(AppBarItem.MENU);
-
-    double spacingLogoTitle = spacing;
-
-    bool isMenuCollapsed = false;
-    double menuWidth = 0;
-    double spaceFilled = 0;
-    if (menu != null) {
-      menuWidth = getMenuWidth();
-      spaceFilled = getWidthWithoutMenu(constraints) + 9 * spacingLogoTitle;
-
-      if (menuWidth != 0) {
-        if ((maxWidth - spaceFilled) < menuWidth) {
-          isMenuCollapsed = true;
-          menuWidth = 64;
-        }
-      }
-    }
+  void LoTiMeAcMe(
+    double maxWidth,
+    double maxHeight,
+    bool isMenuCollapsed,
+    double menuCenter,
+    double remaining,
+    RenderBox? title,
+    RenderBox? menu,
+    RenderBox? actions,
+  ) {
+    BoxConstraints childConstraints = this.constraints;
 
     Offset offset = Offset.zero;
-
-    // Menu not collapsed
-    double menuCenter = (maxWidth - menuWidth) / 2;
-    double remaining = maxWidth - menuWidth - spaceFilled;
-
-    // Logo
-    Size logoSize = Size.zero;
-    if (logo != null) {
-      // Layout
-      logo.layout(childConstraints, parentUsesSize: true);
-      logoSize = logo.size;
-
-      // Center Vertically
-      offset = Offset(offset.dx, centerVertically(maxHeight, logoSize));
-
-      final BoxParentData parentData = logo.parentData! as BoxParentData;
-      parentData.offset = offset;
-
-      childConstraints = childConstraints.copyWith(
-          maxWidth: childConstraints.maxWidth - logoSize.width);
-
-      offset = offset.translate(logoSize.width + spacingLogoTitle, 0);
-    }
 
     // Title
     Size titleSize = Size.zero;
@@ -164,7 +140,7 @@ class AppBarLayoutRenderBox extends RenderBox
     Size menuSize = Size.zero;
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
-      double left = titleSize.width + logoSize.width;
+      double left = titleSize.width;
       if (siderOverlap != null && left == 0) left = siderOverlap!;
 
       double padd = menuCenter - left;
@@ -176,8 +152,8 @@ class AppBarLayoutRenderBox extends RenderBox
       menuSize = menu.size;
 
       // Center Vertically
-      offset = Offset(offset.dx + 4 * spacingLogoTitle,
-          centerVertically(maxHeight, menuSize));
+      offset = Offset(
+          offset.dx + 4 * spacing, centerVertically(maxHeight, menuSize));
 
       final BoxParentData parentData = menu.parentData! as BoxParentData;
       parentData.offset = offset;
@@ -223,6 +199,186 @@ class AppBarLayoutRenderBox extends RenderBox
       childConstraints = childConstraints.copyWith(
         maxWidth: childConstraints.maxWidth - actionSize.width,
       );
+    }
+  }
+
+  ///
+
+  void MeLoTiAc(
+    double maxWidth,
+    double maxHeight,
+    double remaining,
+    RenderBox? title,
+    RenderBox? menu,
+    RenderBox? actions,
+  ) {
+    BoxConstraints childConstraints = this.constraints;
+
+    Offset offset = Offset.zero;
+    double titleWidth = getTitleWidth();
+    double menuWidth = getMenuWidth();
+    double centerTitleDx = (maxWidth - titleWidth) / 2;
+
+    bool isMenuCollapsed;
+    if (centerTitleDx > menuWidth * 0.75) {
+      isMenuCollapsed = false;
+    } else {
+      isMenuCollapsed = true;
+    }
+
+    // Menu
+    Size menuSize = Size.zero;
+    if (menu != null && isMenuCollapsed) {
+      // Layout
+      menu.layout(BoxConstraints(maxWidth: 32), parentUsesSize: true);
+      menuSize = menu.size;
+
+      // Center Vertically
+      offset = Offset(
+        offset.dx,
+        centerVertically(maxHeight, menuSize),
+      );
+
+      final BoxParentData parentData = menu.parentData! as BoxParentData;
+      parentData.offset = offset;
+
+      offset = offset.translate(menuSize.width, 0);
+    }
+
+    // Title
+    Size titleSize = Size.zero;
+
+    if (title != null) {
+      // Layout
+      title.layout(childConstraints, parentUsesSize: true);
+      titleSize = title.size;
+
+      centerTitleDx = (maxWidth - titleSize.width) / 2;
+
+      // Center Vertically
+      offset = Offset(centerTitleDx, centerVertically(maxHeight, titleSize));
+
+      final BoxParentData parentData = title.parentData! as BoxParentData;
+      parentData.offset = offset;
+
+      // Update Offset and Constraints
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - titleSize.width,
+      );
+    }
+
+    if (menu != null && !isMenuCollapsed) {
+      // Center Menu Horizontally
+      double left = spacing;
+      if (siderOverlap != null && left == 0) left = siderOverlap!;
+
+      double width = centerTitleDx * 11 / 12;
+      // Layout
+      menu.layout(
+        constraints.copyWith(
+          maxWidth: width,
+        ),
+        parentUsesSize: true,
+      );
+
+      menuSize = menu.size;
+
+      // Center Vertically
+      offset = Offset(left, centerVertically(maxHeight, menuSize));
+
+      final BoxParentData parentData = menu.parentData! as BoxParentData;
+      parentData.offset = offset;
+
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - menuSize.width,
+      );
+
+      offset = offset.translate(menuSize.width, 0);
+    }
+
+    // Actions When not collapsed
+    Size actionSize = Size.zero;
+    if (actions != null) {
+      // Layout
+      actions.layout(childConstraints, parentUsesSize: true);
+      actionSize = actions.size;
+
+      // Center Vertically
+      Offset offset_action = Offset(
+        maxWidth - actionSize.width,
+        centerVertically(maxHeight, actionSize),
+      );
+
+      final BoxParentData parentData = actions.parentData! as BoxParentData;
+      parentData.offset = offset_action;
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - actionSize.width,
+      );
+    }
+  }
+
+  ///
+
+  @override
+  void performLayout() {
+    // Children are allowed to be as big as they want (= unconstrained).
+    BoxConstraints constraints = this.constraints;
+    double maxWidth = constraints.maxWidth;
+    double maxHeight = constraints.maxHeight;
+    contentSize = Size(maxWidth, constraints.maxHeight);
+
+    BoxConstraints childConstraints = constraints;
+
+    //RenderBoxes
+    bool isMenuCollapsed = false;
+    double menuWidth = 0;
+    double spaceFilled = 0;
+
+    RenderBox? actions = childForSlot(AppBarItem.ACTIONS);
+    RenderBox? title = childForSlot(AppBarItem.TITLE);
+    RenderBox? menu = childForSlot(AppBarItem.MENU);
+
+    if (menu != null) {
+      menuWidth = getMenuWidth();
+      spaceFilled = getWidthWithoutMenu(constraints) + 9 * spacing;
+
+      if (menuWidth != 0) {
+        if ((maxWidth - spaceFilled) < menuWidth) {
+          isMenuCollapsed = true;
+          menuWidth = 64;
+        }
+      }
+    }
+
+    // Menu not collapsed
+    double menuCenter = (maxWidth - menuWidth) / 2;
+    double remaining = maxWidth - menuWidth - spaceFilled;
+
+    print(isMenuCollapsed);
+
+    switch (type) {
+      case AppBarLayoutType.MeTiAc:
+        MeLoTiAc(
+          maxWidth,
+          maxHeight,
+          remaining,
+          title,
+          menu,
+          actions,
+        );
+        break;
+      case AppBarLayoutType.TiMeAc:
+        LoTiMeAcMe(
+          maxWidth,
+          maxHeight,
+          isMenuCollapsed,
+          menuCenter,
+          remaining,
+          title,
+          menu,
+          actions,
+        );
+        break;
     }
 
     size = contentSize;

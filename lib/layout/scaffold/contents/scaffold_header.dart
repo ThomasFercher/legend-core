@@ -25,6 +25,7 @@ class ScaffoldHeader extends StatelessWidget {
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
         return LegendAppBar(
+          type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           showLogo: siderCollapsed,
           showTitle: siderCollapsed,
@@ -38,6 +39,7 @@ class ScaffoldHeader extends StatelessWidget {
         );
       case LayoutType.FixedHeader:
         return LegendAppBar(
+          type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,
@@ -50,6 +52,7 @@ class ScaffoldHeader extends StatelessWidget {
       case LayoutType.FixedSider:
         return siderCollapsed
             ? LegendAppBar(
+                type: scaffold.appBarLayoutType,
                 actions: scaffold.builders.appBarActions,
                 config: LegendAppBarConfig(
                   appBarHeight: theme.appBarSizing.appBarHeight,

@@ -1,6 +1,7 @@
 export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
@@ -12,6 +13,7 @@ import 'package:provider/provider.dart';
 class LegendScaffold extends StatelessWidget {
   // Core
   final LayoutType layoutType;
+  final AppBarLayoutType appBarLayoutType;
   final String pageName;
   final Widget Function(BuildContext context, Size size)? contentBuilder;
   final List<Widget> children;
@@ -24,7 +26,8 @@ class LegendScaffold extends StatelessWidget {
 
   LegendScaffold({
     required this.pageName,
-    required this.layoutType,
+    this.layoutType = LayoutType.FixedHeader,
+    this.appBarLayoutType = AppBarLayoutType.TiMeAc,
     this.onActionButtonPressed,
     this.contentBuilder,
     this.children = const [],
@@ -38,8 +41,12 @@ class LegendScaffold extends StatelessWidget {
   factory LegendScaffold.withConfig(
       LegendScaffold base, ScaffoldConfig config) {
     return LegendScaffold(
+      appBarLayoutType: config.appBarLayoutType != null
+          ? config.appBarLayoutType!
+          : base.appBarLayoutType,
       pageName: base.pageName,
-      layoutType: base.layoutType,
+      layoutType:
+          config.layoutType != null ? config.layoutType! : base.layoutType,
       children: base.children,
       onActionButtonPressed: base.onActionButtonPressed,
       contentBuilder: base.contentBuilder,

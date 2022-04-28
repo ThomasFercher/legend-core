@@ -11,19 +11,26 @@ import 'appbar_layout_renderbox.dart';
 
 enum AppBarItem {
   TITLE,
-  LOGO,
+
   MENU,
   ACTIONS,
+}
+
+enum AppBarLayoutType {
+  TiMeAc,
+  MeTiAc,
 }
 
 class AppBarLayout extends RenderObjectWidget
     with SlottedMultiChildRenderObjectWidgetMixin<AppBarItem> {
   final Map<AppBarItem, Widget> children;
   final Color? background;
+  final AppBarLayoutType type;
 
   AppBarLayout({
     Key? key,
     required this.children,
+    required this.type,
     this.background,
   }) : super(key: ValueKey(children.hashCode));
 
@@ -43,6 +50,7 @@ class AppBarLayout extends RenderObjectWidget
       background: background,
       siderOverlap: calculateOverlap(context),
       items: children.keys.toList(),
+      type: type,
     );
   }
 

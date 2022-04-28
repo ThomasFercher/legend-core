@@ -41,8 +41,13 @@ class DrawerMenuTile extends StatelessWidget {
   final double spacing;
 
   final bool disableRightPadding;
-
   final TextStyle? textStyle;
+
+  final double? width;
+
+  final bool collapsed;
+
+  final double? textWidth;
 
   DrawerMenuTile({
     required this.foreground,
@@ -53,7 +58,9 @@ class DrawerMenuTile extends StatelessWidget {
     required this.isHovered,
     required this.isSelected,
     required this.iconSize,
-    this.spacing = 8,
+    this.collapsed = false,
+    this.width,
+    this.spacing = 2,
     this.actions,
     this.textStyle,
     this.title,
@@ -64,6 +71,7 @@ class DrawerMenuTile extends StatelessWidget {
     this.onClicked,
     this.onHover,
     this.disableRightPadding = false,
+    this.textWidth,
   }) {
     _background = (isHovered || isSelected) ? selBackground : background;
     _foreground = (isHovered || isSelected) ? selForeground : foreground;
@@ -82,64 +90,69 @@ class DrawerMenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
 
-    return ClipRRect(
-      borderRadius:
-          borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
-      child: InkWell(
-        hoverColor: Colors.transparent,
-        enableFeedback: true,
-        onHover: (v) {
-          if (onHover != null) onHover!(v);
-        },
-        onTap: () {
-          if (onClicked != null) onClicked!();
-        },
-        child: AnimatedContainer(
-          height: height,
-          duration: duration,
-          color: _background,
-          padding: EdgeInsets.only(
-            left: horizontalPadding,
-            right: disableRightPadding ? 0 : horizontalPadding,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (icon != null)
-                Container(
-                  width: iconSize,
-                  child: Icon(
-                    icon,
-                    color: _foreground,
-                    size: iconSize,
+    double w = textWidth ??
+        LegendUtils.getTitleIndent(theme.typography.h2, title!) + 2;
+
+    return SizedBox(
+      width: width,
+      child: ClipRRect(
+        borderRadius:
+            borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
+        child: InkWell(
+          hoverColor: Colors.transparent,
+          enableFeedback: true,
+          onHover: (v) {
+            if (onHover != null) onHover!(v);
+          },
+          onTap: () {
+            if (onClicked != null) onClicked!();
+          },
+          child: AnimatedContainer(
+            height: height,
+            duration: duration,
+            color: _background,
+            padding: EdgeInsets.only(
+              left: horizontalPadding,
+              right: disableRightPadding ? 0 : horizontalPadding,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (icon != null)
+                  Container(
+                    width: iconSize > 0 ? iconSize : 0,
+                    child: Icon(
+                      icon,
+                      color: _foreground,
+                      size: iconSize > 0 ? iconSize : 0,
+                    ),
+                    margin: EdgeInsets.only(right: spacing),
                   ),
-                  margin: EdgeInsets.only(right: spacing),
-                ),
-              if (title != null)
-                SizedBox(
-                  width:
-                      LegendUtils.getTitleIndent(theme.typography.h2, title!) +
-                          2,
-                  child: LegendText(
-                    padding: EdgeInsets.zero,
-                    text: title,
-                    selectable: false,
-                    textStyle: textStyle?.copyWith(color: _foreground) ??
-                        theme.typography.h2.copyWith(
-                          color: _foreground,
-                        ),
+                if (title != null)
+                  SizedBox(
+                    width: w > 0 ? w : 0,
+                    child: LegendText(
+                      padding: EdgeInsets.zero,
+                      text: title,
+                      selectable: false,
+                      dynamicSizing: collapsed,
+                      textStyle: textStyle?.copyWith(color: _foreground) ??
+                          theme.typography.h2.copyWith(
+                            color: _foreground,
+                          ),
+                    ),
                   ),
-                ),
-              if (actions != null)
-                Expanded(
-                  child: Container(),
-                ),
-              if (actions != null)
-                Row(
-                  children: actions!,
-                )
-            ],
+                if (actions != null)
+                  Expanded(
+                    child: Container(),
+                  ),
+                if (actions != null)
+                  Row(
+                    children: actions!,
+                  ),
+              ],
+            ),
           ),
         ),
       ),

@@ -26,6 +26,7 @@ class LegendAppBar extends StatelessWidget {
   final bool showMenu;
   final bool showTitle;
   final bool showLogo;
+  final AppBarLayoutType type;
 
   const LegendAppBar({
     required this.config,
@@ -35,6 +36,7 @@ class LegendAppBar extends StatelessWidget {
     this.showMenu = true,
     this.showLogo = true,
     this.showTitle = true,
+    required this.type,
   });
 
   Widget getLogo(BuildContext context) {
@@ -52,13 +54,44 @@ class LegendAppBar extends StatelessWidget {
           Container(
             width: theme.appBarSizing.logoSize,
             height: theme.appBarSizing.logoSize,
-            margin: EdgeInsets.only(
-              right: 6,
-            ),
-            alignment: Alignment.centerRight,
+            alignment: Alignment.center,
             child: LayoutProvider.of(context)!.logo,
           ),
     );
+  }
+
+  FixedMenu getMenu(BuildContext context) {
+    LegendTheme theme = context.watch<LegendTheme>();
+    switch (type) {
+      case AppBarLayoutType.MeTiAc:
+        return FixedMenu(
+          height: 48,
+          // showSubMenu: config.showSubMenu,
+          showMenuSubItems: false,
+          background: theme.colors.appBarPalette.background,
+          foreground: theme.colors.appBarPalette.foreground,
+          activeForeground: theme.colors.appBarPalette.selected,
+          options: LegendRouter.of(context).menuOptions,
+          activeBackground: theme.appBarPalette.background.lighten(),
+          iconSize: theme.appBarSizing.iconSize,
+
+          spacing: 0,
+          collapse: true,
+        );
+      case AppBarLayoutType.TiMeAc:
+        return FixedMenu(
+          height: 48,
+          // showSubMenu: config.showSubMenu,
+          showMenuSubItems: false,
+          background: theme.colors.appBarPalette.background,
+          foreground: theme.colors.appBarPalette.foreground,
+          activeForeground: theme.colors.appBarPalette.selected,
+          options: LegendRouter.of(context).menuOptions,
+          activeBackground: theme.appBarPalette.background.lighten(),
+          iconSize: theme.appBarSizing.iconSize,
+          spacing: theme.appBarSizing.spacing ?? 6,
+        );
+    }
   }
 
   @override
@@ -77,28 +110,23 @@ class LegendAppBar extends StatelessWidget {
         constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarLayout(
+          type: type,
           children: {
             if (showTitle)
               AppBarItem.TITLE: title ??
-                  LegendText(
-                    text: LayoutProvider.of(context)!.title!,
-                    textStyle: theme.typography.h6.copyWith(
-                      color: theme.colors.appBarPalette.foreground,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      getLogo(context),
+                      LegendText(
+                        text: LayoutProvider.of(context)!.title!,
+                        textStyle: theme.typography.h6.copyWith(
+                          color: theme.colors.appBarPalette.foreground,
+                        ),
+                      ),
+                    ],
                   ),
-            if (showLogo) AppBarItem.LOGO: getLogo(context),
-            if (showMenu)
-              AppBarItem.MENU: FixedMenu(
-                height: 48,
-                // showSubMenu: config.showSubMenu,
-                showMenuSubItems: false,
-                background: theme.colors.appBarPalette.background,
-                foreground: theme.colors.appBarPalette.foreground,
-                activeForeground: theme.colors.appBarPalette.selected,
-                options: LegendRouter.of(context).menuOptions,
-                activeBackground: theme.appBarPalette.background.lighten(),
-                iconSize: theme.appBarSizing.iconSize,
-              ),
+            if (showMenu) AppBarItem.MENU: getMenu(context),
             if (actions != null) AppBarItem.ACTIONS: Builder(builder: actions!),
           },
         ),
