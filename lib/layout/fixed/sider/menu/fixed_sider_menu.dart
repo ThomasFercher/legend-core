@@ -23,6 +23,7 @@ class FixedSiderMenu extends StatefulWidget {
   final double itemHeight;
   final double subMenuHeaderHeight;
   final double iconSize;
+  final bool hasToPop;
 
   FixedSiderMenu({
     Key? key,
@@ -31,6 +32,7 @@ class FixedSiderMenu extends StatefulWidget {
     required this.foreground,
     required this.activeBackground,
     required this.activeForeground,
+    this.hasToPop = false,
     this.borderRadius,
     this.subMenuColor,
     this.padding = EdgeInsets.zero,
@@ -103,6 +105,9 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
               });
             },
             onClicked: () {
+              if (widget.hasToPop) {
+                Navigator.of(context).pop();
+              }
               LegendRouter.of(context).pushPage(
                 settings: RouteSettings(name: option.page),
               );
@@ -125,6 +130,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             iconSize: widget.iconSize - 4,
             headerIconSize: widget.iconSize,
             itemHeight: widget.itemHeight - 12,
+            hasToPop: widget.hasToPop,
             onResisize: (val) {
               setState(() {
                 expanded.putIfAbsent(
@@ -166,14 +172,14 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
 
           if (isExpanded) {
             Widget child = tiles[index];
-            print(remaining);
+
             tiles[index] = Container(
               constraints: BoxConstraints(maxHeight: remaining),
               child: child,
             );
           } else {
             Widget child = tiles[index];
-            print(remaining);
+
             tiles[index] = Container(
               constraints:
                   BoxConstraints(maxHeight: widget.subMenuHeaderHeight),
@@ -181,7 +187,6 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             );
           }
         }
-        print(snapshot);
 
         return Container(
           height: maxHeight,

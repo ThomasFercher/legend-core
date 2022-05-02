@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class FixedAppBarSizing {
+class AppBarSizing {
   final Radius? borderRadius;
   final EdgeInsets contentPadding;
   final ShapeBorder? shape;
@@ -11,7 +11,7 @@ class FixedAppBarSizing {
   final double appBarHeight;
   final double iconSize;
 
-  FixedAppBarSizing({
+  AppBarSizing({
     required this.appBarHeight,
     this.borderRadius,
     required this.contentPadding,

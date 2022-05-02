@@ -50,6 +50,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         selBackground: theme.colors.background[1],
         iconSize: 22,
         onClicked: () {
+          Navigator.pop(context);
           LegendRouter.of(context).pushPage(
             settings: RouteSettings(name: menuOption.page),
           );
@@ -106,12 +107,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
   Widget build(BuildContext context) {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SizeInfo sizeInfo = SizeInfo.of(context);
-    bool isMobile = sizeInfo.isMobile;
+
     double mWidth = sizeInfo.width;
-    double width = isMobile ? mWidth * 0.8 : 400;
+    double width = theme.isMobile ? mWidth * 0.8 : 400;
     double topPadding = MediaQuery.of(context).padding.top;
 
-    EdgeInsetsGeometry padding = isMobile
+    EdgeInsetsGeometry padding = theme.isMobile
         ? EdgeInsets.only(
             top: topPadding,
             left: 12,
@@ -228,6 +229,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               ),
               Expanded(
                 child: FixedSiderMenu(
+                  hasToPop: true,
                   background: theme.menuDrawerPalette.background,
                   activeForeground:
                       theme.menuDrawerPalette.foreground_selection,

@@ -354,8 +354,6 @@ class AppBarLayoutRenderBox extends RenderBox
     double menuCenter = (maxWidth - menuWidth) / 2;
     double remaining = maxWidth - menuWidth - spaceFilled;
 
-    print(isMenuCollapsed);
-
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         MeLoTiAc(

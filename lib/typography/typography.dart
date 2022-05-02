@@ -10,12 +10,12 @@ class TypographyColors {
   });
 }
 
-class LegendTypographySizing {
+class TypographySizing {
   final double baseSize;
   final double maxSize;
   late final List<double> sizes;
 
-  LegendTypographySizing({
+  TypographySizing({
     required this.baseSize,
     required this.maxSize,
   }) {
@@ -60,7 +60,7 @@ class LegendTypographySizing {
 }
 
 class LegendTypography {
-  late final LegendTypographySizing? sizing;
+  late final TypographySizing? sizing;
   late final TypographyColors? colors;
   late final TextStyle baseTextStyle;
   late final TextStyle h0;
@@ -72,7 +72,7 @@ class LegendTypography {
   late final TextStyle h6;
 
   LegendTypography.applyStyles({
-    required LegendTypographySizing sizing,
+    required TypographySizing sizing,
     required TypographyColors colors,
     required LegendTypography typography,
   }) {

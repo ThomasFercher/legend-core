@@ -5,7 +5,6 @@ import 'normal/legend_sider.dart';
 
 class LegendSider extends StatelessWidget {
   final bool showMenu;
-  final bool showSectionMenu;
   final bool showChildMenu;
   final bool showSubMenu;
   final LayoutType layoutType;
@@ -16,7 +15,6 @@ class LegendSider extends StatelessWidget {
 
   const LegendSider({
     this.showMenu = true,
-    this.showSectionMenu = false,
     this.showSubMenu = false,
     this.showChildMenu = false,
     this.enableDefaultSettings = false,

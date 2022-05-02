@@ -16,7 +16,7 @@ class ScaffoldTitle extends StatelessWidget {
 
     return Positioned(
       left: theme.appBarSizing.contentPadding.left,
-      top: theme.appBarSizing.contentPadding.top,
+      // top: theme.appBarSizing.contentPadding.top,
       child: Material(
         color: Colors.transparent,
         child: Hero(

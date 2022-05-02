@@ -1,30 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar_fixed.dart';
+import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/styles/layouts/layout_type.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
-import '../../../styles/layouts/layout_type.dart';
-import '../../../styles/legend_theme.dart';
-import '../legend_scaffold.dart';
 
-class ScaffoldHeader extends StatelessWidget {
-  const ScaffoldHeader({
-    Key? key,
-  }) : super(key: key);
-
+class ScaffoldHeaderFixed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
-    bool bottomBar = theme.sizing.showBottomBar;
-    bool showMenu = !bottomBar && (scaffold.whether.showAppBarMenu);
-    bool siderCollapsed = theme.sizing.hideSider;
+    bool siderCollapsed = theme.sizing.collapsedSider;
 
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
-        return LegendAppBar(
+        return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           showLogo: siderCollapsed,
@@ -37,7 +30,7 @@ class ScaffoldHeader extends StatelessWidget {
           ),
         );
       case LayoutType.FixedHeader:
-        return LegendAppBar(
+        return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
@@ -50,7 +43,7 @@ class ScaffoldHeader extends StatelessWidget {
         );
       case LayoutType.FixedSider:
         return siderCollapsed
-            ? LegendAppBar(
+            ? LegendAppBarFixed(
                 type: scaffold.appBarLayoutType,
                 actions: scaffold.builders.appBarActions,
                 config: LegendAppBarConfig(
@@ -61,13 +54,10 @@ class ScaffoldHeader extends StatelessWidget {
                   horizontalPadding: theme.appBarSizing.contentPadding.left,
                 ),
               )
-            : SliverToBoxAdapter(
-                child: Container(),
-              );
+            : Container();
+
       default:
-        return SliverToBoxAdapter(
-          child: Container(),
-        );
+        return Container();
     }
   }
 }

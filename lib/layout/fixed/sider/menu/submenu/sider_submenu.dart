@@ -27,6 +27,7 @@ class SiderSubMenu extends StatefulWidget {
   final double itemHeight;
   final double iconSize;
   final double headerIconSize;
+  final bool hasToPop;
 
   SiderSubMenu({
     required this.option,
@@ -39,6 +40,7 @@ class SiderSubMenu extends StatefulWidget {
     required this.itemHeight,
     required this.iconSize,
     required this.headerIconSize,
+    required this.hasToPop,
     this.onResisize,
     this.borderRadius,
   });
@@ -116,6 +118,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             setState(() {
               selected = i;
             });
+            if (widget.hasToPop) {
+              Navigator.of(context).pop();
+            }
             LegendRouter.of(context)
                 .pushPage(settings: RouteSettings(name: option.page));
           },
@@ -138,7 +143,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
       if (constraints.maxHeight < maxHeight) {
         contentHeight = constraints.maxHeight - widget.headerHeight;
       }
-      print(MediaQuery.of(context).size.height);
+
       return ClipRRect(
         borderRadius: widget.borderRadius ??
             BorderRadius.all(
@@ -173,6 +178,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                   setState(() {
                     selected = headerIndex;
                   });
+
                   LegendRouter.of(context).pushPage(
                       settings: RouteSettings(
                     name: widget.option.page,

@@ -1,23 +1,31 @@
 export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/fixed/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_header_fixed.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
+import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/provider.dart';
 
+import '../drawers/menu_drawer.dart';
+import 'contents/scaffold_sider.dart';
+
 class LegendScaffold extends StatelessWidget {
-  // Core
+  // Layout
   final LayoutType layoutType;
   final AppBarLayoutType appBarLayoutType;
+
+  // Core
   final String pageName;
-  final Widget Function(BuildContext context, Size size)? contentBuilder;
-  final List<Widget> children;
-  final void Function(BuildContext context)? onActionButtonPressed;
+  final Widget child;
 
   // Configs
   final ScaffoldBuilders builders;
@@ -26,11 +34,9 @@ class LegendScaffold extends StatelessWidget {
 
   LegendScaffold({
     required this.pageName,
+    required this.child,
     this.layoutType = LayoutType.FixedHeader,
     this.appBarLayoutType = AppBarLayoutType.TiMeAc,
-    this.onActionButtonPressed,
-    this.contentBuilder,
-    this.children = const [],
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
     this.sizing = const ScaffoldSizing(),
@@ -47,9 +53,7 @@ class LegendScaffold extends StatelessWidget {
       pageName: base.pageName,
       layoutType:
           config.layoutType != null ? config.layoutType! : base.layoutType,
-      children: base.children,
-      onActionButtonPressed: base.onActionButtonPressed,
-      contentBuilder: base.contentBuilder,
+      child: base.child,
       builders: config.builders != null
           ? ScaffoldBuilders.copyWith(base.builders, config.builders!)
           : base.builders,
@@ -73,8 +77,41 @@ class LegendScaffold extends StatelessWidget {
         sizing: theme.sizingTheme,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        useMobilDesign: true,
-        child: ScaffoldFrame(),
+        child: Builder(builder: (context) {
+          bool showBottomBar = theme.sizing.showBottomBar;
+          return Scaffold(
+            endDrawer: MenuDrawer(),
+            bottomNavigationBar: LegendBottomBar(
+              colors: theme.bottomBarPalette,
+              sizing: theme.bottomBarSizing!,
+              options: LegendRouter.of(context).menuOptions,
+            ).boolInit(showBottomBar),
+            endDrawerEnableOpenDragGesture: false,
+            appBar: PreferredSize(
+              preferredSize: Size(
+                MediaQuery.of(context).size.width,
+                theme.appBarSizing.appBarHeight,
+              ),
+              child: ScaffoldHeaderFixed(),
+            ).boolInit(
+              layoutType == LayoutType.FixedHeader ||
+                  layoutType == LayoutType.FixedHeaderSider,
+            ),
+            body: ColoredBox(
+              color: theme.colors.background[0],
+              child: Row(
+                children: [
+                  ScaffoldSider(),
+                  Expanded(
+                    child: Container(
+                      child: child,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

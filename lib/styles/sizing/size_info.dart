@@ -1,17 +1,17 @@
-import 'dart:io';
+// ignore_for_file: comment_references
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:provider/provider.dart';
 
+/// [SizeInfo] is a InheritedWidget which encapsulates Sizing data.
+/// [SizeInfo] is the first Widget in the [LegendScaffold] tree.
+/// This Widget will be rebuilt/initalized on every Resize of the App and pass down
+/// variables which are dependendant on the Screen Size.
 class SizeInfo extends InheritedWidget {
   @override
   final Widget child;
   final double width;
-  final bool useMobilDesign;
   final double height;
-  late bool _isMobile;
   final LegendSizingTheme sizing;
 
   SizeInfo({
@@ -19,28 +19,14 @@ class SizeInfo extends InheritedWidget {
     required this.width,
     required this.height,
     required this.sizing,
-    required this.useMobilDesign,
   }) : super(child: child) {
-    _isMobile = _checkIsMobile;
-    _updateSizing();
+    sizing.setWidth = width;
   }
-
-  bool get isMobile => _isMobile;
-
-  bool get _checkIsMobile {
-    if (!kIsWeb ? Platform.isIOS || Platform.isAndroid : false) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  void _updateSizing() => sizing.setWidth = width;
 
   static SizeInfo of(BuildContext context) {
     final SizeInfo? result =
         context.dependOnInheritedWidgetOfExactType<SizeInfo>();
-    assert(result != null, 'No SizeProvider found in context');
+    assert(result != null, 'No SizeInfo found in context');
     return result!;
   }
 

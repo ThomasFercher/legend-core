@@ -186,6 +186,7 @@ class _FixedMenuState extends State<FixedMenu> {
             setState(() {
               selected = i;
             });
+
             LegendRouter.of(context)
                 .pushPage(settings: RouteSettings(name: option.page));
           },

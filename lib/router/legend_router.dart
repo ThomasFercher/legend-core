@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
-
+import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import '../layout/fixed/menu/tiles/menu_option.dart';
-import 'errorpages/notfound.dart';
+import 'legendPage.dart';
 import 'router_delegate.dart';
 import 'routes/route_info.dart';
-import 'routes/section/section_provider.dart';
-
 export '../layout/fixed/menu/tiles/menu_option.dart';
 export 'errorpages/notfound.dart';
 export 'router_delegate.dart';
 export 'routes/route_info.dart';
-export 'routes/section/section_provider.dart';
+
+const PageRouteInfo notFound = PageRouteInfo(
+  child: SizedBox(),
+  info: ScaffoldRouteInfo(
+      layoutType: LayoutType.FixedHeader, pageName: 'Not Found'),
+  name: '',
+);
 
 // ignore: must_be_immutable
 class LegendRouter extends InheritedWidget {
@@ -42,7 +46,38 @@ class LegendRouter extends InheritedWidget {
     RouteInfo info = getRouteWidget(settings, routes);
 
     if (info is ModalRouteInfo) {
-      Navigator.of(context!).pushNamed(settings.name ?? '/');
+      Navigator.of(context!).push(
+        PageRouteBuilder(
+          opaque: false,
+          barrierDismissible: true,
+          transitionDuration: Duration(milliseconds: 200),
+          pageBuilder: (BuildContext context, _, __) {
+            return Material(
+              color: Colors.transparent,
+              child: Stack(
+                children: [
+                  ColoredBox(
+                    color: Colors.black.withOpacity(0.2),
+                    child: GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero,
+                      ).animate(_),
+                      child: info.child,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
     } else {
       Page<dynamic> p = createPage(settings, info);
       routerDelegate.pushPage(p);
@@ -67,7 +102,7 @@ class LegendRouter extends InheritedWidget {
 
   static RouteInfo getRouteWidget(RouteSettings s, List<RouteInfo> routes) {
     if (routes.isEmpty) {
-      return PageRouteInfo(name: 'Not Found', page: NotFoundPage());
+      return notFound;
     }
 
     for (final RouteInfo routeinfo in routes) {
@@ -83,18 +118,9 @@ class LegendRouter extends InheritedWidget {
           }
         }
       }
-      if (routeinfo is SectionRouteInfo) {
-        if (routeinfo.children != null) {
-          for (final RouteInfo r in routeinfo.children!) {
-            if (r.name == s.name) {
-              return r;
-            }
-          }
-        }
-      }
     }
 
-    return PageRouteInfo(name: '/notfound', page: NotFoundPage());
+    return notFound;
   }
 
   static Page<dynamic> createPage(
@@ -103,64 +129,36 @@ class LegendRouter extends InheritedWidget {
   ) {
     if (info is PageRouteInfo) {
       return createPageRoute(s, info);
-    } else if (info is SectionRouteInfo) {
-      return createSectionPage(s, info);
     } else {
       return createSimplePage(s, info);
     }
   }
 
   static Page<dynamic> createSimplePage(RouteSettings s, RouteInfo route) {
-    String now = DateTime.now().millisecondsSinceEpoch.toString();
-
-    return MaterialPage(
-      key: ValueKey(s.name! + now),
-      name: s.name,
-      arguments: s.arguments,
-      child: Material(
-        child: RouteInfoProvider(
-          route: s,
-          child: route.page,
-        ),
-      ),
-    );
-  }
-
-  static Page<dynamic> createPageRoute(RouteSettings s, PageRouteInfo route) {
-    String now = DateTime.now().millisecondsSinceEpoch.toString();
-
-    return MaterialPage(
-      key: ValueKey(s.name! + now),
-      name: s.name,
-      arguments: s.arguments,
-      child: Material(
-        child: RouteInfoProvider(
-          route: s,
-          child: route.page,
-        ),
-      ),
-    );
-  }
-
-  static Page<dynamic> createSectionPage(
-    RouteSettings s,
-    SectionRouteInfo route,
-  ) {
-    String now = DateTime.now().millisecondsSinceEpoch.toString();
-    route.sections;
-    return MaterialPage(
-      key: ValueKey(s.name! + now),
-      name: s.name,
-      arguments: s.arguments,
-      child: Material(
-        child: SectionProvider(
-          sections: route.sections,
-          child: RouteInfoProvider(
+    return LegendModalPage(
+      child: Stack(
+        children: [
+          RouteInfoProvider(
+            child: route.child,
             route: s,
-            child: route.page,
           ),
-        ),
+        ],
       ),
+      name: route.name,
+      arguments: route.arguments,
+      key: UniqueKey(),
+    );
+  }
+
+  static LegendPage createPageRoute(RouteSettings s, PageRouteInfo route) {
+    return LegendPage(
+      child: RouteInfoProvider(
+        child: route.child,
+        route: s,
+      ),
+      name: route.name,
+      arguments: route.arguments,
+      key: UniqueKey(),
     );
   }
 

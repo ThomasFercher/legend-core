@@ -19,7 +19,7 @@ const List<Widget> actionsFiller = [
   )
 ];
 
-class LegendAppBar extends StatelessWidget {
+class LegendAppBarFixed extends StatelessWidget {
   final LegendAppBarConfig config;
   final WidgetBuilder? actions;
   final Widget? title;
@@ -29,7 +29,7 @@ class LegendAppBar extends StatelessWidget {
   final bool showLogo;
   final AppBarLayoutType type;
 
-  const LegendAppBar({
+  const LegendAppBarFixed({
     required this.config,
     this.actions,
     this.logo,
@@ -98,14 +98,11 @@ class LegendAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    return SliverAppBar(
+    return AppBar(
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
       toolbarHeight: config.appBarHeight,
-      pinned: config.pinned,
-      snap: config.snap,
-      floating: config.floating,
       actions: actionsFiller,
       title: Container(
         constraints: BoxConstraints(maxHeight: config.appBarHeight),

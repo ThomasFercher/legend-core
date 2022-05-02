@@ -34,7 +34,6 @@ class LegendSizingTheme {
   set setWidth(double width) {
     _width = width;
     _key = getNearestKey(_width);
-    print(_key);
   }
 
   /// Returns true if the current [LegendSizing] key is the same as [width]

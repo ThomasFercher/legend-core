@@ -43,7 +43,6 @@ class LegendPopupRoute<T> extends PopupRoute<T> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       sizing: theme.sizingTheme,
-      useMobilDesign: true,
       child: Stack(
         children: [
           Material(color: Colors.transparent, child: widget),

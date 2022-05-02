@@ -34,12 +34,11 @@ class ScaffoldSider extends StatelessWidget {
         ),
         child: LegendSider(
           builder: scaffold.builders.siderBuilder,
-          showMenu: scaffold.whether.showSiderMenu ?? false,
-          showSubMenu: scaffold.whether.showSiderSubMenu ?? false,
-          showSectionMenu: scaffold.whether.showSectionMenu ?? false,
+          showMenu: scaffold.whether.showSiderMenu,
+          showSubMenu: scaffold.whether.showSiderSubMenu,
           layoutType: scaffold.layoutType,
-          showChildMenu: scaffold.whether.showSiderChildMenu ?? false,
-          showParentMenu: scaffold.whether.shareParentSiderMenu ?? false,
+          showChildMenu: scaffold.whether.showSiderChildMenu,
+          showParentMenu: scaffold.whether.shareParentSiderMenu,
           collapsed: collapsed,
         ),
       );
