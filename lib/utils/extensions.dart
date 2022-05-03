@@ -49,6 +49,10 @@ extension HttpParameter on dynamic {
   }
 }
 
+extension BoolFunctions on Function? {
+  void executeIf(bool val) => val ? this?.call() : null;
+}
+
 extension ColorManipulation on Color? {
   Color darken([double amount = .1]) {
     assert(amount >= 0 && amount <= 1);

@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:legend_design_core/router/route_info_provider.dart';
 
 class LegendPage extends Page {
   final Widget child;
@@ -19,9 +21,12 @@ class LegendPage extends Page {
       transitionDuration: Duration(milliseconds: 200),
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
+        return RouteInfoProvider(
+          route: this,
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
         );
       },
     );
@@ -45,6 +50,9 @@ class LegendModalPage extends Page {
     return PageRouteBuilder(
       settings: this,
       opaque: false,
+      barrierColor: Colors.black12,
+      barrierDismissible: true,
+      fullscreenDialog: true,
       transitionDuration: Duration(milliseconds: 200),
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {

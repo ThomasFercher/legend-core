@@ -14,6 +14,7 @@ class ScaffoldFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Navigator needs to be above builders
     return LegendScaffold(
       builders: page.info.builders,
       layoutType: page.info.layoutType,

@@ -80,7 +80,6 @@ class LegendScaffold extends StatelessWidget {
         child: Builder(builder: (context) {
           bool showBottomBar = theme.sizing.showBottomBar;
           return Scaffold(
-            endDrawer: MenuDrawer(),
             bottomNavigationBar: LegendBottomBar(
               colors: theme.bottomBarPalette,
               sizing: theme.bottomBarSizing!,

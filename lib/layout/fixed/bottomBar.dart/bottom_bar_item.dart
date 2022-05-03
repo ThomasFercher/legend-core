@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/gestures/detector.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
@@ -35,54 +36,51 @@ class BottomBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color color = isSelected ? colors.activeColor : colors.disabledColor;
 
-    return Material(
-      color: Colors.transparent,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 4,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 4,
+      ),
+      child: LegendDetector(
+        borderRadius: BorderRadius.all(
+          Radius.circular(sizing?.height ?? 1 / 2),
         ),
-        child: InkWell(
-          borderRadius: BorderRadius.all(
-            Radius.circular(sizing?.height ?? 1 / 2),
+        onTap: () {
+          onSelected(option);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 4,
           ),
-          onTap: () {
-            onSelected(option);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 4,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Icon(
-                        option.icon,
-                        size: sizing?.iconSize ?? 28,
-                        color: color,
-                      ),
-                    ),
-                    if ((sizing?.textAtBottom ?? false) &&
-                        (sizing?.showText ?? true) &&
-                        (option.title != null))
-                      Container(
-                        padding: EdgeInsets.only(top: 2.0),
-                        child: getText(context, color),
-                      ),
-                  ],
-                ),
-                if ((sizing?.showText ?? true) &&
-                    (!(sizing?.textAtBottom ?? false)) &&
-                    (option.title != null))
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
-                    padding: EdgeInsets.only(left: 4.0),
-                    child: getText(context, color),
+                    child: Icon(
+                      option.icon,
+                      size: sizing?.iconSize ?? 28,
+                      color: color,
+                    ),
                   ),
-              ],
-            ),
+                  if ((sizing?.textAtBottom ?? false) &&
+                      (sizing?.showText ?? true) &&
+                      (option.title != null))
+                    Container(
+                      padding: EdgeInsets.only(top: 2.0),
+                      child: getText(context, color),
+                    ),
+                ],
+              ),
+              if ((sizing?.showText ?? true) &&
+                  (!(sizing?.textAtBottom ?? false)) &&
+                  (option.title != null))
+                Container(
+                  padding: EdgeInsets.only(left: 4.0),
+                  child: getText(context, color),
+                ),
+            ],
           ),
         ),
       ),

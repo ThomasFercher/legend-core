@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
@@ -105,6 +106,7 @@ class LegendAppBarFixed extends StatelessWidget {
       toolbarHeight: config.appBarHeight,
       actions: actionsFiller,
       title: Container(
+        color: theme.colors.appBarPalette.background,
         constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarLayout(

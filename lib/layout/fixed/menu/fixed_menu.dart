@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
+
 import 'package:legend_design_core/layout/fixed/sider/menu/submenu/sider_submenu.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/legend_router.dart';
@@ -17,12 +19,12 @@ class FixedMenu extends StatefulWidget {
   final Color? subMenuColor;
   final bool showMenuSubItems;
   final double spacing;
+  final double itemSpacing;
   final EdgeInsetsGeometry padding;
   final bool subMenuExpanded;
   final List<MenuOption> options;
   final double height;
   final double iconSize;
-
   final bool collapse;
 
   FixedMenu({
@@ -37,6 +39,7 @@ class FixedMenu extends StatefulWidget {
     required this.showMenuSubItems,
     this.subMenuExpanded = true,
     this.spacing = 12,
+    this.itemSpacing = 6,
     required this.iconSize,
     required this.height,
     this.collapse = false,
@@ -47,37 +50,26 @@ class FixedMenu extends StatefulWidget {
 }
 
 class _FixedMenuState extends State<FixedMenu> {
-  late int selected;
-  late int? hovered;
+  int? hovered;
 
   @override
   void initState() {
     super.initState();
-
-    selected = 0;
-    hovered = null;
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
-    selected = widget.options.indexWhere((element) => element == sel);
   }
 
   /// This Method returns the whole menu.
   /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
-  List<DrawerMenuTile> getTiles(BuildContext context) {
+  List<DrawerMenuTile> getTiles(
+    BuildContext context,
+    MenuOption sel,
+  ) {
     List<DrawerMenuTile> tiles = [];
 
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
-    selected = widget.options.indexWhere((element) => element == sel);
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (int i = 0; i < widget.options.length; i++) {
       final MenuOption option = widget.options[i];
-      double spacing = 8;
 
       tiles.add(
         DrawerMenuTile(
@@ -86,12 +78,13 @@ class _FixedMenuState extends State<FixedMenu> {
           selForeground: widget.activeForeground,
           background: widget.background,
           selBackground: widget.activeBackground,
-          isSelected: i == selected,
+          isSelected: option == sel,
           isHovered: i == hovered,
           icon: option.icon,
           title: option.title,
-          spacing: spacing,
+          spacing: widget.itemSpacing,
           path: option.page,
+          horizontalPadding: widget.padding.horizontal / 2,
           height: widget.height,
           borderRadius: widget.collapse
               ? BorderRadius.zero
@@ -102,9 +95,6 @@ class _FixedMenuState extends State<FixedMenu> {
             });
           },
           onClicked: () {
-            setState(() {
-              selected = i;
-            });
             LegendRouter.of(context)
                 .pushPage(settings: RouteSettings(name: option.page));
           },
@@ -115,15 +105,55 @@ class _FixedMenuState extends State<FixedMenu> {
     return tiles;
   }
 
+  Map<double, double> getIndents(BuildContext context) {
+    LegendTheme theme = context.watch<LegendTheme>();
+    Map<double, double> indents = {};
+    double width = 0;
+
+    for (int i = 0; i < widget.options.length; i++) {
+      final MenuOption option = widget.options[i];
+
+      double textSize =
+          LegendUtils.getTitleIndent(theme.typography.h2, option.title ?? '');
+
+      double normalWidth = widget.iconSize +
+          textSize +
+          widget.itemSpacing +
+          widget.padding.horizontal;
+      double fixedSize = widget.spacing;
+
+      if (i == 0) {
+        indents.update(
+          normalWidth,
+          (value) => value = 0,
+          ifAbsent: () => width,
+        );
+        width += normalWidth + fixedSize;
+        continue;
+      }
+
+      indents.update(
+        normalWidth,
+        (value) => value = width,
+        ifAbsent: () => width,
+      );
+
+      width += normalWidth + fixedSize;
+    }
+
+    return indents;
+  }
+
   /// This Method returns the whole menu.
   /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
   List<DrawerMenuTile> getTilesCollapsed(
-      BuildContext context, double maxWidth) {
+    BuildContext context,
+    double maxWidth,
+    MenuOption sel,
+  ) {
     List<DrawerMenuTile> tiles = [];
 
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
-    selected = widget.options.indexWhere((element) => element == sel);
     LegendTheme theme = context.watch<LegendTheme>();
 
     double spacing = 4;
@@ -166,7 +196,7 @@ class _FixedMenuState extends State<FixedMenu> {
           background: widget.background,
           selBackground: widget.activeBackground,
           collapsed: widget.collapse,
-          isSelected: i == selected,
+          isSelected: option == sel,
           isHovered: i == hovered,
           horizontalPadding: hor_padding,
           icon: option.icon,
@@ -183,12 +213,8 @@ class _FixedMenuState extends State<FixedMenu> {
             });
           },
           onClicked: () {
-            setState(() {
-              selected = i;
-            });
-
-            LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.page));
+            LegendRouter.of(context).pushPage(
+                settings: RouteSettings(name: option.page), useKey: true);
           },
         ),
       );
@@ -199,30 +225,37 @@ class _FixedMenuState extends State<FixedMenu> {
 
   @override
   Widget build(BuildContext context) {
-    if (selected == -1) selected = 0;
+    MenuOption sel = LegendRouter.of(context).getCurrent();
 
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth == 32) {
-        return CollapsedMenu(width: 32);
-      } else {
-        double? width;
-        List<DrawerMenuTile> tiles;
-        if (constraints.maxWidth != double.infinity && widget.collapse) {
-          width = constraints.maxWidth;
-          tiles = getTilesCollapsed(context, width);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        Map<double, double> indents = getIndents(context);
+        if (constraints.maxWidth == 32) {
+          return CollapsedMenu(width: 32);
         } else {
-          tiles = getTiles(context);
+          double? width;
+          List<DrawerMenuTile> tiles;
+          if (constraints.maxWidth != double.infinity && widget.collapse) {
+            width = constraints.maxWidth;
+            tiles = getTilesCollapsed(context, width, sel);
+          } else {
+            tiles = getTiles(
+              context,
+              sel,
+            );
+          }
+
+          return Container(
+            color: widget.background,
+            height: widget.height,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: tiles.traillingPaddingRow(widget.spacing),
+            ),
+          );
         }
-        return Container(
-          color: widget.background,
-          //     width: width,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: tiles.traillingPaddingRow(widget.spacing),
-          ),
-        );
-      }
-    });
+      },
+    );
   }
 }

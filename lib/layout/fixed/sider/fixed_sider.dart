@@ -28,10 +28,7 @@ class LegendSider extends StatelessWidget {
   Widget build(BuildContext context) {
     return SiderInfo(
       fixedSider: this,
-      child: Material(
-        elevation: 0,
-        child: const Sider(),
-      ),
+      child: const Sider(),
     );
   }
 }

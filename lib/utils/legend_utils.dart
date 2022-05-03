@@ -9,9 +9,10 @@ class LegendUtils {
   static bool isNullColor(Color c) => c == nullColor;
   static double getTitleIndent(TextStyle style, String text) {
     return calcTextSize(
-      text,
-      style,
-    ).width;
+          text,
+          style,
+        ).width +
+        2;
   }
 
   static Future<void> launchInBrowser(String url) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:legend_design_core/gestures/detector.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/utils/legend_utils.dart';
@@ -82,78 +83,71 @@ class DrawerMenuTile extends StatelessWidget {
     return iconSize +
         spacing +
         horizontalPadding * 2 +
-        LegendUtils.getTitleIndent(theme.typography.h2, title ?? '') +
-        2;
+        LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
   }
 
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
 
-    double w = textWidth ??
-        LegendUtils.getTitleIndent(theme.typography.h2, title!) + 2;
+    double w = LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
 
     return SizedBox(
-      width: width,
-      child: ClipRRect(
+      width: getWidth(context),
+      child: LegendDetector(
         borderRadius:
             borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
-        child: InkWell(
-          hoverColor: Colors.transparent,
-          enableFeedback: true,
-          onHover: (v) {
-            if (onHover != null) onHover!(v);
-          },
-          onTap: () {
-            if (onClicked != null) onClicked!();
-          },
-          child: AnimatedContainer(
-            height: height,
-            duration: duration,
-            color: _background,
-            padding: EdgeInsets.only(
-              left: horizontalPadding,
-              right: disableRightPadding ? 0 : horizontalPadding,
+        padding: EdgeInsets.zero,
+        onHover: (v) {
+          if (onHover != null) onHover!(v);
+        },
+        onTap: () {
+          if (onClicked != null) onClicked!();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: horizontalPadding,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (icon != null)
-                  Container(
-                    width: iconSize > 0 ? iconSize : 0,
-                    child: Icon(
-                      icon,
-                      color: _foreground,
-                      size: iconSize > 0 ? iconSize : 0,
-                    ),
-                    margin: EdgeInsets.only(right: spacing),
-                  ),
-                if (title != null)
-                  SizedBox(
-                    width: w > 0 ? w : 0,
-                    child: LegendText(
-                      padding: EdgeInsets.zero,
-                      text: title,
-                      selectable: false,
-                      dynamicSizing: collapsed,
-                      textStyle: textStyle?.copyWith(color: _foreground) ??
-                          theme.typography.h2.copyWith(
-                            color: _foreground,
-                          ),
-                    ),
-                  ),
-                if (actions != null)
-                  Expanded(
-                    child: Container(),
-                  ),
-                if (actions != null)
-                  Row(
-                    children: actions!,
-                  ),
-              ],
+            if (icon != null)
+              Container(
+                width: iconSize > 0 ? iconSize : 0,
+                child: Icon(
+                  icon,
+                  color: _foreground,
+                  size: iconSize > 0 ? iconSize : 0,
+                ),
+                margin: EdgeInsets.only(right: spacing),
+              ),
+            if (title != null)
+              Container(
+                width: w > 0 ? w : 0,
+                child: LegendText(
+                  padding: EdgeInsets.zero,
+                  text: title,
+                  selectable: false,
+                  dynamicSizing: collapsed,
+                  textStyle: textStyle?.copyWith(color: _foreground) ??
+                      theme.typography.h2.copyWith(
+                        color: _foreground,
+                      ),
+                ),
+              ),
+            if (actions != null)
+              Expanded(
+                child: Container(),
+              ),
+            if (actions != null)
+              Row(
+                children: actions!,
+              ),
+            SizedBox(
+              width: horizontalPadding,
             ),
-          ),
+          ],
         ),
       ),
     );

@@ -128,137 +128,133 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
     return SizedBox(
       width: width,
-      child: Drawer(
-        elevation: 4,
-        child: Container(
-          color: theme.colors.primary,
-          padding: padding,
-          child: Column(
-            //   crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: theme.sizing.appBarSizing.appBarHeight - 4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Expanded(
-                      child: Container(
-                        height: 36,
-                        child: CupertinoTextField(
-                          onChanged: (value) {
-                            filter(value, context);
-                          },
-                          textAlignVertical: TextAlignVertical.center,
-                          prefix: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Icon(
-                              Icons.search,
-                              size: 22,
-                              color: theme.colors.primary,
-                            ),
+      height: sizeInfo.height,
+      child: Container(
+        color: theme.colors.primary,
+        padding: padding,
+        child: Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: theme.sizing.appBarSizing.appBarHeight - 4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 36,
+                      child: CupertinoTextField(
+                        onChanged: (value) {
+                          filter(value, context);
+                        },
+                        textAlignVertical: TextAlignVertical.center,
+                        prefix: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Icon(
+                            Icons.search,
+                            size: 22,
+                            color: theme.colors.primary,
                           ),
-                          decoration: BoxDecoration(
-                            color: theme.colors.onPrimary.lighten(0.25),
-                            borderRadius: theme.sizing.borderRadius[1],
-                            border: Border.all(
-                              color: theme.colors.onPrimary,
-                              width: 2,
-                            ),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          style: theme.typography.h1,
                         ),
+                        decoration: BoxDecoration(
+                          color: theme.colors.onPrimary.lighten(0.25),
+                          borderRadius: theme.sizing.borderRadius[1],
+                          border: Border.all(
+                            color: theme.colors.onPrimary,
+                            width: 2,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8,
+                        ),
+                        style: theme.typography.h1,
                       ),
                     ),
-                    const SizedBox(
-                      width: 24,
+                  ),
+                  const SizedBox(
+                    width: 24,
+                  ),
+                  LegendAnimatedIcon(
+                    icon: Icons.close,
+                    disableShadow: true,
+                    theme: LegendAnimtedIconTheme(
+                      enabled: theme.colors.selection,
+                      disabled: theme.colors.onPrimary,
                     ),
-                    LegendAnimatedIcon(
-                      icon: Icons.close,
-                      disableShadow: true,
-                      theme: LegendAnimtedIconTheme(
-                        enabled: theme.colors.selection,
-                        disabled: theme.colors.onPrimary,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+                    onPressed: () {
+                      LegendRouter.of(context).popModal();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 12.0),
+              child: AnimatedContainer(
+                duration: Duration(
+                  milliseconds: 400,
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: AnimatedContainer(
-                  duration: Duration(
-                    milliseconds: 400,
-                  ),
-                  curve: Curves.easeInOutSine,
-                  height: search_height,
-                  decoration: BoxDecoration(
-                    borderRadius: theme.sizing.borderRadius[0],
-                    color: theme.colors.background[0],
-                  ),
-                  padding: EdgeInsets.only(
-                    top: theme.sizing.borderInset[0],
-                    bottom: theme.sizing.borderInset[0],
-                  ),
-                  child: ListView(
-                    // shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    children: getSearchItems(searchItems, context),
-                  ),
-                  margin: searchItems.isNotEmpty
-                      ? const EdgeInsets.only(bottom: 24)
-                      : EdgeInsets.zero,
+                curve: Curves.easeInOutSine,
+                height: search_height,
+                decoration: BoxDecoration(
+                  borderRadius: theme.sizing.borderRadius[0],
+                  color: theme.colors.background[0],
                 ),
+                padding: EdgeInsets.only(
+                  top: theme.sizing.borderInset[0],
+                  bottom: theme.sizing.borderInset[0],
+                ),
+                child: ListView(
+                  // shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  children: getSearchItems(searchItems, context),
+                ),
+                margin: searchItems.isNotEmpty
+                    ? const EdgeInsets.only(bottom: 24)
+                    : EdgeInsets.zero,
               ),
-              Divider(
-                height: 4,
-                thickness: 1,
-                color: theme.colors.onPrimary,
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              Expanded(
-                child: FixedSiderMenu(
-                  hasToPop: true,
-                  background: theme.menuDrawerPalette.background,
-                  activeForeground:
-                      theme.menuDrawerPalette.foreground_selection,
-                  //  subMenuColor: Colors.indigo[900]!,
+            ),
+            Divider(
+              height: 4,
+              thickness: 1,
+              color: theme.colors.onPrimary,
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Expanded(
+              child: FixedSiderMenu(
+                hasToPop: true,
+                background: theme.menuDrawerPalette.background,
+                activeForeground: theme.menuDrawerPalette.foreground_selection,
+                //  subMenuColor: Colors.indigo[900]!,
 
-                  foreground: theme.menuDrawerPalette.foreground,
-                  activeBackground:
-                      theme.menuDrawerPalette.background_selection,
-                  spacing: theme.menuDrawerSizing.spacing,
-                  itemHeight: theme.menuDrawerSizing.itemHeight,
-                  subMenuHeaderHeight: theme.siderSizing.subMenuHeaderHeight,
-                  options: LegendRouter.of(context).menuOptions,
-                  showMenuSubItems: true,
-                  collapsed: false,
-                  iconSize: theme.menuDrawerSizing.iconSize,
+                foreground: theme.menuDrawerPalette.foreground,
+                activeBackground: theme.menuDrawerPalette.background_selection,
+                spacing: theme.menuDrawerSizing.spacing,
+                itemHeight: theme.menuDrawerSizing.itemHeight,
+                subMenuHeaderHeight: theme.siderSizing.subMenuHeaderHeight,
+                options: LegendRouter.of(context).menuOptions,
+                showMenuSubItems: true,
+                collapsed: false,
+                iconSize: theme.menuDrawerSizing.iconSize,
+              ),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            if (widget.actions != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12.0),
+                child: Row(
+                  children: widget.actions!,
                 ),
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              if (widget.actions != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: Row(
-                    children: widget.actions!,
-                  ),
-                )
-            ],
-          ),
+              )
+          ],
         ),
       ),
     );

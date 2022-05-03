@@ -23,6 +23,8 @@ class LegendRouter extends InheritedWidget {
   @override
   final Widget child;
   final List<RouteInfo> routes;
+  late final List<PageRouteInfo> pageRoutes;
+  late final List<ModalRouteInfo> modalRoutes;
   final List<MenuOption> menuOptions;
   BuildContext? context;
 
@@ -32,7 +34,10 @@ class LegendRouter extends InheritedWidget {
     required this.child,
     required this.routes,
     required this.menuOptions,
-  }) : super(key: key, child: child);
+  }) : super(key: key, child: child) {
+    modalRoutes = routes.whereType<ModalRouteInfo>().toList();
+    pageRoutes = routes.whereType<PageRouteInfo>().toList();
+  }
 
   static LegendRouter of(BuildContext context) {
     final LegendRouter? result =
@@ -42,62 +47,45 @@ class LegendRouter extends InheritedWidget {
     return result;
   }
 
-  void pushPage({required RouteSettings settings}) {
+  void pushPage({required RouteSettings settings, bool useKey = false}) {
     RouteInfo info = getRouteWidget(settings, routes);
 
-    if (info is ModalRouteInfo) {
-      Navigator.of(context!).push(
-        PageRouteBuilder(
-          opaque: false,
-          barrierDismissible: true,
-          transitionDuration: Duration(milliseconds: 200),
-          pageBuilder: (BuildContext context, _, __) {
-            return Material(
-              color: Colors.transparent,
-              child: Stack(
-                children: [
-                  ColoredBox(
-                    color: Colors.black.withOpacity(0.2),
-                    child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(1.0, 0.0),
-                        end: Offset.zero,
-                      ).animate(_),
-                      child: info.child,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      );
+    Page<dynamic> p = createPage(settings, info);
+
+    if (useKey) {
+      routerDelegate.navigatorKey?.currentState?.pushNamed(p.name ?? '');
     } else {
-      Page<dynamic> p = createPage(settings, info);
       routerDelegate.pushPage(p);
     }
   }
 
-  void popPage() {
-    routerDelegate.popRoute();
+  MenuOption getCurrent() {
+    String name = routerDelegate.current.name;
+    MenuOption option =
+        menuOptions.singleWhere((element) => element.page == name);
+    return option;
   }
 
-  static Widget? _getModalBody(RouteSettings s, List<RouteInfo> routes) {
-    if (routes.isEmpty) {
-      return null;
-    }
+  void pushGlobalModal({required RouteSettings settings, bool useKey = false}) {
+    RouteInfo info = getRouteWidget(settings, routes);
 
-    for (final RouteInfo info in routes) {
-      if (info.name == s.name) {}
-    }
+    if (info is ModalRouteInfo) {
+      Page<dynamic> p = createPage(settings, info);
 
-    return Container();
+      Navigator.of(context!).pushNamed(info.name);
+    }
+  }
+
+  void popPage({bool useKey = false}) {
+    if (useKey) {
+      routerDelegate.navigatorKey?.currentState?.pop();
+    } else {
+      routerDelegate.popRoute();
+    }
+  }
+
+  void popModal() {
+    Navigator.of(context!).pop();
   }
 
   static RouteInfo getRouteWidget(RouteSettings s, List<RouteInfo> routes) {
