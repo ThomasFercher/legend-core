@@ -108,8 +108,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SizeInfo sizeInfo = SizeInfo.of(context);
 
-    double mWidth = sizeInfo.width;
-    double width = theme.isMobile ? mWidth * 0.8 : 400;
     double topPadding = MediaQuery.of(context).padding.top;
 
     EdgeInsetsGeometry padding = theme.isMobile
@@ -127,13 +125,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
         (searchItems.isEmpty ? 0 : decoration);
 
     return SizedBox(
-      width: width,
+      width: theme.menuDrawerSizing.width,
       height: sizeInfo.height,
       child: Container(
         color: theme.colors.primary,
         padding: padding,
         child: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: theme.sizing.appBarSizing.appBarHeight - 4,

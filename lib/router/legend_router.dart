@@ -66,6 +66,7 @@ class LegendRouter extends InheritedWidget {
     return option;
   }
 
+  /// Should only be used to push Dialogs that are outside of the content or are overallaping AppBar or Sider
   void pushGlobalModal({required RouteSettings settings, bool useKey = false}) {
     RouteInfo info = getRouteWidget(settings, routes);
 

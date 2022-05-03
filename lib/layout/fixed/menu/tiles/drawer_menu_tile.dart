@@ -39,6 +39,7 @@ class DrawerMenuTile extends StatelessWidget {
   late final Color _background;
 
   final double horizontalPadding;
+  final double verticalPadding;
   final double spacing;
 
   final bool disableRightPadding;
@@ -59,6 +60,7 @@ class DrawerMenuTile extends StatelessWidget {
     required this.isHovered,
     required this.isSelected,
     required this.iconSize,
+    this.verticalPadding = 6,
     this.collapsed = false,
     this.width,
     this.spacing = 2,
@@ -66,7 +68,7 @@ class DrawerMenuTile extends StatelessWidget {
     this.textStyle,
     this.title,
     this.icon,
-    this.horizontalPadding = 24,
+    this.horizontalPadding = 12,
     this.borderRadius,
     this.height,
     this.onClicked,
@@ -78,22 +80,15 @@ class DrawerMenuTile extends StatelessWidget {
     _foreground = (isHovered || isSelected) ? selForeground : foreground;
   }
 
-  double getWidth(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    return iconSize +
-        spacing +
-        horizontalPadding * 2 +
-        LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
-  }
-
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
 
-    double w = LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
+    double textSize =
+        LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
 
     return SizedBox(
-      width: getWidth(context),
+      width: width,
       child: LegendDetector(
         borderRadius:
             borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
@@ -104,50 +99,52 @@ class DrawerMenuTile extends StatelessWidget {
         onTap: () {
           if (onClicked != null) onClicked!();
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: horizontalPadding,
-            ),
-            if (icon != null)
-              Container(
-                width: iconSize > 0 ? iconSize : 0,
-                child: Icon(
-                  icon,
-                  color: _foreground,
-                  size: iconSize > 0 ? iconSize : 0,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: horizontalPadding,
+            right: disableRightPadding ? 0 : horizontalPadding,
+            top: verticalPadding,
+            bottom: verticalPadding,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (icon != null)
+                Container(
+                  width: iconSize > 0 ? iconSize : 0,
+                  child: Icon(
+                    icon,
+                    color: _foreground,
+                    size: iconSize > 0 ? iconSize : 0,
+                  ),
+                  margin: EdgeInsets.only(right: spacing),
                 ),
-                margin: EdgeInsets.only(right: spacing),
-              ),
-            if (title != null)
-              Container(
-                width: w > 0 ? w : 0,
-                child: LegendText(
-                  padding: EdgeInsets.zero,
-                  text: title,
-                  selectable: false,
-                  dynamicSizing: collapsed,
-                  textStyle: textStyle?.copyWith(color: _foreground) ??
-                      theme.typography.h2.copyWith(
-                        color: _foreground,
-                      ),
+              if (title != null)
+                Container(
+                  width: textSize > 0 ? textSize : 0,
+                  child: LegendText(
+                    padding: EdgeInsets.zero,
+                    text: title,
+                    selectable: false,
+                    dynamicSizing: collapsed,
+                    textStyle: textStyle?.copyWith(color: _foreground) ??
+                        theme.typography.h2.copyWith(
+                          color: _foreground,
+                        ),
+                  ),
                 ),
-              ),
-            if (actions != null)
-              Expanded(
-                child: Container(),
-              ),
-            if (actions != null)
-              Row(
-                children: actions!,
-              ),
-            SizedBox(
-              width: horizontalPadding,
-            ),
-          ],
+              if (actions != null)
+                Expanded(
+                  child: Container(),
+                ),
+              if (actions != null)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: actions!,
+                ),
+            ],
+          ),
         ),
       ),
     );

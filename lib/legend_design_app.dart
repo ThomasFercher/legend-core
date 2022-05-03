@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,9 @@ import 'utils/restart.dart';
 class LegendApp extends StatelessWidget {
   final routerDelegate = LegendRouterDelegate();
   final List<MenuOption> menuOptions;
-  final List<RouteInfo> routes;
+
+  final List<RouteInfo> Function(LegendTheme theme) buildRoutes;
+
   final List<RouteInfo>? globalRoutes;
 
   final Widget? logo;
@@ -34,7 +37,7 @@ class LegendApp extends StatelessWidget {
   LegendApp({
     Key? key,
     required this.menuOptions,
-    required this.routes,
+    required this.buildRoutes,
     this.globalRoutes,
     this.logo,
     required this.theme,
@@ -57,72 +60,112 @@ class LegendApp extends StatelessWidget {
     ];
     if (providers != null) _providers.addAll(providers!);
 
-    return MultiProvider(
-      providers: _providers,
-      child: LegendRouter(
-        routerDelegate: routerDelegate,
-        routes: routes,
-        menuOptions: menuOptions,
-        child: WidgetsApp(
-          debugShowCheckedModeBanner: false,
-          pageRouteBuilder: <T>(
-            RouteSettings settings,
-            Widget Function(BuildContext) builder,
-          ) {
-            return CupertinoPageRoute<T>(settings: settings, builder: builder);
-          },
-          onGenerateRoute: (routesettings) {
-            RouteInfo info = LegendRouter.getRouteWidget(routesettings, routes);
-            return MaterialPageRoute(
-              builder: (context) => SizeInfo(
-                sizing: theme.sizingTheme,
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: info.child,
+    return Localizations(
+      delegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      locale: Locale('en', 'US'),
+      child: Builder(builder: (context) {
+        List<RouteInfo> routes = buildRoutes(theme);
+        return MultiProvider(
+          providers: _providers,
+          child: LegendRouter(
+            routerDelegate: routerDelegate,
+            routes: routes,
+            menuOptions: menuOptions,
+            child: WidgetsApp(
+              color: theme.colors.primary,
+              debugShowCheckedModeBanner: false,
+              pageRouteBuilder: <T>(
+                RouteSettings settings,
+                Widget Function(BuildContext) builder,
+              ) {
+                return CupertinoPageRoute<T>(
+                  settings: settings,
+                  builder: builder,
+                );
+              },
+              onGenerateRoute: (routesettings) {
+                RouteInfo info =
+                    LegendRouter.getRouteWidget(routesettings, routes);
+                if (info is ModalRouteInfo) {
+                  return CupertinoDialogRoute(
+                    barrierDismissible: true,
+                    settings: routesettings,
+                    transitionDuration: Duration(
+                      milliseconds: 400,
+                    ),
+
+                    transitionBuilder: (context, _, __, child) {
+                      CurvedAnimation animation = CurvedAnimation(
+                        parent: _,
+                        curve: Curves.easeInOutCirc,
+                      );
+                      Tween<AlignmentGeometry> aligment = Tween(
+                        begin: Alignment(8, 0),
+                        end: Alignment(1, 0),
+                      );
+                      return AlignTransition(
+                        alignment: aligment.animate(animation),
+                        child: child,
+                      );
+                    },
+                    //   useSafeArea: false,
+                    builder: (context) => SizeInfo(
+                      sizing: theme.sizingTheme,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: info.child,
+                    ),
+                    context: context,
+                  );
+                }
+              },
+              home: FutureBuilder(
+                future: future,
+                builder: (context, snapshot) {
+                  LegendTheme theme = Provider.of<LegendTheme>(context);
+                  if (snapshot.hasData || splashScreen == null) {
+                    return LayoutProvider(
+                      globalFooter: globalFooter,
+                      title: title,
+                      logo: logo,
+                      child: RestartWidget(
+                        child: WidgetsApp.router(
+                          localizationsDelegates: [
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          locale: Locale('en', 'US'),
+                          title: 'Legend Design',
+                          debugShowCheckedModeBanner: false,
+                          routerDelegate: routerDelegate,
+                          routeInformationParser:
+                              LegendRouteInformationParser(),
+                          backButtonDispatcher: RootBackButtonDispatcher(),
+                          color: theme.colors.primary,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Material(
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Container(
+                          child: splashScreen,
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
-            );
-          },
-          home: FutureBuilder(
-            future: future,
-            builder: (context, snapshot) {
-              LegendTheme theme = Provider.of<LegendTheme>(context);
-              if (snapshot.hasData || splashScreen == null) {
-                return LayoutProvider(
-                  globalFooter: globalFooter,
-                  title: title,
-                  logo: logo,
-                  child: RestartWidget(
-                    child: WidgetsApp.router(
-                      title: 'Legend Design',
-                      locale: Locale("en"),
-                      localizationsDelegates: [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      debugShowCheckedModeBanner: false,
-                      routerDelegate: routerDelegate,
-                      routeInformationParser: LegendRouteInformationParser(),
-                      backButtonDispatcher: RootBackButtonDispatcher(),
-                      color: theme.colors.primary,
-                    ),
-                  ),
-                );
-              } else {
-                return Material(
-                  child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Container(
-                      child: splashScreen,
-                    ),
-                  ),
-                );
-              }
-            },
+            ),
           ),
-          color: theme.colors.primary,
-        ),
-      ),
+        );
+      }),
     );
   }
 }

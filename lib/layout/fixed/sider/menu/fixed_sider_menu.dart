@@ -87,6 +87,8 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
         tiles.add(
           DrawerMenuTile(
             disableRightPadding: true,
+            spacing: 8,
+            horizontalPadding: 12,
             foreground: widget.foreground,
             selForeground: widget.activeForeground,
             background: widget.background,
@@ -192,6 +194,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
           height: maxHeight,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: tiles.traillingPaddingCol(widget.spacing, last: true),
           ),
         );

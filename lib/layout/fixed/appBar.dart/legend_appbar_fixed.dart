@@ -105,6 +105,7 @@ class LegendAppBarFixed extends StatelessWidget {
       elevation: config.elevation,
       toolbarHeight: config.appBarHeight,
       actions: actionsFiller,
+      backgroundColor: theme.appBarPalette.background,
       title: Container(
         color: theme.colors.appBarPalette.background,
         constraints: BoxConstraints(maxHeight: config.appBarHeight),

@@ -152,9 +152,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               ),
             ),
         child: Container(
-          height: maxHeight,
           color: widget.backgroundColor,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderTile(
                 option: widget.option,
@@ -189,19 +189,18 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                 isSelected: headerIndex == selected,
                 iconSize: widget.headerIconSize,
               ),
-              Expanded(
-                child: AnimatedContainer(
-                  duration: Duration(
-                    milliseconds: 200,
-                  ),
-                  curve: Curves.ease,
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    addAutomaticKeepAlives: true,
-                    clipBehavior: Clip.antiAlias,
-                    children: getTiles(context),
-                    //   shrinkWrap: true,
-                  ),
+              AnimatedContainer(
+                height: isExpanded ? getMaxHeight() : 0,
+                duration: Duration(
+                  milliseconds: 200,
+                ),
+                curve: Curves.ease,
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  addAutomaticKeepAlives: true,
+                  clipBehavior: Clip.antiAlias,
+                  children: getTiles(context),
+                  //   shrinkWrap: true,
                 ),
               ),
             ],

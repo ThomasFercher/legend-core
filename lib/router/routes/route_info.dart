@@ -65,10 +65,20 @@ class PageRouteInfo extends RouteInfo {
         );
 }
 
+enum ModalTransition {
+  SLIDE,
+  FADE,
+}
+
 class ModalRouteInfo extends RouteInfo {
+  final double width;
+  final ModalTransition transition;
+
   ModalRouteInfo({
     required Widget child,
     required String name,
+    required this.width,
+    this.transition = ModalTransition.SLIDE,
     Object? arguments,
     bool? isUnderlying,
   }) : super(
