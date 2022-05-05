@@ -54,7 +54,8 @@ class LegendBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     double padding = MediaQuery.of(context).padding.bottom;
     if (PlatformInfo.isIos) {
-      padding -= iosBottomPadding;
+      padding =
+          (padding - iosBottomPadding) > 0 ? (padding - iosBottomPadding) : 0;
     }
 
     bool fillBottom = sizing.fillBottom;
@@ -62,25 +63,28 @@ class LegendBottomBar extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
     return Consumer<BottomBarProvider>(
       builder: (context, provider, child) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              margin: sizing.margin,
-              height: sizing.height,
-              decoration: sizing.decoration.copyWith(
-                color: colors.backgroundColor,
+        return SizedBox(
+          height: sizing.margin.vertical + sizing.height + padding,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: sizing.margin,
+                height: sizing.height,
+                decoration: sizing.decoration.copyWith(
+                  color: colors.backgroundColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: getItems(context, provider),
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: getItems(context, provider),
+              Container(
+                color: fillBottom ? colors.backgroundColor : Colors.transparent,
+                height: padding,
               ),
-            ),
-            Container(
-              color: fillBottom ? colors.backgroundColor : Colors.transparent,
-              height: padding,
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

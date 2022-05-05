@@ -64,6 +64,7 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
     return Container(
       padding: widget.padding,
       child: LegendDetector(
+        background: Colors.transparent,
         onTap: () => widget.onPressed(),
         onHover: (value) {
           if (value && !hovered && !widget.isSelected) {

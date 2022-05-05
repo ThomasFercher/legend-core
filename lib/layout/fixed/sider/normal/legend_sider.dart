@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
-import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
+
 import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
+import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/sider_sizing.dart';
 import 'package:legend_design_core/typography/legend_text.dart';
 import 'package:legend_design_core/utils/extensions.dart';
 
@@ -21,7 +24,35 @@ class Sider extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
     LegendTheme theme = Provider.of<LegendTheme>(context);
+    SiderPalette colors = theme.siderPalette;
+    SiderSizing sizing = theme.siderSizing;
     double maxWidth = theme.siderSizing.width;
+
+    SiderMenuStyle style = SiderMenuStyle(
+      background: colors.background,
+      foreground: colors.foreground,
+      activeBackground: colors.backgroundMenu,
+      activeForeground: colors.selection,
+      spacing: sizing.spacing,
+      padding: sizing.itemPadding,
+      itemHeight: sizing.itemHeight,
+      subMenuHeaderHeight: sizing.subMenuHeaderHeight,
+      iconSize: sizing.iconSize,
+    );
+
+    SiderSubMenuStyle subMenuStyle = SiderSubMenuStyle(
+      itemPadding: sizing.itemPadding,
+      spacing: sizing.spacing,
+      background: colors.backgroundMenu,
+      activeForeground: colors.selection,
+      activeBackground: colors.backgroundMenu.darken(),
+      foreground: colors.foreground,
+      borderRadius: theme.sizing.borderRadius[1],
+      headerHeight: sizing.subMenuHeaderHeight,
+      itemHeight: sizing.itemHeight,
+      iconSize: sizing.iconSize,
+      subMenuIconSize: sizing.subMenuHeaderHeight,
+    );
 
     return Container(
       width: maxWidth,
@@ -78,59 +109,35 @@ class Sider extends StatelessWidget {
                 if (fixedSider.showMenu)
                   Expanded(
                     child: FixedSiderMenu(
-                      activeBackground:
-                          theme.colors.siderPalette.background.darken(0.05),
-                      foreground: theme.siderPalette.foreground,
-                      activeForeground: theme.siderPalette.selection,
-                      background: theme.siderPalette.background,
+                      style: style,
                       options: LegendRouter.of(context).menuOptions,
-                      itemHeight: theme.siderSizing.itemHeight,
-                      subMenuHeaderHeight:
-                          theme.siderSizing.subMenuHeaderHeight,
                       showMenuSubItems: true,
-                      spacing: theme.siderSizing.spacing,
                       collapsed: false,
-                      iconSize: theme.siderSizing.iconSize,
+                      subMenuStyle: subMenuStyle,
                     ),
                   ),
                 if (fixedSider.showParentMenu && !fixedSider.showMenu)
                   Expanded(
                     child: FixedSiderMenu(
-                      activeBackground:
-                          theme.colors.siderPalette.background.darken(0.05),
-                      foreground: theme.siderPalette.foreground,
-                      activeForeground: theme.siderPalette.selection,
-                      background: theme.siderPalette.background,
+                      style: style,
+                      subMenuStyle: subMenuStyle,
                       options: RouteInfoProvider.getParentMenuOption(context)
                               ?.children ??
                           [],
                       showMenuSubItems: true,
-                      spacing: theme.siderSizing.spacing,
                       collapsed: false,
-                      itemHeight: theme.siderSizing.itemHeight,
-                      subMenuHeaderHeight:
-                          theme.siderSizing.subMenuHeaderHeight,
-                      iconSize: theme.siderSizing.iconSize,
                     ),
                   ),
                 if (fixedSider.showChildMenu && !fixedSider.showMenu)
                   Expanded(
                     child: FixedSiderMenu(
-                      activeBackground:
-                          theme.colors.siderPalette.background.darken(0.05),
-                      foreground: theme.siderPalette.foreground,
-                      activeForeground: theme.siderPalette.selection,
-                      background: theme.siderPalette.background,
+                      style: style,
+                      subMenuStyle: subMenuStyle,
                       options: RouteInfoProvider.getCurrentMenuOption(context)
                               ?.children ??
                           [],
                       showMenuSubItems: true,
-                      spacing: theme.siderSizing.spacing,
                       collapsed: false,
-                      itemHeight: theme.siderSizing.itemHeight,
-                      subMenuHeaderHeight:
-                          theme.siderSizing.subMenuHeaderHeight,
-                      iconSize: theme.siderSizing.iconSize,
                     ),
                   ),
               ],

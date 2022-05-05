@@ -1,10 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:http/http.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
+import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -16,33 +18,19 @@ import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
   final MenuOption option;
-  final Color backgroundColor;
-  final Color activeForeground;
-  final Color activeBackground;
-  final Color foregroundColor;
-  final BorderRadius? borderRadius;
-  final bool expanded;
+
   final void Function(bool val)? onResisize;
-  final double headerHeight;
-  final double itemHeight;
-  final double iconSize;
-  final double headerIconSize;
+  final bool expanded;
   final bool hasToPop;
 
+  final SiderSubMenuStyle style;
+
   SiderSubMenu({
+    required this.style,
     required this.option,
-    required this.activeBackground,
-    required this.backgroundColor,
-    required this.foregroundColor,
-    required this.activeForeground,
     required this.expanded,
-    required this.headerHeight,
-    required this.itemHeight,
-    required this.iconSize,
-    required this.headerIconSize,
     required this.hasToPop,
     this.onResisize,
-    this.borderRadius,
   });
 
   @override
@@ -68,7 +56,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   }
 
   double getMaxHeight() =>
-      (widget.option.children?.length ?? 0) * widget.itemHeight;
+      (widget.option.children?.length ?? 0) * style.itemHeight;
+
+  SiderSubMenuStyle get style => widget.style;
 
   @override
   void didChangeDependencies() {
@@ -92,12 +82,13 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
       tiles.add(
         DrawerMenuTile(
-          foreground: widget.foregroundColor,
-          selForeground: widget.activeForeground,
-          background: widget.backgroundColor,
-          selBackground: widget.activeBackground,
+          foreground: style.foreground,
+          selForeground: style.activeForeground,
+          background: style.background,
+          selBackground: style.activeBackground,
           isSelected: i == selected,
           isHovered: i == hovered,
+          spacing: style.spacing,
           icon: option.icon,
           title: option.title,
           path: option.page,
@@ -106,9 +97,11 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                   bottom: Radius.circular(theme.sizing.borderInset[0]),
                 )
               : BorderRadius.zero,
-          height: widget.itemHeight,
+          height: style.itemHeight,
+          verticalPadding: style.itemPadding.vertical,
+          horizontalPadding: style.itemPadding.horizontal,
           textStyle: theme.typography.h1,
-          iconSize: widget.iconSize,
+          iconSize: style.subMenuIconSize,
           onHover: (value) {
             setState(() {
               hovered = value ? i : null;
@@ -139,30 +132,26 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
     return LayoutBuilder(builder: (context, constraints) {
       contentHeight = getMaxHeight();
-      final double maxHeight = contentHeight + widget.headerHeight;
+      final double maxHeight = contentHeight + style.headerHeight;
       if (constraints.maxHeight < maxHeight) {
-        contentHeight = constraints.maxHeight - widget.headerHeight;
+        contentHeight = constraints.maxHeight - style.headerHeight;
       }
 
       return ClipRRect(
-        borderRadius: widget.borderRadius ??
+        borderRadius: style.borderRadius ??
             BorderRadius.all(
               Radius.circular(
                 theme.sizing.borderInset[0],
               ),
             ),
         child: Container(
-          color: widget.backgroundColor,
+          color: style.background,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HeaderTile(
                 option: widget.option,
                 isExpanded: isExpanded,
-                foreground: widget.foregroundColor,
-                background: widget.backgroundColor,
-                activeBackground: widget.activeBackground,
-                activeForeground: widget.activeForeground,
                 onExpanded: () {
                   isExpanded = !isExpanded;
                   if (widget.onResisize != null) {
@@ -184,23 +173,23 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                     name: widget.option.page,
                   ));
                 },
-                height: widget.headerHeight,
                 isHovered: headerIndex == hovered,
                 isSelected: headerIndex == selected,
-                iconSize: widget.headerIconSize,
+                style: style,
               ),
               AnimatedContainer(
-                height: isExpanded ? getMaxHeight() : 0,
+                height: isExpanded ? contentHeight : 0,
                 duration: Duration(
                   milliseconds: 200,
                 ),
                 curve: Curves.ease,
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  addAutomaticKeepAlives: true,
-                  clipBehavior: Clip.antiAlias,
-                  children: getTiles(context),
-                  //   shrinkWrap: true,
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: getMaxHeight(),
+                    child: Column(
+                      children: getTiles(context),
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
-import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';

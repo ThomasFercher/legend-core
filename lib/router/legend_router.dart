@@ -59,10 +59,19 @@ class LegendRouter extends InheritedWidget {
     }
   }
 
+  MenuOption? searchCurrent(List<MenuOption> options, String name) {
+    for (MenuOption option in options) {
+      if (option.page == name) return option;
+      if (option.children != null) {
+        return searchCurrent(option.children!, name);
+      }
+    }
+  }
+
   MenuOption getCurrent() {
     String name = routerDelegate.current.name;
-    MenuOption option =
-        menuOptions.singleWhere((element) => element.page == name);
+
+    MenuOption option = searchCurrent(menuOptions, name)!;
     return option;
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
@@ -23,9 +24,11 @@ class LegendPage extends Page {
           Animation<double> secondaryAnimation) {
         return RouteInfoProvider(
           route: this,
-          child: FadeTransition(
-            opacity: animation,
+          child: CupertinoPageTransition(
+            primaryRouteAnimation: animation,
+            secondaryRouteAnimation: secondaryAnimation,
             child: child,
+            linearTransition: false,
           ),
         );
       },

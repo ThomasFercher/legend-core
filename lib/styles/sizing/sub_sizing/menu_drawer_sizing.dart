@@ -1,9 +1,14 @@
+import 'package:flutter/material.dart';
+
 class MenuDrawerSizing {
   final double width;
   final double iconSize;
   final double spacing;
   final double itemHeight;
   final double subMenuHeaderHeight;
+  final double subMenuIconSize;
+  final EdgeInsets itemPadding;
+  final EdgeInsets subItemPadding;
 
   MenuDrawerSizing({
     this.width = -1,
@@ -11,6 +16,9 @@ class MenuDrawerSizing {
     this.spacing = -1,
     this.itemHeight = -1,
     this.subMenuHeaderHeight = -1,
+    this.subMenuIconSize = -1,
+    this.subItemPadding = EdgeInsets.zero,
+    this.itemPadding = EdgeInsets.zero,
   });
 
   factory MenuDrawerSizing.from({
@@ -20,6 +28,9 @@ class MenuDrawerSizing {
     required double spacing,
     required double itemHeight,
     required double subMenuHeaderHeight,
+    required double subMenuIconSize,
+    required EdgeInsets itemPadding,
+    required EdgeInsets subItemPadding,
   }) {
     if (sizing == null) {
       return MenuDrawerSizing(
@@ -28,6 +39,9 @@ class MenuDrawerSizing {
         spacing: spacing,
         itemHeight: itemHeight,
         subMenuHeaderHeight: subMenuHeaderHeight,
+        subMenuIconSize: subMenuIconSize,
+        itemPadding: itemPadding,
+        subItemPadding: subItemPadding,
       );
     } else {
       return MenuDrawerSizing(
@@ -38,6 +52,15 @@ class MenuDrawerSizing {
         subMenuHeaderHeight: sizing.subMenuHeaderHeight == -1
             ? subMenuHeaderHeight
             : sizing.subMenuHeaderHeight,
+        subMenuIconSize: sizing.subMenuIconSize == -1
+            ? subMenuIconSize
+            : sizing.subMenuIconSize,
+        subItemPadding: sizing.subItemPadding == EdgeInsets.zero
+            ? subItemPadding
+            : sizing.subItemPadding,
+        itemPadding: sizing.itemPadding == EdgeInsets.zero
+            ? itemPadding
+            : sizing.itemPadding,
       );
     }
   }

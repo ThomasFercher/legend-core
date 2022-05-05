@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/fixed/sider/normal/legend_sider.dart';
 
 class SiderSizing {
@@ -6,6 +7,8 @@ class SiderSizing {
   final double spacing;
   final double itemHeight;
   final double subMenuHeaderHeight;
+  final EdgeInsets itemPadding;
+  final EdgeInsets subItemPadding;
 
   SiderSizing({
     this.width = -1,
@@ -13,6 +16,8 @@ class SiderSizing {
     this.spacing = -1,
     this.itemHeight = -1,
     this.subMenuHeaderHeight = -1,
+    this.subItemPadding = EdgeInsets.zero,
+    this.itemPadding = EdgeInsets.zero,
   });
 
   factory SiderSizing.from({
@@ -22,6 +27,8 @@ class SiderSizing {
     required double spacing,
     required double itemHeight,
     required double subMenuHeaderHeight,
+    required EdgeInsets itemPadding,
+    required EdgeInsets subItemPadding,
   }) {
     if (siderSizing == null) {
       return SiderSizing(
@@ -30,6 +37,8 @@ class SiderSizing {
         spacing: spacing,
         itemHeight: itemHeight,
         subMenuHeaderHeight: subMenuHeaderHeight,
+        itemPadding: itemPadding,
+        subItemPadding: subItemPadding,
       );
     } else {
       return SiderSizing(
@@ -41,6 +50,12 @@ class SiderSizing {
         subMenuHeaderHeight: siderSizing.subMenuHeaderHeight == -1
             ? subMenuHeaderHeight
             : siderSizing.subMenuHeaderHeight,
+        subItemPadding: siderSizing.subItemPadding == EdgeInsets.zero
+            ? subItemPadding
+            : siderSizing.subItemPadding,
+        itemPadding: siderSizing.itemPadding == EdgeInsets.zero
+            ? itemPadding
+            : siderSizing.itemPadding,
       );
     }
   }

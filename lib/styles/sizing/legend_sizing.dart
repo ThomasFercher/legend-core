@@ -89,6 +89,14 @@ class LegendSizing {
       spacing: padding[1],
       itemHeight: 48,
       subMenuHeaderHeight: 48,
+      itemPadding: EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 24,
+      ),
+      subItemPadding: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 16,
+      ),
     );
 
     this.bottomBarSizing = BottomBarSizing.from(
@@ -115,6 +123,15 @@ class LegendSizing {
       spacing: 12,
       itemHeight: 48,
       subMenuHeaderHeight: 48,
+      subMenuIconSize: 22,
+      itemPadding: EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 12,
+      ),
+      subItemPadding: EdgeInsets.symmetric(
+        horizontal: 8,
+        vertical: 8,
+      ),
     );
   }
 }

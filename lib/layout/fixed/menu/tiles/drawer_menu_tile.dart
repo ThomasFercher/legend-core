@@ -90,6 +90,7 @@ class DrawerMenuTile extends StatelessWidget {
     return SizedBox(
       width: width,
       child: LegendDetector(
+        background: background,
         borderRadius:
             borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
         padding: EdgeInsets.zero,
@@ -106,44 +107,50 @@ class DrawerMenuTile extends StatelessWidget {
             top: verticalPadding,
             bottom: verticalPadding,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (icon != null)
-                Container(
-                  width: iconSize > 0 ? iconSize : 0,
-                  child: Icon(
-                    icon,
-                    color: _foreground,
-                    size: iconSize > 0 ? iconSize : 0,
+          child: Container(
+            height: (height ?? verticalPadding * 2) - verticalPadding * 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: height,
+                ),
+                if (icon != null)
+                  Container(
+                    width: iconSize > 0 ? iconSize : 0,
+                    child: Icon(
+                      icon,
+                      color: _foreground,
+                      size: iconSize > 0 ? iconSize : 0,
+                    ),
+                    margin: EdgeInsets.only(right: spacing),
                   ),
-                  margin: EdgeInsets.only(right: spacing),
-                ),
-              if (title != null)
-                Container(
-                  width: textSize > 0 ? textSize : 0,
-                  child: LegendText(
-                    padding: EdgeInsets.zero,
-                    text: title,
-                    selectable: false,
-                    dynamicSizing: collapsed,
-                    textStyle: textStyle?.copyWith(color: _foreground) ??
-                        theme.typography.h2.copyWith(
-                          color: _foreground,
-                        ),
+                if (title != null)
+                  Container(
+                    width: textSize > 0 ? textSize : 0,
+                    child: LegendText(
+                      padding: EdgeInsets.zero,
+                      text: title,
+                      selectable: false,
+                      dynamicSizing: collapsed,
+                      textStyle: textStyle?.copyWith(color: _foreground) ??
+                          theme.typography.h2.copyWith(
+                            color: _foreground,
+                          ),
+                    ),
                   ),
-                ),
-              if (actions != null)
-                Expanded(
-                  child: Container(),
-                ),
-              if (actions != null)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: actions!,
-                ),
-            ],
+                if (actions != null)
+                  Expanded(
+                    child: Container(),
+                  ),
+                if (actions != null)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: actions!,
+                  ),
+              ],
+            ),
           ),
         ),
       ),

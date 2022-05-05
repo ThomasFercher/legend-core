@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/layout/fixed/sider/menu/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
+
 import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
 import 'package:legend_design_core/utils/extensions.dart';
 import 'package:provider/provider.dart';
+
+import '../fixed/sider/siderMenu/siderMenuStyle.dart';
 
 class MenuDrawer extends StatefulWidget {
   final List<Widget>? actions;
@@ -108,6 +113,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SizeInfo sizeInfo = SizeInfo.of(context);
 
+    MenuDrawerSizing sizing = theme.menuDrawerSizing;
+    MenuDrawerPalette colors = theme.menuDrawerPalette;
+
     double topPadding = MediaQuery.of(context).padding.top;
 
     EdgeInsetsGeometry padding = theme.isMobile
@@ -123,6 +131,32 @@ class _MenuDrawerState extends State<MenuDrawer> {
     double decoration = theme.sizing.borderInset[0] * 2;
     double search_height = searchItems.length * search_item_height +
         (searchItems.isEmpty ? 0 : decoration);
+
+    SiderMenuStyle style = SiderMenuStyle(
+      background: colors.background,
+      foreground: colors.foreground,
+      activeBackground: colors.backgroundMenu,
+      activeForeground: colors.foreground_selection,
+      spacing: sizing.spacing,
+      padding: sizing.itemPadding,
+      itemHeight: sizing.itemHeight,
+      subMenuHeaderHeight: sizing.subMenuHeaderHeight,
+      iconSize: sizing.iconSize,
+    );
+
+    SiderSubMenuStyle subStyle = SiderSubMenuStyle(
+      itemPadding: sizing.subItemPadding,
+      background: colors.backgroundMenu,
+      activeForeground: colors.foreground_menu_selction,
+      activeBackground: colors.backgroundMenu.darken(),
+      foreground: colors.foreground,
+      borderRadius: theme.sizing.borderRadius[1],
+      headerHeight: sizing.subMenuHeaderHeight,
+      itemHeight: sizing.itemHeight,
+      iconSize: sizing.iconSize,
+      subMenuIconSize: sizing.subMenuIconSize,
+      spacing: sizing.spacing,
+    );
 
     return SizedBox(
       width: theme.menuDrawerSizing.width,
@@ -227,19 +261,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Expanded(
               child: FixedSiderMenu(
                 hasToPop: true,
-                background: theme.menuDrawerPalette.background,
-                activeForeground: theme.menuDrawerPalette.foreground_selection,
-                //  subMenuColor: Colors.indigo[900]!,
-
-                foreground: theme.menuDrawerPalette.foreground,
-                activeBackground: theme.menuDrawerPalette.background_selection,
-                spacing: theme.menuDrawerSizing.spacing,
-                itemHeight: theme.menuDrawerSizing.itemHeight,
-                subMenuHeaderHeight: theme.siderSizing.subMenuHeaderHeight,
                 options: LegendRouter.of(context).menuOptions,
                 showMenuSubItems: true,
                 collapsed: false,
-                iconSize: theme.menuDrawerSizing.iconSize,
+                style: style,
+                subMenuStyle: subStyle,
               ),
             ),
             const SizedBox(

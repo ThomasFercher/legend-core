@@ -41,6 +41,7 @@ class BottomBarItem extends StatelessWidget {
         vertical: 4,
       ),
       child: LegendDetector(
+        background: Colors.transparent,
         borderRadius: BorderRadius.all(
           Radius.circular(sizing?.height ?? 1 / 2),
         ),

@@ -7,11 +7,15 @@ class LegendDetector extends StatefulWidget {
   final void Function(PointerExitEvent)? onExit;
   final void Function(bool)? onHover;
   final void Function()? onTap;
+
   final Widget child;
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
 
-  const LegendDetector({
+  final Color background;
+  late final Color activeBackground;
+
+  LegendDetector({
     Key? key,
     this.onEnter,
     this.onExit,
@@ -20,7 +24,11 @@ class LegendDetector extends StatefulWidget {
     required this.child,
     this.padding,
     this.borderRadius,
-  }) : super(key: key);
+    this.background = Colors.transparent,
+    Color? activeBackground,
+  }) : super(key: key) {
+    this.activeBackground = activeBackground ?? background.darken(0.1);
+  }
 
   @override
   State<LegendDetector> createState() => _LegendDetectorState();
@@ -28,10 +36,12 @@ class LegendDetector extends StatefulWidget {
 
 class _LegendDetectorState extends State<LegendDetector> {
   late bool isHovered;
+  late Color _background;
 
   @override
   void initState() {
     isHovered = false;
+    _background = widget.background;
     super.initState();
   }
 
@@ -49,6 +59,7 @@ class _LegendDetectorState extends State<LegendDetector> {
         if (isHovered == false) {
           setState(() {
             isHovered = true;
+            _background = widget.activeBackground;
           });
           widget.onEnter.executeIf(widget.onEnter != null);
           onHover();
@@ -58,6 +69,7 @@ class _LegendDetectorState extends State<LegendDetector> {
         if (isHovered == true) {
           setState(() {
             isHovered = false;
+            _background = widget.background;
           });
           widget.onExit.executeIf(widget.onExit != null);
           onHover();
@@ -65,11 +77,13 @@ class _LegendDetectorState extends State<LegendDetector> {
       },
       child: GestureDetector(
         onTap: widget.onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
           child: widget.child,
           padding: widget.padding ?? EdgeInsets.all(8),
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius,
+            color: _background,
           ),
         ),
       ),
