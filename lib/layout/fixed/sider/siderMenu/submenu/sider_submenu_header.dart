@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/icons/legend_animated_icon.dart';
+import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';

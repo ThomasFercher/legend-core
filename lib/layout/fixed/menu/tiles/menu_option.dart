@@ -3,8 +3,8 @@ import 'package:legend_design_core/modals/legendPopups.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../router/legend_router.dart';
@@ -13,24 +13,16 @@ class MenuOption {
   final String? title;
   final String page;
   final IconData? icon;
-  final void Function(String page)? onSelected;
-  late final bool isUnderlying;
+
   final List<MenuOption>? children;
-  final bool showSubMenu;
-  final bool showInAppBar;
 
   MenuOption({
     this.title,
     required this.page,
     this.icon,
-    this.onSelected,
     bool? isUnderlying,
     this.children,
-    this.showSubMenu = false,
-    this.showInAppBar = true,
-  }) {
-    this.isUnderlying = isUnderlying ?? false;
-  }
+  });
 }
 
 /*class MenuOptionHeader extends StatefulWidget {
@@ -127,7 +119,7 @@ class _MenuOptionHeaderState extends State<MenuOptionHeader>
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     width =
-        LegendUtils.calcTextSize(widget.option.title ?? '', theme.typography.h2)
+        LegendFunctions.calcTextSize(widget.option.title ?? '', theme.typography.h2)
                 .width +
             (theme.appBarSizing.iconSize ?? 24) * 2.22;
 

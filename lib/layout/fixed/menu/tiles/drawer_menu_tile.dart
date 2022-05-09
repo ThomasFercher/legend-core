@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:legend_design_core/gestures/detector.dart';
+import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/src/provider.dart';
-
-import '../../../../typography/legend_text.dart';
 
 const Duration duration = Duration(milliseconds: 200);
 
@@ -85,7 +84,7 @@ class DrawerMenuTile extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
 
     double textSize =
-        LegendUtils.getTitleIndent(theme.typography.h2, title ?? '');
+        LegendFunctions.getTitleIndent(theme.typography.h2, title ?? '');
 
     return SizedBox(
       width: width,

@@ -17,6 +17,7 @@ class LegendRouteBody extends StatelessWidget {
   final bool? singlePage;
   final bool disableContentDecoration;
   final Widget Function(BuildContext context, Size s)? builder;
+  final Widget? sliverAppBar;
 
   LegendRouteBody({
     Key? key,
@@ -24,6 +25,7 @@ class LegendRouteBody extends StatelessWidget {
     this.builder,
     this.singlePage,
     this.disableContentDecoration = false,
+    this.sliverAppBar,
   }) : super(key: key) {
     assert(slivers.isNotEmpty || builder != null);
   }
@@ -59,6 +61,7 @@ class LegendRouteBody extends StatelessWidget {
           return Container(
             child: CustomScrollView(
               slivers: [
+                if (sliverAppBar != null) sliverAppBar!,
                 SliverList(
                   delegate: SliverChildListDelegate(
                     _slivers,

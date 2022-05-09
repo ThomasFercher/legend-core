@@ -10,8 +10,8 @@ import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/sider_sizing.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 
 import 'package:provider/provider.dart';
 

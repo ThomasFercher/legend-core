@@ -6,8 +6,8 @@ import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/utils/extensions.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/extensions/extensions.dart';
+import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
@@ -112,8 +112,8 @@ class _FixedMenuState extends State<FixedMenu> {
     for (int i = 0; i < widget.options.length; i++) {
       final MenuOption option = widget.options[i];
 
-      double textSize =
-          LegendUtils.getTitleIndent(theme.typography.h2, option.title ?? '');
+      double textSize = LegendFunctions.getTitleIndent(
+          theme.typography.h2, option.title ?? '');
 
       double normalWidth = widget.iconSize +
           textSize +
@@ -163,8 +163,8 @@ class _FixedMenuState extends State<FixedMenu> {
     for (int i = 0; i < widget.options.length; i++) {
       final MenuOption option = widget.options[i];
 
-      double textSize =
-          LegendUtils.getTitleIndent(theme.typography.h2, option.title ?? '');
+      double textSize = LegendFunctions.getTitleIndent(
+          theme.typography.h2, option.title ?? '');
 
       double normalWidth = widget.iconSize + textSize;
       double fixedSize = spacing + hor_padding * 2 + 2;
@@ -179,8 +179,8 @@ class _FixedMenuState extends State<FixedMenu> {
     for (int i = 0; i < widget.options.length; i++) {
       final MenuOption option = widget.options[i];
 
-      double textSize =
-          LegendUtils.getTitleIndent(theme.typography.h2, option.title ?? '');
+      double textSize = LegendFunctions.getTitleIndent(
+          theme.typography.h2, option.title ?? '');
 
       double col_textSize = textSize * ratio;
       double col_iconSize = widget.iconSize * ratio;

@@ -7,7 +7,7 @@ import 'package:legend_design_core/layout/fixed/sider/siderMenu/submenu/sider_su
 import 'package:legend_design_core/router/legend_router.dart';
 import 'package:legend_design_core/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/src/provider.dart';
 
 class FixedSiderMenu extends StatefulWidget {
