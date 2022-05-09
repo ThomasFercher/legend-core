@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
+import 'package:legend_router/router/routes/route_info.dart';
 import 'legend_scaffold.dart';
-import '../../router/legend_router.dart';
 
 class ScaffoldFrame extends StatelessWidget {
-  final PageRouteInfo page;
+  final ScaffoldRouteInfo page;
   final Widget child;
 
   const ScaffoldFrame({
@@ -14,13 +15,13 @@ class ScaffoldFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: Navigator needs to be above builders
+    final ScaffoldRouteConfig config = page.config;
     return LegendScaffold(
-      builders: page.info.builders,
-      layoutType: page.info.layoutType,
-      appBarLayoutType: page.info.appBarLayoutType,
-      sizing: page.info.sizing,
-      whether: page.info.whether,
+      builders: config.builders,
+      layoutType: config.layoutType,
+      appBarLayoutType: config.appBarLayoutType,
+      sizing: config.sizing,
+      whether: config.whether,
       child: child,
       pageName: "test",
     );

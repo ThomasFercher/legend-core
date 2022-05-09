@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class LegendPopups {
   static final ModalConfiguration _modalConfiguration =
@@ -74,7 +74,8 @@ class LegendPopups {
   }) {
     double maxWidth = SizeInfo.of(context).width;
     double leftQ = (menuWidth - itemWidth) / 2;
-    double center = LegendUtils.getVerticalCenter(context, key, menuWidth) ?? 0;
+    double center =
+        LegendFunctions.getVerticalCenter(context, key, menuWidth) ?? 0;
 
     bool snappedRight = false;
 

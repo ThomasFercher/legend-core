@@ -6,25 +6,39 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
 import 'package:legend_design_core/layout/fixed/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/legendPage.dart';
-import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
+
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_parser.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'router/route_info_parser.dart';
 import 'styles/colors/legend_colors.dart';
-import 'utils/restart.dart';
+
+class LegendNavigatorFrame extends NavigatorFrame {
+  @override
+  Widget buildFrame(
+      BuildContext context, Navigator navigator, RouteInfo? current) {
+    if (current is ScaffoldRouteInfo) {
+      return ScaffoldFrame(page: current, child: navigator);
+    } else {
+      return navigator;
+    }
+  }
+}
 
 class LegendApp extends StatelessWidget {
-  final routerDelegate = LegendRouterDelegate();
-  final List<MenuOption> menuOptions;
+  final routerDelegate = LegendRouterDelegate(frame: LegendNavigatorFrame());
+  final List<SimpleRouteDisplay> routeDisplays;
 
   final List<RouteInfo> Function(LegendTheme theme) buildRoutes;
-
-  final List<RouteInfo>? globalRoutes;
 
   final Widget? logo;
   final LegendTheme theme;
@@ -36,9 +50,8 @@ class LegendApp extends StatelessWidget {
 
   LegendApp({
     Key? key,
-    required this.menuOptions,
+    required this.routeDisplays,
     required this.buildRoutes,
-    this.globalRoutes,
     this.logo,
     required this.theme,
     this.future,
@@ -55,7 +68,7 @@ class LegendApp extends StatelessWidget {
         create: (_) => theme,
       ),
       ChangeNotifierProvider<BottomBarProvider>(
-        create: (_) => BottomBarProvider(menuOptions.first),
+        create: (_) => BottomBarProvider(routeDisplays.first),
       ),
     ];
     if (providers != null) _providers.addAll(providers!);
@@ -74,7 +87,7 @@ class LegendApp extends StatelessWidget {
           child: LegendRouter(
             routerDelegate: routerDelegate,
             routes: routes,
-            menuOptions: menuOptions,
+            routeDisplays: routeDisplays,
             child: WidgetsApp(
               color: theme.colors.primary,
               debugShowCheckedModeBanner: false,
@@ -113,11 +126,14 @@ class LegendApp extends StatelessWidget {
                       );
                     },
                     //   useSafeArea: false,
-                    builder: (context) => SizeInfo(
-                      sizing: theme.sizingTheme,
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: info.child,
+                    builder: (context) => RouteInfoProvider(
+                      route: routesettings,
+                      child: SizeInfo(
+                        sizing: theme.sizingTheme,
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: info.page,
+                      ),
                     ),
                     context: context,
                   );

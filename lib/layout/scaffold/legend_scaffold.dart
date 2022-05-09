@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_header_fixed.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
-import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../drawers/menu_drawer.dart';
@@ -79,23 +80,26 @@ class LegendScaffold extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Builder(builder: (context) {
           bool showBottomBar = theme.sizing.showBottomBar;
+          ScaffoldConfig config = ScaffoldInfo.of(context).getConfig;
+          bool showAppBar = config.layoutType == LayoutType.FixedHeader ||
+              config.layoutType == LayoutType.FixedHeaderSider;
+
           return Scaffold(
             bottomNavigationBar: LegendBottomBar(
               colors: theme.bottomBarPalette,
               sizing: theme.bottomBarSizing!,
-              options: LegendRouter.of(context).menuOptions,
+              options: LegendRouter.of(context).routeDisplays,
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,
-            appBar: PreferredSize(
-              preferredSize: Size(
-                MediaQuery.of(context).size.width,
-                theme.appBarSizing.appBarHeight,
-              ),
-              child: ScaffoldHeaderFixed(),
-            ).boolInit(
-              layoutType == LayoutType.FixedHeader ||
-                  layoutType == LayoutType.FixedHeaderSider,
-            ),
+            appBar: showAppBar
+                ? PreferredSize(
+                    child: ScaffoldHeader(),
+                    preferredSize: Size(
+                      MediaQuery.of(context).size.width,
+                      theme.appBarSizing.appBarHeight,
+                    ),
+                  )
+                : null,
             body: ColoredBox(
               color: theme.colors.background[0],
               child: Row(

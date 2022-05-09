@@ -128,6 +128,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+  legend_router:
+    dependency: "direct main"
+    description:
+      path: "../legend_router"
+      relative: true
+    source: path
+    version: "0.0.1"
+  legend_utils:
+    dependency: "direct main"
+    description:
+      path: "../legend_utils"
+      relative: true
+    source: path
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:
@@ -323,5 +337,5 @@ packages:
     source: hosted
     version: "0.2.0+1"
 sdks:
-  dart: ">=2.15.0 <3.0.0"
+  dart: ">=2.16.2 <3.0.0"
   flutter: ">=2.10.0-0"

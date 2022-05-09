@@ -6,13 +6,12 @@ import 'package:legend_design_core/layout/fixed/bottomBar.dart/legend_bottom_bar
 import 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
-import 'package:legend_design_core/typography/typography.dart';
 
+import '../typography/typography.dart';
 import 'sub_sizing/sider_sizing.dart';
 
 export 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
-export 'package:legend_design_core/typography/typography.dart';
 
 /// ## LegendSizing
 /// A Object for storing Size Dependendant Styling and Sizing Variables.
@@ -83,6 +82,7 @@ class LegendSizing {
     BottomBarSizing? bottomBarSizing,
   }) {
     this.siderSizing = SiderSizing.from(
+      horizontalPadding: 8,
       siderSizing: siderSizing,
       width: 200,
       iconSize: iconSizes[1],
@@ -90,11 +90,11 @@ class LegendSizing {
       itemHeight: 48,
       subMenuHeaderHeight: 48,
       itemPadding: EdgeInsets.symmetric(
-        vertical: 12,
+        vertical: 2,
         horizontal: 24,
       ),
       subItemPadding: EdgeInsets.symmetric(
-        vertical: 10,
+        vertical: 2,
         horizontal: 16,
       ),
     );

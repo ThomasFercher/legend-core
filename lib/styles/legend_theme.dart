@@ -5,7 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import '../utils/restart.dart';
+import 'package:legend_design_core/styles/typography/typography.dart';
+import 'package:legend_utils/legend_utils.dart';
 import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
 import 'colors/sub_palettes/app_bar_palette.dart';
@@ -17,7 +18,6 @@ import 'sizing/legend_sizing_theme.dart';
 import 'sizing/sub_sizing/menu_drawer_sizing.dart';
 import 'sizing/sub_sizing/sider_sizing.dart';
 
-export '../typography/typography.dart';
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
 export 'colors/sub_palettes/app_bar_palette.dart';

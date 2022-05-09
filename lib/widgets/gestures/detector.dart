@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 
 class LegendDetector extends StatefulWidget {
   final void Function(PointerEnterEvent)? onEnter;

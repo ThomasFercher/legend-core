@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/gestures/detector.dart';
+
+import '../gestures/detector.dart';
 
 class LegendAnimatedIcon extends StatefulWidget {
   final IconData icon;

@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
-import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
+
+import 'package:legend_router/router/routes/route_display.dart';
 
 class BottomBarProvider with ChangeNotifier {
-  late MenuOption selected;
+  late RouteDisplay selected;
 
   BottomBarProvider(
     this.selected,
   );
 
-  void selectOption(MenuOption selectOption) {
+  void selectOption(RouteDisplay selectOption) {
     selected = selectOption;
     notifyListeners();
   }

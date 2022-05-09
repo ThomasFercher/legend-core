@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
+import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar_fixed.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:provider/provider.dart';
 import '../../../styles/layouts/layout_type.dart';
@@ -24,7 +25,7 @@ class ScaffoldHeader extends StatelessWidget {
 
     switch (scaffold.layoutType) {
       case LayoutType.FixedHeaderSider:
-        return LegendAppBar(
+        return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           showLogo: siderCollapsed,
@@ -37,7 +38,7 @@ class ScaffoldHeader extends StatelessWidget {
           ),
         );
       case LayoutType.FixedHeader:
-        return LegendAppBar(
+        return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
@@ -48,22 +49,7 @@ class ScaffoldHeader extends StatelessWidget {
             horizontalPadding: theme.appBarSizing.contentPadding.left,
           ),
         );
-      case LayoutType.FixedSider:
-        return siderCollapsed
-            ? LegendAppBar(
-                type: scaffold.appBarLayoutType,
-                actions: scaffold.builders.appBarActions,
-                config: LegendAppBarConfig(
-                  appBarHeight: theme.appBarSizing.appBarHeight,
-                  elevation: 1,
-                  showSubMenu: scaffold.whether.showTopSubMenu,
-                  pinned: true,
-                  horizontalPadding: theme.appBarSizing.contentPadding.left,
-                ),
-              )
-            : SliverToBoxAdapter(
-                child: Container(),
-              );
+
       default:
         return SliverToBoxAdapter(
           child: Container(),

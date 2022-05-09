@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
-import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:provider/provider.dart';
 
 class BottomBarItem extends StatelessWidget {
-  final MenuOption option;
+  final RouteDisplay option;
   final BottomBarSizing? sizing;
   final BottomBarPalette colors;
-  final void Function(MenuOption option) onSelected;
+  final void Function(RouteDisplay option) onSelected;
   final bool isSelected;
 
   BottomBarItem({
@@ -25,7 +26,7 @@ class BottomBarItem extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
     return LegendText(
       selectable: false,
-      text: option.title!,
+      text: option.title,
       textStyle: theme.typography.h0.copyWith(
         color: color,
       ),
@@ -66,8 +67,7 @@ class BottomBarItem extends StatelessWidget {
                     ),
                   ),
                   if ((sizing?.textAtBottom ?? false) &&
-                      (sizing?.showText ?? true) &&
-                      (option.title != null))
+                      (sizing?.showText ?? true))
                     Container(
                       padding: EdgeInsets.only(top: 2.0),
                       child: getText(context, color),
@@ -75,8 +75,7 @@ class BottomBarItem extends StatelessWidget {
                 ],
               ),
               if ((sizing?.showText ?? true) &&
-                  (!(sizing?.textAtBottom ?? false)) &&
-                  (option.title != null))
+                  (!(sizing?.textAtBottom ?? false)))
                 Container(
                   padding: EdgeInsets.only(left: 4.0),
                   child: getText(context, color),

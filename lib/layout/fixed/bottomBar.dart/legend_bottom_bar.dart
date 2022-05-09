@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/bottom_bar_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:provider/provider.dart';
 
 const double iosBottomPadding = 12;
@@ -14,7 +15,7 @@ class LegendBottomBar extends StatelessWidget {
   final bool? fit;
   final BottomBarSizing sizing;
   final BottomBarPalette colors;
-  final List<MenuOption> options;
+  final List<RouteDisplay> options;
 
   LegendBottomBar({
     Key? key,
@@ -29,16 +30,16 @@ class LegendBottomBar extends StatelessWidget {
     BottomBarProvider provider,
   ) {
     List<BottomBarItem> items = [];
-    final MenuOption selected = provider.selected;
+    final RouteDisplay selected = provider.selected;
 
-    for (final MenuOption option in options) {
+    for (final RouteDisplay option in options) {
       BottomBarItem w = BottomBarItem(
         isSelected: option == selected,
         option: option,
         onSelected: (o) {
           provider.selectOption(option);
           LegendRouter.of(context).pushPage(
-            settings: RouteSettings(name: option.page),
+            settings: RouteSettings(name: option.route),
           );
         },
         sizing: sizing,

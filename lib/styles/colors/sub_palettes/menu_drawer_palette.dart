@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class MenuDrawerPalette {
   late final Color background;
@@ -51,29 +51,29 @@ class MenuDrawerPalette {
       );
     } else {
       return MenuDrawerPalette(
-        background: LegendUtils.isNullColor(palette.background)
+        background: LegendFunctions.isNullColor(palette.background)
             ? background
             : palette.background,
-        backgroundMenu: LegendUtils.isNullColor(palette.backgroundMenu)
+        backgroundMenu: LegendFunctions.isNullColor(palette.backgroundMenu)
             ? backgroundMenu
             : palette.backgroundMenu,
-        foreground: LegendUtils.isNullColor(palette.foreground)
+        foreground: LegendFunctions.isNullColor(palette.foreground)
             ? foreground
             : palette.foreground,
         foreground_selection:
-            LegendUtils.isNullColor(palette.foreground_selection)
+            LegendFunctions.isNullColor(palette.foreground_selection)
                 ? foreground_selection
                 : palette.foreground_selection,
         background_menu_selection:
-            LegendUtils.isNullColor(palette.background_menu_selection)
+            LegendFunctions.isNullColor(palette.background_menu_selection)
                 ? background_menu_selection
                 : palette.background_menu_selection,
         background_selection:
-            LegendUtils.isNullColor(palette.background_selection)
+            LegendFunctions.isNullColor(palette.background_selection)
                 ? foreground_selection
                 : palette.background_selection,
         foreground_menu_selction:
-            LegendUtils.isNullColor(palette.foreground_menu_selction)
+            LegendFunctions.isNullColor(palette.foreground_menu_selction)
                 ? foreground_menu_selction
                 : palette.foreground_menu_selction,
       );

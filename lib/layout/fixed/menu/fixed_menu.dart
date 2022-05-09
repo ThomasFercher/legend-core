@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
 
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/router/legend_router.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class FixedMenu extends StatefulWidget {
   final double itemSpacing;
   final EdgeInsetsGeometry padding;
   final bool subMenuExpanded;
-  final List<MenuOption> options;
+  final List<RouteDisplay> options;
   final double height;
   final double iconSize;
   final bool collapse;
@@ -57,18 +58,18 @@ class _FixedMenuState extends State<FixedMenu> {
   }
 
   /// This Method returns the whole menu.
-  /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
+  /// If a [RouteDisplay] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
   List<DrawerMenuTile> getTiles(
     BuildContext context,
-    MenuOption sel,
+    RouteDisplay? sel,
   ) {
     List<DrawerMenuTile> tiles = [];
 
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (int i = 0; i < widget.options.length; i++) {
-      final MenuOption option = widget.options[i];
+      final RouteDisplay option = widget.options[i];
 
       tiles.add(
         DrawerMenuTile(
@@ -82,7 +83,7 @@ class _FixedMenuState extends State<FixedMenu> {
           icon: option.icon,
           title: option.title,
           spacing: widget.itemSpacing,
-          path: option.page,
+          path: option.route,
           horizontalPadding: widget.padding.horizontal / 2,
           height: widget.height,
           borderRadius: widget.collapse
@@ -95,7 +96,7 @@ class _FixedMenuState extends State<FixedMenu> {
           },
           onClicked: () {
             LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.page));
+                .pushPage(settings: RouteSettings(name: option.route));
           },
         ),
       );
@@ -110,10 +111,10 @@ class _FixedMenuState extends State<FixedMenu> {
     double width = 0;
 
     for (int i = 0; i < widget.options.length; i++) {
-      final MenuOption option = widget.options[i];
+      final RouteDisplay option = widget.options[i];
 
-      double textSize = LegendFunctions.getTitleIndent(
-          theme.typography.h2, option.title ?? '');
+      double textSize =
+          LegendFunctions.getTitleIndent(theme.typography.h2, option.title);
 
       double normalWidth = widget.iconSize +
           textSize +
@@ -144,12 +145,12 @@ class _FixedMenuState extends State<FixedMenu> {
   }
 
   /// This Method returns the whole menu.
-  /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
+  /// If a [RouteDisplay] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
   List<DrawerMenuTile> getTilesCollapsed(
     BuildContext context,
     double maxWidth,
-    MenuOption sel,
+    RouteDisplay? sel,
   ) {
     List<DrawerMenuTile> tiles = [];
 
@@ -161,10 +162,10 @@ class _FixedMenuState extends State<FixedMenu> {
     double w = 0;
     double f_w = 0;
     for (int i = 0; i < widget.options.length; i++) {
-      final MenuOption option = widget.options[i];
+      final RouteDisplay option = widget.options[i];
 
-      double textSize = LegendFunctions.getTitleIndent(
-          theme.typography.h2, option.title ?? '');
+      double textSize =
+          LegendFunctions.getTitleIndent(theme.typography.h2, option.title);
 
       double normalWidth = widget.iconSize + textSize;
       double fixedSize = spacing + hor_padding * 2 + 2;
@@ -177,10 +178,10 @@ class _FixedMenuState extends State<FixedMenu> {
     if (ratio > 1) ratio = 1;
 
     for (int i = 0; i < widget.options.length; i++) {
-      final MenuOption option = widget.options[i];
+      final RouteDisplay option = widget.options[i];
 
-      double textSize = LegendFunctions.getTitleIndent(
-          theme.typography.h2, option.title ?? '');
+      double textSize =
+          LegendFunctions.getTitleIndent(theme.typography.h2, option.title);
 
       double col_textSize = textSize * ratio;
       double col_iconSize = widget.iconSize * ratio;
@@ -201,7 +202,7 @@ class _FixedMenuState extends State<FixedMenu> {
           icon: option.icon,
           title: option.title,
           spacing: spacing,
-          path: option.page,
+          path: option.route,
           height: widget.height,
           borderRadius: widget.collapse
               ? BorderRadius.zero
@@ -213,7 +214,7 @@ class _FixedMenuState extends State<FixedMenu> {
           },
           onClicked: () {
             LegendRouter.of(context).pushPage(
-                settings: RouteSettings(name: option.page), useKey: true);
+                settings: RouteSettings(name: option.route), useKey: true);
           },
         ),
       );
@@ -224,7 +225,7 @@ class _FixedMenuState extends State<FixedMenu> {
 
   @override
   Widget build(BuildContext context) {
-    MenuOption sel = LegendRouter.of(context).getCurrent();
+    RouteDisplay? sel = LegendRouter.of(context).getCurrent();
 
     return LayoutBuilder(
       builder: (context, constraints) {

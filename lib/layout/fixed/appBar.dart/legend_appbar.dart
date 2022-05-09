@@ -4,8 +4,8 @@ import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/legend_router.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/legend_text.dart';
 import 'package:legend_utils/extensions/extensions.dart';
@@ -44,7 +44,7 @@ class LegendAppBar extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        if (RouteInfoProvider.of(context)?.route.name != '/') {
+        if (RouteInfoProvider.of(context).route.name != '/') {
           LegendRouter.of(context).pushPage(
             settings: const RouteSettings(name: '/'),
           );
@@ -71,7 +71,7 @@ class LegendAppBar extends StatelessWidget {
           background: theme.colors.appBarPalette.background,
           foreground: theme.colors.appBarPalette.foreground,
           activeForeground: theme.colors.appBarPalette.selected,
-          options: LegendRouter.of(context).menuOptions,
+          options: LegendRouter.of(context).routeDisplays,
           activeBackground: theme.appBarPalette.background.lighten(),
           iconSize: theme.appBarSizing.iconSize,
 
@@ -86,7 +86,7 @@ class LegendAppBar extends StatelessWidget {
           background: theme.colors.appBarPalette.background,
           foreground: theme.colors.appBarPalette.foreground,
           activeForeground: theme.colors.appBarPalette.selected,
-          options: LegendRouter.of(context).menuOptions,
+          options: LegendRouter.of(context).routeDisplays,
           activeBackground: theme.appBarPalette.background.lighten(),
           iconSize: theme.appBarSizing.iconSize,
           spacing: theme.appBarSizing.spacing ?? 6,

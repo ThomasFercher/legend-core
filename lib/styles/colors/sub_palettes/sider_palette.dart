@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class SiderPalette {
   late final Color background;
@@ -35,16 +35,16 @@ class SiderPalette {
       );
     } else {
       return SiderPalette(
-        background: LegendUtils.isNullColor(siderPalette.background)
+        background: LegendFunctions.isNullColor(siderPalette.background)
             ? background
             : siderPalette.background,
-        backgroundMenu: LegendUtils.isNullColor(siderPalette.backgroundMenu)
+        backgroundMenu: LegendFunctions.isNullColor(siderPalette.backgroundMenu)
             ? backgroundMenu
             : siderPalette.backgroundMenu,
-        foreground: LegendUtils.isNullColor(siderPalette.foreground)
+        foreground: LegendFunctions.isNullColor(siderPalette.foreground)
             ? foreground
             : siderPalette.foreground,
-        selection: LegendUtils.isNullColor(siderPalette.selection)
+        selection: LegendFunctions.isNullColor(siderPalette.selection)
             ? selection
             : siderPalette.selection,
       );

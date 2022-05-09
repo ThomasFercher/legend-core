@@ -5,8 +5,8 @@ import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/router/legend_router.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/sider_sizing.dart';
@@ -26,6 +26,7 @@ class Sider extends StatelessWidget {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SiderPalette colors = theme.siderPalette;
     SiderSizing sizing = theme.siderSizing;
+
     double maxWidth = theme.siderSizing.width;
 
     SiderMenuStyle style = SiderMenuStyle(
@@ -51,7 +52,7 @@ class Sider extends StatelessWidget {
       headerHeight: sizing.subMenuHeaderHeight,
       itemHeight: sizing.itemHeight,
       iconSize: sizing.iconSize,
-      subMenuIconSize: sizing.subMenuHeaderHeight,
+      subMenuIconSize: sizing.iconSize - 2,
     );
 
     return Container(
@@ -96,51 +97,59 @@ class Sider extends StatelessWidget {
                 ],
               ),
             ),
+          Container(
+            height: 10,
+            color: theme.colors.onPrimary,
+            margin: EdgeInsets.only(
+              bottom: 24,
+            ),
+          ),
           Expanded(
-            child: Column(
-              children: [
-                Container(
-                  height: 10,
-                  color: theme.colors.onPrimary,
-                  margin: EdgeInsets.only(
-                    bottom: 24,
-                  ),
-                ),
-                if (fixedSider.showMenu)
-                  Expanded(
-                    child: FixedSiderMenu(
-                      style: style,
-                      options: LegendRouter.of(context).menuOptions,
-                      showMenuSubItems: true,
-                      collapsed: false,
-                      subMenuStyle: subMenuStyle,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: sizing.horizontalPadding,
+              ),
+              child: Column(
+                children: [
+                  if (fixedSider.showMenu)
+                    Expanded(
+                      child: FixedSiderMenu(
+                        style: style,
+                        options: LegendRouter.of(context).routeDisplays,
+                        showMenuSubItems: true,
+                        collapsed: false,
+                        subMenuStyle: subMenuStyle,
+                      ),
                     ),
-                  ),
-                if (fixedSider.showParentMenu && !fixedSider.showMenu)
-                  Expanded(
-                    child: FixedSiderMenu(
-                      style: style,
-                      subMenuStyle: subMenuStyle,
-                      options: RouteInfoProvider.getParentMenuOption(context)
-                              ?.children ??
-                          [],
-                      showMenuSubItems: true,
-                      collapsed: false,
+                  if (fixedSider.showParentMenu && !fixedSider.showMenu)
+                    Expanded(
+                      child: FixedSiderMenu(
+                        style: style,
+                        subMenuStyle: subMenuStyle,
+                        options:
+                            RouteInfoProvider.getParentRouteDisplay(context)
+                                    ?.children
+                                    ?.toList() ??
+                                [],
+                        showMenuSubItems: true,
+                        collapsed: false,
+                      ),
                     ),
-                  ),
-                if (fixedSider.showChildMenu && !fixedSider.showMenu)
-                  Expanded(
-                    child: FixedSiderMenu(
-                      style: style,
-                      subMenuStyle: subMenuStyle,
-                      options: RouteInfoProvider.getCurrentMenuOption(context)
-                              ?.children ??
-                          [],
-                      showMenuSubItems: true,
-                      collapsed: false,
+                  if (fixedSider.showChildMenu && !fixedSider.showMenu)
+                    Expanded(
+                      child: FixedSiderMenu(
+                        style: style,
+                        subMenuStyle: subMenuStyle,
+                        options: RouteInfoProvider.getRouteDisplay(context)
+                                ?.children
+                                ?.toList() ??
+                            [],
+                        showMenuSubItems: true,
+                        collapsed: false,
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
           if (fixedSider.builder != null)

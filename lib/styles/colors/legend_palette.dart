@@ -6,8 +6,9 @@ import 'package:legend_design_core/styles/colors/sub_palettes/bottom_bar_palette
 import 'package:legend_design_core/styles/colors/sub_palettes/footer_palette.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/sider_palette.dart';
-import 'package:legend_design_core/typography/typography.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_design_core/styles/typography/typography.dart';
+
+import 'package:legend_utils/extensions/extensions.dart';
 
 class LegendPalette {
   ///  Primary Color

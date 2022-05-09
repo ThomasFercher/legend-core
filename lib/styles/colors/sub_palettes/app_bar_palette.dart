@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class AppBarPalette {
   late final Color background;
@@ -42,16 +42,16 @@ class AppBarPalette {
       );
     }
     return AppBarPalette(
-      background: LegendUtils.isNullColor(appBarPalette.background)
+      background: LegendFunctions.isNullColor(appBarPalette.background)
           ? background
           : appBarPalette.background,
-      icon: LegendUtils.isNullColor(appBarPalette.icon)
+      icon: LegendFunctions.isNullColor(appBarPalette.icon)
           ? icon
           : appBarPalette.icon,
-      selected: LegendUtils.isNullColor(appBarPalette.selected)
+      selected: LegendFunctions.isNullColor(appBarPalette.selected)
           ? selected
           : appBarPalette.selected,
-      foreground: LegendUtils.isNullColor(appBarPalette.foreground)
+      foreground: LegendFunctions.isNullColor(appBarPalette.foreground)
           ? foreground
           : appBarPalette.foreground,
       card: appBarPalette.card,

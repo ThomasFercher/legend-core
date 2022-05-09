@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 const Color nullColor = Color(0xFFFFFFFE);
 
@@ -19,10 +19,10 @@ class FooterPalette {
       );
     } else {
       return FooterPalette(
-        background: LegendUtils.isNullColor(footerPalette.background)
+        background: LegendFunctions.isNullColor(footerPalette.background)
             ? background
             : footerPalette.background,
-        foreground: LegendUtils.isNullColor(footerPalette.foreground)
+        foreground: LegendFunctions.isNullColor(footerPalette.foreground)
             ? foreground
             : footerPalette.foreground,
       );

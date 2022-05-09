@@ -9,6 +9,7 @@ class SiderSizing {
   final double subMenuHeaderHeight;
   final EdgeInsets itemPadding;
   final EdgeInsets subItemPadding;
+  final double horizontalPadding;
 
   SiderSizing({
     this.width = -1,
@@ -18,6 +19,7 @@ class SiderSizing {
     this.subMenuHeaderHeight = -1,
     this.subItemPadding = EdgeInsets.zero,
     this.itemPadding = EdgeInsets.zero,
+    this.horizontalPadding = -1,
   });
 
   factory SiderSizing.from({
@@ -27,6 +29,7 @@ class SiderSizing {
     required double spacing,
     required double itemHeight,
     required double subMenuHeaderHeight,
+    required double horizontalPadding,
     required EdgeInsets itemPadding,
     required EdgeInsets subItemPadding,
   }) {
@@ -39,6 +42,7 @@ class SiderSizing {
         subMenuHeaderHeight: subMenuHeaderHeight,
         itemPadding: itemPadding,
         subItemPadding: subItemPadding,
+        horizontalPadding: horizontalPadding,
       );
     } else {
       return SiderSizing(
@@ -56,6 +60,9 @@ class SiderSizing {
         itemPadding: siderSizing.itemPadding == EdgeInsets.zero
             ? itemPadding
             : siderSizing.itemPadding,
+        horizontalPadding: siderSizing.horizontalPadding == -1
+            ? horizontalPadding
+            : siderSizing.horizontalPadding,
       );
     }
   }

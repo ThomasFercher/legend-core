@@ -4,9 +4,11 @@ import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
 
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/submenu/sider_submenu.dart';
-import 'package:legend_design_core/router/legend_router.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
+
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/src/provider.dart';
 
@@ -15,7 +17,7 @@ class FixedSiderMenu extends StatefulWidget {
   final bool subMenuExpanded;
   final bool collapsed;
 
-  final List<MenuOption> options;
+  final List<RouteDisplay> options;
 
   final bool hasToPop;
   final SiderMenuStyle style;
@@ -55,29 +57,29 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
+    RouteDisplay? sel = RouteInfoProvider.getRouteDisplay(context);
     selected = widget.options.indexWhere((element) => element == sel);
   }
 
   /// This Method returns the whole menu.
-  /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
+  /// If a [RouteDisplay] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
 
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
+    RouteDisplay? sel = RouteInfoProvider.getRouteDisplay(context);
 
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (int i = 0; i < widget.options.length; i++) {
-      final MenuOption option = widget.options[i];
+      final RouteDisplay option = widget.options[i];
       if (option.children == null || !(widget.showMenuSubItems)) {
         tiles.add(
           DrawerMenuTile(
             disableRightPadding: true,
             spacing: 8,
-            verticalPadding: style.padding.horizontal,
-            horizontalPadding: style.padding.vertical,
+            verticalPadding: style.padding.vertical,
+            horizontalPadding: style.padding.horizontal,
             foreground: style.foreground,
             selForeground: style.activeForeground,
             background: style.background,
@@ -88,7 +90,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             height: style.itemHeight,
             iconSize: style.iconSize,
             title: widget.collapsed ? null : option.title,
-            path: option.page,
+            path: option.route,
             borderRadius: style.borderRadius ?? theme.sizing.borderRadius[0],
             onHover: (value) {
               setState(() {
@@ -100,7 +102,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
                 Navigator.of(context).pop();
               }
               LegendRouter.of(context).pushPage(
-                settings: RouteSettings(name: option.page),
+                settings: RouteSettings(name: option.route),
               );
             },
           ),

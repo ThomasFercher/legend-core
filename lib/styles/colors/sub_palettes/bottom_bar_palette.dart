@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class BottomBarPalette {
   late final Color activeColor;
@@ -30,14 +30,15 @@ class BottomBarPalette {
       );
     } else {
       return BottomBarPalette(
-        activeColor: LegendUtils.isNullColor(bottomBarPalette.activeColor)
+        activeColor: LegendFunctions.isNullColor(bottomBarPalette.activeColor)
             ? activeColor
             : bottomBarPalette.activeColor,
-        disabledColor: LegendUtils.isNullColor(bottomBarPalette.disabledColor)
-            ? disabledColor
-            : bottomBarPalette.disabledColor,
+        disabledColor:
+            LegendFunctions.isNullColor(bottomBarPalette.disabledColor)
+                ? disabledColor
+                : bottomBarPalette.disabledColor,
         backgroundColor:
-            LegendUtils.isNullColor(bottomBarPalette.backgroundColor)
+            LegendFunctions.isNullColor(bottomBarPalette.backgroundColor)
                 ? backgroundColor
                 : bottomBarPalette.backgroundColor,
       );

@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/icons/legend_animated_icon.dart';
+import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
 
-import 'package:legend_design_core/router/legend_router.dart';
+import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../fixed/sider/siderMenu/siderMenuStyle.dart';
@@ -39,12 +41,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
   List<DrawerMenuTile> getSearchItems(
       List<int> filtered, BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    List<MenuOption> options = LegendRouter.of(context).menuOptions;
+    List<RouteDisplay> options = LegendRouter.of(context).getRouteDisplays;
     List<DrawerMenuTile> items = [];
     for (var i = 0; i < filtered.length; i++) {
       final DrawerMenuTile widget;
       int index = filtered[i];
-      final MenuOption menuOption = options[index];
+      final RouteDisplay menuOption = options[index];
 
       widget = DrawerMenuTile(
         foreground: theme.colors.textOnLight,
@@ -57,7 +59,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         onClicked: () {
           Navigator.pop(context);
           LegendRouter.of(context).pushPage(
-            settings: RouteSettings(name: menuOption.page),
+            settings: RouteSettings(name: menuOption.route),
           );
         },
         onHover: (val) {
@@ -66,7 +68,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           });
         },
 
-        path: menuOption.page,
+        path: menuOption.route,
         title: menuOption.title,
         //      verticalPadding: 4,
         isHovered: hovered == i,
@@ -85,15 +87,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
     });
 
     List<int> items = [];
-    List<MenuOption> options = LegendRouter.of(context).menuOptions;
+    List<RouteDisplay> options = LegendRouter.of(context).getRouteDisplays;
 
     String filter = text.toLowerCase().trim();
 
     if (text.isNotEmpty) {
       for (int i = 0; i < options.length; i++) {
-        final MenuOption option = options[i];
-        String page = option.page;
-        String title = option.title ?? '';
+        final RouteDisplay option = options[i];
+        String page = option.route;
+        String title = option.title;
         title = title.toLowerCase();
 
         if (page.contains(filter)) {
@@ -144,18 +146,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
       iconSize: sizing.iconSize,
     );
 
-    SiderSubMenuStyle subStyle = SiderSubMenuStyle(
-      itemPadding: sizing.subItemPadding,
+    SiderSubMenuStyle subMenuStyle = SiderSubMenuStyle(
+      itemPadding: sizing.itemPadding,
+      spacing: sizing.spacing,
       background: colors.backgroundMenu,
-      activeForeground: colors.foreground_menu_selction,
+      activeForeground: colors.foreground_selection,
       activeBackground: colors.backgroundMenu.darken(),
       foreground: colors.foreground,
       borderRadius: theme.sizing.borderRadius[1],
       headerHeight: sizing.subMenuHeaderHeight,
       itemHeight: sizing.itemHeight,
       iconSize: sizing.iconSize,
-      subMenuIconSize: sizing.subMenuIconSize,
-      spacing: sizing.spacing,
+      subMenuIconSize: sizing.iconSize - 2,
     );
 
     return SizedBox(
@@ -261,11 +263,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Expanded(
               child: FixedSiderMenu(
                 hasToPop: true,
-                options: LegendRouter.of(context).menuOptions,
+                options: LegendRouter.of(context).routeDisplays,
                 showMenuSubItems: true,
                 collapsed: false,
                 style: style,
-                subMenuStyle: subStyle,
+                subMenuStyle: subMenuStyle,
               ),
             ),
             const SizedBox(

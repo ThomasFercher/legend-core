@@ -7,10 +7,10 @@ import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/utils/extensions.dart';
+import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../styles/legend_theme.dart';
+import '../../../styles/legend_theme.dart';
 
 class LegendRouteBody extends StatelessWidget {
   final List<Widget> slivers;

@@ -5,11 +5,14 @@ import 'package:http/http.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
-import 'package:legend_design_core/router/legend_router.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/src/provider.dart';
 
@@ -17,7 +20,7 @@ import '../../../menu/tiles/drawer_menu_tile.dart';
 import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
-  final MenuOption option;
+  final RouteDisplay option;
 
   final void Function(bool val)? onResisize;
   final bool expanded;
@@ -62,23 +65,25 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   void didChangeDependencies() {
-    MenuOption? sel = RouteInfoProvider.getCurrentMenuOption(context);
-
-    selected = widget.option.children!.indexWhere((element) => element == sel);
+    RouteDisplay? sel = RouteInfoProvider.getRouteDisplay(context);
+    List<RouteDisplay>? routes = widget.option.children?.toList();
+    if (routes != null && sel != null) {
+      selected = routes.indexWhere((element) => element.route == sel.route);
+    }
     tiles = getTiles(context);
     super.didChangeDependencies();
   }
 
   /// This Method returns the whole menu.
-  /// If a [MenuOption] has children, a [SiderSubMenu] is added, else
+  /// If a [RouteDisplay] has children, a [SiderSubMenu] is added, else
   /// we add a [DrawerMenuTile].
   List<DrawerMenuTile> getTiles(BuildContext context) {
     List<DrawerMenuTile> tiles = [];
 
     LegendTheme theme = context.watch<LegendTheme>();
-    List<MenuOption> options = widget.option.children ?? [];
+    Iterable<RouteDisplay> options = widget.option.children ?? [];
     for (int i = 0; i < options.length; i++) {
-      final MenuOption option = options[i];
+      final RouteDisplay option = options.elementAt(i);
 
       tiles.add(
         DrawerMenuTile(
@@ -91,7 +96,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
           spacing: style.spacing,
           icon: option.icon,
           title: option.title,
-          path: option.page,
+          path: option.route,
           borderRadius: i == options.length - 1
               ? BorderRadius.vertical(
                   bottom: Radius.circular(theme.sizing.borderInset[0]),
@@ -115,7 +120,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               Navigator.of(context).pop();
             }
             LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.page));
+                .pushPage(settings: RouteSettings(name: option.route));
           },
         ),
       );
@@ -170,7 +175,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
                   LegendRouter.of(context).pushPage(
                       settings: RouteSettings(
-                    name: widget.option.page,
+                    name: widget.option.route,
                   ));
                 },
                 isHovered: headerIndex == hovered,
@@ -184,6 +189,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                 ),
                 curve: Curves.ease,
                 child: SingleChildScrollView(
+                  controller: ScrollController(),
                   child: SizedBox(
                     height: getMaxHeight(),
                     child: Column(

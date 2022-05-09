@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class LegendText extends StatelessWidget {
   final String? text;
@@ -31,7 +31,7 @@ class LegendText extends StatelessWidget {
   }
 
   Widget dynamicSized() {
-    Size s = LegendUtils.calcTextSize(text ?? '', textStyle ?? TextStyle());
+    Size s = LegendFunctions.calcTextSize(text ?? '', textStyle ?? TextStyle());
 
     return Container(
       constraints: BoxConstraints(
