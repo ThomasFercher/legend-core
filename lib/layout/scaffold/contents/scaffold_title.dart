@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 import 'package:provider/provider.dart';
-
 import '../../layout_provider.dart';
 
 const double spacing = 6;
@@ -13,34 +14,41 @@ class ScaffoldTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
+    LayoutProvider layoutProvider = LayoutProvider.of(context);
+    Widget? logo = layoutProvider.logo;
+    String? title = layoutProvider.title;
 
-    return Positioned(
-      left: theme.appBarSizing.contentPadding.left,
-      // top: theme.appBarSizing.contentPadding.top,
+    bool showLogo = logo != null;
+    bool showTitle = title != null;
+
+    return GestureDetector(
+      onTap: () {
+        if (RouteInfoProvider.of(context).route.name != '/') {
+          LegendRouter.of(context).pushPage(
+            settings: const RouteSettings(name: '/'),
+          );
+        }
+      },
       child: SizedBox(
         height: theme.sizing.appBarSizing.appBarHeight,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (LayoutProvider.of(context)?.logo != null)
+            if (showLogo)
               Container(
-                margin: const EdgeInsets.only(
-                  right: spacing,
-                ),
-                child: Container(
-                  height: theme.appBarSizing.logoSize,
-                  child: LayoutProvider.of(context)!.logo,
-                ),
-              ),
-            if (LayoutProvider.of(context)?.title != null)
-              Container(
-                alignment: Alignment.center,
                 height: theme.appBarSizing.logoSize,
-                child: LegendText(
-                  text: LayoutProvider.of(context)!.title!,
-                  textStyle: theme.typography.h6.copyWith(
-                    color: theme.colors.appBarPalette.foreground,
-                  ),
+                child: LayoutProvider.of(context).logo,
+              ),
+            if (showLogo)
+              const SizedBox(
+                width: spacing,
+              ),
+            if (showTitle)
+              LegendText(
+                text: LayoutProvider.of(context).title!,
+                textStyle: theme.typography.h6.copyWith(
+                  color: theme.colors.appBarPalette.foreground,
                 ),
               ),
           ],

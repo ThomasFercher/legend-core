@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-
-import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
-
-import 'package:legend_design_core/layout/fixed/sider/siderMenu/submenu/sider_submenu.dart';
-
+import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_submenu.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class FixedSiderMenu extends StatefulWidget {
   final bool showMenuSubItems;

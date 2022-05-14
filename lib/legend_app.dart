@@ -1,16 +1,12 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/layout/fixed/footer/fixed_footer.dart';
+import 'package:legend_design_core/interfaces/route_inferface.dart';
+import 'package:legend_design_core/interfaces/theme_interface.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
-
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_parser.dart';
@@ -20,7 +16,7 @@ import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'styles/colors/legend_colors.dart';
+import 'layout/bottomBar.dart/bottom_bar_provider.dart';
 
 class LegendNavigatorFrame extends NavigatorFrame {
   @override
@@ -35,34 +31,50 @@ class LegendNavigatorFrame extends NavigatorFrame {
 }
 
 class LegendApp extends StatelessWidget {
+  // Router Delegate
   final routerDelegate = LegendRouterDelegate(frame: LegendNavigatorFrame());
-  final List<SimpleRouteDisplay> routeDisplays;
 
-  final List<RouteInfo> Function(LegendTheme theme) buildRoutes;
+  // Interface containing Methos related to Routing
+  final RouteInterface<dynamic> routesDelegate;
+
+  final ThemeInterface themeDelegate;
 
   final Widget? logo;
-  final LegendTheme theme;
-  final FixedFooter? globalFooter;
   final String? title;
+
+  late final LegendTheme theme;
+
   final Future<Object?>? future;
-  final Widget? splashScreen;
+  final Widget Function(BuildContext context, LegendTheme theme)?
+      buildSplashscreen;
+
   final List<SingleChildWidget>? providers;
 
   LegendApp({
     Key? key,
-    required this.routeDisplays,
-    required this.buildRoutes,
+    required this.routesDelegate,
+    required this.themeDelegate,
     this.logo,
-    required this.theme,
     this.future,
-    this.globalFooter,
-    this.splashScreen,
+    this.buildSplashscreen,
     this.title,
     this.providers,
-  }) : super(key: key);
+  }) : super(key: key) {
+    theme = LegendTheme(
+      colorTheme: themeDelegate.buildColorTheme(),
+      sizingTheme: themeDelegate.buildSizingTheme(),
+      typography: themeDelegate.buildTypography(),
+      buildConfig: themeDelegate.buildConfig.call(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
+    Map<dynamic, DynamicRouteLayout> routeLayouts =
+        routesDelegate.buildLayouts(theme);
+
+    // TODO: CleanUp
     List<SingleChildWidget> _providers = [
       ChangeNotifierProvider<LegendTheme>(
         create: (_) => theme,
@@ -81,7 +93,8 @@ class LegendApp extends StatelessWidget {
       ],
       locale: Locale('en', 'US'),
       child: Builder(builder: (context) {
-        List<RouteInfo> routes = buildRoutes(theme);
+        List<RouteInfo> routes =
+            routesDelegate.buildRoutes(routeLayouts, theme);
         return MultiProvider(
           providers: _providers,
           child: LegendRouter(
@@ -143,9 +156,9 @@ class LegendApp extends StatelessWidget {
                 future: future,
                 builder: (context, snapshot) {
                   LegendTheme theme = Provider.of<LegendTheme>(context);
-                  if (snapshot.hasData || splashScreen == null) {
+                  if ((snapshot.hasData || buildSplashscreen == null) ||
+                      buildSplashscreen == null) {
                     return LayoutProvider(
-                      globalFooter: globalFooter,
                       title: title,
                       logo: logo,
                       child: RestartWidget(
@@ -167,14 +180,7 @@ class LegendApp extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return Material(
-                      child: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: Container(
-                          child: splashScreen,
-                        ),
-                      ),
-                    );
+                    return buildSplashscreen!(context, theme);
                   }
                 },
               ),

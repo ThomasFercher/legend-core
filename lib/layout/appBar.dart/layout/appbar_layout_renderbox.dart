@@ -12,14 +12,13 @@ class AppBarLayoutRenderBox extends RenderBox
   late Size contentSize;
   final List<AppBarItem> items;
   late List<Size> sizes;
-  final double? siderOverlap;
+
   final double spacing;
   final AppBarLayoutType type;
 
   AppBarLayoutRenderBox({
     this.background,
     required this.items,
-    this.siderOverlap,
     this.spacing = 6,
     required this.type,
   });
@@ -141,7 +140,6 @@ class AppBarLayoutRenderBox extends RenderBox
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
       double left = titleSize.width;
-      if (siderOverlap != null && left == 0) left = siderOverlap!;
 
       double padd = menuCenter - left;
       if (padd < 0) padd = 0;
@@ -270,7 +268,6 @@ class AppBarLayoutRenderBox extends RenderBox
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
       double left = spacing;
-      if (siderOverlap != null && left == 0) left = siderOverlap!;
 
       double width = centerTitleDx * 11 / 12;
       // Layout

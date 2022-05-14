@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_item.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/bottom_bar_provider.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/colors/sub_palettes/bottom_bar_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:provider/provider.dart';
 

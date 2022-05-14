@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
-import 'package:legend_design_core/styles/layouts/layout_type.dart';
+import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:provider/provider.dart';
 
@@ -14,13 +13,9 @@ class ScaffoldSider extends StatelessWidget {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
     LegendTheme theme = context.watch<LegendTheme>();
 
-    bool layout = (scaffold.layoutType == LayoutType.FixedSider ||
-        scaffold.layoutType == LayoutType.FixedHeaderSider);
-    bool showSider = layout && !theme.sizing.hideSider;
-
     bool collapsed = theme.sizing.collapsedSider;
-
-    if (showSider) {
+    RouteLayout layout = scaffold.layout.getLayout(theme.sizingTheme.key);
+    if (layout.siderLayout != SiderLayout.None) {
       return Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -36,7 +31,6 @@ class ScaffoldSider extends StatelessWidget {
           builder: scaffold.builders.siderBuilder,
           showMenu: scaffold.whether.showSiderMenu,
           showSubMenu: scaffold.whether.showSiderSubMenu,
-          layoutType: scaffold.layoutType,
           showChildMenu: scaffold.whether.showSiderChildMenu,
           showParentMenu: scaffold.whether.shareParentSiderMenu,
           collapsed: collapsed,

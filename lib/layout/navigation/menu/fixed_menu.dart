@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/menu/collapsed_menu.dart';
-
-import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/collapsed_menu.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';

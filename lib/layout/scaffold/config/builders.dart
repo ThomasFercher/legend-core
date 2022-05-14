@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/fixed/footer/fixed_footer.dart';
+import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 
 class ScaffoldBuilders {
   final Widget Function(BuildContext context)? appBarActions;

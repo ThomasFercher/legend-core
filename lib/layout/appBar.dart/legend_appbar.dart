@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
-import 'package:legend_design_core/layout/fixed/menu/fixed_menu.dart';
-import 'package:legend_design_core/layout/layout_provider.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/typography/legend_text.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +15,7 @@ const List<Widget> actionsFiller = [
   )
 ];
 
-class LegendAppBarFixed extends StatelessWidget {
+class LegendAppBar extends StatelessWidget {
   final LegendAppBarConfig config;
   final WidgetBuilder? actions;
   final Widget? title;
@@ -29,7 +25,7 @@ class LegendAppBarFixed extends StatelessWidget {
   final bool showLogo;
   final AppBarLayoutType type;
 
-  const LegendAppBarFixed({
+  const LegendAppBar({
     required this.config,
     this.actions,
     this.logo,
@@ -39,27 +35,6 @@ class LegendAppBarFixed extends StatelessWidget {
     this.showTitle = true,
     required this.type,
   });
-
-  Widget getLogo(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-
-    return GestureDetector(
-      onTap: () {
-        if (RouteInfoProvider.of(context).route.name != '/') {
-          LegendRouter.of(context).pushPage(
-            settings: const RouteSettings(name: '/'),
-          );
-        }
-      },
-      child: logo ??
-          Container(
-            width: theme.appBarSizing.logoSize,
-            height: theme.appBarSizing.logoSize,
-            alignment: Alignment.center,
-            child: LayoutProvider.of(context)!.logo,
-          ),
-    );
-  }
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
@@ -98,34 +73,23 @@ class LegendAppBarFixed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    return AppBar(
+    bool isUnderyling = LegendRouter.of(context).currentIsUnderlying();
+    return SliverAppBar(
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
       toolbarHeight: config.appBarHeight,
+      pinned: config.pinned,
+      snap: config.snap,
+      floating: config.floating,
       actions: actionsFiller,
-      backgroundColor: theme.appBarPalette.background,
       title: Container(
-        color: theme.colors.appBarPalette.background,
         constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarLayout(
           type: type,
           children: {
-            if (showTitle)
-              AppBarItem.TITLE: title ??
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      getLogo(context),
-                      LegendText(
-                        text: LayoutProvider.of(context)!.title!,
-                        textStyle: theme.typography.h6.copyWith(
-                          color: theme.colors.appBarPalette.foreground,
-                        ),
-                      ),
-                    ],
-                  ),
+            if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
             if (showMenu) AppBarItem.MENU: getMenu(context),
             if (actions != null) AppBarItem.ACTIONS: Builder(builder: actions!),
           },

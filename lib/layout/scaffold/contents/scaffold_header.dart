@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/appbar_config.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar_fixed.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/legend_appbar_fixed.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:provider/provider.dart';
-import '../../../styles/layouts/layout_type.dart';
 import '../../../styles/legend_theme.dart';
 import '../legend_scaffold.dart';
 
@@ -18,13 +16,12 @@ class ScaffoldHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-
-    bool bottomBar = theme.sizing.showBottomBar;
-    bool showMenu = !bottomBar && (scaffold.whether.showAppBarMenu);
     bool siderCollapsed = theme.sizing.hideSider;
+    AppbarLayout layout =
+        scaffold.layout.getLayout(theme.sizingTheme.key).appBarLayout;
 
-    switch (scaffold.layoutType) {
-      case LayoutType.FixedHeaderSider:
+    switch (layout) {
+      case AppbarLayout.FixedAbove:
         return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
@@ -37,7 +34,7 @@ class ScaffoldHeader extends StatelessWidget {
             horizontalPadding: theme.appBarSizing.contentPadding.left,
           ),
         );
-      case LayoutType.FixedHeader:
+      case AppbarLayout.None:
         return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
@@ -51,9 +48,7 @@ class ScaffoldHeader extends StatelessWidget {
         );
 
       default:
-        return SliverToBoxAdapter(
-          child: Container(),
-        );
+        return Container();
     }
   }
 }

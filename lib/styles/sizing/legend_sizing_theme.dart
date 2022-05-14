@@ -12,6 +12,8 @@ class LegendSizingTheme {
     required this.sizings,
   });
 
+  List<double> get splits => List.of(sizings.keys);
+
   /// Returns LegendSizing depending on the current Screen Width
   LegendSizing get sizing =>
       sizings.containsKey(_key) ? sizings[_key]! : sizings.values.first;
@@ -35,6 +37,8 @@ class LegendSizingTheme {
     _width = width;
     _key = getNearestKey(_width);
   }
+
+  double get key => _key;
 
   /// Returns true if the current [LegendSizing] key is the same as [width]
   bool sizeIs(double width) => _key == getNearestKey(width);

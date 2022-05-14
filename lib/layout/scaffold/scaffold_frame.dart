@@ -17,8 +17,8 @@ class ScaffoldFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScaffoldRouteConfig config = page.config;
     return LegendScaffold(
+      layout: config.layout,
       builders: config.builders,
-      layoutType: config.layoutType,
       appBarLayoutType: config.appBarLayoutType,
       sizing: config.sizing,
       whether: config.whether,

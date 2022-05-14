@@ -1,8 +1,6 @@
 // ignore_for_file: comment_references
 
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/legend_appbar.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';

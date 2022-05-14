@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
@@ -9,9 +6,14 @@ import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
-
 import '../../../styles/legend_theme.dart';
 
+///
+/// This Widget will displayed directly under the Navigator/Router hence is a Page.
+/// Here the layout will be determined for all pages. If there is a Sider or a Fixed Appbar they
+/// wont be layout here but further up in the Scaffold Frame which is above the Navigator/Router and more suited for
+/// fixed Widgets.
+///
 class LegendRouteBody extends StatelessWidget {
   final List<Widget> slivers;
   final bool? singlePage;
@@ -33,17 +35,15 @@ class LegendRouteBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-
-    bool showFooter = !theme.sizing.showBottomBar;
+    ScaffoldInfo info = ScaffoldInfo.of(context);
+    LegendScaffold scaffold = info.scaffold;
+    bool showFooter = info.showFooter(context);
     bool single = singlePage ?? scaffold.whether.singlePage;
 
-    double footerHeight = 0;
+    double footerHeight = showFooter
+        ? theme.scaffoldConfig?.builders?.customFooter?.sizing?.height ?? 0
+        : 0;
 
-    if (showFooter) {
-      footerHeight =
-          LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
-    }
     return LayoutBuilder(
       builder: (context, constraints) {
         if (slivers.isNotEmpty) {
@@ -106,6 +106,7 @@ class LegendRouteBody extends StatelessWidget {
         } else {
           return CustomScrollView(
             slivers: [
+              if (sliverAppBar != null) sliverAppBar!,
               SliverToBoxAdapter(
                 child: Builder(
                   builder: (context) => builder!(

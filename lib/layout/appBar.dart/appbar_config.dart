@@ -7,6 +7,7 @@ class LegendAppBarConfig {
   final double horizontalPadding;
   final double actionSpaceing;
   final bool showSubMenu;
+  final bool disableBackButton;
 
   LegendAppBarConfig({
     required this.appBarHeight,
@@ -17,5 +18,6 @@ class LegendAppBarConfig {
     this.snap = false,
     this.horizontalPadding = 12,
     this.actionSpaceing = 8,
+    this.disableBackButton = false,
   });
 }

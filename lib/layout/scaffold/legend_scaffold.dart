@@ -1,32 +1,28 @@
 export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:legend_design_core/layout/fixed/appBar.dart/layout/appbar_layout.dart';
-import 'package:legend_design_core/layout/fixed/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_header_fixed.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
-
-import '../drawers/menu_drawer.dart';
 import 'contents/scaffold_sider.dart';
 
 class LegendScaffold extends StatelessWidget {
   // Layout
-  final LayoutType layoutType;
   final AppBarLayoutType appBarLayoutType;
 
   // Core
   final String pageName;
   final Widget child;
+
+  final DynamicRouteLayout layout;
 
   // Configs
   final ScaffoldBuilders builders;
@@ -36,7 +32,7 @@ class LegendScaffold extends StatelessWidget {
   LegendScaffold({
     required this.pageName,
     required this.child,
-    this.layoutType = LayoutType.FixedHeader,
+    required this.layout,
     this.appBarLayoutType = AppBarLayoutType.TiMeAc,
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
@@ -48,12 +44,11 @@ class LegendScaffold extends StatelessWidget {
   factory LegendScaffold.withConfig(
       LegendScaffold base, ScaffoldConfig config) {
     return LegendScaffold(
+      layout: base.layout,
       appBarLayoutType: config.appBarLayoutType != null
           ? config.appBarLayoutType!
           : base.appBarLayoutType,
       pageName: base.pageName,
-      layoutType:
-          config.layoutType != null ? config.layoutType! : base.layoutType,
       child: base.child,
       builders: config.builders != null
           ? ScaffoldBuilders.copyWith(base.builders, config.builders!)
@@ -79,10 +74,13 @@ class LegendScaffold extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Builder(builder: (context) {
-          bool showBottomBar = theme.sizing.showBottomBar;
-          ScaffoldConfig config = ScaffoldInfo.of(context).getConfig;
-          bool showAppBar = config.layoutType == LayoutType.FixedHeader ||
-              config.layoutType == LayoutType.FixedHeaderSider;
+          // Bottom Bar Layout
+          BottomBarLayout bottomBarLayout = ScaffoldInfo.of(context)
+              .scaffold
+              .layout
+              .getLayout(theme.sizingTheme.key)
+              .bottomBarLayout;
+          bool showBottomBar = bottomBarLayout == BottomBarLayout.Show;
 
           return Scaffold(
             bottomNavigationBar: LegendBottomBar(
@@ -91,15 +89,7 @@ class LegendScaffold extends StatelessWidget {
               options: LegendRouter.of(context).routeDisplays,
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,
-            appBar: showAppBar
-                ? PreferredSize(
-                    child: ScaffoldHeader(),
-                    preferredSize: Size(
-                      MediaQuery.of(context).size.width,
-                      theme.appBarSizing.appBarHeight,
-                    ),
-                  )
-                : null,
+            appBar: _appBar(context, theme),
             body: ColoredBox(
               color: theme.colors.background[0],
               child: Row(
@@ -117,5 +107,20 @@ class LegendScaffold extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  PreferredSize? _appBar(BuildContext context, LegendTheme theme) {
+    AppbarLayout l = layout.getLayout(theme.sizingTheme.key).appBarLayout;
+    if (l == AppbarLayout.FixedAbove) {
+      return PreferredSize(
+        child: ScaffoldHeader(),
+        preferredSize: Size(
+          MediaQuery.of(context).size.width,
+          theme.appBarSizing.appBarHeight,
+        ),
+      );
+    } else {
+      return null;
+    }
   }
 }

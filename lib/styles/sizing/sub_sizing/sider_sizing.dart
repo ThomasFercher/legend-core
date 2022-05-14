@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/fixed/sider/normal/legend_sider.dart';
 
 class SiderSizing {
   final double width;

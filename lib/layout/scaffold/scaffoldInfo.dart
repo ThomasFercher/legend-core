@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:provider/provider.dart';
 
 class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;
@@ -18,11 +21,19 @@ class ScaffoldInfo extends InheritedWidget {
     return result!;
   }
 
+  bool showFooter(BuildContext context) {
+    FooterLayout layout = scaffold.layout
+        .getLayout(context.watch<LegendTheme>().sizingTheme.key)
+        .footerLayout;
+
+    return layout == FooterLayout.Show;
+  }
+
   ScaffoldConfig get getConfig => ScaffoldConfig(
-        layoutType: scaffold.layoutType,
         builders: scaffold.builders,
         whether: scaffold.whether,
         sizing: scaffold.sizing,
+        layout: scaffold.layout,
       );
 
   @override

@@ -48,21 +48,9 @@ class AppBarLayout extends RenderObjectWidget
   ) {
     return AppBarLayoutRenderBox(
       background: background,
-      siderOverlap: calculateOverlap(context),
       items: children.keys.toList(),
       type: type,
     );
-  }
-
-  double calculateOverlap(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    double siderWidth = theme.siderSizing.width;
-    String title = LayoutProvider.of(context)?.title ?? "";
-    double titleWidth =
-        LegendFunctions.getTitleIndent(theme.typography.h6, title);
-    double paddingLeft = theme.appBarSizing.contentPadding.left + spacing;
-    double logoWidth = theme.appBarSizing.logoSize;
-    return (titleWidth + paddingLeft + logoWidth) - siderWidth;
   }
 
   @override

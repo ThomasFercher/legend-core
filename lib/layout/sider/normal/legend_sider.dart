@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/fixed/sider/fixed_sider.dart';
-
-import 'package:legend_design_core/layout/fixed/sider/siderInfo.dart';
-import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
-import 'package:legend_design_core/layout/fixed/sider/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/sider/fixed_sider.dart';
+import 'package:legend_design_core/layout/sider/siderInfo.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_design_core/styles/layouts/layout_type.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/sider_sizing.dart';
 import 'package:legend_design_core/styles/typography/legend_text.dart';
@@ -26,6 +26,13 @@ class Sider extends StatelessWidget {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SiderPalette colors = theme.siderPalette;
     SiderSizing sizing = theme.siderSizing;
+
+    AppbarLayout appbarLayout = ScaffoldInfo.of(context)
+        .scaffold
+        .layout
+        .getLayout(theme.sizingTheme.key)
+        .appBarLayout;
+    bool showLogo = appbarLayout != AppbarLayout.FixedAbove;
 
     double maxWidth = theme.siderSizing.width;
 
@@ -61,7 +68,7 @@ class Sider extends StatelessWidget {
       color: theme.colors.siderPalette.background,
       child: Column(
         children: [
-          if (fixedSider.layoutType == LayoutType.FixedSider)
+          if (showLogo)
             Container(
               color: theme.colors.siderPalette.background,
               padding: EdgeInsets.only(
@@ -73,22 +80,22 @@ class Sider extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (LayoutProvider.of(context)?.logo != null)
+                  if (LayoutProvider.of(context).logo != null)
                     Container(
                       height: 36,
                       width: 36,
                       child: Center(
-                        child: LayoutProvider.of(context)!.logo,
+                        child: LayoutProvider.of(context).logo,
                       ),
                     ),
                   const SizedBox(
                     width: 6,
                   ),
-                  if (LayoutProvider.of(context)?.title != null)
+                  if (LayoutProvider.of(context).title != null)
                     Expanded(
                       child: LegendText(
                         dynamicSizing: true,
-                        text: LayoutProvider.of(context)!.title!,
+                        text: LayoutProvider.of(context).title!,
                         textStyle: theme.typography.h6.copyWith(
                           color: theme.colors.siderPalette.foreground,
                         ),

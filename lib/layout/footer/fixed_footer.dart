@@ -29,7 +29,7 @@ class _FixedFooterState extends State<FixedFooter> {
   void initState() {
     super.initState();
     if (widget.colors == null) {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         LegendTheme theme = Provider.of<LegendTheme>(context, listen: false);
         widget.colors = theme.colors.footerPalette;
       });

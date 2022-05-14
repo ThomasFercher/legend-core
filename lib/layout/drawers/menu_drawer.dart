@@ -1,20 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
+import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
-import 'package:legend_design_core/layout/fixed/menu/tiles/drawer_menu_tile.dart';
-import 'package:legend_design_core/layout/fixed/sider/siderMenu/fixed_sider_menu.dart';
-
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
-import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
-
-import '../fixed/sider/siderMenu/siderMenuStyle.dart';
 
 class MenuDrawer extends StatefulWidget {
   final List<Widget>? actions;
