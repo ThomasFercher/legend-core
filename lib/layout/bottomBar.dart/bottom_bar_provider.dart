@@ -3,14 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 
 class BottomBarProvider with ChangeNotifier {
-  late RouteDisplay selected;
+  final List<RouteDisplay> options;
 
-  BottomBarProvider(
-    this.selected,
-  );
+  late int selectedIndex;
 
-  void selectOption(RouteDisplay selectOption) {
-    selected = selectOption;
+  BottomBarProvider({
+    required this.options,
+    required int first,
+  }) {
+    selectedIndex = first;
+  }
+
+  set selected(int i) {
+    selectedIndex = i;
     notifyListeners();
   }
 }

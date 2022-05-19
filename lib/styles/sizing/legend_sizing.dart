@@ -51,16 +51,6 @@ class LegendSizing {
   /// Layout
   ///
 
-  /// Whether to show the BottomBar
-  final bool showBottomBar;
-
-  /// Whether to show the BottomBar If the platform is Mobile
-  final bool? showBottomBarIfMobile;
-
-  /// Whether to show the Sider
-  final bool hideSider;
-  final bool collapsedSider;
-
   /// Sub Sizing Themes
 
   LegendSizing({
@@ -70,10 +60,6 @@ class LegendSizing {
     required this.appBarSizing,
     required this.typographySizing,
     required this.elevations,
-    this.collapsedSider = false,
-    this.hideSider = false,
-    this.showBottomBar = false,
-    this.showBottomBarIfMobile,
     required this.iconSizes,
     SiderSizing? siderSizing,
     MenuDrawerSizing? menuDrawerSizing,
@@ -98,6 +84,7 @@ class LegendSizing {
     );
 
     this.bottomBarSizing = BottomBarSizing.from(
+      itemWidth: 64,
       fillBottom: true,
       sizing: bottomBarSizing,
       showText: true,
@@ -107,7 +94,9 @@ class LegendSizing {
       height: 80,
       alignment: MainAxisAlignment.spaceEvenly,
       iconSize: 24,
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(
+        vertical: 4,
+      ),
       itemPadding: EdgeInsets.symmetric(
         vertical: 4,
         horizontal: 4,

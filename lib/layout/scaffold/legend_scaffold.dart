@@ -1,6 +1,7 @@
 export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
@@ -81,6 +82,18 @@ class LegendScaffold extends StatelessWidget {
               .getLayout(theme.sizingTheme.key)
               .bottomBarLayout;
           bool showBottomBar = bottomBarLayout == BottomBarLayout.Show;
+
+          // Update Navigation Bar Color if needed
+          Color _systemNavigationBarColor = showBottomBar
+              ? theme.colors.bottomBarPalette.backgroundColor
+              : theme.colors.background[0];
+
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: _systemNavigationBarColor,
+            ),
+          );
 
           return Scaffold(
             bottomNavigationBar: LegendBottomBar(

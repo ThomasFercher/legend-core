@@ -44,27 +44,77 @@ class LegendRouteBody extends StatelessWidget {
         ? theme.scaffoldConfig?.builders?.customFooter?.sizing?.height ?? 0
         : 0;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (slivers.isNotEmpty) {
-          List<Widget> _slivers = List.of(
-            slivers.map(
-              (sliver) => Container(
-                padding:
-                    EdgeInsets.symmetric(horizontal: theme.sizing.padding[0])
-                        .boolInit(!disableContentDecoration),
-                child: sliver,
+    return ColoredBox(
+      color: theme.colors.background[0],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (slivers.isNotEmpty) {
+            List<Widget> _slivers = List.of(
+              slivers.map(
+                (sliver) => Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: theme.sizing.padding[0])
+                          .boolInit(!disableContentDecoration),
+                  child: sliver,
+                ),
               ),
-            ),
-          );
+            );
 
-          return Container(
-            child: CustomScrollView(
+            return Container(
+              child: CustomScrollView(
+                slivers: [
+                  if (sliverAppBar != null) sliverAppBar!,
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      _slivers,
+                    ),
+                  ),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(child: Container()),
+                        if (showFooter) ScaffoldFooter(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else if (single) {
+            return Column(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(theme.sizing.padding[0]).boolInit(
+                      !disableContentDecoration,
+                    ),
+                    child: Builder(
+                      builder: (BuildContext context) {
+                        return builder!(
+                          context,
+                          Size(
+                            constraints.maxWidth,
+                            constraints.maxHeight - footerHeight,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                if (showFooter) ScaffoldFooter(),
+              ],
+            );
+          } else {
+            return CustomScrollView(
               slivers: [
                 if (sliverAppBar != null) sliverAppBar!,
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    _slivers,
+                SliverToBoxAdapter(
+                  child: Builder(
+                    builder: (context) => builder!(
+                      context,
+                      Size(constraints.maxWidth, double.infinity),
+                    ),
                   ),
                 ),
                 SliverFillRemaining(
@@ -77,57 +127,10 @@ class LegendRouteBody extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          );
-        } else if (single) {
-          return Column(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(theme.sizing.padding[0]).boolInit(
-                    !disableContentDecoration,
-                  ),
-                  child: Builder(
-                    builder: (BuildContext context) {
-                      return builder!(
-                        context,
-                        Size(
-                          constraints.maxWidth,
-                          constraints.maxHeight - footerHeight,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              if (showFooter) ScaffoldFooter(),
-            ],
-          );
-        } else {
-          return CustomScrollView(
-            slivers: [
-              if (sliverAppBar != null) sliverAppBar!,
-              SliverToBoxAdapter(
-                child: Builder(
-                  builder: (context) => builder!(
-                    context,
-                    Size(constraints.maxWidth, double.infinity),
-                  ),
-                ),
-              ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(child: Container()),
-                    if (showFooter) ScaffoldFooter(),
-                  ],
-                ),
-              ),
-            ],
-          );
-        }
-      },
+            );
+          }
+        },
+      ),
     );
   }
 }

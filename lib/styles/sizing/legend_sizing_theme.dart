@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_initializing_formals
 
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/legend_sizing.dart';
 
 class LegendSizingTheme {
@@ -15,11 +16,21 @@ class LegendSizingTheme {
   List<double> get splits => List.of(sizings.keys);
 
   /// Returns LegendSizing depending on the current Screen Width
-  LegendSizing get sizing =>
-      sizings.containsKey(_key) ? sizings[_key]! : sizings.values.first;
+  LegendSizing get sizing {
+    if (PlatformInfo.isMobile) {
+      return sizings.values.first;
+    } else if (sizings.containsKey(_key)) {
+      return sizings[_key]!;
+    } else {
+      return sizings.values.last;
+    }
+  }
 
   double getNearestKey(double width) {
     List<double> splits = List.of(sizings.keys);
+    if (PlatformInfo.isMobile) {
+      return splits.first;
+    }
 
     for (var i = 0; i < splits.length; i++) {
       double split = splits[i];

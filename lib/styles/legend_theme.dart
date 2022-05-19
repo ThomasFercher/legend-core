@@ -122,16 +122,9 @@ class LegendTheme extends ChangeNotifier {
 
   /// System UI Overrides. This is used to change the colors of the status bar and navigation bar
   void systemUIOverrides() {
-    // If there is a bottom bar, set color to the background Color of the bottom bar
-    // else use the first background color.
-    Color _systemNavigationBarColor = sizing.showBottomBar
-        ? bottomBarPalette.backgroundColor
-        : colors.background[0];
-
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: _systemNavigationBarColor,
       ),
     );
   }

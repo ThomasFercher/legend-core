@@ -30,6 +30,9 @@ class BottomBarSizing {
   /// Spacing around the Row of Items
   final EdgeInsets padding;
 
+  /// Item Width
+  final double itemWidth;
+
   /// The Aligment of the Items in the row
   final MainAxisAlignment alignment;
 
@@ -47,6 +50,7 @@ class BottomBarSizing {
     this.iconSize = nullDouble,
     this.itemPadding = nullEdgeInsets,
     this.padding = nullEdgeInsets,
+    this.itemWidth = nullDouble,
   });
 
   factory BottomBarSizing.from({
@@ -61,6 +65,7 @@ class BottomBarSizing {
     required double iconSize,
     required EdgeInsets padding,
     required EdgeInsets itemPadding,
+    required double itemWidth,
   }) {
     if (sizing == null) {
       return BottomBarSizing(
@@ -70,6 +75,7 @@ class BottomBarSizing {
         itemPadding: itemPadding,
         margin: margin,
         padding: padding,
+        itemWidth: itemWidth,
       );
     } else {
       return BottomBarSizing(
@@ -91,6 +97,8 @@ class BottomBarSizing {
             : sizing.textAtBottom,
         fillBottom:
             sizing.fillBottom != fillBottom ? fillBottom : sizing.fillBottom,
+        itemWidth:
+            sizing.itemWidth == nullDouble ? itemWidth : sizing.itemWidth,
       );
     }
   }

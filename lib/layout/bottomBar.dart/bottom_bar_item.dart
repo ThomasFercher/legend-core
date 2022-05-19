@@ -12,8 +12,10 @@ class BottomBarItem extends StatelessWidget {
   final BottomBarPalette colors;
   final void Function(RouteDisplay option) onSelected;
   final bool isSelected;
+  final double width;
 
   BottomBarItem({
+    required this.width,
     required this.option,
     required this.sizing,
     required this.colors,
@@ -22,22 +24,13 @@ class BottomBarItem extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  Widget getText(BuildContext context, Color color) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    return LegendText(
-      selectable: false,
-      text: option.title,
-      textStyle: theme.typography.h0.copyWith(
-        color: color,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final Color color = isSelected ? colors.activeColor : colors.disabledColor;
+    LegendTheme theme = context.watch<LegendTheme>();
 
-    return Padding(
+    return Container(
+      width: width,
       padding: const EdgeInsets.symmetric(
         vertical: 4,
       ),
@@ -53,32 +46,27 @@ class BottomBarItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: 4,
           ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Icon(
-                      option.icon,
-                      size: sizing?.iconSize ?? 28,
+              Container(
+                child: Icon(
+                  option.icon,
+                  size: sizing?.iconSize ?? 28,
+                  color: color,
+                ),
+              ),
+              if (sizing?.showText ?? true)
+                Container(
+                  padding: EdgeInsets.only(top: 2.0),
+                  child: LegendText(
+                    selectable: false,
+                    text: option.title,
+                    dynamicSizing: true,
+                    textStyle: theme.typography.h0.copyWith(
                       color: color,
                     ),
                   ),
-                  if ((sizing?.textAtBottom ?? false) &&
-                      (sizing?.showText ?? true))
-                    Container(
-                      padding: EdgeInsets.only(top: 2.0),
-                      child: getText(context, color),
-                    ),
-                ],
-              ),
-              if ((sizing?.showText ?? true) &&
-                  (!(sizing?.textAtBottom ?? false)))
-                Container(
-                  padding: EdgeInsets.only(left: 4.0),
-                  child: getText(context, color),
                 ),
             ],
           ),

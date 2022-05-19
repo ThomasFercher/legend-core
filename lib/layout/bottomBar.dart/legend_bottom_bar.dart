@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
 const double iosBottomPadding = 12;
+const Duration anmimationDuration = Duration(milliseconds: 400);
 
 class LegendBottomBar extends StatelessWidget {
   final bool? fit;
@@ -28,14 +31,16 @@ class LegendBottomBar extends StatelessWidget {
     BottomBarProvider provider,
   ) {
     List<BottomBarItem> items = [];
-    final RouteDisplay selected = provider.selected;
+    final int sel = provider.selectedIndex;
 
-    for (final RouteDisplay option in options) {
+    for (int i = 0; i < options.length; i++) {
+      final RouteDisplay option = options[i];
       BottomBarItem w = BottomBarItem(
-        isSelected: option == selected,
+        width: sizing.itemWidth,
+        isSelected: i == sel,
         option: option,
         onSelected: (o) {
-          provider.selectOption(option);
+          provider.selected = i;
           LegendRouter.of(context).pushPage(
             settings: RouteSettings(name: option.route),
           );
@@ -57,11 +62,18 @@ class LegendBottomBar extends StatelessWidget {
           (padding - iosBottomPadding) > 0 ? (padding - iosBottomPadding) : 0;
     }
 
+    double spacing =
+        (SizeInfo.of(context).width - (options.length) * sizing.itemWidth) /
+            (options.length + 1);
+
     bool fillBottom = sizing.fillBottom;
 
     LegendTheme theme = context.watch<LegendTheme>();
     return Consumer<BottomBarProvider>(
       builder: (context, provider, child) {
+        int selected = provider.selectedIndex;
+        double left = selected * sizing.itemWidth + (selected + 1) * spacing;
+
         return SizedBox(
           height: sizing.margin.vertical + sizing.height + padding,
           child: Column(
@@ -73,9 +85,32 @@ class LegendBottomBar extends StatelessWidget {
                 decoration: sizing.decoration.copyWith(
                   color: colors.backgroundColor,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: getItems(context, provider),
+                child: Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: anmimationDuration,
+                      left: left,
+                      child: SizedBox(
+                        height: sizing.height,
+                        child: Container(
+                          width: sizing.itemWidth,
+                          margin: EdgeInsets.symmetric(
+                            vertical: sizing.padding.top,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colors.activeColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(sizing.height / 4),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children:
+                          getItems(context, provider).paddingAround(spacing),
+                    ),
+                  ],
                 ),
               ),
               Container(

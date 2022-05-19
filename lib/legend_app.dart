@@ -80,7 +80,10 @@ class LegendApp extends StatelessWidget {
         create: (_) => theme,
       ),
       ChangeNotifierProvider<BottomBarProvider>(
-        create: (_) => BottomBarProvider(routeDisplays.first),
+        create: (_) => BottomBarProvider(
+          first: 0,
+          options: routeDisplays,
+        ),
       ),
     ];
     if (providers != null) _providers.addAll(providers!);

@@ -13,7 +13,6 @@ class ScaffoldSider extends StatelessWidget {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
     LegendTheme theme = context.watch<LegendTheme>();
 
-    bool collapsed = theme.sizing.collapsedSider;
     RouteLayout layout = scaffold.layout.getLayout(theme.sizingTheme.key);
     if (layout.siderLayout != SiderLayout.None) {
       return Container(
@@ -33,7 +32,6 @@ class ScaffoldSider extends StatelessWidget {
           showSubMenu: scaffold.whether.showSiderSubMenu,
           showChildMenu: scaffold.whether.showSiderChildMenu,
           showParentMenu: scaffold.whether.shareParentSiderMenu,
-          collapsed: collapsed,
         ),
       );
     } else {

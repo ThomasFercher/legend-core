@@ -16,7 +16,7 @@ class ScaffoldHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    bool siderCollapsed = theme.sizing.hideSider;
+
     AppbarLayout layout =
         scaffold.layout.getLayout(theme.sizingTheme.key).appBarLayout;
 
@@ -25,7 +25,6 @@ class ScaffoldHeader extends StatelessWidget {
         return LegendAppBarFixed(
           type: scaffold.appBarLayoutType,
           actions: scaffold.builders.appBarActions,
-          showLogo: siderCollapsed,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,
             showSubMenu: scaffold.whether.showTopSubMenu,
