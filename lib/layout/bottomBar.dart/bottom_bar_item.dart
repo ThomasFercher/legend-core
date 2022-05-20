@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class BottomBarItem extends StatelessWidget {
   final RouteDisplay option;
-  final BottomBarSizing? sizing;
+  final BottomBarSizing sizing;
   final BottomBarPalette colors;
   final void Function(RouteDisplay option) onSelected;
   final bool isSelected;
@@ -31,41 +31,34 @@ class BottomBarItem extends StatelessWidget {
 
     return Container(
       width: width,
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-      ),
+      height: sizing.height - sizing.padding.vertical,
       child: LegendDetector(
         background: Colors.transparent,
         borderRadius: BorderRadius.all(
-          Radius.circular(sizing?.height ?? 1 / 2),
+          Radius.circular(sizing.height),
         ),
         onTap: () {
           onSelected(option);
         },
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 4,
-          ),
+          padding: sizing.itemPadding,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                 child: Icon(
                   option.icon,
-                  size: sizing?.iconSize ?? 28,
+                  size: sizing.iconSize,
                   color: color,
                 ),
               ),
-              if (sizing?.showText ?? true)
-                Container(
-                  padding: EdgeInsets.only(top: 2.0),
-                  child: LegendText(
-                    selectable: false,
-                    text: option.title,
-                    dynamicSizing: true,
-                    textStyle: theme.typography.h0.copyWith(
-                      color: color,
-                    ),
+              if (sizing.showText)
+                LegendText(
+                  selectable: false,
+                  text: option.title,
+                  dynamicSizing: true,
+                  textStyle: theme.typography.h0.copyWith(
+                    color: color,
                   ),
                 ),
             ],

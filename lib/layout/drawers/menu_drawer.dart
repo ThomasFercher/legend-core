@@ -257,7 +257,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             const SizedBox(
               height: 12,
             ),
-            Expanded(
+            Flexible(
               child: FixedSiderMenu(
                 hasToPop: true,
                 options: LegendRouter.of(context).routeDisplays,

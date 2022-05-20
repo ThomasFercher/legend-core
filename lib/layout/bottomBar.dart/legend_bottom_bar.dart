@@ -10,7 +10,7 @@ import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
 const double iosBottomPadding = 12;
-const Duration anmimationDuration = Duration(milliseconds: 400);
+const Duration anmimationDuration = Duration(milliseconds: 220);
 
 class LegendBottomBar extends StatelessWidget {
   final bool? fit;
@@ -85,22 +85,20 @@ class LegendBottomBar extends StatelessWidget {
                 decoration: sizing.decoration.copyWith(
                   color: colors.backgroundColor,
                 ),
+                padding: sizing.padding,
                 child: Stack(
                   children: [
                     AnimatedPositioned(
                       duration: anmimationDuration,
                       left: left,
                       child: SizedBox(
-                        height: sizing.height,
+                        height: sizing.height - sizing.padding.vertical,
                         child: Container(
                           width: sizing.itemWidth,
-                          margin: EdgeInsets.symmetric(
-                            vertical: sizing.padding.top,
-                          ),
                           decoration: BoxDecoration(
                             color: colors.activeColor.withOpacity(0.2),
                             borderRadius: BorderRadius.all(
-                              Radius.circular(sizing.height / 4),
+                              Radius.circular(sizing.height / 3.6),
                             ),
                           ),
                         ),
