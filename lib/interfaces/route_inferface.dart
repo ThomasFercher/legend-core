@@ -9,5 +9,5 @@ abstract class RouteInterface<T> {
   Map<T, DynamicRouteLayout> buildLayouts(LegendTheme theme);
   List<RouteInfo> buildRoutes(
       Map<T, DynamicRouteLayout> layouts, LegendTheme theme);
-  List<SimpleRouteDisplay> buildDisplays();
+  List<RouteDisplay> buildDisplays();
 }

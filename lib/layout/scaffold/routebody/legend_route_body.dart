@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
@@ -20,6 +21,7 @@ class LegendRouteBody extends StatelessWidget {
   final bool disableContentDecoration;
   final Widget Function(BuildContext context, Size s)? builder;
   final Widget? sliverAppBar;
+  final PersistentHeader? sliverPersistentHeader;
 
   LegendRouteBody({
     Key? key,
@@ -28,6 +30,7 @@ class LegendRouteBody extends StatelessWidget {
     this.singlePage,
     this.disableContentDecoration = false,
     this.sliverAppBar,
+    this.sliverPersistentHeader,
   }) : super(key: key) {
     assert(slivers.isNotEmpty || builder != null);
   }
@@ -64,6 +67,10 @@ class LegendRouteBody extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   if (sliverAppBar != null) sliverAppBar!,
+                  if (sliverPersistentHeader != null)
+                    SliverPersistentHeader(
+                      delegate: sliverPersistentHeader!,
+                    ),
                   SliverList(
                     delegate: SliverChildListDelegate(
                       _slivers,

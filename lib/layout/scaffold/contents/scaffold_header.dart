@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/legend_appbar_fixed.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:provider/provider.dart';
 import '../../../styles/legend_theme.dart';
+import '../../config/appbar_layout.dart';
 import '../legend_scaffold.dart';
 
 class ScaffoldHeader extends StatelessWidget {
@@ -17,13 +19,13 @@ class ScaffoldHeader extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
-    AppbarLayout layout =
-        scaffold.layout.getLayout(theme.sizingTheme.key).appBarLayout;
+    AppBarLayout layout =
+        ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
 
-    switch (layout) {
-      case AppbarLayout.FixedAbove:
+    switch (layout.layout) {
+      case AppBarLayoutConfig.fixedAbove:
         return LegendAppBarFixed(
-          type: scaffold.appBarLayoutType,
+          type: layout.aligment,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,
@@ -33,9 +35,9 @@ class ScaffoldHeader extends StatelessWidget {
             horizontalPadding: theme.appBarSizing.contentPadding.left,
           ),
         );
-      case AppbarLayout.None:
+      case AppBarLayoutConfig.none:
         return LegendAppBarFixed(
-          type: scaffold.appBarLayoutType,
+          type: layout.aligment,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
             appBarHeight: theme.appBarSizing.appBarHeight,

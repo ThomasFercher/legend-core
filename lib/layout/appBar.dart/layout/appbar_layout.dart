@@ -11,7 +11,6 @@ import 'appbar_layout_renderbox.dart';
 
 enum AppBarItem {
   TITLE,
-
   MENU,
   ACTIONS,
 }
@@ -21,13 +20,13 @@ enum AppBarLayoutType {
   MeTiAc,
 }
 
-class AppBarLayout extends RenderObjectWidget
+class AppBarDelegate extends RenderObjectWidget
     with SlottedMultiChildRenderObjectWidgetMixin<AppBarItem> {
   final Map<AppBarItem, Widget> children;
   final Color? background;
   final AppBarLayoutType type;
 
-  AppBarLayout({
+  AppBarDelegate({
     Key? key,
     required this.children,
     required this.type,

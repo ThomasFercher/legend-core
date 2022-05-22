@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/config/appbar_layout.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
@@ -27,12 +28,9 @@ class Sider extends StatelessWidget {
     SiderPalette colors = theme.siderPalette;
     SiderSizing sizing = theme.siderSizing;
 
-    AppbarLayout appbarLayout = ScaffoldInfo.of(context)
-        .scaffold
-        .layout
-        .getLayout(theme.sizingTheme.key)
-        .appBarLayout;
-    bool showLogo = appbarLayout != AppbarLayout.FixedAbove;
+    AppBarLayout appbarLayout =
+        ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    bool showLogo = appbarLayout.layout != AppBarLayoutConfig.fixedAbove;
 
     double maxWidth = theme.siderSizing.width;
 

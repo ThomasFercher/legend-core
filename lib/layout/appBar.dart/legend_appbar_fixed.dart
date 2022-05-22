@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
+import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
+import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
@@ -70,6 +75,40 @@ class LegendAppBarFixed extends StatelessWidget {
     }
   }
 
+  PreferredSize _bottom(BuildContext context) {
+    RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
+    RouteDisplay? display = ScaffoldInfo.of(context).display;
+    if (route is TabviewPageInfo) {
+      return PreferredSize(
+        preferredSize: Size.fromHeight(route.style.height),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: route.style.height),
+          child: LegendTabBar(
+            style: route.style,
+            displays: display?.children?.toList() ?? [],
+          ),
+        ),
+      );
+    } else if (route is TabviewChildPageInfo) {
+      RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
+      TabviewPageInfo info = parent as TabviewPageInfo;
+      RouteDisplay? parentDisplay =
+          RouteInfoProvider.getParentRouteDisplay(context);
+      return PreferredSize(
+        preferredSize: Size.fromHeight(parent.style.height),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: parent.style.height),
+          child: LegendTabBar(
+            style: parent.style,
+            displays: parentDisplay?.children?.toList() ?? [],
+          ),
+        ),
+      );
+    } else {
+      return PreferredSize(child: Container(), preferredSize: Size.zero);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
@@ -77,14 +116,17 @@ class LegendAppBarFixed extends StatelessWidget {
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
-      toolbarHeight: config.appBarHeight,
+      //  toolbarHeight: config.appBarHeight,
       actions: actionsFiller,
       backgroundColor: theme.appBarPalette.background,
+      toolbarHeight: 200,
+      bottom: _bottom(context),
       title: Container(
+        height: 200,
         color: theme.colors.appBarPalette.background,
-        constraints: BoxConstraints(maxHeight: config.appBarHeight),
+        //   constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
-        child: AppBarLayout(
+        child: AppBarDelegate(
           type: type,
           children: {
             if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),

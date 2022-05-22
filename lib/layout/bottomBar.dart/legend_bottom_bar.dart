@@ -90,6 +90,7 @@ class LegendBottomBar extends StatelessWidget {
                   children: [
                     AnimatedPositioned(
                       duration: anmimationDuration,
+                      curve: Curves.easeInOutCubic,
                       left: left,
                       child: SizedBox(
                         height: sizing.height - sizing.padding.vertical,

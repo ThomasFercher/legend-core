@@ -4,6 +4,7 @@ import 'package:legend_design_core/interfaces/route_inferface.dart';
 import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
+import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -21,9 +22,17 @@ import 'layout/bottomBar.dart/bottom_bar_provider.dart';
 class LegendNavigatorFrame extends NavigatorFrame {
   @override
   Widget buildFrame(
-      BuildContext context, Navigator navigator, RouteInfo? current) {
-    if (current is ScaffoldRouteInfo) {
-      return ScaffoldFrame(page: current, child: navigator);
+    BuildContext context,
+    Navigator navigator,
+    RouteInfo? current,
+    RouteDisplay? display,
+  ) {
+    if (current is LegendRouteInfo) {
+      return ScaffoldFrame(
+        page: current,
+        child: navigator,
+        display: display,
+      );
     } else {
       return navigator;
     }
@@ -31,9 +40,6 @@ class LegendNavigatorFrame extends NavigatorFrame {
 }
 
 class LegendApp extends StatelessWidget {
-  // Router Delegate
-  final routerDelegate = LegendRouterDelegate(frame: LegendNavigatorFrame());
-
   // Interface containing Methos related to Routing
   final RouteInterface<dynamic> routesDelegate;
 
@@ -49,6 +55,8 @@ class LegendApp extends StatelessWidget {
       buildSplashscreen;
 
   final List<SingleChildWidget>? providers;
+
+  late final List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
 
   LegendApp({
     Key? key,
@@ -70,7 +78,12 @@ class LegendApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
+    // Router Delegate
+    final routerDelegate = LegendRouterDelegate(
+      frame: LegendNavigatorFrame(),
+      displays: routeDisplays,
+    );
+
     Map<dynamic, DynamicRouteLayout> routeLayouts =
         routesDelegate.buildLayouts(theme);
 
@@ -97,7 +110,8 @@ class LegendApp extends StatelessWidget {
       locale: Locale('en', 'US'),
       child: Builder(builder: (context) {
         List<RouteInfo> routes =
-            routesDelegate.buildRoutes(routeLayouts, theme);
+            routesDelegate.buildRoutes(routeLayouts, theme).ex();
+
         return MultiProvider(
           providers: _providers,
           child: LegendRouter(
@@ -179,6 +193,7 @@ class LegendApp extends StatelessWidget {
                               LegendRouteInformationParser(),
                           backButtonDispatcher: RootBackButtonDispatcher(),
                           color: theme.colors.primary,
+                          useInheritedMediaQuery: true,
                         ),
                       ),
                     );

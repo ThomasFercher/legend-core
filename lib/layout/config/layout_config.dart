@@ -1,16 +1,23 @@
+import 'package:legend_design_core/layout/config/appbar_layout.dart';
+
+import '../appBar.dart/layout/appbar_layout.dart';
+
 ///
 /// This Class defines the overall Layout of the App.
 /// Both [LegendScaffold] and [LegendRouteBody], which are used to display the core of your app and pages, depend
 /// on [RouteLayout] to layout. This class allows you to define a Layout for every possibility there is in Cross Platform Apps.
 ///
 class RouteLayout {
-  final AppbarLayout appBarLayout;
+  final AppBarLayout appBarLayout;
   final SiderLayout siderLayout;
   final FooterLayout footerLayout;
   final BottomBarLayout bottomBarLayout;
 
   const RouteLayout({
-    this.appBarLayout = AppbarLayout.None,
+    this.appBarLayout = const AppBarLayout(
+      AppBarLayoutConfig.none,
+      AppBarLayoutType.MeTiAc,
+    ),
     this.siderLayout = SiderLayout.None,
     this.footerLayout = FooterLayout.None,
     this.bottomBarLayout = BottomBarLayout.None,
@@ -54,14 +61,6 @@ class DynamicRouteLayout {
   }
 
   DynamicRouteLayout(this.layouts);
-}
-
-enum AppbarLayout {
-  FixedAbove,
-  FixedWithin,
-  LooseWithin,
-  PinnedWithin,
-  None,
 }
 
 enum SiderLayout {
