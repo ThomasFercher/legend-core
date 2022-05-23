@@ -3,12 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/tab_option.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/legend_text.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
+import 'package:provider/provider.dart';
 
 class TabBarStyle {
   final Color background;
@@ -42,6 +44,7 @@ class LegendTabBar extends StatefulWidget {
 
 class _LegendTabBarState extends State<LegendTabBar> {
   List<Widget> getOptions() {
+    List<Widget> items = [];
     RouteInfo? info = ScaffoldInfo.of(context).routeInfo;
 
     TabviewPageInfo route;
@@ -55,29 +58,25 @@ class _LegendTabBarState extends State<LegendTabBar> {
     } else {
       return [];
     }
+    LegendTheme theme = context.watch<LegendTheme>();
+    final double height = route.style.height;
 
-    final double height = route.style.height / 3 * 2;
-
-    return widget.displays.map((display) {
-      return LegendDetector(
+    for (int i = 0; i < widget.displays.length; i++) {
+      final RouteDisplay display = widget.displays[i];
+      Widget item = LegendDetector(
+        padding: EdgeInsets.zero,
         onTap: () {
           LegendRouter.of(context).pushPage(
             settings: RouteSettings(
               name: display.route,
             ),
           );
-          setState(() {});
         },
         child: TabOption(
-          children: [
-            Icon(
-              display.icon,
-              color: widget.border,
-            ),
-            LegendText(
-              text: display.title,
-            ),
-          ],
+          selected: display.route == info.name,
+          width: 120,
+          icon: display.icon,
+          title: display.title,
           background: widget.style.background,
           border: widget.border,
           padding: EdgeInsets.symmetric(
@@ -86,24 +85,33 @@ class _LegendTabBarState extends State<LegendTabBar> {
           height: height,
         ),
       );
-    }).toList();
+      items.add(item);
+    }
+    return items;
   }
 
   @override
   Widget build(BuildContext context) {
+    LegendTheme theme = context.watch<LegendTheme>();
     return LayoutBuilder(builder: (context, constraints) {
       double width = constraints.maxWidth;
       double height = constraints.maxHeight;
 
       return Container(
-        height: height,
         width: width,
+        height: height,
         color: widget.style.background,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: widget.style.alignment,
-          children: getOptions().traillingPaddingRow(
-            height / 4,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: theme.sizing.padding[0],
+          ),
+          height: height,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: getOptions().traillingPaddingRow(
+              height / 4,
+            ),
           ),
         ),
       );
