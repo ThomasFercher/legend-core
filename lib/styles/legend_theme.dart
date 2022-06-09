@@ -32,7 +32,7 @@ class LegendTheme extends ChangeNotifier {
   ///
   /// Class containing a list of different Textstyles
   ///
-  late final LegendTypography typography;
+  late LegendTypography typography;
 
   ///
   /// Color Theme for the whole applications. Contains a List of [LegendPalette]

@@ -15,7 +15,6 @@ class TabOption extends StatefulWidget {
     required this.height,
     required this.icon,
     required this.title,
-    required this.width,
     required this.selected,
     this.spacing = 6,
     this.padding = const EdgeInsets.symmetric(
@@ -29,7 +28,6 @@ class TabOption extends StatefulWidget {
   final double height;
   final String title;
   final IconData? icon;
-  final double width;
   final EdgeInsetsGeometry padding;
   final double spacing;
   final bool selected;
@@ -50,16 +48,23 @@ class _TabOptionState extends State<TabOption> {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
+    double iconSize = 24;
+    double spacing = 4;
+    double padding = 8;
+    double textWidth =
+        LegendFunctions.calcTextSize(widget.title, theme.typography.h1).width;
+    double w = iconSize + textWidth + spacing + padding;
+
     return LegendDetector(
       onHover: (p0) {
         setState(() {
           isHovered = p0;
         });
       },
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(horizontal: 4),
       child: Container(
         height: widget.height,
-        width: widget.width,
+        width: w,
         child: Stack(
           children: [
             Align(
@@ -88,7 +93,7 @@ class _TabOptionState extends State<TabOption> {
               alignment: Alignment.bottomCenter,
               child: AnimatedContainer(
                 height: 2,
-                width: widget.width,
+                width: w,
                 duration: Duration(milliseconds: 200),
                 color: widget.selected
                     ? theme.colors.selection

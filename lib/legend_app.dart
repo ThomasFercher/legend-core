@@ -4,20 +4,26 @@ import 'package:legend_design_core/interfaces/route_inferface.dart';
 import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
+import 'data/asset_loader.dart';
 import 'layout/bottomBar.dart/bottom_bar_provider.dart';
+
+const List<LocalizationsDelegate<dynamic>> localizations = [
+  GlobalMaterialLocalizations.delegate,
+  GlobalWidgetsLocalizations.delegate,
+  GlobalCupertinoLocalizations.delegate,
+];
 
 class LegendNavigatorFrame extends NavigatorFrame {
   @override
@@ -46,7 +52,7 @@ class LegendApp extends StatelessWidget {
   final ThemeInterface themeDelegate;
 
   final Widget? logo;
-  final String? title;
+  final String title;
 
   late final LegendTheme theme;
 
@@ -62,10 +68,10 @@ class LegendApp extends StatelessWidget {
     Key? key,
     required this.routesDelegate,
     required this.themeDelegate,
+    required this.title,
     this.logo,
     this.future,
     this.buildSplashscreen,
-    this.title,
     this.providers,
   }) : super(key: key) {
     theme = LegendTheme(
@@ -74,6 +80,18 @@ class LegendApp extends StatelessWidget {
       typography: themeDelegate.buildTypography(),
       buildConfig: themeDelegate.buildConfig.call(),
     );
+  }
+
+  Future<bool> _init(BuildContext context) async {
+    // Await User defined Futrure
+    if (future != null) {
+      await future;
+    }
+
+    // Prechache Asset Images
+    await AssetLoader.prechacheAssets(context);
+
+    return true;
   }
 
   @override
@@ -101,84 +119,50 @@ class LegendApp extends StatelessWidget {
     ];
     if (providers != null) _providers.addAll(providers!);
 
-    return Localizations(
-      delegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      locale: Locale('en', 'US'),
-      child: Builder(builder: (context) {
-        List<RouteInfo> routes =
-            routesDelegate.buildRoutes(routeLayouts, theme).ex();
+    return RestartWidget(
+      child: Localizations(
+        delegates: localizations,
+        locale: Locale('en', 'US'),
+        child: Builder(builder: (context) {
+          List<RouteInfo> routes =
+              routesDelegate.buildRoutes(routeLayouts, theme).ex();
 
-        return MultiProvider(
-          providers: _providers,
-          child: LegendRouter(
-            routerDelegate: routerDelegate,
-            routes: routes,
-            routeDisplays: routeDisplays,
-            child: WidgetsApp(
-              color: theme.colors.primary,
-              debugShowCheckedModeBanner: false,
-              pageRouteBuilder: <T>(
-                RouteSettings settings,
-                Widget Function(BuildContext) builder,
-              ) {
-                return CupertinoPageRoute<T>(
-                  settings: settings,
-                  builder: builder,
-                );
-              },
-              onGenerateRoute: (routesettings) {
-                RouteInfo info =
-                    LegendRouter.getRouteWidget(routesettings, routes);
-                if (info is ModalRouteInfo) {
-                  return CupertinoDialogRoute(
-                    barrierDismissible: true,
-                    settings: routesettings,
-                    transitionDuration: Duration(
-                      milliseconds: 400,
-                    ),
-
-                    transitionBuilder: (context, _, __, child) {
-                      CurvedAnimation animation = CurvedAnimation(
-                        parent: _,
-                        curve: Curves.easeInOutCirc,
-                      );
-                      Tween<AlignmentGeometry> aligment = Tween(
-                        begin: Alignment(8, 0),
-                        end: Alignment(1, 0),
-                      );
-                      return AlignTransition(
-                        alignment: aligment.animate(animation),
-                        child: child,
-                      );
-                    },
-                    //   useSafeArea: false,
-                    builder: (context) => RouteInfoProvider(
-                      route: routesettings,
-                      child: SizeInfo(
-                        sizing: theme.sizingTheme,
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
+          return MultiProvider(
+            providers: _providers,
+            child: LegendRouter(
+              routerDelegate: routerDelegate,
+              routes: routes,
+              routeDisplays: routeDisplays,
+              child: WidgetsApp(
+                color: theme.colors.primary,
+                debugShowCheckedModeBanner: false,
+                pageRouteBuilder: GlobalModal.pageRouteBuilder,
+                onGenerateRoute: (settings) {
+                  RouteInfo info =
+                      LegendRouter.getRouteWidget(settings, routes);
+                  if (info is ModalRouteInfo) {
+                    return GlobalModal.modalRouteBuilder(
+                      settings,
+                      context,
+                      (context) => SizeInfo(
                         child: info.page,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        sizing: theme.sizingTheme,
                       ),
-                    ),
-                    context: context,
-                  );
-                }
-              },
-              home: FutureBuilder(
-                future: future,
-                builder: (context, snapshot) {
-                  LegendTheme theme = Provider.of<LegendTheme>(context);
-                  if ((snapshot.hasData || buildSplashscreen == null) ||
-                      buildSplashscreen == null) {
-                    return LayoutProvider(
-                      title: title,
-                      logo: logo,
-                      child: RestartWidget(
+                    );
+                  }
+                },
+                home: FutureBuilder(
+                  future: _init(context),
+                  builder: (context, snapshot) {
+                    LegendTheme theme = Provider.of<LegendTheme>(context);
+
+                    if (snapshot.connectionState == ConnectionState.done ||
+                        buildSplashscreen == null) {
+                      return LayoutProvider(
+                        title: title,
+                        logo: logo,
                         child: WidgetsApp.router(
                           localizationsDelegates: [
                             GlobalMaterialLocalizations.delegate,
@@ -186,7 +170,7 @@ class LegendApp extends StatelessWidget {
                             GlobalCupertinoLocalizations.delegate,
                           ],
                           locale: Locale('en', 'US'),
-                          title: 'Legend Design',
+                          title: title,
                           debugShowCheckedModeBanner: false,
                           routerDelegate: routerDelegate,
                           routeInformationParser:
@@ -195,17 +179,17 @@ class LegendApp extends StatelessWidget {
                           color: theme.colors.primary,
                           useInheritedMediaQuery: true,
                         ),
-                      ),
-                    );
-                  } else {
-                    return buildSplashscreen!(context, theme);
-                  }
-                },
+                      );
+                    } else {
+                      return buildSplashscreen!(context, theme);
+                    }
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

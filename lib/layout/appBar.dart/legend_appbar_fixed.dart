@@ -78,14 +78,17 @@ class LegendAppBarFixed extends StatelessWidget {
   PreferredSize _bottom(BuildContext context) {
     RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
     RouteDisplay? display = ScaffoldInfo.of(context).display;
+
     if (route is TabviewPageInfo) {
+      List<RouteDisplay> displays = [if (display != null) display];
+      displays.addAll(display?.children?.toList() ?? []);
       return PreferredSize(
         preferredSize: Size.fromHeight(route.style.height),
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: route.style.height),
           child: LegendTabBar(
             style: route.style,
-            displays: display?.children?.toList() ?? [],
+            displays: displays,
           ),
         ),
       );
@@ -94,13 +97,15 @@ class LegendAppBarFixed extends StatelessWidget {
       TabviewPageInfo info = parent as TabviewPageInfo;
       RouteDisplay? parentDisplay =
           RouteInfoProvider.getParentRouteDisplay(context);
+      List<RouteDisplay> displays = [if (parentDisplay != null) parentDisplay];
+      displays.addAll(parentDisplay?.children?.toList() ?? []);
       return PreferredSize(
         preferredSize: Size.fromHeight(parent.style.height),
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: parent.style.height),
           child: LegendTabBar(
             style: parent.style,
-            displays: parentDisplay?.children?.toList() ?? [],
+            displays: displays,
           ),
         ),
       );

@@ -258,13 +258,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
               height: 12,
             ),
             Flexible(
-              child: FixedSiderMenu(
-                hasToPop: true,
-                options: LegendRouter.of(context).routeDisplays,
-                showMenuSubItems: true,
-                collapsed: false,
-                style: style,
-                subMenuStyle: subMenuStyle,
+              child: SingleChildScrollView(
+                child: FixedSiderMenu(
+                  hasToPop: true,
+                  options: LegendRouter.of(context).routeDisplays,
+                  showMenuSubItems: true,
+                  collapsed: false,
+                  style: style,
+                  subMenuStyle: subMenuStyle,
+                ),
               ),
             ),
             const SizedBox(

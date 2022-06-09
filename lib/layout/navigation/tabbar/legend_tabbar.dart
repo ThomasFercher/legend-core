@@ -74,7 +74,6 @@ class _LegendTabBarState extends State<LegendTabBar> {
         },
         child: TabOption(
           selected: display.route == info.name,
-          width: 120,
           icon: display.icon,
           title: display.title,
           background: widget.style.background,
@@ -106,9 +105,8 @@ class _LegendTabBarState extends State<LegendTabBar> {
             horizontal: theme.sizing.padding[0],
           ),
           height: height,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
             children: getOptions().traillingPaddingRow(
               height / 4,
             ),

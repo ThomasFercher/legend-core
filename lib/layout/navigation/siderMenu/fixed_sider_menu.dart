@@ -166,13 +166,10 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
           }
         }
 
-        return Container(
-          height: maxHeight,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: tiles.traillingPaddingCol(style.spacing, last: true),
-          ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: tiles.traillingPaddingCol(style.spacing, last: true),
         );
       }),
     );

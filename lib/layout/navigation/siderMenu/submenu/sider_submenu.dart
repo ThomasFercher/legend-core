@@ -140,54 +140,56 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             ),
         child: Container(
           color: style.background,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HeaderTile(
-                option: widget.option,
-                isExpanded: isExpanded,
-                onExpanded: () {
-                  isExpanded = !isExpanded;
-                  if (widget.onResisize != null) {
-                    widget.onResisize!(isExpanded);
-                  }
-                },
-                onHover: (value) {
-                  setState(() {
-                    hovered = value ? headerIndex : null;
-                  });
-                },
-                onClicked: () {
-                  setState(() {
-                    selected = headerIndex;
-                  });
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HeaderTile(
+                  option: widget.option,
+                  isExpanded: isExpanded,
+                  onExpanded: () {
+                    isExpanded = !isExpanded;
+                    if (widget.onResisize != null) {
+                      widget.onResisize!(isExpanded);
+                    }
+                  },
+                  onHover: (value) {
+                    setState(() {
+                      hovered = value ? headerIndex : null;
+                    });
+                  },
+                  onClicked: () {
+                    setState(() {
+                      selected = headerIndex;
+                    });
 
-                  LegendRouter.of(context).pushPage(
-                      settings: RouteSettings(
-                    name: widget.option.route,
-                  ));
-                },
-                isHovered: headerIndex == hovered,
-                isSelected: headerIndex == selected,
-                style: style,
-              ),
-              AnimatedContainer(
-                height: isExpanded ? contentHeight : 0,
-                duration: Duration(
-                  milliseconds: 200,
+                    LegendRouter.of(context).pushPage(
+                        settings: RouteSettings(
+                      name: widget.option.route,
+                    ));
+                  },
+                  isHovered: headerIndex == hovered,
+                  isSelected: headerIndex == selected,
+                  style: style,
                 ),
-                curve: Curves.ease,
-                child: SingleChildScrollView(
-                  controller: ScrollController(),
-                  child: SizedBox(
-                    height: getMaxHeight(),
-                    child: Column(
-                      children: getTiles(context),
+                AnimatedContainer(
+                  height: isExpanded ? contentHeight : 0,
+                  duration: Duration(
+                    milliseconds: 200,
+                  ),
+                  curve: Curves.ease,
+                  child: SingleChildScrollView(
+                    controller: ScrollController(),
+                    child: SizedBox(
+                      height: getMaxHeight(),
+                      child: Column(
+                        children: getTiles(context),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
