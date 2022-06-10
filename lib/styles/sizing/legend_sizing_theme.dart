@@ -5,35 +5,62 @@ import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/legend_sizing.dart';
 
 class LegendSizingTheme {
-  final Map<double, LegendSizing> sizings;
+  late final List<LegendSizing>? sizings;
+  final LegendSizing defaultSizing;
+  final List<LegendSizingOverride>? overrides;
+
   double _width = 0;
   double _key = 0;
 
   LegendSizingTheme({
-    required this.sizings,
-  });
+    required this.defaultSizing,
+    this.overrides,
+  }) {
+    if (overrides == null) {
+      sizings = null;
+    } else {
+      sizings = overrides!
+          .map(
+            (override) => LegendSizing.override(
+              defaultSizing,
+              override,
+            ),
+          )
+          .toList();
+    }
+  }
 
-  List<double> get splits => List.of(sizings.keys);
+  List<double> get splits {
+    if (sizings == null || sizings!.isEmpty) {
+      return [defaultSizing.key];
+    }
+    return sizings!.map((sizing) => sizing.key).toList();
+  }
 
   /// Returns LegendSizing depending on the current Screen Width
   LegendSizing get sizing {
-    if (PlatformInfo.isMobile) {
-      return sizings.values.first;
-    } else if (sizings.containsKey(_key)) {
-      return sizings[_key]!;
+    if (sizings == null || sizings!.isEmpty) {
+      return defaultSizing;
+    } else if (PlatformInfo.isMobile) {
+      return sizings!.first;
     } else {
-      return sizings.values.last;
+      return sizings!.firstWhere((element) => element.key == _key,
+          orElse: () => defaultSizing);
     }
   }
 
   double getNearestKey(double width) {
-    List<double> splits = List.of(sizings.keys);
-    if (PlatformInfo.isMobile) {
-      return splits.first;
+    if (sizings == null || sizings!.isEmpty) {
+      return defaultSizing.key;
     }
 
-    for (var i = 0; i < splits.length; i++) {
-      double split = splits[i];
+    List<double> spl = splits;
+    if (PlatformInfo.isMobile) {
+      return spl.first;
+    }
+
+    for (var i = 0; i < spl.length; i++) {
+      double split = spl[i];
       if (width <= split) {
         return split;
       }
@@ -41,7 +68,7 @@ class LegendSizingTheme {
 
     // If the width is bigger than any key we return the last one
     // As the last key is supposed to be for the biggest Screen Width.
-    return splits.last;
+    return spl.last;
   }
 
   set setWidth(double width) {

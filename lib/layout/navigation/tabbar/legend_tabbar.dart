@@ -101,15 +101,10 @@ class _LegendTabBarState extends State<LegendTabBar> {
         height: height,
         color: widget.style.background,
         child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: theme.sizing.padding[0],
-          ),
           height: height,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: getOptions().traillingPaddingRow(
-              height / 4,
-            ),
+            children: getOptions().paddingAround(8),
           ),
         ),
       );

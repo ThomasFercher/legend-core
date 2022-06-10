@@ -41,11 +41,10 @@ class LegendText extends StatelessWidget {
         alignment: Alignment.centerLeft,
         fit: BoxFit.fitHeight,
         child: Container(
-          child: SelectableText(
+          child: Text(
             text ?? '',
             style: textStyle,
             textAlign: textAlign,
-            enableInteractiveSelection: true,
           ),
         ),
       ),
@@ -53,18 +52,11 @@ class LegendText extends StatelessWidget {
   }
 
   Widget webText() {
-    return selectable
-        ? SelectableText(
-            text ?? '',
-            style: textStyle,
-            textAlign: textAlign,
-            enableInteractiveSelection: true,
-          )
-        : Text(
-            text ?? '',
-            style: textStyle,
-            textAlign: textAlign,
-            softWrap: true,
-          );
+    return Text(
+      text ?? '',
+      style: textStyle,
+      textAlign: textAlign,
+      softWrap: true,
+    );
   }
 }

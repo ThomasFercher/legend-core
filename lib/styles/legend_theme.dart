@@ -77,7 +77,7 @@ class LegendTheme extends ChangeNotifier {
   MenuDrawerSizing get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
-  List<double> get splits => List.of(_sizingTheme.sizings.keys);
+  List<double> get splits => _sizingTheme.splits;
 
   final bool _menuCollapsed = false;
   bool get menuCollapsed => _menuCollapsed;
@@ -125,6 +125,8 @@ class LegendTheme extends ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        systemNavigationBarColor:
+            colorTheme.current.bottomBarPalette.backgroundColor,
       ),
     );
   }

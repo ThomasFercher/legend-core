@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
 
 import '../typography/typography.dart';
@@ -10,6 +11,67 @@ import 'sub_sizing/sider_sizing.dart';
 
 export 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
 export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
+
+class LegendSizingOverride extends LegendSizingInfo {
+  final SiderSizingOverride? sider;
+  final AbbBarSizingOverride? appBar;
+  final BottomBarSizingOverride? bottomBar;
+  final MenuDrawerSizingOverride? menuDrawer;
+  final FixedFooterSizingOverride? footer;
+
+  LegendSizingOverride({
+    required super.key,
+    this.sider,
+    this.appBar,
+    this.bottomBar,
+    this.footer,
+    this.menuDrawer,
+  }) : super(
+          siderSizing: sider,
+          appBarSizing: appBar,
+          bottomBarSizing: bottomBar,
+          menuDrawerSizing: menuDrawer,
+          footerSizing: footer,
+        );
+}
+
+abstract class LegendSizingInfo {
+  final double key;
+
+  ///
+  /// Sub Sizing
+  ///
+  final AbbBarSizingInfo? appBarSizing;
+  final BottomBarSizingInfo? bottomBarSizing;
+  final SiderSizingInfo? siderSizing;
+  final MenuDrawerSizingInfo? menuDrawerSizing;
+  final FixedFooterSizingInfo? footerSizing;
+  final TypographySizing? typographySizing;
+
+  ///
+  /// Styling
+  ///
+  final List<double>? elevations;
+  final List<double>? iconSizes;
+  final List<BorderRadius>? borderRadius;
+  final List<double>? borderInset;
+  final List<double>? padding;
+
+  LegendSizingInfo({
+    required this.key,
+    this.appBarSizing,
+    this.footerSizing,
+    this.typographySizing,
+    this.elevations,
+    this.iconSizes,
+    this.borderRadius,
+    this.borderInset,
+    this.bottomBarSizing,
+    this.menuDrawerSizing,
+    this.siderSizing,
+    this.padding,
+  });
+}
 
 /// ## LegendSizing
 /// A Object for storing Size Dependendant Styling and Sizing Variables.
@@ -28,23 +90,39 @@ export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.da
 /// * [typographySizing] for [LegendTypography].
 /// * [siderSizing] for [LegendAppBar].
 /// * [menuDrawerSizing] for [LegendAppBar].
-class LegendSizing {
+class LegendSizing implements LegendSizingInfo {
+  @override
+  final double key;
+
   ///
   /// Sub Sizing
   ///
+  @override
   final AppBarSizing appBarSizing;
-  late final BottomBarSizing bottomBarSizing;
+  @override
+  final BottomBarSizing bottomBarSizing;
+  @override
   final TypographySizing typographySizing;
-  late final SiderSizing siderSizing;
-  late final MenuDrawerSizing menuDrawerSizing;
+  @override
+  final SiderSizing siderSizing;
+  @override
+  final MenuDrawerSizing menuDrawerSizing;
+
+  @override
+  final FixedFooterSizing footerSizing;
 
   ///
   /// Styling
   ///
+  @override
   final List<double> elevations;
+  @override
   final List<double> iconSizes;
+  @override
   final List<BorderRadius> borderRadius;
+  @override
   final List<double> borderInset;
+  @override
   final List<double> padding;
 
   ///
@@ -54,71 +132,50 @@ class LegendSizing {
   /// Sub Sizing Themes
 
   LegendSizing({
+    required this.key,
     required this.borderRadius,
     required this.borderInset,
+    required this.footerSizing,
     required this.padding,
     required this.appBarSizing,
     required this.typographySizing,
     required this.elevations,
     required this.iconSizes,
-    SiderSizing? siderSizing,
-    MenuDrawerSizing? menuDrawerSizing,
-    BottomBarSizing? bottomBarSizing,
-  }) {
-    this.siderSizing = SiderSizing.from(
-      horizontalPadding: 8,
-      siderSizing: siderSizing,
-      width: 200,
-      iconSize: iconSizes[1],
-      spacing: padding[1],
-      itemHeight: 48,
-      subMenuHeaderHeight: 48,
-      itemPadding: EdgeInsets.symmetric(
-        vertical: 2,
-        horizontal: 24,
-      ),
-      subItemPadding: EdgeInsets.symmetric(
-        vertical: 2,
-        horizontal: 16,
-      ),
-    );
+    required this.bottomBarSizing,
+    required this.siderSizing,
+    required this.menuDrawerSizing,
+  });
 
-    this.bottomBarSizing = BottomBarSizing.from(
-      itemWidth: 64,
-      fillBottom: true,
-      sizing: bottomBarSizing,
-      showText: true,
-      textAtBottom: true,
-      margin: EdgeInsets.zero,
-      decoration: BoxDecoration(),
-      height: 80,
-      alignment: MainAxisAlignment.spaceEvenly,
-      iconSize: 24,
-      padding: EdgeInsets.symmetric(
-        vertical: 4,
+  factory LegendSizing.override(
+      LegendSizing def, LegendSizingOverride override) {
+    return LegendSizing(
+      key: override.key,
+      appBarSizing: AppBarSizing.override(
+        def.appBarSizing,
+        override.appBar,
       ),
-      itemPadding: EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 4,
+      bottomBarSizing: BottomBarSizing.override(
+        def.bottomBarSizing,
+        override.bottomBar,
       ),
-    );
-
-    this.menuDrawerSizing = MenuDrawerSizing.from(
-      sizing: menuDrawerSizing,
-      width: 400,
-      iconSize: 28,
-      spacing: 12,
-      itemHeight: 48,
-      subMenuHeaderHeight: 48,
-      subMenuIconSize: 22,
-      itemPadding: EdgeInsets.symmetric(
-        horizontal: 12,
-        vertical: 12,
+      typographySizing: override.typographySizing ?? def.typographySizing,
+      siderSizing: SiderSizing.override(
+        def: def.siderSizing,
+        override: override.sider,
       ),
-      subItemPadding: EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 8,
+      menuDrawerSizing: MenuDrawerSizing.override(
+        def.menuDrawerSizing,
+        override.menuDrawer,
       ),
+      footerSizing: FixedFooterSizing.override(
+        def.footerSizing,
+        override.footer,
+      ),
+      elevations: override.elevations ?? def.elevations,
+      iconSizes: override.iconSizes ?? def.iconSizes,
+      borderRadius: override.borderRadius ?? def.borderRadius,
+      borderInset: override.borderInset ?? def.borderInset,
+      padding: override.padding ?? def.padding,
     );
   }
 }
