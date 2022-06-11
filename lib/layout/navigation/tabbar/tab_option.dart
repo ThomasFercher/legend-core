@@ -83,7 +83,7 @@ class _TabOptionState extends State<TabOption> {
                     text: widget.title,
                     selectable: false,
                     textStyle: theme.typography.h1.copyWith(
-                      color: theme.colors.foreground[0],
+                      color: theme.colors.foreground1,
                     ),
                   ),
                 ],

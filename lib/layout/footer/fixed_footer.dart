@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 
 class FixedFooter extends StatefulWidget {
   late FixedFooterSizing? sizing;
-  late FooterPalette? colors;
+  late FooterColors? colors;
 
   final Widget Function(
     BuildContext context,
     FixedFooterSizing? sizing,
-    FooterPalette? colors,
+    FooterColors? colors,
   ) builder;
 
   FixedFooter({
@@ -31,7 +31,7 @@ class _FixedFooterState extends State<FixedFooter> {
     if (widget.colors == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         LegendTheme theme = Provider.of<LegendTheme>(context, listen: false);
-        widget.colors = theme.colors.footerPalette;
+        widget.colors = theme.colors.footer;
       });
     }
   }
@@ -44,7 +44,7 @@ class _FixedFooterState extends State<FixedFooter> {
       width: MediaQuery.of(context).size.width,
       height: widget.sizing?.height,
       decoration: BoxDecoration(
-        color: theme.colors.footerPalette.background,
+        color: theme.colors.footer.background,
         /*     boxShadow: [
           BoxShadow(
             color: Colors.black12,

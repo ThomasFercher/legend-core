@@ -119,17 +119,17 @@ class LegendApp extends StatelessWidget {
     ];
     if (providers != null) _providers.addAll(providers!);
 
-    return RestartWidget(
-      child: Localizations(
-        delegates: localizations,
-        locale: Locale('en', 'US'),
-        child: Builder(builder: (context) {
-          List<RouteInfo> routes =
-              routesDelegate.buildRoutes(routeLayouts, theme).ex();
+    return Localizations(
+      delegates: localizations,
+      locale: Locale('en', 'US'),
+      child: MultiProvider(
+        providers: _providers,
+        child: RestartWidget(
+          child: Builder(builder: (context) {
+            List<RouteInfo> routes =
+                routesDelegate.buildRoutes(routeLayouts, theme).ex();
 
-          return MultiProvider(
-            providers: _providers,
-            child: LegendRouter(
+            return LegendRouter(
               routerDelegate: routerDelegate,
               routes: routes,
               routeDisplays: routeDisplays,
@@ -186,9 +186,9 @@ class LegendApp extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          }),
+        ),
       ),
     );
   }

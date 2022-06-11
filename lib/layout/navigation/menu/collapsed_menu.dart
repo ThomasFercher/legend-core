@@ -34,7 +34,7 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
         icon: Icons.menu,
         disableShadow: true,
         theme: LegendAnimtedIconTheme(
-          disabled: theme.colors.appBarPalette.foreground,
+          disabled: theme.colors.appBar.foreground,
           enabled: theme.colors.selection,
         ),
       ),

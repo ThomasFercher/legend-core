@@ -48,7 +48,7 @@ class ScaffoldTitle extends StatelessWidget {
               LegendText(
                 text: LayoutProvider.of(context).title!,
                 textStyle: theme.typography.h6.copyWith(
-                  color: theme.colors.appBarPalette.foreground,
+                  color: theme.colors.appBar.foreground,
                 ),
               ),
           ],

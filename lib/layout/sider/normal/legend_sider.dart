@@ -25,7 +25,7 @@ class Sider extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
     LegendTheme theme = Provider.of<LegendTheme>(context);
-    SiderPalette colors = theme.siderPalette;
+    SiderColors colors = theme.siderPalette;
     SiderSizing sizing = theme.siderSizing;
 
     AppBarLayout appbarLayout =
@@ -63,12 +63,12 @@ class Sider extends StatelessWidget {
     return Container(
       width: maxWidth,
       height: MediaQuery.of(context).size.height,
-      color: theme.colors.siderPalette.background,
+      color: theme.colors.sider.background,
       child: Column(
         children: [
           if (showLogo)
             Container(
-              color: theme.colors.siderPalette.background,
+              color: theme.colors.sider.background,
               padding: EdgeInsets.only(
                 left: 24,
                 right: 24,
@@ -95,7 +95,7 @@ class Sider extends StatelessWidget {
                         dynamicSizing: true,
                         text: LayoutProvider.of(context).title!,
                         textStyle: theme.typography.h6.copyWith(
-                          color: theme.colors.siderPalette.foreground,
+                          color: theme.colors.sider.foreground,
                         ),
                       ),
                     ),

@@ -48,7 +48,7 @@ class LegendRouteBody extends StatelessWidget {
         : 0;
 
     return ColoredBox(
-      color: theme.colors.background[0],
+      color: theme.colors.background1,
       child: LayoutBuilder(
         builder: (context, constraints) {
           if (slivers.isNotEmpty) {

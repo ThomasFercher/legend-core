@@ -53,7 +53,7 @@ class HeaderTile extends StatelessWidget {
         LegendAnimatedIcon(
           icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
           theme: LegendAnimtedIconTheme(
-            disabled: theme.colors.siderPalette.foreground,
+            disabled: theme.colors.sider.foreground,
             enabled: theme.colors.selection,
           ),
           iconSize: theme.siderSizing.iconSize / 3 * 2,

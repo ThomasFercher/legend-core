@@ -92,8 +92,8 @@ class LegendScaffold extends StatelessWidget {
 
           // Update Navigation Bar Color if needed
           Color _systemNavigationBarColor = showBottomBar
-              ? theme.colors.bottomBarPalette.backgroundColor
-              : theme.colors.background[0];
+              ? theme.colors.bottomBar.backgroundColor
+              : theme.colors.background1;
 
           SystemChrome.setSystemUIOverlayStyle(
             SystemUiOverlayStyle(
@@ -111,7 +111,7 @@ class LegendScaffold extends StatelessWidget {
             endDrawerEnableOpenDragGesture: false,
             appBar: _appBar(context, theme),
             body: ColoredBox(
-              color: theme.colors.background[0],
+              color: theme.colors.background1,
               child: Row(
                 children: [
                   ScaffoldSider(),

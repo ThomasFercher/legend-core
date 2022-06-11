@@ -157,7 +157,7 @@ class LegendPopups {
                             ),
                           ),
                     ),
-                    color: theme.colors.background[1],
+                    color: theme.colors.background1,
                     margin: const EdgeInsets.all(0),
                     child: Padding(
                       padding: EdgeInsets.only(

@@ -5,7 +5,7 @@ import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.
 import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/colors/sub_palettes/menu_drawer_palette.dart';
+import 'package:legend_design_core/styles/colors/subcolors/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
@@ -46,12 +46,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
       final RouteDisplay menuOption = options[index];
 
       widget = DrawerMenuTile(
-        foreground: theme.colors.textOnLight,
+        foreground: theme.colors.foreground2,
 
         icon: menuOption.icon,
         selForeground: theme.colors.onSecondary,
-        background: theme.colors.background[0],
-        selBackground: theme.colors.background[1],
+        background: theme.colors.background2,
+        selBackground: theme.colors.background3,
         iconSize: 22,
         onClicked: () {
           Navigator.pop(context);
@@ -113,7 +113,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
     SizeInfo sizeInfo = SizeInfo.of(context);
 
     MenuDrawerSizing sizing = theme.menuDrawerSizing;
-    MenuDrawerPalette colors = theme.menuDrawerPalette;
+    MenuDrawerColors colors = theme.menuDrawerPalette;
 
     double topPadding = MediaQuery.of(context).padding.top;
 
@@ -233,7 +233,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 height: search_height,
                 decoration: BoxDecoration(
                   borderRadius: theme.sizing.borderRadius[0],
-                  color: theme.colors.background[0],
+                  color: theme.colors.background1,
                 ),
                 padding: EdgeInsets.only(
                   top: theme.sizing.borderInset[0],
