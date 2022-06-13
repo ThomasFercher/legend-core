@@ -85,7 +85,7 @@ class _FixedMenuState extends State<FixedMenu> {
           height: widget.height,
           borderRadius: widget.collapse
               ? BorderRadius.zero
-              : theme.sizing.borderRadius[0],
+              : theme.sizing.radius1.asRadius(),
           onHover: (value) {
             setState(() {
               hovered = value ? i : null;
@@ -203,7 +203,7 @@ class _FixedMenuState extends State<FixedMenu> {
           height: widget.height,
           borderRadius: widget.collapse
               ? BorderRadius.zero
-              : theme.sizing.borderRadius[0],
+              : theme.sizing.radius1.asRadius(),
           onHover: (value) {
             setState(() {
               hovered = value ? i : null;

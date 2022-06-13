@@ -56,7 +56,7 @@ class LegendRouteBody extends StatelessWidget {
               slivers.map(
                 (sliver) => Container(
                   padding:
-                      EdgeInsets.symmetric(horizontal: theme.sizing.padding[0])
+                      EdgeInsets.symmetric(horizontal: theme.sizing.spacing1)
                           .boolInit(!disableContentDecoration),
                   child: sliver,
                 ),
@@ -93,7 +93,7 @@ class LegendRouteBody extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(theme.sizing.padding[0]).boolInit(
+                    padding: EdgeInsets.all(theme.sizing.spacing1).boolInit(
                       !disableContentDecoration,
                     ),
                     child: Builder(

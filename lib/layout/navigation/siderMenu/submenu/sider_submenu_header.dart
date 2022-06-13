@@ -53,8 +53,8 @@ class HeaderTile extends StatelessWidget {
         LegendAnimatedIcon(
           icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
           theme: LegendAnimtedIconTheme(
-            disabled: theme.colors.sider.foreground,
-            enabled: theme.colors.selection,
+            disabled: theme.colors.menuDrawer.foreground,
+            enabled: theme.colors.menuDrawer.foreground_menu_selction,
           ),
           iconSize: theme.siderSizing.iconSize / 3 * 2,
           onPressed: () {
@@ -65,12 +65,12 @@ class HeaderTile extends StatelessWidget {
       borderRadius: style.borderRadius ??
           BorderRadius.vertical(
             top: Radius.circular(
-              theme.sizing.borderInset[0],
+              theme.sizing.radius1,
             ),
             bottom: isExpanded
                 ? Radius.zero
                 : Radius.circular(
-                    theme.sizing.borderInset[0],
+                    theme.sizing.radius1,
                   ),
           ),
       onHover: (value) {

@@ -64,10 +64,10 @@ class SiderSizing implements SiderSizingInfo {
     required this.horizontalPadding,
   });
 
-  factory SiderSizing.override({
-    required SiderSizing def,
-    required SiderSizingOverride? override,
-  }) {
+  factory SiderSizing.override(
+    SiderSizing def,
+    SiderSizingOverride? override,
+  ) {
     if (override == null) {
       return def;
     }

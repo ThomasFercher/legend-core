@@ -137,6 +137,7 @@ class LegendTheme extends ChangeNotifier {
   void changeColorTheme(PaletteType type, BuildContext context) {
     colorTheme.setType(type);
 
+    systemUIOverrides();
     updateTypography();
     notifyListeners();
 

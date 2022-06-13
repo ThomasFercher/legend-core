@@ -88,7 +88,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             iconSize: style.iconSize,
             title: widget.collapsed ? null : option.title,
             path: option.route,
-            borderRadius: style.borderRadius ?? theme.sizing.borderRadius[0],
+            borderRadius: style.borderRadius ?? theme.sizing.radius1.asRadius(),
             onHover: (value) {
               setState(() {
                 hovered = value ? i : null;

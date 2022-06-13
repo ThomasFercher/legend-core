@@ -53,7 +53,7 @@ class Sider extends StatelessWidget {
       activeForeground: colors.selection,
       activeBackground: colors.backgroundMenu.darken(),
       foreground: colors.foreground,
-      borderRadius: theme.sizing.borderRadius[1],
+      borderRadius: theme.sizing.radius2.asRadius(),
       headerHeight: sizing.subMenuHeaderHeight,
       itemHeight: sizing.itemHeight,
       iconSize: sizing.iconSize,

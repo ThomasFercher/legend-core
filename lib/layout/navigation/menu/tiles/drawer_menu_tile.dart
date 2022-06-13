@@ -35,7 +35,6 @@ class DrawerMenuTile extends StatelessWidget {
   final bool isHovered;
 
   late final Color _foreground;
-  late final Color _background;
 
   final double horizontalPadding;
   final double verticalPadding;
@@ -75,7 +74,6 @@ class DrawerMenuTile extends StatelessWidget {
     this.disableRightPadding = false,
     this.textWidth,
   }) {
-    _background = (isHovered || isSelected) ? selBackground : background;
     _foreground = (isHovered || isSelected) ? selForeground : foreground;
   }
 
@@ -93,6 +91,7 @@ class DrawerMenuTile extends StatelessWidget {
         borderRadius:
             borderRadius?.resolve(TextDirection.ltr) ?? BorderRadius.zero,
         padding: EdgeInsets.zero,
+        activeBackground: selBackground,
         onHover: (v) {
           if (onHover != null) onHover!(v);
         },

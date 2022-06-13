@@ -88,7 +88,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
           path: option.route,
           borderRadius: i == options.length - 1
               ? BorderRadius.vertical(
-                  bottom: Radius.circular(theme.sizing.borderInset[0]),
+                  bottom: Radius.circular(theme.sizing.radius1),
                 )
               : BorderRadius.zero,
           height: style.itemHeight,
@@ -135,7 +135,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
         borderRadius: style.borderRadius ??
             BorderRadius.all(
               Radius.circular(
-                theme.sizing.borderInset[0],
+                theme.sizing.radius1,
               ),
             ),
         child: Container(

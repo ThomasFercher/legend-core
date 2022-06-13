@@ -127,14 +127,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
             horizontal: 24,
           );
     double search_item_height = 40;
-    double decoration = theme.sizing.borderInset[0] * 2;
+    double decoration = theme.sizing.radius1 * 2;
     double search_height = searchItems.length * search_item_height +
         (searchItems.isEmpty ? 0 : decoration);
 
     SiderMenuStyle style = SiderMenuStyle(
       background: colors.background,
       foreground: colors.foreground,
-      activeBackground: colors.backgroundMenu,
+      activeBackground: colors.background_selection,
       activeForeground: colors.foreground_selection,
       spacing: sizing.spacing,
       padding: sizing.itemPadding,
@@ -144,13 +144,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
     );
 
     SiderSubMenuStyle subMenuStyle = SiderSubMenuStyle(
+      background: colors.backgroundMenu,
+      foreground: colors.foreground,
+      activeForeground: colors.foreground_selection,
+      activeBackground: colors.background_menu_selection,
       itemPadding: sizing.itemPadding,
       spacing: sizing.spacing,
-      background: colors.backgroundMenu,
-      activeForeground: colors.foreground_selection,
-      activeBackground: colors.backgroundMenu.darken(),
-      foreground: colors.foreground,
-      borderRadius: theme.sizing.borderRadius[1],
+      borderRadius: theme.sizing.radius2.asRadius(),
       headerHeight: sizing.subMenuHeaderHeight,
       itemHeight: sizing.itemHeight,
       iconSize: sizing.iconSize,
@@ -161,7 +161,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
       width: theme.menuDrawerSizing.width,
       height: sizeInfo.height,
       child: Container(
-        color: theme.colors.primary,
+        color: style.background,
         padding: padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,14 +188,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
                           child: Icon(
                             Icons.search,
                             size: 22,
-                            color: theme.colors.primary,
+                            color: colors.foreground,
                           ),
                         ),
                         decoration: BoxDecoration(
                           color: theme.colors.onPrimary.lighten(0.25),
-                          borderRadius: theme.sizing.borderRadius[1],
+                          borderRadius: theme.sizing.radius2.asRadius(),
                           border: Border.all(
-                            color: theme.colors.onPrimary,
+                            color: colors.foreground.withOpacity(0.6),
                             width: 2,
                           ),
                         ),
@@ -213,8 +213,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     icon: Icons.close,
                     disableShadow: true,
                     theme: LegendAnimtedIconTheme(
-                      enabled: theme.colors.selection,
-                      disabled: theme.colors.onPrimary,
+                      enabled: colors.foreground_selection,
+                      disabled: colors.foreground,
                     ),
                     onPressed: () {
                       LegendRouter.of(context).popModal();
@@ -232,12 +232,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 curve: Curves.easeInOutSine,
                 height: search_height,
                 decoration: BoxDecoration(
-                  borderRadius: theme.sizing.borderRadius[0],
+                  borderRadius: theme.sizing.radius1.asRadius(),
                   color: theme.colors.background1,
                 ),
                 padding: EdgeInsets.only(
-                  top: theme.sizing.borderInset[0],
-                  bottom: theme.sizing.borderInset[0],
+                  top: theme.sizing.radius1,
+                  bottom: theme.sizing.radius1,
                 ),
                 child: ListView(
                   // shrinkWrap: true,
@@ -249,11 +249,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     : EdgeInsets.zero,
               ),
             ),
-            Divider(
-              height: 4,
-              thickness: 1,
-              color: theme.colors.onPrimary,
-            ),
+            Divider(height: 4, thickness: 1, color: colors.foreground),
             const SizedBox(
               height: 12,
             ),

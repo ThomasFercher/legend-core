@@ -153,7 +153,7 @@ class LegendPopups {
                       borderRadius: borderRadius ??
                           BorderRadius.vertical(
                             bottom: Radius.circular(
-                              theme.sizing.borderInset[0],
+                              theme.sizing.radius1,
                             ),
                           ),
                     ),
@@ -161,8 +161,8 @@ class LegendPopups {
                     margin: const EdgeInsets.all(0),
                     child: Padding(
                       padding: EdgeInsets.only(
-                        top: theme.sizing.borderInset[0],
-                        bottom: theme.sizing.borderInset[0],
+                        top: theme.sizing.radius1,
+                        bottom: theme.sizing.radius1,
                       ),
                       child: ListView(
                         shrinkWrap: true,
