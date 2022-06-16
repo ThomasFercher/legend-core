@@ -2,6 +2,7 @@ name: legend_design_core
 description: A package containing the Core Functionalites of the Legend Design ecosystem.
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
@@ -18,15 +19,11 @@ dependencies:
   http: ^0.13.4
   flutter_svg: ^1.1.0
   legend_utils:
-<<<<<<< HEAD
-    git: https://github.com/ThomasFercher/legend_utils
+    git: 
+      url: https://github.com/ThomasFercher/legend_utils
   legend_router:
-    git: https://github.com/ThomasFercher/legend_router
-=======
-    path: ../legend_utils
-  legend_router:
-    path: ../legend_router
->>>>>>> 8e3113216c111d79187238c41b74606c797d309a
+    git:
+      url: https://github.com/ThomasFercher/legend_router
   
 
 

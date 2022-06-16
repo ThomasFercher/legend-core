@@ -138,32 +138,20 @@ packages:
   legend_router:
     dependency: "direct main"
     description:
-<<<<<<< HEAD
       path: "."
       ref: HEAD
       resolved-ref: "4060663b39e7b424d156cf1ff6c4e04030295623"
       url: "https://github.com/ThomasFercher/legend_router"
     source: git
-=======
-      path: "../legend_router"
-      relative: true
-    source: path
->>>>>>> 8e3113216c111d79187238c41b74606c797d309a
     version: "0.0.1"
   legend_utils:
     dependency: "direct main"
     description:
-<<<<<<< HEAD
       path: "."
       ref: HEAD
       resolved-ref: "6e661b7ca89edffe5af2541fc71b6ac4af2ddf68"
       url: "https://github.com/ThomasFercher/legend_utils"
     source: git
-=======
-      path: "../legend_utils"
-      relative: true
-    source: path
->>>>>>> 8e3113216c111d79187238c41b74606c797d309a
     version: "0.0.1"
   lints:
     dependency: transitive
@@ -269,11 +257,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.0.3"
-=======
-    version: "2.0.5"
->>>>>>> 8e3113216c111d79187238c41b74606c797d309a
   petitparser:
     dependency: transitive
     description:
@@ -383,11 +367,7 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "0.2.0"
-=======
-    version: "0.2.0+1"
->>>>>>> 8e3113216c111d79187238c41b74606c797d309a
   xml:
     dependency: transitive
     description:
