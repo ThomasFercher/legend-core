@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/fixed/footer/fixed_footer.dart';
+import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 
 class LayoutProvider extends InheritedWidget {
   final FixedFooter? globalFooter;
@@ -17,8 +17,8 @@ class LayoutProvider extends InheritedWidget {
   @override
   final Widget child;
 
-  static LayoutProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<LayoutProvider>();
+  static LayoutProvider of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<LayoutProvider>()!;
   }
 
   @override

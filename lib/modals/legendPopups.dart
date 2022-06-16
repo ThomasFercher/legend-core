@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/utils/legend_utils.dart';
+import 'package:legend_utils/functions/functions.dart';
 
 class LegendPopups {
   static final ModalConfiguration _modalConfiguration =
@@ -74,7 +74,8 @@ class LegendPopups {
   }) {
     double maxWidth = SizeInfo.of(context).width;
     double leftQ = (menuWidth - itemWidth) / 2;
-    double center = LegendUtils.getVerticalCenter(context, key, menuWidth) ?? 0;
+    double center =
+        LegendFunctions.getVerticalCenter(context, key, menuWidth) ?? 0;
 
     bool snappedRight = false;
 
@@ -152,16 +153,16 @@ class LegendPopups {
                       borderRadius: borderRadius ??
                           BorderRadius.vertical(
                             bottom: Radius.circular(
-                              theme.sizing.borderInset[0],
+                              theme.sizing.radius1,
                             ),
                           ),
                     ),
-                    color: theme.colors.background[1],
+                    color: theme.colors.background1,
                     margin: const EdgeInsets.all(0),
                     child: Padding(
                       padding: EdgeInsets.only(
-                        top: theme.sizing.borderInset[0],
-                        bottom: theme.sizing.borderInset[0],
+                        top: theme.sizing.radius1,
+                        bottom: theme.sizing.radius1,
                       ),
                       child: ListView(
                         shrinkWrap: true,

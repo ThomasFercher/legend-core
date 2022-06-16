@@ -1,322 +1,155 @@
-import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/drawers/menu_drawer.dart';
-import 'package:legend_design_core/layout/fixed/slivers/persistent_header.dart';
-import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_action_button.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_content.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_footer.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_header.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_sider.dart';
-import 'package:legend_design_core/layout/scaffold/scaffold_title.dart';
-import 'package:legend_design_core/layout/sectionNavigation/section_navigation.dart';
-import 'package:legend_design_core/layout/fixed/menu/tiles/menu_option.dart';
-import 'package:legend_design_core/router/route_info_provider.dart';
-import 'package:legend_design_core/router/routes/section/section_info.dart';
-import 'package:legend_design_core/router/routes/section/section_provider.dart';
-import 'package:legend_design_core/styles/layouts/layout_type.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
-import 'package:legend_design_core/typography/legend_text.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
+export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
-import '../fixed/bottomBar.dart/fixed_bottom_bar.dart';
-import '../fixed/footer/fixed_footer.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
+import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_utils/extensions/extensions.dart';
+import 'package:provider/provider.dart';
+import '../config/appbar_layout.dart';
+import 'contents/scaffold_sider.dart';
 
 class LegendScaffold extends StatelessWidget {
-  final LayoutType layoutType;
+  // Core
   final String pageName;
-  final void Function(BuildContext context)? onActionButtonPressed;
-  final WidgetBuilder? siderBuilder;
-  final Widget Function(BuildContext context, Size size)? contentBuilder;
-  final FixedFooter? customFooter;
-  final Widget? appBarBottom;
-  final Size? appBarBottomSize;
-  final double? maxContentWidth;
-  final List<Widget> children;
-  final double verticalChildrenSpacing;
-  final List<SingleChildWidget>? providers;
-  final bool disableContentDecoration;
-  final bool showContentHeader;
+  final Widget child;
 
-  final bool showSiderMenu;
-  final bool showSiderSubMenu;
-  final bool showAppBarMenu;
-  final bool showSectionMenu;
-  final bool showTopSubMenu;
-  final bool showSiderChildMenu;
-  final bool shareParentSiderMenu;
-  final bool appBarForceElevate;
+  final DynamicRouteLayout layout;
 
-  final List<Widget>? appBarActions;
+  // Configs
+  final ScaffoldBuilders builders;
+  final ScaffoldWhether whether;
+  final ScaffoldSizing sizing;
 
-  final bool enableDefaultSettings;
-  final bool singlePage;
-  final bool isUnderlyingRoute;
-  List<SectionInfo>? sections;
-  MenuOption? currentRoute;
+  //
+  final RouteInfo route;
+  final RouteDisplay? display;
 
   LegendScaffold({
-    Key? key,
     required this.pageName,
-    required this.layoutType,
-    this.showContentHeader = false,
-    this.onActionButtonPressed,
-    this.siderBuilder,
-    this.showSiderMenu = false,
-    this.showAppBarMenu = false,
-    this.showSiderSubMenu = false,
-    this.showSiderChildMenu = false,
-    this.contentBuilder,
-    this.children = const [],
-    this.singlePage = false,
-    this.customFooter,
-    this.verticalChildrenSpacing = 8,
-    this.isUnderlyingRoute = false,
-    this.showSectionMenu = false,
-    this.showTopSubMenu = true,
-    this.maxContentWidth,
-    this.appBarBottom,
-    this.disableContentDecoration = false,
-    this.enableDefaultSettings = false,
-    this.shareParentSiderMenu = false,
-    this.providers,
-    this.appBarForceElevate = false,
-    this.appBarBottomSize,
-    this.appBarActions,
-  }) : super(key: key);
+    required this.child,
+    required this.layout,
+    this.whether = const ScaffoldWhether(),
+    this.builders = const ScaffoldBuilders(),
+    this.sizing = const ScaffoldSizing(),
+    required this.route,
+    required this.display,
+  });
+
+  /// Copies the config onto to the base
+  /// If one attribute is not null in config it will override the same attribute from base
+  factory LegendScaffold.withConfig(
+      LegendScaffold base, ScaffoldConfig config) {
+    return LegendScaffold(
+      display: base.display,
+      route: base.route,
+      layout: base.layout,
+      pageName: base.pageName,
+      child: base.child,
+      builders: config.builders != null
+          ? ScaffoldBuilders.copyWith(base.builders, config.builders!)
+          : base.builders,
+      sizing: config.sizing != null
+          ? ScaffoldSizing.copyWith(base.sizing, config.sizing!)
+          : base.sizing,
+      whether: config.whether != null
+          ? ScaffoldWhether.copyWith(base.whether, config.whether!)
+          : base.whether,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    sections = SectionProvider.of(context)?.sections;
     LegendTheme theme = context.watch<LegendTheme>();
+    ScaffoldConfig? config = theme.scaffoldConfig;
 
     return ScaffoldInfo(
-      scaffold: this,
+      display: display,
+      routeInfo: route,
+      scaffold: config != null ? LegendScaffold.withConfig(this, config) : this,
       child: SizeInfo(
         sizing: theme.sizingTheme,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        useMobilDesign: true,
-        child: SectionNavigation(
-          sections: sections,
-          onNavigate: (section) {
-            // Jump to Section
+        child: Builder(builder: (context) {
+          // Bottom Bar Layout
+          BottomBarLayout bottomBarLayout = ScaffoldInfo.of(context)
+              .scaffold
+              .layout
+              .getLayout(theme.sizingTheme.key)
+              .bottomBarLayout;
+          bool showBottomBar = bottomBarLayout == BottomBarLayout.Show;
 
-            if (sections != null) {
-              SectionInfo s = sections!.singleWhere(
-                (element) => element.name == section.name,
-                orElse: () {
-                  return sections!.first;
-                },
-              );
-              if (s.key != null && s.key?.currentContext != null) {
-                Scrollable.ensureVisible(
-                  s.key!.currentContext!,
-                  curve: Curves.easeInOut,
-                  duration: Duration(
-                    milliseconds: 400,
-                  ),
-                );
-              }
-            }
-          },
-          child: providers != null
-              ? MultiProvider(
-                  providers: providers!,
-                  builder: (context, child) {
-                    return layout(context);
-                  },
-                )
-              : Builder(
-                  builder: (context) {
-                    return layout(context);
-                  },
-                ),
-        ),
-      ),
-    );
-  }
+          // Update Navigation Bar Color if needed
+          Color _systemNavigationBarColor = showBottomBar
+              ? theme.colors.bottomBar.backgroundColor
+              : theme.colors.background1;
 
-  double calculateMinContentHeight(double? footerHeight, BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    double height = MediaQuery.of(context).size.height;
-
-    if (theme.bottomBarSizing == null) {
-      height -= footerHeight ?? 0;
-    } else {
-      height -= theme.bottomBarSizing!.height;
-    }
-    switch (layoutType) {
-      case LayoutType.Content:
-        break;
-      case LayoutType.FixedHeader:
-        height -= theme.sizing.appBarSizing.appBarHeight;
-        break;
-      case LayoutType.FixedHeaderSider:
-        height -= theme.sizing.appBarSizing.appBarHeight;
-
-        break;
-      case LayoutType.FixedSider:
-        break;
-    }
-
-    if (appBarBottom != null) {
-      height -= appBarBottomSize!.height;
-    }
-    if ((currentRoute?.isUnderlying ?? false) &&
-        layoutType == LayoutType.FixedSider) {
-      height -= 48;
-    }
-
-    return height;
-  }
-
-  List<Widget> getChildren(BuildContext context, bool showFooter) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    List<Widget> widgets = [];
-    List<Widget> sWidgets = [];
-    // Get Children
-    if (sections != null) {
-      sWidgets = SectionNavigation.findSections(context, children, sections!);
-    } else {
-      sWidgets = children;
-    }
-
-    widgets = List.of(
-      sWidgets.map(
-        (widget) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: theme.sizing.padding[1],
-              // vertical: verticalChildrenSpacing,
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: _systemNavigationBarColor,
             ),
-            child: widget,
           );
-        },
-      ),
-    );
 
-    if (showFooter) widgets.add(ScaffoldFooter());
-
-    return widgets;
-  }
-
-  Widget layout(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-    SizeInfo sizeProvider = SizeInfo.of(context);
-    bool showBuilder = children.isEmpty && contentBuilder != null;
-    bool showAppBarBottom = appBarBottom != null && appBarBottomSize != null;
-    bool showTitle = (layoutType == LayoutType.FixedHeaderSider) &&
-        (sizeProvider.isMobile == false);
-
-    currentRoute = RouteInfoProvider.getCurrentMenuOption(context);
-
-    // Footer
-    double? footerheight;
-    if (!sizeProvider.isMobile && layoutType != LayoutType.Content) {
-      footerheight =
-          LayoutProvider.of(context)?.globalFooter?.sizing?.height ?? 0;
-    }
-    double maxHeight = calculateMinContentHeight(footerheight, context);
-
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        endDrawer: MenuDrawer(),
-        bottomNavigationBar: theme.bottomBarSizing != null
-            ? FixedBottomBar(
-                colors: theme.bottomBarPalette,
-                sizing: theme.bottomBarSizing!,
-              )
-            : null,
-        endDrawerEnableOpenDragGesture: false,
-        floatingActionButton:
-            onActionButtonPressed != null ? ScaffoldActionButton() : null,
-        body: ColoredBox(
-          color: theme.colors.background[0],
-          child: Stack(
-            children: [
-              Row(
+          return Scaffold(
+            bottomNavigationBar: LegendBottomBar(
+              colors: theme.bottomBarPalette,
+              sizing: theme.bottomBarSizing!,
+              options: LegendRouter.of(context).routeDisplays,
+            ).boolInit(showBottomBar),
+            endDrawerEnableOpenDragGesture: false,
+            appBar: _appBar(context, theme),
+            body: ColoredBox(
+              color: theme.colors.background1,
+              child: Row(
                 children: [
                   ScaffoldSider(),
                   Expanded(
-                    child: CustomScrollView(
-                      controller: ScrollController(),
-                      slivers: [
-                        ScaffoldHeader(),
-                        if (showAppBarBottom)
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: PersistentHeader(
-                              child: appBarBottom!,
-                              maxHeight: appBarBottomSize!.height,
-                              minHeight: appBarBottomSize!.width,
-                              backgroundColor: theme.colors.background[0],
-                            ),
-                          ),
-                        if (showBuilder)
-                          SliverToBoxAdapter(
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: disableContentDecoration
-                                      ? null
-                                      : EdgeInsets.all(
-                                          theme.sizing.padding[0],
-                                        ),
-                                  //   color: Colors.red,
-                                  constraints: BoxConstraints(
-                                    minHeight: maxHeight,
-                                    maxHeight: singlePage
-                                        ? maxHeight
-                                        : double.infinity,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      if (showContentHeader)
-                                        SizedBox(
-                                          height: 48,
-                                          child: LegendText(
-                                            padding: EdgeInsets.only(
-                                              bottom: 8,
-                                            ),
-                                            text: currentRoute?.title ?? '',
-                                            textStyle:
-                                                theme.typography.h5.copyWith(
-                                              color: theme.colors.textOnLight,
-                                            ),
-                                          ),
-                                        ),
-                                      ScaffoldContent(
-                                        maxHeight: maxHeight,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                if (footerheight != null) ScaffoldFooter(),
-                              ],
-                            ),
-                          )
-                        else
-                          SliverList(
-                            delegate: SliverChildListDelegate(
-                              getChildren(context, footerheight != null),
-                            ),
-                          ),
-                      ],
+                    child: Container(
+                      child: child,
                     ),
-                  ),
+                  )
                 ],
               ),
-              if (showTitle) ScaffoldTitle(),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ),
     );
+  }
+
+  PreferredSize? _appBar(BuildContext context, LegendTheme theme) {
+    AppBarLayout l = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    double bottomHeight = 0;
+    if (route is TabviewPageInfo) {
+      TabviewPageInfo routeInfo = route as TabviewPageInfo;
+      bottomHeight = routeInfo.style.height;
+    } else if (route is TabviewChildPageInfo) {
+      RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
+      TabviewPageInfo parentRouteINfo = parent as TabviewPageInfo;
+      bottomHeight = parentRouteINfo.style.height;
+    }
+    if (l.layout == AppBarLayoutConfig.fixedAbove) {
+      return PreferredSize(
+        child: ScaffoldHeader(),
+        preferredSize: Size(
+          MediaQuery.of(context).size.width,
+          theme.appBarSizing.appBarHeight + bottomHeight,
+        ),
+      );
+    } else {
+      return null;
+    }
   }
 }
