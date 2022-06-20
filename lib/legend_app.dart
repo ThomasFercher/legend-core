@@ -49,20 +49,26 @@ class LegendApp extends StatelessWidget {
   // Interface containing Methos related to Routing
   final RouteInterface<dynamic> routesDelegate;
 
+  // Interface containing Methods related to Colors and Sizing
   final ThemeInterface themeDelegate;
 
   final Widget? logo;
   final String title;
 
-  late final LegendTheme theme;
-
+  /// Until this [future] completes, the app will show a Splascreen.
   final Future<Object?>? future;
+
+  /// If [future] is not null this method will build the Splasscreen while the [future] is not finished.
   final Widget Function(BuildContext context, LegendTheme theme)?
       buildSplashscreen;
 
+  /// Providers that will be added to a Multiprovider Widget that will be added to the root of the App.
   final List<SingleChildWidget>? providers;
 
+  late final LegendTheme theme;
   late final List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
+  late final Map<dynamic, DynamicRouteLayout> routeLayouts =
+      routesDelegate.buildLayouts(theme);
 
   LegendApp({
     Key? key,
@@ -82,6 +88,9 @@ class LegendApp extends StatelessWidget {
     );
   }
 
+  ///
+  /// Do things before any page is built.
+  ///
   Future<bool> _init(BuildContext context) async {
     // Await User defined Futrure
     if (future != null) {
@@ -94,18 +103,29 @@ class LegendApp extends StatelessWidget {
     return true;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // Router Delegate
-    final routerDelegate = LegendRouterDelegate(
-      frame: LegendNavigatorFrame(),
-      displays: routeDisplays,
-    );
+  Route<dynamic>? _modalGeneration(
+      RouteSettings s, Iterable<RouteInfo> routes, BuildContext context) {
+    RouteInfo info = LegendRouter.getRouteWidget(s, routes);
+    if (info is ModalRouteInfo) {
+      return GlobalModal.modalRouteBuilder(
+        s,
+        context,
+        (context) => SizeInfo(
+          child: info.page,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          sizing: theme.sizingTheme,
+        ),
+      );
+    }
+    return null;
+  }
 
-    Map<dynamic, DynamicRouteLayout> routeLayouts =
-        routesDelegate.buildLayouts(theme);
-
-    // TODO: CleanUp
+  ///
+  ///  Initialize the Providers needed for the app to work.
+  ///  Also if the [providers] is not null, they will be added to the MultiProvider.
+  ///
+  List<SingleChildWidget> _initProviders() {
     List<SingleChildWidget> _providers = [
       ChangeNotifierProvider<LegendTheme>(
         create: (_) => theme,
@@ -118,15 +138,25 @@ class LegendApp extends StatelessWidget {
       ),
     ];
     if (providers != null) _providers.addAll(providers!);
+    return _providers;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Router Delegate
+    final LegendRouterDelegate routerDelegate = LegendRouterDelegate(
+      frame: LegendNavigatorFrame(),
+      displays: routeDisplays,
+    );
 
     return Localizations(
       delegates: localizations,
       locale: Locale('en', 'US'),
       child: MultiProvider(
-        providers: _providers,
+        providers: _initProviders(),
         child: RestartWidget(
           child: Builder(builder: (context) {
-            List<RouteInfo> routes =
+            final List<RouteInfo> routes =
                 routesDelegate.buildRoutes(routeLayouts, theme).ex();
 
             return LegendRouter(
@@ -137,22 +167,7 @@ class LegendApp extends StatelessWidget {
                 color: theme.colors.primary,
                 debugShowCheckedModeBanner: false,
                 pageRouteBuilder: GlobalModal.pageRouteBuilder,
-                onGenerateRoute: (settings) {
-                  RouteInfo info =
-                      LegendRouter.getRouteWidget(settings, routes);
-                  if (info is ModalRouteInfo) {
-                    return GlobalModal.modalRouteBuilder(
-                      settings,
-                      context,
-                      (context) => SizeInfo(
-                        child: info.page,
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        sizing: theme.sizingTheme,
-                      ),
-                    );
-                  }
-                },
+                onGenerateRoute: (r) => _modalGeneration(r, routes, context),
                 home: FutureBuilder(
                   future: _init(context),
                   builder: (context, snapshot) {
