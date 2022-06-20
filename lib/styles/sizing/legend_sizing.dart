@@ -93,11 +93,11 @@ abstract class LegendSizingInfo {
   final double? spacing3;
   final double? spacing4;
 
-  final Map<String, double>? custom;
+  final Map<String, double> custom;
 
   const LegendSizingInfo({
     required this.key,
-    this.custom,
+    this.custom = const {},
     this.appBarSizing,
     this.bottomBarSizing,
     this.siderSizing,
@@ -191,7 +191,7 @@ class LegendSizing implements LegendSizingInfo {
   @override
   final double spacing4;
   @override
-  final Map<String, double>? custom;
+  final Map<String, double> custom;
 
   const LegendSizing({
     required this.key,
@@ -217,8 +217,20 @@ class LegendSizing implements LegendSizingInfo {
     required this.spacing2,
     required this.spacing3,
     required this.spacing4,
-    this.custom,
+    this.custom = const {},
   });
+
+  ///
+  /// Returns a double from the [Map<String, double>]. If the key is not found 0 will be returned.
+  /// Or if the [else] double is defined it will be returned.
+  ///
+  double get(String key, {double? notFound}) {
+    if (custom.containsKey(key)) {
+      return custom[key]!;
+    } else {
+      return notFound ?? 0;
+    }
+  }
 
   factory LegendSizing.override(
     LegendSizing def,
