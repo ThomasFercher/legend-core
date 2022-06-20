@@ -93,11 +93,11 @@ abstract class LegendSizingInfo {
   final double? spacing3;
   final double? spacing4;
 
-  final Map<String, double> custom;
+  final Map<String, double>? custom;
 
   const LegendSizingInfo({
     required this.key,
-    this.custom = const {},
+    this.custom,
     this.appBarSizing,
     this.bottomBarSizing,
     this.siderSizing,
