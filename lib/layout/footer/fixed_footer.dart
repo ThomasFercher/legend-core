@@ -3,14 +3,13 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
 import 'package:provider/provider.dart';
 
-class FixedFooter extends StatefulWidget {
-  late FixedFooterSizing? sizing;
-  late FooterColors? colors;
-
+class FixedFooter extends StatelessWidget {
+  final FixedFooterSizing? sizing;
+  final FooterColors? colors;
   final Widget Function(
     BuildContext context,
-    FixedFooterSizing? sizing,
-    FooterColors? colors,
+    FooterColors colors,
+    FixedFooterSizing sizing,
   ) builder;
 
   FixedFooter({
@@ -18,54 +17,25 @@ class FixedFooter extends StatefulWidget {
     required this.builder,
     this.sizing,
     this.colors,
-  }) : super(key: key);
-
-  @override
-  State<FixedFooter> createState() => _FixedFooterState();
-}
-
-class _FixedFooterState extends State<FixedFooter> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.colors == null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        LegendTheme theme = Provider.of<LegendTheme>(context, listen: false);
-        widget.colors = theme.colors.footer;
-      });
-    }
-  }
-
+  });
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
+    FixedFooterSizing size = sizing ?? theme.sizing.footerSizing;
+    FooterColors color = colors ?? theme.colors.footer;
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: widget.sizing?.height,
-      decoration: BoxDecoration(
-        color: theme.colors.footer.background,
-        /*     boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            spreadRadius: 3,
-            blurRadius: 6,
-            offset: Offset(6, 0),
-          )
-        ],*/
-      ),
+      height: size.height,
+      color: color.background,
       alignment: Alignment.center,
       child: Container(
         constraints: BoxConstraints(
-          maxWidth: widget.sizing?.maxWidth ?? 800,
+          maxWidth: size.maxWidth,
         ),
-        padding: widget.sizing?.padding,
+        padding: size.padding,
         child: Builder(
-          builder: (context) => widget.builder(
-            context,
-            widget.sizing,
-            widget.colors,
-          ),
+          builder: (context) => builder(context, color, size),
         ),
       ),
     );
