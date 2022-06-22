@@ -4,7 +4,6 @@ import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart'
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
-import 'package:legend_design_core/layout/scaffold/config/sizing.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/routes/route_display.dart';
@@ -62,7 +61,6 @@ class ScaffoldRouteConfig {
   // Configs
   final ScaffoldBuilders builders;
   final ScaffoldWhether whether;
-  final ScaffoldSizing sizing;
   final DynamicRouteLayout layout;
 
   const ScaffoldRouteConfig({
@@ -71,7 +69,6 @@ class ScaffoldRouteConfig {
     this.children = const [],
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
-    this.sizing = const ScaffoldSizing(),
   });
 }
 

@@ -22,7 +22,6 @@ class ScaffoldFrame extends StatelessWidget {
     return LegendScaffold(
       layout: config.layout,
       builders: config.builders,
-      sizing: config.sizing,
       whether: config.whether,
       child: child,
       pageName: "test", // ?

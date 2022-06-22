@@ -2,7 +2,6 @@ export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart';
@@ -29,7 +28,6 @@ class LegendScaffold extends StatelessWidget {
   // Configs
   final ScaffoldBuilders builders;
   final ScaffoldWhether whether;
-  final ScaffoldSizing sizing;
 
   //
   final RouteInfo route;
@@ -41,7 +39,6 @@ class LegendScaffold extends StatelessWidget {
     required this.layout,
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
-    this.sizing = const ScaffoldSizing(),
     required this.route,
     required this.display,
   });
@@ -59,9 +56,6 @@ class LegendScaffold extends StatelessWidget {
       builders: config.builders != null
           ? ScaffoldBuilders.copyWith(base.builders, config.builders!)
           : base.builders,
-      sizing: config.sizing != null
-          ? ScaffoldSizing.copyWith(base.sizing, config.sizing!)
-          : base.sizing,
       whether: config.whether != null
           ? ScaffoldWhether.copyWith(base.whether, config.whether!)
           : base.whether,

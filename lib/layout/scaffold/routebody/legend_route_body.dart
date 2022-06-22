@@ -3,8 +3,6 @@ import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import '../../../styles/legend_theme.dart';

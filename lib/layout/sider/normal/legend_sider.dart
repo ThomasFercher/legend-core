@@ -66,45 +66,11 @@ class Sider extends StatelessWidget {
       color: theme.colors.sider.background,
       child: Column(
         children: [
-          if (showLogo)
-            Container(
-              color: theme.colors.sider.background,
-              padding: EdgeInsets.only(
-                left: 24,
-                right: 24,
-                top: 24,
-                bottom: 14,
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (LayoutProvider.of(context).logo != null)
-                    Container(
-                      height: 36,
-                      width: 36,
-                      child: Center(
-                        child: LayoutProvider.of(context).logo,
-                      ),
-                    ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  if (LayoutProvider.of(context).title != null)
-                    Expanded(
-                      child: LegendText(
-                        dynamicSizing: true,
-                        text: LayoutProvider.of(context).title!,
-                        textStyle: theme.typography.h6.copyWith(
-                          color: theme.colors.sider.foreground,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
+          if (showLogo && LayoutProvider.of(context).logo != null)
+            LayoutProvider.of(context).logo!,
           Container(
             height: 10,
-            color: theme.colors.onPrimary,
+            color: colors.foreground,
             margin: EdgeInsets.only(
               bottom: 24,
             ),

@@ -41,10 +41,6 @@ class ScaffoldInfo extends InheritedWidget {
     return ScaffoldInfo.of(context).scaffold.whether;
   }
 
-  static ScaffoldSizing getRouteLayout(BuildContext context) {
-    return ScaffoldInfo.of(context).scaffold.sizing;
-  }
-
   bool showFooter(BuildContext context) {
     FooterLayout layout = scaffold.layout
         .getLayout(context.watch<LegendTheme>().sizingTheme.key)
@@ -56,7 +52,6 @@ class ScaffoldInfo extends InheritedWidget {
   ScaffoldConfig get getConfig => ScaffoldConfig(
         builders: scaffold.builders,
         whether: scaffold.whether,
-        sizing: scaffold.sizing,
         layout: scaffold.layout,
       );
 
