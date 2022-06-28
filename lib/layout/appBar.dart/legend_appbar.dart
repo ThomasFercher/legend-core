@@ -48,6 +48,11 @@ class LegendAppBar extends StatelessWidget {
         return FixedMenu(
           height: 48,
           // showSubMenu: config.showSubMenu,
+          itemPadding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          borderRadius: theme.sizing.radius1.asRadius(),
           showMenuSubItems: false,
           background: theme.colors.appBar.background,
           foreground: theme.colors.appBar.foreground,
@@ -55,14 +60,17 @@ class LegendAppBar extends StatelessWidget {
           options: LegendRouter.of(context).routeDisplays,
           activeBackground: theme.appBar.background.lighten(),
           iconSize: theme.appBarSizing.iconSize,
-
-          spacing: 0,
-          collapse: true,
+          spacing: theme.appBarSizing.spacing ?? 12,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
           height: 48,
           // showSubMenu: config.showSubMenu,
+          itemPadding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 8,
+          ),
+          borderRadius: theme.sizing.radius1.asRadius(),
           showMenuSubItems: false,
           background: theme.colors.appBar.background,
           foreground: theme.colors.appBar.foreground,
@@ -70,7 +78,7 @@ class LegendAppBar extends StatelessWidget {
           options: LegendRouter.of(context).routeDisplays,
           activeBackground: theme.appBar.background.lighten(),
           iconSize: theme.appBarSizing.iconSize,
-          spacing: theme.appBarSizing.spacing ?? 6,
+          spacing: theme.appBarSizing.spacing ?? 12,
         );
     }
   }

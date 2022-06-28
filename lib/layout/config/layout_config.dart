@@ -60,6 +60,33 @@ class DynamicRouteLayout {
     return DynamicRouteLayout(l);
   }
 
+  factory DynamicRouteLayout.expandAfter(
+    List<double> splits,
+    List<RouteLayout> layouts,
+    int j,
+  ) {
+    Map<double, RouteLayout> l = {};
+    RouteLayout lay = layouts.first;
+    double split = splits[0];
+    l[split] = lay;
+    for (var i = 1; i < splits.length; i++) {
+      split = splits[i];
+
+      if (i <= j) {
+        l[split] = lay;
+      }
+
+      if (layouts.length > i) {
+        lay = layouts[i];
+      }
+      if (i > j) {
+        l[split] = lay;
+      }
+    }
+
+    return DynamicRouteLayout(l);
+  }
+
   DynamicRouteLayout(this.layouts);
 }
 

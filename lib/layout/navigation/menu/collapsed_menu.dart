@@ -29,7 +29,7 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
           LegendRouter.of(context)
-              .pushGlobalModal(settings: RouteSettings(name: "/menudrawer"));
+              .pushGlobalModal(settings: RouteSettings(name: '/menudrawer'));
         },
         icon: Icons.menu,
         disableShadow: true,

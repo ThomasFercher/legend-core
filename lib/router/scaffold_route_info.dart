@@ -21,7 +21,7 @@ abstract class LegendRouteInfo extends RouteInfo {
 }
 
 class PageInfo extends LegendRouteInfo {
-  PageInfo({
+  const PageInfo({
     required super.config,
     required super.name,
     required super.page,
@@ -33,7 +33,7 @@ class PageInfo extends LegendRouteInfo {
 class TabviewPageInfo extends LegendRouteInfo {
   final TabBarStyle style;
 
-  TabviewPageInfo({
+  const TabviewPageInfo({
     required this.style,
     required super.config,
     required super.name,
@@ -44,7 +44,7 @@ class TabviewPageInfo extends LegendRouteInfo {
 }
 
 class TabviewChildPageInfo extends LegendRouteInfo {
-  TabviewChildPageInfo({
+  const TabviewChildPageInfo({
     required super.name,
     required super.page,
     super.children,
@@ -73,7 +73,7 @@ class ScaffoldRouteConfig {
 }
 
 class TabRouteDisplay extends RouteDisplay {
-  TabRouteDisplay({
+  const TabRouteDisplay({
     required super.title,
     required super.route,
     required super.children,

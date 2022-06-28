@@ -9,8 +9,8 @@ class LegendDetector extends StatefulWidget {
   final void Function()? onTap;
 
   final Widget child;
-  final EdgeInsets? padding;
-  final BorderRadius? borderRadius;
+  final EdgeInsets padding;
+  final BorderRadiusGeometry? borderRadius;
 
   final Color background;
   late final Color activeBackground;
@@ -22,7 +22,7 @@ class LegendDetector extends StatefulWidget {
     this.onHover,
     this.onTap,
     required this.child,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     this.borderRadius,
     this.background = Colors.transparent,
     Color? activeBackground,
@@ -80,7 +80,7 @@ class _LegendDetectorState extends State<LegendDetector> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           child: widget.child,
-          padding: widget.padding ?? EdgeInsets.all(8),
+          padding: widget.padding,
           decoration: BoxDecoration(
             borderRadius: widget.borderRadius,
             color: _background,

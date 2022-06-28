@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';

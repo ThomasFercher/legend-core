@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_utils/functions/functions.dart';
 
 class LegendPopups {

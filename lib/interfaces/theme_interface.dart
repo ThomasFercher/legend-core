@@ -1,3 +1,4 @@
+import 'package:legend_design_core/interfaces/subThemes.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/typography.dart';
 
@@ -10,4 +11,6 @@ abstract class ThemeInterface {
   LegendTypography buildTypography();
   LegendSizingTheme buildSizingTheme();
   LegendColorTheme buildColorTheme();
+
+
 }

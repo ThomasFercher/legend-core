@@ -14,7 +14,7 @@ import 'colors/subcolors/appBar_colors.dart';
 import 'colors/subcolors/bottom_bar_colors.dart';
 import 'colors/subcolors/footer_colors.dart';
 import 'colors/subcolors/sider_colors.dart';
-import 'sizing/legend_sizing.dart';
+import 'sizing/core/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
 import 'sizing/sub_sizing/menu_drawer_sizing.dart';
 import 'sizing/sub_sizing/sider_sizing.dart';
@@ -25,7 +25,7 @@ export 'colors/subcolors/appBar_colors.dart';
 export 'colors/subcolors/bottom_bar_colors.dart';
 export 'colors/subcolors/footer_colors.dart';
 export 'colors/subcolors/sider_colors.dart';
-export 'sizing/legend_sizing.dart';
+export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
 export 'sizing/sub_sizing/app_bar_sizing.dart';
 

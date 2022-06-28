@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
@@ -35,23 +36,22 @@ class _MenuDrawerState extends State<MenuDrawer> {
     super.initState();
   }
 
-  List<DrawerMenuTile> getSearchItems(
-      List<int> filtered, BuildContext context) {
+  List<Widget> getSearchItems(List<int> filtered, BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     List<RouteDisplay> options = LegendRouter.of(context).getRouteDisplays;
-    List<DrawerMenuTile> items = [];
+    List<Widget> items = [];
     for (var i = 0; i < filtered.length; i++) {
-      final DrawerMenuTile widget;
+      final Widget widget;
       int index = filtered[i];
       final RouteDisplay menuOption = options[index];
 
-      widget = DrawerMenuTile(
+      widget = ColumnMenuTile(
         foreground: theme.colors.foreground2,
 
         icon: menuOption.icon,
-        selForeground: theme.colors.onSecondary,
+
         background: theme.colors.background2,
-        selBackground: theme.colors.background3,
+
         iconSize: 22,
         onClicked: () {
           Navigator.pop(context);
@@ -65,11 +65,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
           });
         },
 
-        path: menuOption.route,
         title: menuOption.title,
         //      verticalPadding: 4,
-        isHovered: hovered == i,
-        isSelected: false,
+
         height: 40,
       );
       items.add(widget);
@@ -256,12 +254,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Flexible(
               child: SingleChildScrollView(
                 child: FixedSiderMenu(
+                  width: theme.menuDrawerSizing.width - padding.horizontal,
                   hasToPop: true,
                   options: LegendRouter.of(context).routeDisplays,
                   showMenuSubItems: true,
-                  collapsed: false,
                   style: style,
                   subMenuStyle: subMenuStyle,
+                  textStyle: theme.typography.h2,
+                  current: LegendRouter.of(context).getCurrent()?.route,
                 ),
               ),
             ),

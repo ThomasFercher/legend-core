@@ -41,6 +41,7 @@ class Sider extends StatelessWidget {
       activeForeground: colors.selection,
       spacing: sizing.spacing,
       padding: sizing.itemPadding,
+      borderRadius: theme.sizing.radius1.asRadius(),
       itemHeight: sizing.itemHeight,
       subMenuHeaderHeight: sizing.subMenuHeaderHeight,
       iconSize: sizing.iconSize,
@@ -68,12 +69,8 @@ class Sider extends StatelessWidget {
         children: [
           if (showLogo && LayoutProvider.of(context).logo != null)
             LayoutProvider.of(context).logo!,
-          Container(
-            height: 10,
-            color: colors.foreground,
-            margin: EdgeInsets.only(
-              bottom: 24,
-            ),
+          SizedBox(
+            height: sizing.itemHeight / 2,
           ),
           Expanded(
             child: Padding(
@@ -85,11 +82,13 @@ class Sider extends StatelessWidget {
                   if (fixedSider.showMenu)
                     Expanded(
                       child: FixedSiderMenu(
+                        current: LegendRouter.of(context).getCurrent()?.route,
                         style: style,
                         options: LegendRouter.of(context).routeDisplays,
                         showMenuSubItems: true,
-                        collapsed: false,
                         subMenuStyle: subMenuStyle,
+                        width: maxWidth - sizing.horizontalPadding,
+                        textStyle: theme.typography.h2,
                       ),
                     ),
                   if (fixedSider.showParentMenu && !fixedSider.showMenu)
@@ -103,7 +102,9 @@ class Sider extends StatelessWidget {
                                     ?.toList() ??
                                 [],
                         showMenuSubItems: true,
-                        collapsed: false,
+                        width: maxWidth - sizing.horizontalPadding,
+                        textStyle: theme.typography.h2,
+                        current: LegendRouter.of(context).getCurrent()?.route,
                       ),
                     ),
                   if (fixedSider.showChildMenu && !fixedSider.showMenu)
@@ -116,7 +117,9 @@ class Sider extends StatelessWidget {
                                 ?.toList() ??
                             [],
                         showMenuSubItems: true,
-                        collapsed: false,
+                        width: maxWidth - sizing.horizontalPadding,
+                        textStyle: theme.typography.h2,
+                        current: LegendRouter.of(context).getCurrent()?.route,
                       ),
                     ),
                 ],

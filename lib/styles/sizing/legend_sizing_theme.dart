@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:legend_design_core/styles/sizing/legend_sizing.dart';
+import 'package:legend_design_core/styles/sizing/core/legend_sizing.dart';
+
+import 'core/override.dart';
 
 class LegendSizingTheme {
   late final List<LegendSizing>? sizings;
@@ -10,7 +12,7 @@ class LegendSizingTheme {
   final List<LegendSizingOverride>? overrides;
 
   double _width = 0;
-  double _key = 0;
+  double skey = 0;
 
   LegendSizingTheme({
     required this.defaultSizing,
@@ -44,8 +46,10 @@ class LegendSizingTheme {
     } else if (PlatformInfo.isMobile) {
       return sizings!.first;
     } else {
-      return sizings!.firstWhere((element) => element.key == _key,
-          orElse: () => defaultSizing);
+      return sizings!.firstWhere(
+        (element) => element.key == skey,
+        orElse: () => defaultSizing,
+      );
     }
   }
 
@@ -73,19 +77,19 @@ class LegendSizingTheme {
 
   set setWidth(double width) {
     _width = width;
-    _key = getNearestKey(_width);
+    skey = getNearestKey(_width);
   }
 
-  double get key => _key;
+  double get key => skey;
 
   /// Returns true if the current [LegendSizing] key is the same as [width]
-  bool sizeIs(double width) => _key == getNearestKey(width);
+  bool sizeIs(double width) => skey == getNearestKey(width);
 
   /// Returns true if the current [LegendSizing] key is smaller than the
   /// specified [maxWidth]
-  bool sizeIsMax(double maxWidth) => _key < getNearestKey(maxWidth);
+  bool sizeIsMax(double maxWidth) => skey < getNearestKey(maxWidth);
 
   /// Returns true if the current [LegendSizing] key is bigger than the
   /// specified [minWidth]
-  bool sizeIsMin(double minWidth) => _key > getNearestKey(minWidth);
+  bool sizeIsMin(double minWidth) => skey > getNearestKey(minWidth);
 }

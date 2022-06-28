@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
 /// Represents the parent of a submenu
@@ -17,68 +19,62 @@ class HeaderTile extends StatelessWidget {
     required this.isSelected,
     required this.style,
     required this.isExpanded,
+    required this.collapsed,
     this.onClicked,
     this.onHover,
+    this.current,
   });
 
   final SiderSubMenuStyle style;
-
   final RouteDisplay option;
-
   final bool isSelected;
   final bool isHovered;
   final bool isExpanded;
+  final bool collapsed;
   final void Function() onExpanded;
   final void Function()? onClicked;
   final void Function(bool val)? onHover;
+  final String? current;
 
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    return DrawerMenuTile(
-      foreground: style.foreground,
-      selForeground: style.activeForeground,
-      background: style.background,
-      selBackground: style.activeBackground,
-      horizontalPadding: style.itemPadding.horizontal,
+    bool isCurrent = current == option.route;
+    Color foreground = isSelected || isHovered || isCurrent
+        ? style.activeForeground
+        : style.foreground;
+    Color background = isSelected || isHovered || isCurrent
+        ? style.activeBackground
+        : style.background;
+
+    return ColumnMenuTile(
+      foreground: foreground,
+      background: background,
       spacing: style.spacing,
-      verticalPadding: style.itemPadding.vertical,
-      isSelected: isSelected,
-      isHovered: isHovered,
       icon: option.icon,
-      title: option.title,
-      path: option.route,
-      height: style.headerHeight,
-      actions: [
-        LegendAnimatedIcon(
-          icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
-          theme: LegendAnimtedIconTheme(
-            disabled: theme.colors.menuDrawer.foreground,
-            enabled: theme.colors.menuDrawer.foreground_menu_selction,
-          ),
-          iconSize: theme.siderSizing.iconSize / 3 * 2,
-          onPressed: () {
-            onExpanded();
-          },
-        ),
-      ],
-      borderRadius: style.borderRadius ??
-          BorderRadius.vertical(
-            top: Radius.circular(
-              theme.sizing.radius1,
+      title: collapsed ? null : option.title,
+      height: collapsed ? null : style.headerHeight,
+      padding: collapsed
+          ? EdgeInsets.symmetric(
+              vertical: style.itemPadding.vertical / 2,
+            )
+          : EdgeInsets.symmetric(
+              horizontal: style.itemPadding.horizontal / 2,
             ),
-            bottom: isExpanded
-                ? Radius.zero
-                : Radius.circular(
-                    theme.sizing.radius1,
-                  ),
-          ),
-      onHover: (value) {
-        if (onHover != null) onHover!(value);
-      },
-      onClicked: () {
-        if (onClicked != null) onClicked!();
-      },
+      trailling: LegendAnimatedIcon(
+        icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
+        theme: LegendAnimtedIconTheme(
+          disabled: theme.colors.menuDrawer.foreground.lighten(),
+          enabled: theme.colors.menuDrawer.foreground_menu_selction,
+        ),
+        iconSize: style.iconSize,
+        onPressed: () {
+          onExpanded();
+        },
+      ),
+      borderRadius: style.borderRadius,
+      onHover: onHover,
+      onClicked: onClicked,
       iconSize: style.iconSize,
     );
   }

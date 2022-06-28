@@ -7,7 +7,7 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/size_info.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';

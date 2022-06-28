@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/drawer_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -10,11 +11,12 @@ import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
   final RouteDisplay option;
+  final String? current;
 
   final void Function(bool val)? onResisize;
   final bool expanded;
   final bool hasToPop;
-
+  final bool collapsed;
   final SiderSubMenuStyle style;
 
   SiderSubMenu({
@@ -22,7 +24,9 @@ class SiderSubMenu extends StatefulWidget {
     required this.option,
     required this.expanded,
     required this.hasToPop,
+    required this.collapsed,
     this.onResisize,
+    required this.current,
   });
 
   @override
@@ -65,37 +69,27 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   /// This Method returns the whole menu.
   /// If a [RouteDisplay] has children, a [SiderSubMenu] is added, else
-  /// we add a [DrawerMenuTile].
-  List<DrawerMenuTile> getTiles(BuildContext context) {
-    List<DrawerMenuTile> tiles = [];
+  /// we add a [RowMenuTile].
+  List<Widget> getTiles(BuildContext context) {
+    List<Widget> tiles = [];
 
     LegendTheme theme = context.watch<LegendTheme>();
     Iterable<RouteDisplay> options = widget.option.children ?? [];
     for (int i = 0; i < options.length; i++) {
       final RouteDisplay option = options.elementAt(i);
 
+      bool isSelected = i == hovered || widget.current == option.route;
+
       tiles.add(
-        DrawerMenuTile(
-          foreground: style.foreground,
-          selForeground: style.activeForeground,
-          background: style.background,
-          selBackground: style.activeBackground,
-          isSelected: i == selected,
-          isHovered: i == hovered,
-          spacing: style.spacing,
+        ColumnMenuTile(
+          background: isSelected ? style.activeBackground : style.background,
+          foreground: isSelected ? style.activeForeground : style.foreground,
+          title: widget.collapsed ? null : option.title,
           icon: option.icon,
-          title: option.title,
-          path: option.route,
-          borderRadius: i == options.length - 1
-              ? BorderRadius.vertical(
-                  bottom: Radius.circular(theme.sizing.radius1),
-                )
-              : BorderRadius.zero,
+          padding: widget.collapsed ? null : style.itemPadding,
+          borderRadius: style.borderRadius,
+          iconSize: style.iconSize,
           height: style.itemHeight,
-          verticalPadding: style.itemPadding.vertical,
-          horizontalPadding: style.itemPadding.horizontal,
-          textStyle: theme.typography.h1,
-          iconSize: style.subMenuIconSize,
           onHover: (value) {
             setState(() {
               hovered = value ? i : null;
@@ -147,6 +141,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                 HeaderTile(
                   option: widget.option,
                   isExpanded: isExpanded,
+                  current: widget.current,
                   onExpanded: () {
                     isExpanded = !isExpanded;
                     if (widget.onResisize != null) {
@@ -162,7 +157,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                     setState(() {
                       selected = headerIndex;
                     });
-
+                    if (widget.hasToPop) {
+                      Navigator.of(context).pop();
+                    }
                     LegendRouter.of(context).pushPage(
                         settings: RouteSettings(
                       name: widget.option.route,
@@ -171,6 +168,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                   isHovered: headerIndex == hovered,
                   isSelected: headerIndex == selected,
                   style: style,
+                  collapsed: widget.collapsed,
                 ),
                 AnimatedContainer(
                   height: isExpanded ? contentHeight : 0,
