@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
-import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_submenu.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -16,10 +17,11 @@ class FixedSiderMenu extends StatefulWidget {
   final bool showMenuSubItems;
   final bool subMenuExpanded;
   final String? current;
+  final int depth;
   final List<RouteDisplay> options;
   final bool hasToPop;
-  final SiderMenuStyle style;
-  final SiderSubMenuStyle subMenuStyle;
+  final SideMenuColors colors;
+  final SideMenuSizing sizing;
   final TextStyle textStyle;
   late final bool collapsed;
 
@@ -28,9 +30,10 @@ class FixedSiderMenu extends StatefulWidget {
     required this.width,
     required this.options,
     required this.showMenuSubItems,
-    required this.subMenuStyle,
-    required this.style,
+    required this.colors,
+    required this.sizing,
     required this.current,
+    required this.depth,
     this.subMenuExpanded = true,
     this.hasToPop = false,
     required this.textStyle,
@@ -43,9 +46,8 @@ class FixedSiderMenu extends StatefulWidget {
       if (titleWidth > biggestTitleWidth) biggestTitleWidth = titleWidth;
     }
 
-    if (width - biggestTitleWidth - style.iconSize - style.padding.vertical <
+    if (width - biggestTitleWidth - sizing.iconSize - sizing.padding.vertical <
         0) {
-      print("amk");
       collapsed = true;
     } else {
       collapsed = false;
@@ -60,11 +62,13 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   late int selected;
   late int? hovered;
   late Map<int, bool> expanded;
-  late final SiderMenuStyle style;
+  late final SideMenuColors colors;
+  late final SideMenuSizing sizing;
 
   @override
   void initState() {
-    style = widget.style;
+    colors = widget.colors;
+    sizing = widget.sizing;
     selected = 0;
     hovered = null;
     expanded = {};
@@ -93,14 +97,14 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
       if (option.children == null || !(widget.showMenuSubItems)) {
         tiles.add(
           ColumnMenuTile(
-            background: selected ? style.activeBackground : style.background,
-            foreground: selected ? style.activeForeground : style.foreground,
+            background: selected ? colors.activeBackground : colors.background,
+            foreground: selected ? colors.activeForeground : colors.foreground,
             title: widget.collapsed ? null : option.title,
             icon: option.icon,
-            padding: widget.collapsed ? EdgeInsets.zero : style.padding,
-            borderRadius: style.borderRadius,
-            height: style.itemHeight,
-            iconSize: style.iconSize,
+            padding: widget.collapsed ? EdgeInsets.zero : sizing.padding,
+            borderRadius: sizing.borderRadius,
+            height: sizing.itemHeight,
+            iconSize: sizing.iconSize,
             onHover: (value) {
               setState(() {
                 hovered = value ? i : null;
@@ -121,7 +125,8 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
           SiderSubMenu(
             current: widget.current,
             option: option,
-            style: widget.subMenuStyle,
+            sizing: sizing,
+            colors: colors,
             hasToPop: widget.hasToPop,
             collapsed: widget.collapsed,
             onResisize: (val) {
@@ -146,17 +151,17 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   Widget build(BuildContext context) {
     List<Widget> tiles = getTiles(context);
 
-    return Container(
-      color: style.background,
-      child: LayoutBuilder(
-        builder: (context, snapshot) {
-          return Column(
+    return LayoutBuilder(
+      builder: (context, snapshot) {
+        return ColoredBox(
+          color: colors.menuBackground,
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: tiles.traillingPaddingCol(style.spacing, last: true),
-          );
-        },
-      ),
+            children: tiles.traillingPaddingCol(sizing.spacing, last: true),
+          ),
+        );
+      },
     );
   }
 }

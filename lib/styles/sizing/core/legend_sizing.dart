@@ -8,10 +8,10 @@ import 'core_sizing.dart';
 import 'override.dart';
 
 export 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
 export '../../typography/typography.dart';
-export '../sub_sizing/sider_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/app_bar_sizing.dart';
+export '../sub_sizing/sider/sider_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/appbar/app_bar_sizing.dart';
 export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
 
 /// ## LegendSizing

@@ -6,12 +6,15 @@ import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
+
+import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
 
 const List<Widget> actionsFiller = [
   SizedBox(
@@ -43,42 +46,22 @@ class LegendAppBar extends StatelessWidget {
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
+    MenuColors menuColors = theme.colors.appBar.menuColors;
+    MenuSizing sizing = theme.appBarSizing.menuSizing;
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
-          height: 48,
-          // showSubMenu: config.showSubMenu,
-          itemPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          borderRadius: theme.sizing.radius1.asRadius(),
           showMenuSubItems: false,
-          background: theme.colors.appBar.background,
-          foreground: theme.colors.appBar.foreground,
-          activeForeground: theme.colors.appBar.selected,
+          colors: menuColors,
+          sizing: sizing,
           options: LegendRouter.of(context).routeDisplays,
-          activeBackground: theme.appBar.background.lighten(),
-          iconSize: theme.appBarSizing.iconSize,
-          spacing: theme.appBarSizing.spacing ?? 12,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
-          height: 48,
-          // showSubMenu: config.showSubMenu,
-          itemPadding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          borderRadius: theme.sizing.radius1.asRadius(),
           showMenuSubItems: false,
-          background: theme.colors.appBar.background,
-          foreground: theme.colors.appBar.foreground,
-          activeForeground: theme.colors.appBar.selected,
+          colors: menuColors,
+          sizing: sizing,
           options: LegendRouter.of(context).routeDisplays,
-          activeBackground: theme.appBar.background.lighten(),
-          iconSize: theme.appBarSizing.iconSize,
-          spacing: theme.appBarSizing.spacing ?? 12,
         );
     }
   }

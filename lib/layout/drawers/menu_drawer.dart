@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
-import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/colors/subcolors/menu_drawer_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/menu_drawer_sizing.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
@@ -112,6 +113,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
     MenuDrawerSizing sizing = theme.menuDrawerSizing;
     MenuDrawerColors colors = theme.menuDrawerPalette;
+    SideMenuSizing menuSizing = sizing.sideMenuSizing;
+    SideMenuColors menuColors = colors.sideMenuColors;
 
     double topPadding = MediaQuery.of(context).padding.top;
 
@@ -128,38 +131,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
     double decoration = theme.sizing.radius1 * 2;
     double search_height = searchItems.length * search_item_height +
         (searchItems.isEmpty ? 0 : decoration);
-
-    SiderMenuStyle style = SiderMenuStyle(
-      background: colors.background,
-      foreground: colors.foreground,
-      activeBackground: colors.background_selection,
-      activeForeground: colors.foreground_selection,
-      spacing: sizing.spacing,
-      padding: sizing.itemPadding,
-      itemHeight: sizing.itemHeight,
-      subMenuHeaderHeight: sizing.subMenuHeaderHeight,
-      iconSize: sizing.iconSize,
-    );
-
-    SiderSubMenuStyle subMenuStyle = SiderSubMenuStyle(
-      background: colors.backgroundMenu,
-      foreground: colors.foreground,
-      activeForeground: colors.foreground_selection,
-      activeBackground: colors.background_menu_selection,
-      itemPadding: sizing.itemPadding,
-      spacing: sizing.spacing,
-      borderRadius: theme.sizing.radius2.asRadius(),
-      headerHeight: sizing.subMenuHeaderHeight,
-      itemHeight: sizing.itemHeight,
-      iconSize: sizing.iconSize,
-      subMenuIconSize: sizing.iconSize - 2,
-    );
+    String current = LegendRouter.of(context).getCurrent()?.route ?? '';
 
     return SizedBox(
       width: theme.menuDrawerSizing.width,
       height: sizeInfo.height,
       child: Container(
-        color: style.background,
+        color: colors.background,
         padding: padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,12 +232,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Flexible(
               child: SingleChildScrollView(
                 child: FixedSiderMenu(
+                  sizing: menuSizing,
+                  colors: menuColors,
+                  depth: current.allMatches('/').length,
                   width: theme.menuDrawerSizing.width - padding.horizontal,
                   hasToPop: true,
                   options: LegendRouter.of(context).routeDisplays,
                   showMenuSubItems: true,
-                  style: style,
-                  subMenuStyle: subMenuStyle,
                   textStyle: theme.typography.h2,
                   current: LegendRouter.of(context).getCurrent()?.route,
                 ),

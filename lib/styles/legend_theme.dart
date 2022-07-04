@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:legend_design_core/styles/colors/subcolors/menu_drawer_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/typography/typography.dart';
@@ -10,24 +10,24 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
-import 'colors/subcolors/appBar_colors.dart';
+import 'colors/subcolors/appbar/appBar_colors.dart';
 import 'colors/subcolors/bottom_bar_colors.dart';
 import 'colors/subcolors/footer_colors.dart';
-import 'colors/subcolors/sider_colors.dart';
+import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
-import 'sizing/sub_sizing/menu_drawer_sizing.dart';
-import 'sizing/sub_sizing/sider_sizing.dart';
+import 'sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
+import 'sizing/sub_sizing/sider/sider_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
-export 'colors/subcolors/appBar_colors.dart';
+export 'colors/subcolors/appbar/appBar_colors.dart';
 export 'colors/subcolors/bottom_bar_colors.dart';
 export 'colors/subcolors/footer_colors.dart';
-export 'colors/subcolors/sider_colors.dart';
+export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
-export 'sizing/sub_sizing/app_bar_sizing.dart';
+export 'sizing/sub_sizing/appbar/app_bar_sizing.dart';
 
 class LegendTheme extends ChangeNotifier {
   ///

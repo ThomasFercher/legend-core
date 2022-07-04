@@ -41,7 +41,7 @@ class LegendSizingOverride
   @override
   late final SiderSizingOverride? siderSizing;
   @override
-  late final AbbBarSizingOverride? appBarSizing;
+  late final AppBarSizingOverride? appBarSizing;
   @override
   late final BottomBarSizingOverride? bottomBarSizing;
   @override

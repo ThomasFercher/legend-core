@@ -1,9 +1,9 @@
 import '../../typography/typography.dart';
-import 'app_bar_sizing.dart';
+import 'appbar/app_bar_sizing.dart';
 import 'bottom_bar_sizing.dart';
 import 'footer_sizing.dart';
-import 'menu_drawer_sizing.dart';
-import 'sider_sizing.dart';
+import 'menuDrawer/menu_drawer_sizing.dart';
+import 'sider/sider_sizing.dart';
 
 abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
   @override
@@ -30,11 +30,11 @@ abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
 }
 
 abstract class LegendSubSizingInfoNull {
-  final AbbBarSizingInfo? appBarSizing;
+  final AppBarSizingInfoNull? appBarSizing;
   final BottomBarSizingInfo? bottomBarSizing;
   // final Typrogra? typographySizing;
   final SiderSizingInfo? siderSizing;
-  final MenuDrawerSizingInfo? menuDrawerSizing;
+  final MenuDrawerSizingInfoNull? menuDrawerSizing;
   final FixedFooterSizingInfo? footerSizing;
 
   const LegendSubSizingInfoNull({
@@ -60,7 +60,7 @@ class LegendSubSizing extends LegendSubSizingInfo {
 
 class LegendSubSizingOverride implements LegendSubSizingInfoNull {
   @override
-  final AbbBarSizingOverride? appBarSizing;
+  final AppBarSizingOverride? appBarSizing;
   @override
   final BottomBarSizingOverride? bottomBarSizing;
   // final Typrogra? typographySizing;

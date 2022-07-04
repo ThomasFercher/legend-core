@@ -48,39 +48,42 @@ class RowMenuTile extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
 
-    return LegendDetector(
-      onHover: onHover,
-      onTap: onClicked,
-      child: Container(
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: borderRadius,
-        ),
-        child: Padding(
-          padding: padding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (icon != null)
-                Icon(
-                  icon,
-                  color: foreground,
-                  size: iconSize,
-                ),
-              if (title != null)
-                LegendText(
-                  padding: EdgeInsets.only(left: spacing),
-                  text: title,
-                  selectable: false,
-                  textStyle: textStyle?.copyWith(color: foreground) ??
-                      theme.typography.h2.copyWith(
-                        color: foreground,
-                      ),
-                ),
-              if (trailling != null) Expanded(child: Container()),
-              if (trailling != null) trailling!,
-            ],
+    return SizedBox(
+      height: height,
+      child: LegendDetector(
+        onHover: onHover,
+        onTap: onClicked,
+        child: Container(
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: borderRadius,
+          ),
+          child: Padding(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (icon != null)
+                  Icon(
+                    icon,
+                    color: foreground,
+                    size: iconSize,
+                  ),
+                if (title != null)
+                  LegendText(
+                    padding: EdgeInsets.only(left: spacing),
+                    text: title,
+                    selectable: false,
+                    textStyle: textStyle?.copyWith(color: foreground) ??
+                        theme.typography.h2.copyWith(
+                          color: foreground,
+                        ),
+                  ),
+                if (trailling != null) Expanded(child: Container()),
+                if (trailling != null) trailling!,
+              ],
+            ),
           ),
         ),
       ),

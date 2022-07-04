@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
+import 'package:legend_design_core/styles/colors/subcolors/micros/menu/menu_colors.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/routes/route_display.dart';
@@ -9,38 +11,19 @@ import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
-  final Color background;
-  final Color foreground;
-  final Color activeBackground;
-  final Color activeForeground;
-
-  final Color? subMenuColor;
   final bool showMenuSubItems;
-  final double spacing;
-  final double itemSpacing;
-  final EdgeInsetsGeometry itemPadding;
-  final bool subMenuExpanded;
+
   final List<RouteDisplay> options;
-  final double height;
-  final double iconSize;
-  final BorderRadiusGeometry borderRadius;
+
+  final MenuSizing sizing;
+  final MenuColors colors;
 
   const FixedMenu({
     Key? key,
     required this.options,
-    required this.background,
-    required this.foreground,
-    required this.activeBackground,
-    required this.activeForeground,
-    this.subMenuColor,
+    required this.colors,
+    required this.sizing,
     required this.showMenuSubItems,
-    this.subMenuExpanded = true,
-    required this.spacing,
-    this.itemSpacing = 6,
-    required this.itemPadding,
-    required this.iconSize,
-    required this.height,
-    required this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -54,6 +37,9 @@ class _FixedMenuState extends State<FixedMenu> {
   void initState() {
     super.initState();
   }
+
+  MenuColors get colors => widget.colors;
+  MenuSizing get sizing => widget.sizing;
 
   List<RowMenuTile> getTiles(
     BuildContext context,
@@ -69,15 +55,15 @@ class _FixedMenuState extends State<FixedMenu> {
 
       tiles.add(
         RowMenuTile(
-          iconSize: widget.iconSize,
-          foreground: isSelected ? widget.activeForeground : widget.foreground,
-          background: isSelected ? widget.activeBackground : widget.background,
+          iconSize: sizing.iconSize,
+          foreground: isSelected ? colors.activeForeground : colors.foreground,
+          background: isSelected ? colors.activeBackground : colors.background,
           icon: option.icon,
           title: option.title,
-          spacing: widget.itemSpacing,
-          height: widget.height,
-          padding: widget.itemPadding,
-          borderRadius: widget.borderRadius,
+          spacing: sizing.itemSpacing,
+          height: sizing.height,
+          padding: sizing.padding,
+          borderRadius: sizing.borderRadius,
           onHover: (value) {
             setState(() {
               hovered = value ? i : null;
@@ -108,12 +94,12 @@ class _FixedMenuState extends State<FixedMenu> {
             sel,
           );
           return Container(
-            color: widget.background,
-            height: widget.height,
+            color: colors.menuBackground,
+            height: sizing.height,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: tiles.traillingPaddingRow(widget.spacing),
+              children: tiles.traillingPaddingRow(sizing.spacing),
             ),
           );
         }

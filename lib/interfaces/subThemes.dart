@@ -1,11 +1,3 @@
-import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 
-class SubThemes {
-  final SiderMenuStyle siderMenuStyle;
-  final SiderSubMenuStyle siderSubMenuStyle;
-
-  SubThemes({
-    required this.siderMenuStyle,
-    required this.siderSubMenuStyle,
-  });
-}
+class SubThemes {}

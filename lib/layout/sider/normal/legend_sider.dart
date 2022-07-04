@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/config/appbar_layout.dart';
-import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
-import 'package:legend_design_core/layout/navigation/siderMenu/siderMenuStyle.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/sider/siderInfo.dart';
+import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/sider_sizing.dart';
-import 'package:legend_design_core/styles/typography/legend_text.dart';
-import 'package:legend_utils/extensions/extensions.dart';
 
 import 'package:provider/provider.dart';
 
@@ -27,39 +24,16 @@ class Sider extends StatelessWidget {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SiderColors colors = theme.siderPalette;
     SiderSizing sizing = theme.siderSizing;
+    SideMenuSizing menuSizing = sizing.sideMenuSizing;
+    SideMenuColors menuColors = colors.sideMenuColors;
 
+    // Dumb Fix
     AppBarLayout appbarLayout =
         ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
     bool showLogo = appbarLayout.layout != AppBarLayoutConfig.fixedAbove;
 
     double maxWidth = theme.siderSizing.width;
-
-    SiderMenuStyle style = SiderMenuStyle(
-      background: colors.background,
-      foreground: colors.foreground,
-      activeBackground: colors.backgroundMenu,
-      activeForeground: colors.selection,
-      spacing: sizing.spacing,
-      padding: sizing.itemPadding,
-      borderRadius: theme.sizing.radius1.asRadius(),
-      itemHeight: sizing.itemHeight,
-      subMenuHeaderHeight: sizing.subMenuHeaderHeight,
-      iconSize: sizing.iconSize,
-    );
-
-    SiderSubMenuStyle subMenuStyle = SiderSubMenuStyle(
-      itemPadding: sizing.itemPadding,
-      spacing: sizing.spacing,
-      background: colors.backgroundMenu,
-      activeForeground: colors.selection,
-      activeBackground: colors.backgroundMenu.darken(),
-      foreground: colors.foreground,
-      borderRadius: theme.sizing.radius2.asRadius(),
-      headerHeight: sizing.subMenuHeaderHeight,
-      itemHeight: sizing.itemHeight,
-      iconSize: sizing.iconSize,
-      subMenuIconSize: sizing.iconSize - 2,
-    );
+    String current = LegendRouter.of(context).getCurrent()?.route ?? '';
 
     return Container(
       width: maxWidth,
@@ -80,48 +54,25 @@ class Sider extends StatelessWidget {
               child: Column(
                 children: [
                   if (fixedSider.showMenu)
-                    Expanded(
-                      child: FixedSiderMenu(
-                        current: LegendRouter.of(context).getCurrent()?.route,
-                        style: style,
-                        options: LegendRouter.of(context).routeDisplays,
-                        showMenuSubItems: true,
-                        subMenuStyle: subMenuStyle,
-                        width: maxWidth - sizing.horizontalPadding,
-                        textStyle: theme.typography.h2,
-                      ),
+                    FixedSiderMenu(
+                      current: current,
+                      sizing: menuSizing,
+                      colors: menuColors,
+                      depth: current.allMatches('/').length,
+                      options: LegendRouter.of(context).routeDisplays,
+                      showMenuSubItems: true,
+                      width: maxWidth - sizing.horizontalPadding,
+                      textStyle: theme.typography.h2,
                     ),
-                  if (fixedSider.showParentMenu && !fixedSider.showMenu)
-                    Expanded(
-                      child: FixedSiderMenu(
-                        style: style,
-                        subMenuStyle: subMenuStyle,
-                        options:
-                            RouteInfoProvider.getParentRouteDisplay(context)
+
+                  /*   RouteInfoProvider.getParentRouteDisplay(context)
                                     ?.children
                                     ?.toList() ??
-                                [],
-                        showMenuSubItems: true,
-                        width: maxWidth - sizing.horizontalPadding,
-                        textStyle: theme.typography.h2,
-                        current: LegendRouter.of(context).getCurrent()?.route,
-                      ),
-                    ),
-                  if (fixedSider.showChildMenu && !fixedSider.showMenu)
-                    Expanded(
-                      child: FixedSiderMenu(
-                        style: style,
-                        subMenuStyle: subMenuStyle,
-                        options: RouteInfoProvider.getRouteDisplay(context)
+                             RouteInfoProvider.getRouteDisplay(context)
                                 ?.children
                                 ?.toList() ??
                             [],
-                        showMenuSubItems: true,
-                        width: maxWidth - sizing.horizontalPadding,
-                        textStyle: theme.typography.h2,
-                        current: LegendRouter.of(context).getCurrent()?.route,
-                      ),
-                    ),
+                     */
                 ],
               ),
             ),

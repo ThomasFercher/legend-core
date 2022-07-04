@@ -1,4 +1,4 @@
-import 'package:legend_design_core/styles/colors/subcolors/menu_drawer_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
 class LegendSubColors {
