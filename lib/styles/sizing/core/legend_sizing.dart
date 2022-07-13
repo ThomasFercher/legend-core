@@ -7,12 +7,12 @@ import '../sub_sizing/legend_sub_sizing.dart';
 import 'core_sizing.dart';
 import 'override.dart';
 
-export 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/footer/footer_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
 export '../../typography/typography.dart';
 export '../sub_sizing/sider/sider_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/appbar/app_bar_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/bottom_bar_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appBar_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/bottomBar/bottomBar_sizing.dart';
 
 /// ## LegendSizing
 /// A Object for storing Size Dependendant Styling and Sizing Variables.
@@ -38,21 +38,23 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   ///
   /// Sub Sizing
   ///
-  @override
-  late final AppBarSizing appBarSizing;
-  @override
-  late final BottomBarSizing bottomBarSizing;
-
   final TypographySizing typographySizing;
   @override
-  late final SiderSizing siderSizing;
+  late final AppBarSizingStyle appBarSizing;
   @override
-  late final MenuDrawerSizing menuDrawerSizing;
+  late final BottomBarSizingStyle bottomBarSizing;
   @override
-  late final FixedFooterSizing footerSizing;
+  late final SiderSizingStyle siderSizing;
+  @override
+  late final MenuDrawerSizingStyle menuDrawerSizing;
+  @override
+  late final FooterSizingStyle footerSizing;
 
   final LegendSubSizing Function(LegendCoreSizing sizing) subSizing;
 
+  ///
+  /// Elevation
+  ///
   @override
   final double elevation1;
   @override
@@ -61,6 +63,10 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   final double elevation3;
   @override
   final double elevation4;
+
+  ///
+  /// IconSizes
+  ///
   @override
   final double iconSize1;
   @override
@@ -69,6 +75,10 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   final double iconSize3;
   @override
   final double iconSize4;
+
+  ///
+  /// Radie
+  ///
   @override
   final double radius1;
   @override
@@ -77,6 +87,10 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   final double radius3;
   @override
   final double radius4;
+
+  ///
+  /// Spacing / Padding
+  ///
   @override
   final double spacing1;
   @override
@@ -85,6 +99,8 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   final double spacing3;
   @override
   final double spacing4;
+
+  /// Custom
   @override
   final Map<String, double> custom;
 
@@ -143,23 +159,23 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
       typographySizing: def.typographySizing,
       subSizing: (_) {
         return LegendSubSizing(
-          appBarSizing: AppBarSizing.override(
+          appBarSizing: AppBarSizingStyle.override(
             def.appBarSizing,
             override.appBarSizing,
           ),
-          bottomBarSizing: BottomBarSizing.override(
+          bottomBarSizing: BottomBarSizingStyle.override(
             def.bottomBarSizing,
             override.bottomBarSizing,
           ),
-          siderSizing: SiderSizing.override(
+          siderSizing: SiderSizingStyle.override(
             def.siderSizing,
             override.siderSizing,
           ),
-          menuDrawerSizing: MenuDrawerSizing.override(
+          menuDrawerSizing: MenuDrawerSizingStyle.override(
             def.menuDrawerSizing,
             override.menuDrawerSizing,
           ),
-          footerSizing: FixedFooterSizing.override(
+          footerSizing: FooterSizingStyle.override(
             def.footerSizing,
             override.footerSizing,
           ),

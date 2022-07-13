@@ -24,13 +24,17 @@ dependencies:
   legend_router:
     git:
       url: https://github.com/ThomasFercher/legend_router
-  
+  legend_annotations:
+    path: ../CodeGen/legend_annotations
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
-
+  build_runner: ^2.2.0
+  legend_generator:
+    path: ../CodeGen/legend_generator
+  test: ^1.0.0
 flutter:
 

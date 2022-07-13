@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/footer_sizing.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/footer/footer_sizing.dart';
 import 'package:provider/provider.dart';
 
 class FixedFooter extends StatelessWidget {
-  final FixedFooterSizing? sizing;
+  final FooterSizingStyle? sizing;
   final FooterColors? colors;
   final Widget Function(
     BuildContext context,
     FooterColors colors,
-    FixedFooterSizing sizing,
+    FooterSizingStyle sizing,
   ) builder;
 
   FixedFooter({
@@ -21,7 +21,7 @@ class FixedFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    FixedFooterSizing size = sizing ?? theme.sizing.footerSizing;
+    FooterSizingStyle size = sizing ?? theme.sizing.footerSizing;
     FooterColors color = colors ?? theme.colors.footer;
 
     return Container(

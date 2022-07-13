@@ -1,23 +1,23 @@
 import '../../typography/typography.dart';
-import 'appbar/app_bar_sizing.dart';
-import 'bottom_bar_sizing.dart';
-import 'footer_sizing.dart';
-import 'menuDrawer/menu_drawer_sizing.dart';
+import 'appbar/appBar_sizing.dart';
+import 'bottomBar/bottomBar_sizing.dart';
+import 'footer/footer_sizing.dart';
+import 'menuDrawer/menuDrawer_sizing.dart';
 import 'sider/sider_sizing.dart';
 
 abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
   @override
-  final AppBarSizing appBarSizing;
+  final AppBarSizingStyle appBarSizing;
   @override
-  final BottomBarSizing bottomBarSizing;
+  final BottomBarSizingStyle bottomBarSizing;
 //  @override
   // final TypographySizing typographySizing;
   @override
-  final SiderSizing siderSizing;
+  final SiderSizingStyle siderSizing;
   @override
-  final MenuDrawerSizing menuDrawerSizing;
+  final MenuDrawerSizingStyle menuDrawerSizing;
   @override
-  final FixedFooterSizing footerSizing;
+  final FooterSizingStyle footerSizing;
 
   const LegendSubSizingInfo({
     required this.appBarSizing,
@@ -31,11 +31,11 @@ abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
 
 abstract class LegendSubSizingInfoNull {
   final AppBarSizingInfoNull? appBarSizing;
-  final BottomBarSizingInfo? bottomBarSizing;
+  final BottomBarSizingInfoNull? bottomBarSizing;
   // final Typrogra? typographySizing;
-  final SiderSizingInfo? siderSizing;
+  final SiderSizingInfoNull? siderSizing;
   final MenuDrawerSizingInfoNull? menuDrawerSizing;
-  final FixedFooterSizingInfo? footerSizing;
+  final FooterSizingInfoNull? footerSizing;
 
   const LegendSubSizingInfoNull({
     this.appBarSizing,
@@ -69,7 +69,7 @@ class LegendSubSizingOverride implements LegendSubSizingInfoNull {
   @override
   final MenuDrawerSizingOverride? menuDrawerSizing;
   @override
-  final FixedFooterSizingOverride? footerSizing;
+  final FooterSizingOverride? footerSizing;
 
   const LegendSubSizingOverride({
     this.appBarSizing,

@@ -16,7 +16,7 @@ import 'colors/subcolors/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
-import 'sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
+import 'sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
 import 'sizing/sub_sizing/sider/sider_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
@@ -27,7 +27,7 @@ export 'colors/subcolors/footer_colors.dart';
 export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
-export 'sizing/sub_sizing/appbar/app_bar_sizing.dart';
+export 'sizing/sub_sizing/appbar/appBar_sizing.dart';
 
 class LegendTheme extends ChangeNotifier {
   ///
@@ -68,14 +68,14 @@ class LegendTheme extends ChangeNotifier {
   /// Gets the current [LegendSizing]
   LegendSizing get sizing => _sizingTheme.sizing;
 
-  AppBarSizing get appBarSizing => sizing.appBarSizing;
+  AppBarSizingStyle get appBarSizing => sizing.appBarSizing;
 
-  BottomBarSizing? get bottomBarSizing => sizing.bottomBarSizing;
+  BottomBarSizingStyle? get bottomBarSizing => sizing.bottomBarSizing;
 
-  SiderSizing get siderSizing => sizing.siderSizing;
+  SiderSizingStyle get siderSizing => sizing.siderSizing;
 
   /// Gets the current [MenuDrawerSizing]
-  MenuDrawerSizing get menuDrawerSizing => sizing.menuDrawerSizing;
+  MenuDrawerSizingStyle get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
   List<double> get splits => _sizingTheme.splits;

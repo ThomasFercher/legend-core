@@ -15,7 +15,7 @@ class FixedMenu extends StatefulWidget {
 
   final List<RouteDisplay> options;
 
-  final MenuSizing sizing;
+  final MenuSizingStyle sizing;
   final MenuColors colors;
 
   const FixedMenu({
@@ -39,7 +39,7 @@ class _FixedMenuState extends State<FixedMenu> {
   }
 
   MenuColors get colors => widget.colors;
-  MenuSizing get sizing => widget.sizing;
+  MenuSizingStyle get sizing => widget.sizing;
 
   List<RowMenuTile> getTiles(
     BuildContext context,

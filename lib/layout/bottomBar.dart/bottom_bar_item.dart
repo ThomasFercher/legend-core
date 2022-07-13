@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class BottomBarItem extends StatelessWidget {
   final RouteDisplay option;
-  final BottomBarSizing sizing;
+  final BottomBarSizingStyle sizing;
   final BottomBarColors colors;
   final void Function(RouteDisplay option) onSelected;
   final bool isSelected;

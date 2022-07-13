@@ -14,7 +14,7 @@ const Duration anmimationDuration = Duration(milliseconds: 220);
 
 class LegendBottomBar extends StatelessWidget {
   final bool? fit;
-  final BottomBarSizing sizing;
+  final BottomBarSizingStyle sizing;
   final BottomBarColors colors;
   final List<RouteDisplay> options;
 

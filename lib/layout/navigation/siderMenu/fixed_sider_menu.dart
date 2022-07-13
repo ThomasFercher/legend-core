@@ -21,7 +21,7 @@ class FixedSiderMenu extends StatefulWidget {
   final List<RouteDisplay> options;
   final bool hasToPop;
   final SideMenuColors colors;
-  final SideMenuSizing sizing;
+  final SideMenuSizingStyle sizing;
   final TextStyle textStyle;
   late final bool collapsed;
 
@@ -63,7 +63,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   late int? hovered;
   late Map<int, bool> expanded;
   late final SideMenuColors colors;
-  late final SideMenuSizing sizing;
+  late final SideMenuSizingStyle sizing;
 
   @override
   void initState() {

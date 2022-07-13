@@ -47,7 +47,7 @@ class LegendSizingOverride
   @override
   late final MenuDrawerSizingOverride? menuDrawerSizing;
   @override
-  late final FixedFooterSizingOverride? footerSizing;
+  late final FooterSizingOverride? footerSizing;
   // @override
 //  late final TypographySizing? typographySizing;
   @override

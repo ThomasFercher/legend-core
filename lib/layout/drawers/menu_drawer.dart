@@ -10,7 +10,7 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menu_drawer_sizing.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
@@ -111,9 +111,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SizeInfo sizeInfo = SizeInfo.of(context);
 
-    MenuDrawerSizing sizing = theme.menuDrawerSizing;
+    MenuDrawerSizingStyle sizing = theme.menuDrawerSizing;
     MenuDrawerColors colors = theme.menuDrawerPalette;
-    SideMenuSizing menuSizing = sizing.sideMenuSizing;
+    SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
     SideMenuColors menuColors = colors.sideMenuColors;
 
     double topPadding = MediaQuery.of(context).padding.top;

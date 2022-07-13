@@ -47,7 +47,7 @@ class LegendAppBar extends StatelessWidget {
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     MenuColors menuColors = theme.colors.appBar.menuColors;
-    MenuSizing sizing = theme.appBarSizing.menuSizing;
+    MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(

@@ -23,8 +23,8 @@ class Sider extends StatelessWidget {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
     LegendTheme theme = Provider.of<LegendTheme>(context);
     SiderColors colors = theme.siderPalette;
-    SiderSizing sizing = theme.siderSizing;
-    SideMenuSizing menuSizing = sizing.sideMenuSizing;
+    SiderSizingStyle sizing = theme.siderSizing;
+    SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
     SideMenuColors menuColors = colors.sideMenuColors;
 
     // Dumb Fix
