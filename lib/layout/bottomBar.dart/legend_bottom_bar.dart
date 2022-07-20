@@ -15,7 +15,7 @@ const Duration anmimationDuration = Duration(milliseconds: 220);
 class LegendBottomBar extends StatelessWidget {
   final bool? fit;
   final BottomBarSizingStyle sizing;
-  final BottomBarColors colors;
+  final BottomBarColorsStyle colors;
   final List<RouteDisplay> options;
 
   LegendBottomBar({
@@ -106,8 +106,7 @@ class LegendBottomBar extends StatelessWidget {
                       ),
                     ),
                     Row(
-                      children:
-                          getItems(context, provider).paddingAround(spacing),
+                      children: getItems(context, provider).paddingRow(spacing),
                     ),
                   ],
                 ),

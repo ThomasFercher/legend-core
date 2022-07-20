@@ -32,6 +32,7 @@ class RowMenuTile extends StatelessWidget {
     required this.foreground,
     required this.background,
     required this.iconSize,
+    super.key,
     this.trailling,
     this.textStyle,
     this.title,
@@ -40,7 +41,7 @@ class RowMenuTile extends StatelessWidget {
     this.height,
     this.onClicked,
     this.onHover,
-    this.padding = const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+    this.padding = const EdgeInsets.symmetric(horizontal: 8),
     this.spacing = 4,
   });
 

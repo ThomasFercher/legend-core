@@ -22,10 +22,10 @@ class Sider extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
     LegendTheme theme = Provider.of<LegendTheme>(context);
-    SiderColors colors = theme.siderPalette;
+    SiderColorsStyle colors = theme.siderPalette;
     SiderSizingStyle sizing = theme.siderSizing;
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
-    SideMenuColors menuColors = colors.sideMenuColors;
+    SideMenuColorsStyle menuColors = colors.menuColors;
 
     // Dumb Fix
     AppBarLayout appbarLayout =

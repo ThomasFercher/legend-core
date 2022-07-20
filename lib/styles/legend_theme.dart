@@ -11,8 +11,8 @@ import 'package:legend_utils/legend_utils.dart';
 import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
 import 'colors/subcolors/appbar/appBar_colors.dart';
-import 'colors/subcolors/bottom_bar_colors.dart';
-import 'colors/subcolors/footer_colors.dart';
+import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
+import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
@@ -22,8 +22,8 @@ import 'sizing/sub_sizing/sider/sider_sizing.dart';
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
 export 'colors/subcolors/appbar/appBar_colors.dart';
-export 'colors/subcolors/bottom_bar_colors.dart';
-export 'colors/subcolors/footer_colors.dart';
+export 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
+export 'colors/subcolors/footer/footer_colors.dart';
 export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
@@ -44,19 +44,19 @@ class LegendTheme extends ChangeNotifier {
   LegendPalette get colors => colorTheme.current;
 
   /// Gets the current [AppBarColors]
-  AppBarColors get appBar => colors.appBar;
+  AppBarColorsStyle get appBar => colors.appBar;
 
   /// Gets the current [BottomBarColors]
-  BottomBarColors get bottomBarPalette => colors.bottomBar;
+  BottomBarColorsStyle get bottomBarPalette => colors.bottomBar;
 
   /// Gets the current [FooterColors]
-  FooterColors get footerPalette => colors.footer;
+  FooterColorsStyle get footerPalette => colors.footer;
 
   /// Gets the current [SiderColors]
-  SiderColors get siderPalette => colors.sider;
+  SiderColorsStyle get siderPalette => colors.sider;
 
   /// Gets the current [MenuDrawerColors]
-  MenuDrawerColors get menuDrawerPalette => colors.menuDrawer;
+  MenuDrawerColorsStyle get menuDrawerPalette => colors.menuDrawer;
 
   ///
   /// Sizing Theme for the whole applications. Contains a List of [LegendSizing] for multiple

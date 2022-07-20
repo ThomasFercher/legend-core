@@ -104,7 +104,7 @@ class _LegendTabBarState extends State<LegendTabBar> {
           height: height,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: getOptions().paddingAround(8),
+            children: getOptions().paddingRow(8),
           ),
         ),
       );

@@ -112,9 +112,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
     SizeInfo sizeInfo = SizeInfo.of(context);
 
     MenuDrawerSizingStyle sizing = theme.menuDrawerSizing;
-    MenuDrawerColors colors = theme.menuDrawerPalette;
+    MenuDrawerColorsStyle colors = theme.menuDrawerPalette;
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
-    SideMenuColors menuColors = colors.sideMenuColors;
+    SideMenuColorsStyle menuColors = colors.menuColors;
 
     double topPadding = MediaQuery.of(context).padding.top;
 
@@ -143,48 +143,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
+              height: theme.sizing.spacing1,
+            ),
+            SizedBox(
               height: theme.sizing.appBarSizing.appBarHeight - 4,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 36,
-                      child: CupertinoTextField(
-                        onChanged: (value) {
-                          filter(value, context);
-                        },
-                        textAlignVertical: TextAlignVertical.center,
-                        prefix: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Icon(
-                            Icons.search,
-                            size: 22,
-                            color: colors.foreground,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colors.onPrimary.lighten(0.25),
-                          borderRadius: theme.sizing.radius2.asRadius(),
-                          border: Border.all(
-                            color: colors.foreground.withOpacity(0.6),
-                            width: 2,
-                          ),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8,
-                        ),
-                        style: theme.typography.h1,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 24,
-                  ),
                   LegendAnimatedIcon(
                     icon: Icons.close,
                     disableShadow: true,
@@ -199,35 +165,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: AnimatedContainer(
-                duration: Duration(
-                  milliseconds: 400,
-                ),
-                curve: Curves.easeInOutSine,
-                height: search_height,
-                decoration: BoxDecoration(
-                  borderRadius: theme.sizing.radius1.asRadius(),
-                  color: theme.colors.background1,
-                ),
-                padding: EdgeInsets.only(
-                  top: theme.sizing.radius1,
-                  bottom: theme.sizing.radius1,
-                ),
-                child: ListView(
-                  // shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  children: getSearchItems(searchItems, context),
-                ),
-                margin: searchItems.isNotEmpty
-                    ? const EdgeInsets.only(bottom: 24)
-                    : EdgeInsets.zero,
-              ),
-            ),
-            Divider(height: 4, thickness: 1, color: colors.foreground),
-            const SizedBox(
-              height: 12,
+            SizedBox(
+              height: theme.sizing.spacing2,
             ),
             Flexible(
               child: SingleChildScrollView(
@@ -244,8 +183,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 12,
+            SizedBox(
+              height: theme.sizing.spacing1,
             ),
             if (widget.actions != null)
               Padding(

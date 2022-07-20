@@ -6,6 +6,7 @@ class LegendDetector extends StatefulWidget {
   final void Function(PointerEnterEvent)? onEnter;
   final void Function(PointerExitEvent)? onExit;
   final void Function(bool)? onHover;
+  final void Function(PointerHoverEvent event)? onHoverEvent;
   final void Function()? onTap;
 
   final Widget child;
@@ -25,6 +26,7 @@ class LegendDetector extends StatefulWidget {
     this.padding = EdgeInsets.zero,
     this.borderRadius,
     this.background = Colors.transparent,
+    this.onHoverEvent,
     Color? activeBackground,
   }) : super(key: key) {
     this.activeBackground = activeBackground ?? background.darken(0.1);
@@ -47,8 +49,6 @@ class _LegendDetectorState extends State<LegendDetector> {
 
   void onHover() {
     if (widget.onHover != null) widget.onHover!(isHovered);
-
-    print(isHovered);
   }
 
   @override
@@ -75,6 +75,7 @@ class _LegendDetectorState extends State<LegendDetector> {
           onHover();
         }
       },
+      onHover: widget.onHoverEvent,
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(

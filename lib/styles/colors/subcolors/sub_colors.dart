@@ -4,9 +4,9 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 class LegendSubColors {
   final AppBarColorsOverride? appBar;
   final BottomBarColorsOverride? bottomBar;
-  final SiderColorOverride? sider;
-  final MenuDrawerColorOverride? menuDrawer;
-  final FooterColorOverride? footer;
+  final SiderColorsOverride? sider;
+  final MenuDrawerColorsOverride? menuDrawer;
+  final FooterColorsOverride? footer;
 
   const LegendSubColors({
     this.appBar,

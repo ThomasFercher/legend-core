@@ -84,7 +84,7 @@ class LegendApp extends StatelessWidget {
       colorTheme: themeDelegate.buildColorTheme(),
       sizingTheme: themeDelegate.buildSizingTheme(),
       typography: themeDelegate.buildTypography(),
-      buildConfig: themeDelegate.buildConfig.call(),
+      buildConfig: routesDelegate.buildConfig,
     );
   }
 

@@ -20,7 +20,7 @@ class FixedSiderMenu extends StatefulWidget {
   final int depth;
   final List<RouteDisplay> options;
   final bool hasToPop;
-  final SideMenuColors colors;
+  final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
   final TextStyle textStyle;
   late final bool collapsed;
@@ -62,7 +62,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   late int selected;
   late int? hovered;
   late Map<int, bool> expanded;
-  late final SideMenuColors colors;
+  late final SideMenuColorsStyle colors;
   late final SideMenuSizingStyle sizing;
 
   @override
@@ -79,7 +79,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    RouteDisplay? sel = RouteInfoProvider.getRouteDisplay(context);
+    RouteDisplay? sel = LegendRouter.of(context).getCurrent();
     selected = widget.options.indexWhere((element) => element == sel);
   }
 
@@ -158,7 +158,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: tiles.traillingPaddingCol(sizing.spacing, last: true),
+            children: tiles.traillingPaddingCol(sizing.spacing, last: false),
           ),
         );
       },

@@ -1,23 +1,17 @@
 // ignore_for_file: prefer_initializing_formals
 
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_color_components.dart';
 import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
-import 'package:legend_design_core/styles/colors/subcolors/bottom_bar_colors.dart';
-import 'package:legend_design_core/styles/colors/subcolors/footer_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/bottomBar/bottom_bar_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/footer/footer_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
-import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors_components.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
-import 'package:legend_design_core/styles/colors/subcolors/sider/sider_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/sider/sider_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/sub_colors.dart';
 import 'package:legend_design_core/styles/typography/typography.dart';
-
 import 'package:legend_utils/extensions/extensions.dart';
-
 import 'core_colors.dart';
 import 'subcolors/micros/menu/menu_colors.dart';
-import 'subcolors/sider/sider_color_components.dart';
 
 class LegendPalette implements LegendCoreColors {
   ///  Primary Color
@@ -101,22 +95,22 @@ class LegendPalette implements LegendCoreColors {
   // These Themes, if null, will get generated with the required colors.
 
   /// Footer Color Palette
-  late final FooterColors footer;
+  late final FooterColorsStyle footer;
 
   /// AppBar Color Palette
-  late final AppBarColors appBar;
+  late final AppBarColorsStyle appBar;
 
   /// Sider Color Palette
-  late final SiderColors sider;
+  late final SiderColorsStyle sider;
 
   /// BottomBar Color Palette
-  late final BottomBarColors bottomBar;
+  late final BottomBarColorsStyle bottomBar;
 
   /// Typography Color Palette
   late final TypographyColors typography;
 
   /// Typography Color Palette
-  late final MenuDrawerColors menuDrawer;
+  late final MenuDrawerColorsStyle menuDrawer;
 
   final LegendSubColors Function(LegendCoreColors colors)? subcolors;
 
@@ -157,21 +151,28 @@ class LegendPalette implements LegendCoreColors {
     LegendSubColors subColors = subcolors?.call(this) ?? LegendSubColors();
 
     // Footer
-    FooterColors footerColors = FooterColors(
+    FooterColorsStyle footerColors = FooterColorsStyle(
       background: background4,
       foreground: foreground4,
     );
-    footer = FooterColors.override(footerColors, subColors.footer);
+    footer = FooterColorsStyle.override(footerColors, subColors.footer);
 
     // AppBar
-    AppBarColors appBarColors = AppBarColors(
+    AppBarColorsStyle appBarColors = AppBarColorsStyle(
       background: primary,
       icon: foreground1,
       selected: selection,
       foreground: foreground1,
-      buildComponents: (AppBarColorInfo colors) {
-        return AppBarColorComponents(
-          menuColors: MenuColors(
+      buildComponents: (AppBarColorsInfo colors) {
+        return AppBarColorsComponents(
+          menuColors: MenuColorsStyle(
+            activeBackground: colors.background.lighten(),
+            activeForeground: colors.selected,
+            background: colors.background,
+            foreground: colors.foreground,
+            menuBackground: colors.background,
+          ),
+          subMenuColors: SideMenuColorsStyle(
             activeBackground: colors.background.lighten(),
             activeForeground: colors.selected,
             background: colors.background,
@@ -181,25 +182,26 @@ class LegendPalette implements LegendCoreColors {
         );
       },
     );
-    appBar = AppBarColors.override(appBarColors, subColors.appBar);
+    appBar = AppBarColorsStyle.override(appBarColors, subColors.appBar);
 
     // BottomBar
-    BottomBarColors bottomBarColors = BottomBarColors(
+    BottomBarColorsStyle bottomBarColors = BottomBarColorsStyle(
       backgroundColor: background1,
       activeColor: selection,
       disabledColor: disabled,
     );
-    bottomBar = BottomBarColors.override(bottomBarColors, subColors.bottomBar);
+    bottomBar =
+        BottomBarColorsStyle.override(bottomBarColors, subColors.bottomBar);
 
     // Sider
-    SiderColors siderColors = SiderColors(
+    SiderColorsStyle siderColors = SiderColorsStyle(
         background: background1,
         foreground: foreground1,
         selection: selection,
         backgroundMenu: background1,
         buildComponents: (colors) {
-          return SiderColorComponents(
-            sideMenuColors: SideMenuColors(
+          return SiderColorsComponents(
+            menuColors: SideMenuColorsStyle(
               background: colors.background,
               activeForeground: colors.selection,
               activeBackground: colors.background.lighten(),
@@ -208,10 +210,10 @@ class LegendPalette implements LegendCoreColors {
             ),
           );
         });
-    sider = SiderColors.override(siderColors, subColors.sider);
+    sider = SiderColorsStyle.override(siderColors, subColors.sider);
 
     // Menu Drawer
-    MenuDrawerColors menuDrawerColors = MenuDrawerColors(
+    MenuDrawerColorsStyle menuDrawerColors = MenuDrawerColorsStyle(
       background: primary,
       backgroundMenu: onPrimary,
       background_menu_selection: onPrimary.lighten(),
@@ -219,9 +221,9 @@ class LegendPalette implements LegendCoreColors {
       foreground: foreground1,
       foreground_menu_selction: selection,
       foreground_selection: selection,
-      buildComponents: (MenuDrawerColorInfo colors) {
-        return MenuDrawerColorComponents(
-          sideMenuColors: SideMenuColors(
+      buildComponents: (MenuDrawerColorsInfo colors) {
+        return MenuDrawerColorsComponents(
+          menuColors: SideMenuColorsStyle(
             activeBackground: colors.background.lighten(),
             activeForeground: colors.foreground_selection,
             background: colors.background,
@@ -231,7 +233,7 @@ class LegendPalette implements LegendCoreColors {
         );
       },
     );
-    menuDrawer = MenuDrawerColors.override(
+    menuDrawer = MenuDrawerColorsStyle.override(
       menuDrawerColors,
       subColors.menuDrawer,
     );

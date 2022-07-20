@@ -27,7 +27,7 @@ class HeaderTile extends StatelessWidget {
     this.current,
   });
 
-  final SideMenuColors colors;
+  final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
 
   final RouteDisplay option;

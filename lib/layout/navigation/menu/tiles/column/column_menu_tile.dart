@@ -46,7 +46,7 @@ class ColumnMenuTile extends StatelessWidget {
     LegendTheme theme = context.watch<LegendTheme>();
 
     bool center = icon != null && title == null;
-    print("$padding  $height");
+
     return SizedBox(
       height: height,
       child: LegendDetector(
@@ -65,6 +65,7 @@ class ColumnMenuTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: center
                       ? MainAxisAlignment.center
                       : MainAxisAlignment.start,
@@ -79,7 +80,7 @@ class ColumnMenuTile extends StatelessWidget {
                       LegendText(
                         text: title,
                         padding: EdgeInsets.only(left: spacing),
-                        textStyle: theme.typography.h2.copyWith(
+                        textStyle: theme.typography.h1.copyWith(
                           color: foreground,
                         ),
                       ),

@@ -45,6 +45,10 @@ class LegendRouteBody extends StatelessWidget {
         ? theme.scaffoldConfig?.builders?.customFooter?.sizing?.height ?? 0
         : 0;
 
+    EdgeInsetsGeometry contentPadding = !disableContentDecoration
+        ? EdgeInsets.all(theme.sizing.spacing1)
+        : EdgeInsets.zero;
+
     return ColoredBox(
       color: theme.colors.background1,
       child: LayoutBuilder(
@@ -90,10 +94,8 @@ class LegendRouteBody extends StatelessWidget {
             return Column(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(theme.sizing.spacing1).boolInit(
-                      !disableContentDecoration,
-                    ),
+                  child: Padding(
+                    padding: contentPadding,
                     child: Builder(
                       builder: (BuildContext context) {
                         return builder!(
@@ -115,10 +117,13 @@ class LegendRouteBody extends StatelessWidget {
               slivers: [
                 if (sliverAppBar != null) sliverAppBar!,
                 SliverToBoxAdapter(
-                  child: Builder(
-                    builder: (context) => builder!(
-                      context,
-                      Size(constraints.maxWidth, double.infinity),
+                  child: Padding(
+                    padding: contentPadding,
+                    child: Builder(
+                      builder: (context) => builder!(
+                        context,
+                        Size(constraints.maxWidth, double.infinity),
+                      ),
                     ),
                   ),
                 ),

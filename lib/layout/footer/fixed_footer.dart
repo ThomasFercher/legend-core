@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 
 class FixedFooter extends StatelessWidget {
   final FooterSizingStyle? sizing;
-  final FooterColors? colors;
+  final FooterColorsStyle? colors;
   final Widget Function(
     BuildContext context,
-    FooterColors colors,
+    FooterColorsStyle colors,
     FooterSizingStyle sizing,
   ) builder;
 
@@ -22,7 +22,7 @@ class FixedFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
     FooterSizingStyle size = sizing ?? theme.sizing.footerSizing;
-    FooterColors color = colors ?? theme.colors.footer;
+    FooterColorsStyle color = colors ?? theme.colors.footer;
 
     return Container(
       width: MediaQuery.of(context).size.width,

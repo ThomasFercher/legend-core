@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/collapsed_menu.dart';
+import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
+import 'package:legend_design_core/modals/legendPopups.dart';
+import 'package:legend_design_core/modals/subMenu/legend_sub_menu.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/menu/menu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -14,17 +17,24 @@ class FixedMenu extends StatefulWidget {
   final bool showMenuSubItems;
 
   final List<RouteDisplay> options;
+  late final List<GlobalKey> optionsKeys;
 
   final MenuSizingStyle sizing;
-  final MenuColors colors;
+  final MenuColorsStyle colors;
 
-  const FixedMenu({
+  FixedMenu({
     Key? key,
     required this.options,
     required this.colors,
     required this.sizing,
     required this.showMenuSubItems,
-  }) : super(key: key);
+  }) : super(key: key) {
+    optionsKeys = options
+        .map((option) => GlobalKey(
+              debugLabel: option.route,
+            ))
+        .toList();
+  }
 
   @override
   State<FixedMenu> createState() => _FixedMenuState();
@@ -33,12 +43,15 @@ class FixedMenu extends StatefulWidget {
 class _FixedMenuState extends State<FixedMenu> {
   int? hovered;
 
+  late bool _subMenuShown;
+
   @override
   void initState() {
+    _subMenuShown = false;
     super.initState();
   }
 
-  MenuColors get colors => widget.colors;
+  MenuColorsStyle get colors => widget.colors;
   MenuSizingStyle get sizing => widget.sizing;
 
   List<RowMenuTile> getTiles(
@@ -52,7 +65,7 @@ class _FixedMenuState extends State<FixedMenu> {
     for (int i = 0; i < widget.options.length; i++) {
       final RouteDisplay option = widget.options[i];
       bool isSelected = i == hovered || option.route == currentRoute;
-
+      List<RouteDisplay> subOptions = option.children?.toList() ?? [];
       tiles.add(
         RowMenuTile(
           iconSize: sizing.iconSize,
@@ -64,10 +77,26 @@ class _FixedMenuState extends State<FixedMenu> {
           height: sizing.height,
           padding: sizing.padding,
           borderRadius: sizing.borderRadius,
-          onHover: (value) {
+          key: widget.optionsKeys[i],
+          onHover: (_isHovered) {
             setState(() {
-              hovered = value ? i : null;
+              hovered = _isHovered ? i : null;
             });
+            if (subOptions.isNotEmpty) {
+              if (_isHovered && !_subMenuShown) {
+                showSubMenu(
+                  theme: theme,
+                  options: subOptions,
+                  current: currentRoute ?? "",
+                  route: option.route,
+                  key: widget.optionsKeys[i],
+                );
+              } else {
+                setState(() {
+                  hovered = i;
+                });
+              }
+            }
           },
           onClicked: () {
             LegendRouter.of(context)
@@ -78,6 +107,47 @@ class _FixedMenuState extends State<FixedMenu> {
     }
 
     return tiles;
+  }
+
+  void showSubMenu({
+    required LegendTheme theme,
+    required List<RouteDisplay> options,
+    required String current,
+    required String route,
+    required GlobalKey key,
+  }) {
+    _subMenuShown = true;
+    LegendSubMenu.show(
+      context: context,
+      theme: theme,
+      key: key,
+      menuWidth: 200,
+      offsetY: theme.appBarSizing.appBarHeight,
+      options: options,
+      current: current,
+      parentHeight: theme.appBarSizing.appBarHeight,
+      onExit: (_) {
+        if (_subMenuShown && mounted) {
+          setState(() {
+            hovered = null;
+            _subMenuShown = false;
+          });
+          LegendRouter.of(context).popModal();
+        }
+      },
+      onParentExit: (e, offset) {
+        setState(() {
+          hovered = null;
+          _subMenuShown = false;
+        });
+        Navigator.pop(context);
+      },
+      onParentTap: () {
+        _subMenuShown = false;
+        LegendRouter.of(context).popModal();
+        LegendRouter.of(context).pushPage(settings: RouteSettings(name: route));
+      },
+    );
   }
 
   @override
