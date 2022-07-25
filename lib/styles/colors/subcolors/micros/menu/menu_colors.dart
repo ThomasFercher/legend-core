@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'menu_colors.g.dart';
 
-@generateStyle
+@legendStyle
 class MenuColors {
   final Color background;
   final Color activeForeground;

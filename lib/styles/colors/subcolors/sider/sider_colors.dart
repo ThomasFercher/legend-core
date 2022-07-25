@@ -5,7 +5,7 @@ import '../micros/sidemenu/sidemenu_colors.dart';
 
 part 'sider_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class SiderColors {
   final Color background;
   final Color backgroundMenu;

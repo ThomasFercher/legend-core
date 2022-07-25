@@ -5,7 +5,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/side
 
 part 'appBar_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class AppBarSizing {
   final EdgeInsets contentPadding;
   final double logoSize;

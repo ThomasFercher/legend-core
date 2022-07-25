@@ -5,7 +5,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/side
 
 part 'menuDrawer_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class MenuDrawerSizing {
   final double width;
   final double iconSize;

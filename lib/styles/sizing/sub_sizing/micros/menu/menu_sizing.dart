@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'menu_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class MenuSizing {
   final double spacing;
   final double itemSpacing;

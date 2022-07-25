@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'sidemenu_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 class SideMenuSizing {
   final double spacing;
   final EdgeInsetsGeometry padding;

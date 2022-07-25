@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'bottomBar_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 class BottomBarSizing {
   /// A BoxDecoration for customising Boxshadows, BorderRadius, Borders, etc...
   final BoxDecoration decoration;

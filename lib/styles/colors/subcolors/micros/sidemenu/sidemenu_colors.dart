@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'sidemenu_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class SideMenuColors {
   final Color background;
   final Color activeForeground;

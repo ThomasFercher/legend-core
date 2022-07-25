@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'footer_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class FooterSizing {
   final double height;
   final double maxWidth;

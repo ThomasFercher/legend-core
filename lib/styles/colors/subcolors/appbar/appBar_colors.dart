@@ -5,7 +5,7 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidem
 
 part 'appBar_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class AppBarColors {
   final Color background;
   final Color icon;

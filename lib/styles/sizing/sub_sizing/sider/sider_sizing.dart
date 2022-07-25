@@ -4,7 +4,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/side
 
 part 'sider_sizing.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class SiderSizing {
   final double width;
   final double iconSize;

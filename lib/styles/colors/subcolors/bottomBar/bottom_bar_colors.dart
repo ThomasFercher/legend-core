@@ -4,7 +4,7 @@ import 'package:legend_utils/functions/functions.dart';
 
 part 'bottom_bar_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class BottomBarColors {
   final Color activeColor;
   final Color disabledColor;

@@ -4,7 +4,7 @@ import 'package:legend_utils/functions/functions.dart';
 
 part 'footer_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class FooterColors {
   final Color background;
   final Color foreground;

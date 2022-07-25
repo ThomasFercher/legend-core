@@ -4,7 +4,7 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidem
 
 part 'menu_drawer_colors.g.dart';
 
-@generateStyle
+@legendStyle
 abstract class MenuDrawerColors {
   final Color background;
   final Color backgroundMenu;

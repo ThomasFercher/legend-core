@@ -7,14 +7,14 @@ packages:
       name: _fe_analyzer_shared
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "41.0.0"
+    version: "42.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.3.0"
   animations:
     dependency: "direct main"
     description:
@@ -226,6 +226,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -306,9 +311,11 @@ packages:
   legend_annotations:
     dependency: "direct main"
     description:
-      path: "../CodeGen/legend_annotations"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "2cb5f33c88c670d37b4cedb24acfe81a2f22941f"
+      url: "https://github.com/ThomasFercher/legend_annotations"
+    source: git
     version: "1.0.0"
   legend_generator:
     dependency: "direct dev"
@@ -331,7 +338,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0b779d2d842286c040dbd2f6aae229572a7f92ca"
+      resolved-ref: "1d003306c10495d4c416d189174afba273708b6d"
       url: "https://github.com/ThomasFercher/legend_utils"
     source: git
     version: "0.0.1"
