@@ -25,7 +25,8 @@ dependencies:
     git:
       url: https://github.com/ThomasFercher/legend_router
   legend_annotations:
-    path: ../CodeGen/legend_annotations
+    git: 
+      url: https://github.com/ThomasFercher/CodeGen/tree/main/legend_annotations
 
 
 dev_dependencies:
