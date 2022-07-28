@@ -3,6 +3,7 @@ import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/slivers/parallax/parallax_sliver.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import '../../../styles/legend_theme.dart';
@@ -65,8 +66,15 @@ class LegendRouteBody extends StatelessWidget {
               ),
             );
 
+            print(constraints.maxHeight);
+
             return Container(
+              height: constraints.maxHeight,
               child: CustomScrollView(
+                controller: ScrollController()
+                  ..addListener(() {
+                    print("a");
+                  }),
                 slivers: [
                   if (sliverAppBar != null) sliverAppBar!,
                   if (sliverPersistentHeader != null)
@@ -75,7 +83,9 @@ class LegendRouteBody extends StatelessWidget {
                     ),
                   SliverList(
                     delegate: SliverChildListDelegate(
+
                       _slivers,
+                      
                     ),
                   ),
                   SliverFillRemaining(

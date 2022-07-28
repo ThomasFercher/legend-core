@@ -149,36 +149,36 @@ class LegendApp extends StatelessWidget {
       displays: routeDisplays,
     );
 
-    return Localizations(
-      delegates: localizations,
-      locale: Locale('en', 'US'),
-      child: MultiProvider(
-        providers: _initProviders(),
-        child: RestartWidget(
-          child: Builder(builder: (context) {
-            final List<RouteInfo> routes =
-                routesDelegate.buildRoutes(routeLayouts, theme).ex();
+    return LayoutProvider(
+      title: title,
+      logo: logo,
+      child: Localizations(
+        delegates: localizations,
+        locale: Locale('en', 'US'),
+        child: MultiProvider(
+          providers: _initProviders(),
+          child: RestartWidget(
+            child: Builder(builder: (context) {
+              final List<RouteInfo> routes =
+                  routesDelegate.buildRoutes(routeLayouts, theme).ex();
 
-            return LegendRouter(
-              routerDelegate: routerDelegate,
-              routes: routes,
-              routeDisplays: routeDisplays,
-              child: WidgetsApp(
-                color: theme.colors.primary,
-                debugShowCheckedModeBanner: false,
-                pageRouteBuilder: GlobalModal.pageRouteBuilder,
-                onGenerateRoute: (r) => _modalGeneration(r, routes, context),
-                home: FutureBuilder(
-                  future: _init(context),
-                  builder: (context, snapshot) {
-                    LegendTheme theme = Provider.of<LegendTheme>(context);
+              return LegendRouter(
+                routerDelegate: routerDelegate,
+                routes: routes,
+                routeDisplays: routeDisplays,
+                child: WidgetsApp(
+                  color: theme.colors.primary,
+                  debugShowCheckedModeBanner: false,
+                  pageRouteBuilder: GlobalModal.pageRouteBuilder,
+                  onGenerateRoute: (r) => _modalGeneration(r, routes, context),
+                  home: FutureBuilder(
+                    future: _init(context),
+                    builder: (context, snapshot) {
+                      LegendTheme theme = Provider.of<LegendTheme>(context);
 
-                    if (snapshot.connectionState == ConnectionState.done ||
-                        buildSplashscreen == null) {
-                      return LayoutProvider(
-                        title: title,
-                        logo: logo,
-                        child: WidgetsApp.router(
+                      if (snapshot.connectionState == ConnectionState.done ||
+                          buildSplashscreen == null) {
+                        return WidgetsApp.router(
                           localizationsDelegates: [
                             GlobalMaterialLocalizations.delegate,
                             GlobalWidgetsLocalizations.delegate,
@@ -193,16 +193,16 @@ class LegendApp extends StatelessWidget {
                           backButtonDispatcher: RootBackButtonDispatcher(),
                           color: theme.colors.primary,
                           useInheritedMediaQuery: true,
-                        ),
-                      );
-                    } else {
-                      return buildSplashscreen!(context, theme);
-                    }
-                  },
+                        );
+                      } else {
+                        return buildSplashscreen!(context, theme);
+                      }
+                    },
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );

@@ -103,7 +103,7 @@ class LegendAppBar extends StatelessWidget {
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
-      //  toolbarHeight: config.appBarHeight,
+      toolbarHeight: config.appBarHeight,
       pinned: config.pinned,
       leading: null,
       snap: config.snap,
@@ -112,7 +112,7 @@ class LegendAppBar extends StatelessWidget {
       backgroundColor: theme.appBar.background,
       bottom: _bottom(context),
       title: Container(
-        //     constraints: BoxConstraints(maxHeight: config.appBarHeight),
+        constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarDelegate(
           type: type,
