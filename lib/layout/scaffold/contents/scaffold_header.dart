@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
-import 'package:legend_design_core/layout/appBar.dart/legend_appbar_fixed.dart';
+import 'package:legend_design_core/layout/appBar.dart/legend_appbar.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:provider/provider.dart';
 import '../../../styles/legend_theme.dart';
@@ -24,7 +24,7 @@ class ScaffoldHeader extends StatelessWidget {
 
     switch (layout.layout) {
       case AppBarLayoutConfig.fixedAbove:
-        return LegendAppBarFixed(
+        return LegendAppBar(
           type: layout.aligment,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(
@@ -36,7 +36,7 @@ class ScaffoldHeader extends StatelessWidget {
           ),
         );
       case AppBarLayoutConfig.none:
-        return LegendAppBarFixed(
+        return LegendAppBar(
           type: layout.aligment,
           actions: scaffold.builders.appBarActions,
           config: LegendAppBarConfig(

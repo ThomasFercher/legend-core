@@ -4,7 +4,7 @@ import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart'
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
-import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -23,7 +23,7 @@ const List<Widget> actionsFiller = [
   )
 ];
 
-class LegendAppBarFixed extends StatelessWidget {
+class LegendSliverBar extends StatelessWidget {
   final LegendAppBarConfig config;
   final WidgetBuilder? actions;
   final Widget? title;
@@ -33,7 +33,7 @@ class LegendAppBarFixed extends StatelessWidget {
   final bool showLogo;
   final AppBarLayoutType type;
 
-  const LegendAppBarFixed({
+  const LegendSliverBar({
     required this.config,
     this.actions,
     this.logo,
@@ -51,16 +51,16 @@ class LegendAppBarFixed extends StatelessWidget {
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
-          sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
+          sizing: sizing,
           options: LegendRouter.of(context).routeDisplays,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
-          sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
+          sizing: sizing,
           options: LegendRouter.of(context).routeDisplays,
         );
     }
@@ -68,37 +68,27 @@ class LegendAppBarFixed extends StatelessWidget {
 
   PreferredSize _bottom(BuildContext context) {
     RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
-    RouteDisplay? display = ScaffoldInfo.of(context).display;
 
     if (route is TabviewPageInfo) {
-      List<RouteDisplay> displays = [if (display != null) display];
-      displays.addAll(display?.children?.toList() ?? []);
+      RouteDisplay? display = ScaffoldInfo.of(context).display;
+
       return PreferredSize(
         preferredSize: Size.fromHeight(route.style.height),
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: route.style.height),
           child: LegendTabBar(
             style: route.style,
-            displays: displays,
+            displays: [],
           ),
         ),
       );
     } else if (route is TabviewChildPageInfo) {
-      RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
-      TabviewPageInfo info = parent as TabviewPageInfo;
-      RouteDisplay? parentDisplay =
-          RouteInfoProvider.getParentRouteDisplay(context);
-      List<RouteDisplay> displays = [if (parentDisplay != null) parentDisplay];
-      displays.addAll(parentDisplay?.children?.toList() ?? []);
+      TabviewPageInfo parent =
+          RouteInfoProvider.getParentRouteInfo(context, route)
+              as TabviewPageInfo;
       return PreferredSize(
         preferredSize: Size.fromHeight(parent.style.height),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: parent.style.height),
-          child: LegendTabBar(
-            style: parent.style,
-            displays: displays,
-          ),
-        ),
+        child: Container(), //LegendTabBar(),
       );
     } else {
       return PreferredSize(child: Container(), preferredSize: Size.zero);
@@ -108,17 +98,20 @@ class LegendAppBarFixed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    return AppBar(
+
+    return SliverAppBar(
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
       toolbarHeight: config.appBarHeight,
+      pinned: config.pinned,
+      leading: null,
+      snap: config.snap,
+      floating: config.floating,
       actions: actionsFiller,
       backgroundColor: theme.appBar.background,
       bottom: _bottom(context),
       title: Container(
-        height: config.appBarHeight,
-        color: theme.colors.appBar.background,
         constraints: BoxConstraints(maxHeight: config.appBarHeight),
         padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
         child: AppBarDelegate(

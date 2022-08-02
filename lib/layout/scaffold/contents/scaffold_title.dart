@@ -20,12 +20,11 @@ class ScaffoldTitle extends StatelessWidget {
           );
         }
       },
-      child: SizedBox(
-        height: theme.sizing.appBarSizing.appBarHeight,
-        child: Container(
-          height: theme.appBarSizing.logoSize,
-          child: LayoutProvider.of(context).logo,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: theme.appBarSizing.logoSize,
         ),
+        child: LayoutProvider.of(context).logo,
       ),
     );
   }
