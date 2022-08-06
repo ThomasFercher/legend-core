@@ -7,19 +7,18 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 /// [SizeInfo] is the first Widget in the [LegendScaffold] tree.
 /// This Widget will be rebuilt/initalized on every Resize of the App and pass down
 /// variables which are dependendant on the Screen Size.
+/// Just Like MediaQuery but with easier access to [width] and [height]
 class SizeInfo extends InheritedWidget {
-  @override
-  final Widget child;
   final double width;
   final double height;
   final LegendSizingTheme sizing;
 
   SizeInfo({
-    required this.child,
     required this.width,
     required this.height,
     required this.sizing,
-  }) : super(child: child) {
+    required super.child,
+  }) {
     sizing.setWidth = width;
   }
 

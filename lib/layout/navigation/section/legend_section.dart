@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_utils/legend_utils.dart';
 
 class LegendSection extends StatelessWidget {

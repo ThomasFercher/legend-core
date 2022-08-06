@@ -111,16 +111,19 @@ class LegendSliverBar extends StatelessWidget {
       actions: actionsFiller,
       backgroundColor: theme.appBar.background,
       bottom: _bottom(context),
-      title: Container(
+      title: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: config.appBarHeight),
-        padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
-        child: AppBarDelegate(
-          type: type,
-          children: {
-            if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
-            if (showMenu) AppBarItem.MENU: getMenu(context),
-            if (actions != null) AppBarItem.ACTIONS: Builder(builder: actions!),
-          },
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
+          child: AppBarDelegate(
+            type: type,
+            children: {
+              if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
+              if (showMenu) AppBarItem.MENU: getMenu(context),
+              if (actions != null)
+                AppBarItem.ACTIONS: Builder(builder: actions!),
+            },
+          ),
         ),
       ),
     );

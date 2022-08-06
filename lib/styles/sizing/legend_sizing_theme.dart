@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_initializing_formals
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/core/legend_sizing.dart';
@@ -7,89 +9,103 @@ import 'package:legend_design_core/styles/sizing/core/legend_sizing.dart';
 import 'core/override.dart';
 
 class LegendSizingTheme {
-  late final List<LegendSizing>? sizings;
   final LegendSizing defaultSizing;
-  final List<LegendSizingOverride>? overrides;
+  late final List<LegendSizing> sizings;
 
-  double _width = 0;
-  double skey = 0;
+  /// This Stream is used so that LegendTheme knows when the [_key] has changed, so that it can
+  /// update the Typography which is dependent on the current [sizing].
+  final StreamController<SizingChangedEvent> sizingController =
+      StreamController.broadcast();
+  Stream<SizingChangedEvent> get sizingChanged => sizingController.stream;
+
+  double _key = 0;
+  double get key => _key;
 
   LegendSizingTheme({
     required this.defaultSizing,
-    this.overrides,
+    List<LegendSizingOverride>? overrides,
   }) {
     if (overrides == null) {
-      sizings = null;
+      sizings = [];
     } else {
-      sizings = overrides!
-          .map(
-            (override) => LegendSizing.override(
-              defaultSizing,
-              override,
-            ),
+      sizings = [
+        for (LegendSizingOverride override in overrides)
+          LegendSizing.override(
+            defaultSizing,
+            override,
           )
-          .toList();
+      ];
     }
   }
 
+  /// Returns the Breaking Point of each [LegendSizing]
   List<double> get splits {
-    if (sizings == null || sizings!.isEmpty) {
-      return [defaultSizing.key];
-    }
-    return sizings!.map((sizing) => sizing.key).toList();
+    return [
+      if (sizings.isEmpty) defaultSizing.key,
+      for (LegendSizing sizing in sizings) sizing.key
+    ];
   }
 
   /// Returns LegendSizing depending on the current Screen Width
   LegendSizing get sizing {
-    if (sizings == null || sizings!.isEmpty) {
+    if (sizings.isEmpty) {
       return defaultSizing;
-    } else if (PlatformInfo.isMobile) {
-      return sizings!.first;
-    } else {
-      return sizings!.firstWhere(
-        (element) => element.key == skey,
-        orElse: () => defaultSizing,
-      );
     }
+    if (PlatformInfo.isMobile) {
+      return sizings.first;
+    }
+    return sizings.firstWhere(
+      (sizing) => sizing.key == _key,
+      orElse: () => defaultSizing,
+    );
   }
 
   double getNearestKey(double width) {
-    if (sizings == null || sizings!.isEmpty) {
+    if (sizings.isEmpty) {
       return defaultSizing.key;
     }
-
-    List<double> spl = splits;
     if (PlatformInfo.isMobile) {
-      return spl.first;
+      return splits.first;
     }
-
-    for (var i = 0; i < spl.length; i++) {
-      double split = spl[i];
+    for (var i = 0; i < splits.length; i++) {
+      double split = splits[i];
       if (width <= split) {
         return split;
       }
     }
-
     // If the width is bigger than any key we return the last one
     // As the last key is supposed to be for the biggest Screen Width.
-    return spl.last;
+    return splits.last;
   }
 
   set setWidth(double width) {
-    _width = width;
-    skey = getNearestKey(_width);
+    double newKey = getNearestKey(width);
+    if (newKey != _key) {
+      var event = SizingChangedEvent(next: newKey, previous: _key);
+      _key = newKey;
+      sizingController.add(event);
+    }
   }
 
-  double get key => skey;
-
   /// Returns true if the current [LegendSizing] key is the same as [width]
-  bool sizeIs(double width) => skey == getNearestKey(width);
+  bool sizeIs(double width) => _key == getNearestKey(width);
 
   /// Returns true if the current [LegendSizing] key is smaller than the
   /// specified [maxWidth]
-  bool sizeIsMax(double maxWidth) => skey < getNearestKey(maxWidth);
+  bool sizeIsMax(double maxWidth) => _key < getNearestKey(maxWidth);
 
   /// Returns true if the current [LegendSizing] key is bigger than the
   /// specified [minWidth]
-  bool sizeIsMin(double minWidth) => skey > getNearestKey(minWidth);
+  bool sizeIsMin(double minWidth) => _key > getNearestKey(minWidth);
+}
+
+@immutable
+class SizingChangedEvent {
+  final double previous;
+  final double next;
+
+  const SizingChangedEvent({
+    required this.previous,
+    required this.next,
+  });
 }

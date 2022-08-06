@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
+import '../../typography/style/typography_sizing.dart';
 import '../sub_sizing/legend_sub_sizing.dart';
 import 'core_sizing.dart';
 import 'override.dart';
@@ -38,7 +39,8 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   ///
   /// Sub Sizing
   ///
-  final TypographySizing typographySizing;
+  @override
+  late final TypographySizingStyle typographySizing;
   @override
   late final AppBarSizingStyle appBarSizing;
   @override
@@ -123,12 +125,11 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
     required this.spacing3,
     required this.spacing4,
     required this.subSizing,
-    required this.typographySizing,
     this.custom = const {},
   }) {
     LegendSubSizing _subSizing = subSizing(this);
     appBarSizing = _subSizing.appBarSizing;
-    // typographySizing = _subSizing.typographySizing;
+    typographySizing = _subSizing.typographySizing;
     bottomBarSizing = _subSizing.bottomBarSizing;
     footerSizing = _subSizing.footerSizing;
     menuDrawerSizing = _subSizing.menuDrawerSizing;
@@ -156,9 +157,12 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
     }
     return LegendSizing(
       key: override.key,
-      typographySizing: def.typographySizing,
       subSizing: (_) {
         return LegendSubSizing(
+          typographySizing: TypographySizingStyle.override(
+            def.typographySizing,
+            override.typographySizing,
+          ),
           appBarSizing: AppBarSizingStyle.override(
             def.appBarSizing,
             override.appBarSizing,

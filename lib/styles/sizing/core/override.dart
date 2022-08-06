@@ -1,4 +1,5 @@
 import 'package:legend_design_core/styles/sizing/sub_sizing/legend_sub_sizing.dart';
+import 'package:legend_design_core/styles/typography/style/typography_sizing.dart';
 
 import 'core_sizing.dart';
 import 'legend_sizing.dart';
@@ -32,6 +33,7 @@ class LegendSizingOverride
     bottomBarSizing = _subSizing?.bottomBarSizing;
     footerSizing = _subSizing?.footerSizing;
     menuDrawerSizing = _subSizing?.menuDrawerSizing;
+    typographySizing = _subSizing?.typographySizing;
   }
 
   final LegendSubSizingOverride Function(LegendCoreSizingNull sizing)?
@@ -48,8 +50,8 @@ class LegendSizingOverride
   late final MenuDrawerSizingOverride? menuDrawerSizing;
   @override
   late final FooterSizingOverride? footerSizing;
-  // @override
-//  late final TypographySizing? typographySizing;
+  @override
+  late final TypographySizingOverride? typographySizing;
   @override
   final double? elevation1;
   @override

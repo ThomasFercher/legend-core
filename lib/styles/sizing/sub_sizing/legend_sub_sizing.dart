@@ -1,3 +1,5 @@
+import 'package:legend_design_core/styles/typography/style/typography_sizing.dart';
+
 import '../../typography/typography.dart';
 import 'appbar/appBar_sizing.dart';
 import 'bottomBar/bottomBar_sizing.dart';
@@ -10,8 +12,8 @@ abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
   final AppBarSizingStyle appBarSizing;
   @override
   final BottomBarSizingStyle bottomBarSizing;
-//  @override
-  // final TypographySizing typographySizing;
+  @override
+  final TypographySizingStyle typographySizing;
   @override
   final SiderSizingStyle siderSizing;
   @override
@@ -22,7 +24,7 @@ abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
   const LegendSubSizingInfo({
     required this.appBarSizing,
     required this.bottomBarSizing,
-    //  required this.typographySizing,
+    required this.typographySizing,
     required this.siderSizing,
     required this.menuDrawerSizing,
     required this.footerSizing,
@@ -32,7 +34,7 @@ abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
 abstract class LegendSubSizingInfoNull {
   final AppBarSizingInfoNull? appBarSizing;
   final BottomBarSizingInfoNull? bottomBarSizing;
-  // final Typrogra? typographySizing;
+  final TypographySizingInfoNull? typographySizing;
   final SiderSizingInfoNull? siderSizing;
   final MenuDrawerSizingInfoNull? menuDrawerSizing;
   final FooterSizingInfoNull? footerSizing;
@@ -40,7 +42,7 @@ abstract class LegendSubSizingInfoNull {
   const LegendSubSizingInfoNull({
     this.appBarSizing,
     this.bottomBarSizing,
-    //  this.typographySizing,
+    this.typographySizing,
     this.siderSizing,
     this.menuDrawerSizing,
     this.footerSizing,
@@ -54,7 +56,7 @@ class LegendSubSizing extends LegendSubSizingInfo {
     required super.siderSizing,
     required super.menuDrawerSizing,
     required super.footerSizing,
-    //  required super.typographySizing,
+    required super.typographySizing,
   });
 }
 
@@ -63,7 +65,8 @@ class LegendSubSizingOverride implements LegendSubSizingInfoNull {
   final AppBarSizingOverride? appBarSizing;
   @override
   final BottomBarSizingOverride? bottomBarSizing;
-  // final Typrogra? typographySizing;
+  @override
+  final TypographySizingOverride? typographySizing;
   @override
   final SiderSizingOverride? siderSizing;
   @override
@@ -77,5 +80,6 @@ class LegendSubSizingOverride implements LegendSubSizingInfoNull {
     this.footerSizing,
     this.menuDrawerSizing,
     this.siderSizing,
+    this.typographySizing,
   });
 }

@@ -8,6 +8,7 @@ import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawe
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/sider/sider_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/sub_colors.dart';
+import 'package:legend_design_core/styles/typography/style/typography_colors.dart';
 import 'package:legend_design_core/styles/typography/typography.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'core_colors.dart';
@@ -141,8 +142,8 @@ class LegendPalette implements LegendCoreColors {
     TypographyColors? typographyColors,
   }) {
     // Typography
-    typographyColors ??= TypographyColors(baseColor: foreground1);
-    typography = typographyColors;
+    typography =
+        typographyColors ?? TypographyColors.baseColor(color: foreground1);
 
     // Custom Colors
     this.custom = custom ?? {};

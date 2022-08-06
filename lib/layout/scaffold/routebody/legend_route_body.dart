@@ -77,6 +77,7 @@ class LegendRouteBody extends StatelessWidget {
                     ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
+                      childCount: _slivers.length,
                       (context, i) => _slivers[i],
                     ),
                   ),

@@ -1,12 +1,8 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:legend_design_core/styles/typography/typography.dart';
-import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
@@ -16,8 +12,6 @@ import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
 import 'sizing/legend_sizing_theme.dart';
-import 'sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
-import 'sizing/sub_sizing/sider/sider_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
@@ -62,11 +56,10 @@ class LegendTheme extends ChangeNotifier {
   /// Sizing Theme for the whole applications. Contains a List of [LegendSizing] for multiple
   /// Screen Resolutions and platforms.
   ///
-  late final LegendSizingTheme _sizingTheme;
-  LegendSizingTheme get sizingTheme => _sizingTheme;
+  final LegendSizingTheme sizingTheme;
 
   /// Gets the current [LegendSizing]
-  LegendSizing get sizing => _sizingTheme.sizing;
+  LegendSizing get sizing => sizingTheme.sizing;
 
   AppBarSizingStyle get appBarSizing => sizing.appBarSizing;
 
@@ -78,7 +71,7 @@ class LegendTheme extends ChangeNotifier {
   MenuDrawerSizingStyle get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
-  List<double> get splits => _sizingTheme.splits;
+  List<double> get splits => sizingTheme.splits;
 
   final bool _menuCollapsed = false;
   bool get menuCollapsed => _menuCollapsed;
@@ -92,24 +85,23 @@ class LegendTheme extends ChangeNotifier {
   ///
   /// A bool whether the platform is Mobile. Does not depend on the screen dimensions.
   ///
-  late final bool _isMobile;
+  final bool _isMobile = PlatformInfo.isMobile;
   bool get isMobile => _isMobile;
 
   LegendTheme({
     this.buildConfig,
     required this.colorTheme,
-    required LegendSizingTheme sizingTheme,
+    required this.sizingTheme,
     required LegendTypography typography,
   }) {
-    _sizingTheme = sizingTheme;
-
-    _isMobile = PlatformInfo.isMobile;
+    // Whenever the SizingTheme changes we have to update the Typography
+    sizingTheme.sizingChanged.listen((event) => changeSizingTheme());
 
     // The typography gets initalized in the body cause it depends on both the color and sizing Theme.
     this.typography = LegendTypography.applyStyles(
+      base: typography,
       sizing: sizing.typographySizing,
       colors: colors.typography,
-      typography: typography,
     );
 
     systemUIOverrides();
@@ -126,7 +118,7 @@ class LegendTheme extends ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: colorTheme.current.bottomBar.backgroundColor,
+        systemNavigationBarColor: colors.bottomBar.backgroundColor,
       ),
     );
   }
@@ -136,12 +128,15 @@ class LegendTheme extends ChangeNotifier {
   /// restart.
   void changeColorTheme(PaletteType type, BuildContext context) {
     colorTheme.setType(type);
-
     systemUIOverrides();
     updateTypography();
     notifyListeners();
-
     RestartWidget.restartApp(context);
+  }
+
+  void changeSizingTheme() {
+    updateTypography();
+    notifyListeners();
   }
 
   /// Applies Sizing and Colors to the Typography
@@ -149,7 +144,7 @@ class LegendTheme extends ChangeNotifier {
     typography = LegendTypography.applyStyles(
       sizing: sizing.typographySizing,
       colors: colors.typography,
-      typography: typography,
+      base: typography,
     );
   }
 }

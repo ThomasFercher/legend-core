@@ -5,11 +5,10 @@ class LegendColorTheme {
   final List<LegendPalette> themes;
   late PaletteType _type;
 
-  int get index => _type.index;
-
   void setType(PaletteType type) => _type = type;
 
   PaletteType get type => _type;
+  int get index => _type.index;
 
   LegendPalette get current {
     int i = index;

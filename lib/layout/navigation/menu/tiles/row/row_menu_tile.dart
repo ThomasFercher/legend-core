@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/typography/legend_text.dart';
+import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 
 const Duration duration = Duration(milliseconds: 200);
 
