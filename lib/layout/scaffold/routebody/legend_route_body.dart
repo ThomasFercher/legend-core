@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.dart';
-import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_utils/extensions/extensions.dart';
-import 'package:provider/provider.dart';
-import '../../../styles/legend_theme.dart';
+import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 
 ///
 /// This Widget will displayed directly under the Navigator/Router hence is a Page.
@@ -13,7 +12,7 @@ import '../../../styles/legend_theme.dart';
 /// wont be layout here but further up in the Scaffold Frame which is above the Navigator/Router and more suited for
 /// fixed Widgets.
 ///
-class LegendRouteBody extends StatelessWidget {
+class LegendRouteBody extends LegendWidget {
   final List<Widget> slivers;
   final bool? singlePage;
   final bool disableContentDecoration;
@@ -34,8 +33,7 @@ class LegendRouteBody extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+  Widget build(BuildContext context, LegendTheme theme) {
     ScaffoldInfo info = ScaffoldInfo.of(context);
     LegendScaffold scaffold = info.scaffold;
     bool showFooter = info.showFooter(context);

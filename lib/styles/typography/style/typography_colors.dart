@@ -1,5 +1,10 @@
 import 'dart:ui';
 
+import 'package:legend_annotations/legend_annotations.dart';
+
+part 'typography_colors.g.dart';
+
+@legendStyle
 class TypographyColors {
   final Color h0;
   final Color h1;

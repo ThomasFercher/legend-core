@@ -61,7 +61,7 @@ class _LegendDetectorState extends State<LegendDetector> {
             isHovered = true;
             _background = widget.activeBackground;
           });
-          widget.onEnter.executeIf(widget.onEnter != null);
+          if (widget.onEnter != null) widget.onEnter!(e);
           onHover();
         }
       },
@@ -71,7 +71,7 @@ class _LegendDetectorState extends State<LegendDetector> {
             isHovered = false;
             _background = widget.background;
           });
-          widget.onExit.executeIf(widget.onExit != null);
+          if (widget.onExit != null) widget.onExit!(e);
           onHover();
         }
       },

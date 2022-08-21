@@ -6,12 +6,14 @@ import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 import 'package:provider/provider.dart';
 
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
@@ -23,7 +25,7 @@ const List<Widget> actionsFiller = [
   )
 ];
 
-class LegendSliverBar extends StatelessWidget {
+class LegendSliverBar extends LegendWidget {
   final LegendAppBarConfig config;
   final WidgetBuilder? actions;
   final Widget? title;
@@ -96,20 +98,18 @@ class LegendSliverBar extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-
+  Widget build(BuildContext context, LegendTheme theme) {
     return SliverAppBar(
       leadingWidth: 0,
       titleSpacing: 0,
       elevation: config.elevation,
       toolbarHeight: config.appBarHeight,
       pinned: config.pinned,
-      leading: null,
+      leading: Container(),
       snap: config.snap,
       floating: config.floating,
       actions: actionsFiller,
-      backgroundColor: theme.appBar.background,
+      backgroundColor: theme.appBarColors.background,
       bottom: _bottom(context),
       title: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: config.appBarHeight),

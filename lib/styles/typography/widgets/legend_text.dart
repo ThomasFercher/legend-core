@@ -2,36 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:legend_utils/functions/functions.dart';
 
 class LegendText extends StatelessWidget {
-  final String? text;
+  final String? data;
   final TextStyle? textStyle;
   final bool selectable;
   final TextAlign? textAlign;
   final EdgeInsets? padding;
   final TextOverflow? overflow;
-
   final bool dynamicSizing;
 
-  LegendText({
-    required this.text,
+  const LegendText(
+    this.data, {
     this.selectable = true,
+    this.dynamicSizing = false,
     this.textStyle,
     this.textAlign,
     this.padding,
     this.overflow,
-    this.dynamicSizing = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    Widget text = dynamicSizing
+        ? _sizedText()
+        : selectable
+            ? _selectableText()
+            : _text();
+
     return Container(
       padding: padding ?? EdgeInsets.zero,
       height: textStyle?.height,
-      child: dynamicSizing ? dynamicSized() : webText(),
+      child: text,
     );
   }
 
-  Widget dynamicSized() {
-    Size s = LegendFunctions.calcTextSize(text ?? '', textStyle ?? TextStyle());
+  ///
+  /// TODO: Pfusch?
+  ///
+  Widget _sizedText() {
+    Size s = LegendFunctions.calcTextSize(data ?? '', textStyle ?? TextStyle());
+
+    Widget text = selectable ? _selectableText() : _text();
 
     return Container(
       constraints: BoxConstraints(
@@ -41,22 +51,32 @@ class LegendText extends StatelessWidget {
         alignment: Alignment.centerLeft,
         fit: BoxFit.fitHeight,
         child: Container(
-          child: Text(
-            text ?? '',
-            style: textStyle,
-            textAlign: textAlign,
-          ),
+          child: text,
         ),
       ),
     );
   }
 
-  Widget webText() {
+  ///
+  /// Ordinary Text Widget
+  ///
+  Widget _text() {
     return Text(
-      text ?? '',
+      data ?? '',
       style: textStyle,
       textAlign: textAlign,
       softWrap: true,
+    );
+  }
+
+  ///
+  /// Selectable Text
+  ///
+  Widget _selectableText() {
+    return SelectableText(
+      data ?? '',
+      style: textStyle,
+      textAlign: textAlign,
     );
   }
 }

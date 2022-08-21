@@ -9,6 +9,7 @@ import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/router/modal_router.dart';
 import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';
 import 'package:legend_router/router/routes/route_display.dart';
@@ -149,6 +150,8 @@ class LegendApp extends StatelessWidget {
       displays: routeDisplays,
     );
 
+    final GlobalKey<NavigatorState> modalNavKey = GlobalKey();
+
     return LayoutProvider(
       title: title,
       logo: logo,
@@ -171,33 +174,37 @@ class LegendApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   pageRouteBuilder: GlobalModal.pageRouteBuilder,
                   onGenerateRoute: (r) => _modalGeneration(r, routes, context),
-                  home: FutureBuilder(
-                    future: _init(context),
-                    builder: (context, snapshot) {
-                      LegendTheme theme = Provider.of<LegendTheme>(context);
+                  navigatorKey: modalNavKey,
+                  home: ModalRouter(
+                    navigatorKey: modalNavKey,
+                    child: FutureBuilder(
+                      future: _init(context),
+                      builder: (context, snapshot) {
+                        LegendTheme theme = Provider.of<LegendTheme>(context);
 
-                      if (snapshot.connectionState == ConnectionState.done ||
-                          buildSplashscreen == null) {
-                        return WidgetsApp.router(
-                          localizationsDelegates: [
-                            GlobalMaterialLocalizations.delegate,
-                            GlobalWidgetsLocalizations.delegate,
-                            GlobalCupertinoLocalizations.delegate,
-                          ],
-                          locale: Locale('en', 'US'),
-                          title: title,
-                          debugShowCheckedModeBanner: false,
-                          routerDelegate: routerDelegate,
-                          routeInformationParser:
-                              LegendRouteInformationParser(),
-                          backButtonDispatcher: RootBackButtonDispatcher(),
-                          color: theme.colors.primary,
-                          useInheritedMediaQuery: true,
-                        );
-                      } else {
-                        return buildSplashscreen!(context, theme);
-                      }
-                    },
+                        if (snapshot.connectionState == ConnectionState.done ||
+                            buildSplashscreen == null) {
+                          return WidgetsApp.router(
+                            localizationsDelegates: [
+                              GlobalMaterialLocalizations.delegate,
+                              GlobalWidgetsLocalizations.delegate,
+                              GlobalCupertinoLocalizations.delegate,
+                            ],
+                            locale: Locale('en', 'US'),
+                            title: title,
+                            debugShowCheckedModeBanner: false,
+                            routerDelegate: routerDelegate,
+                            routeInformationParser:
+                                LegendRouteInformationParser(),
+                            backButtonDispatcher: RootBackButtonDispatcher(),
+                            color: theme.colors.primary,
+                            useInheritedMediaQuery: true,
+                          );
+                        } else {
+                          return buildSplashscreen!(context, theme);
+                        }
+                      },
+                    ),
                   ),
                 ),
               );

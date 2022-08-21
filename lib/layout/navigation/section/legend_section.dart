@@ -3,8 +3,9 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_utils/legend_utils.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class LegendSection extends StatelessWidget {
+class LegendSection extends LegendWidget {
   final Widget child;
   final Color? color;
   final String? title;
@@ -17,8 +18,7 @@ class LegendSection extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+  Widget build(BuildContext context, LegendTheme theme) {
     return Container(
       decoration: BoxDecoration(
         color: color ?? theme.colors.background2,
@@ -32,7 +32,7 @@ class LegendSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 LegendText(
-                  text: title,
+                  title,
                   textStyle: theme.typography.h5,
                 ),
                 SizedBox(

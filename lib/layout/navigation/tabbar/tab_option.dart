@@ -80,7 +80,7 @@ class _TabOptionState extends State<TabOption> {
                     width: 4,
                   ),
                   LegendText(
-                    text: widget.title,
+                    widget.title,
                     selectable: false,
                     textStyle: theme.typography.h1.copyWith(
                       color: theme.colors.foreground1,

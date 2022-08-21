@@ -6,8 +6,9 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_utils/legend_utils.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class ColumnMenuTile extends StatelessWidget {
+class ColumnMenuTile extends LegendWidget {
   final String? title;
   final IconData? icon;
   final Widget? trailling;
@@ -42,9 +43,7 @@ class ColumnMenuTile extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-
+  Widget build(BuildContext context, LegendTheme theme) {
     bool center = icon != null && title == null;
 
     return SizedBox(
@@ -78,11 +77,12 @@ class ColumnMenuTile extends StatelessWidget {
                       ),
                     if (title != null)
                       LegendText(
-                        text: title,
+                        title,
                         padding: EdgeInsets.only(left: spacing),
                         textStyle: theme.typography.h1.copyWith(
                           color: foreground,
                         ),
+                        selectable: false,
                       ),
                     if (trailling != null && title != null)
                       Expanded(child: Container()),

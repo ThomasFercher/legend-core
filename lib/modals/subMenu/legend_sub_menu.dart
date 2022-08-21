@@ -42,6 +42,7 @@ class LegendSubMenu {
     required double menuWidth,
     required double offsetY,
     required String current,
+    required int depth,
     required double parentHeight,
     void Function(PointerExitEvent event)? onExit,
     void Function(PointerHoverEvent event, Offset point)? onParentExit,
@@ -71,7 +72,7 @@ class LegendSubMenu {
     bool hasExited = false;
 
     //Styles
-    SideMenuColorsStyle colors = theme.appBar.subMenuColors;
+    SideMenuColorsStyle colors = theme.appBarColors.subMenuColors;
     SideMenuSizingStyle sizing = theme.appBarSizing.subMenuSizing;
 
     LegendPopups.showLegendModal(
@@ -159,7 +160,7 @@ class LegendSubMenu {
                     child: FixedSiderMenu(
                       sizing: sizing,
                       colors: colors,
-                      depth: current.allMatches('/').length,
+                      depth: depth,
                       width: menuWidth,
                       hasToPop: true,
                       options: options,

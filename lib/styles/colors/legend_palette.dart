@@ -108,7 +108,7 @@ class LegendPalette implements LegendCoreColors {
   late final BottomBarColorsStyle bottomBar;
 
   /// Typography Color Palette
-  late final TypographyColors typography;
+  late final TypographyColorsStyle typography;
 
   /// Typography Color Palette
   late final MenuDrawerColorsStyle menuDrawer;
@@ -139,17 +139,24 @@ class LegendPalette implements LegendCoreColors {
     required this.background5,
     this.subcolors,
     Map<String, Color>? custom,
-    TypographyColors? typographyColors,
   }) {
-    // Typography
-    typography =
-        typographyColors ?? TypographyColors.baseColor(color: foreground1);
-
     // Custom Colors
     this.custom = custom ?? {};
 
     // Sub Colors
     LegendSubColors subColors = subcolors?.call(this) ?? LegendSubColors();
+
+    // Typography
+    TypographyColorsStyle typographyColors = TypographyColorsStyle(
+      h0: foreground1,
+      h1: foreground2,
+      h2: foreground3,
+      h3: foreground4,
+      h4: foreground5,
+      h5: foreground5,
+    );
+    typography =
+        TypographyColorsStyle.override(typographyColors, subColors.typography);
 
     // Footer
     FooterColorsStyle footerColors = FooterColorsStyle(

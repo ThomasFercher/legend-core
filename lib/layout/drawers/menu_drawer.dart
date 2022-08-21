@@ -4,6 +4,7 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_me
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
+import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -14,6 +15,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menuDrawe
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
 class MenuDrawer extends StatefulWidget {
   final List<Widget>? actions;
@@ -112,13 +114,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
     SizeInfo sizeInfo = SizeInfo.of(context);
 
     MenuDrawerSizingStyle sizing = theme.menuDrawerSizing;
-    MenuDrawerColorsStyle colors = theme.menuDrawerPalette;
+    MenuDrawerColorsStyle colors = theme.menuDrawerColors;
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
     SideMenuColorsStyle menuColors = colors.menuColors;
 
     double topPadding = MediaQuery.of(context).padding.top;
 
-    EdgeInsetsGeometry padding = theme.isMobile
+    EdgeInsetsGeometry padding = PlatformInfo.isMobile
         ? EdgeInsets.only(
             top: topPadding,
             left: 12,
@@ -127,10 +129,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         : EdgeInsets.symmetric(
             horizontal: 24,
           );
-    double search_item_height = 40;
-    double decoration = theme.sizing.radius1 * 2;
-    double search_height = searchItems.length * search_item_height +
-        (searchItems.isEmpty ? 0 : decoration);
+
     String current = LegendRouter.of(context).getCurrent()?.route ?? '';
 
     return SizedBox(
@@ -159,7 +158,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       disabled: colors.foreground,
                     ),
                     onPressed: () {
-                      LegendRouter.of(context).popModal();
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],

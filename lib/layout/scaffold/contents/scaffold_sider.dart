@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:provider/provider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class ScaffoldSider extends StatelessWidget {
+class ScaffoldSider extends LegendWidget {
   const ScaffoldSider({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    LegendTheme theme = context.watch<LegendTheme>();
-
     RouteLayout layout = scaffold.layout.getLayout(theme.sizingTheme.key);
     if (layout.siderLayout != SiderLayout.None) {
       return Container(

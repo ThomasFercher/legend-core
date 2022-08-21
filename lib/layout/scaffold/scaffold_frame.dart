@@ -3,8 +3,9 @@ import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_router/router/routes/route_info.dart';
 import 'legend_scaffold.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class ScaffoldFrame extends StatelessWidget {
+class ScaffoldFrame extends LegendWidget {
   final LegendRouteInfo page;
   final RouteDisplay? display;
   final Widget child;
@@ -17,7 +18,7 @@ class ScaffoldFrame extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     final ScaffoldRouteConfig config = page.config;
     return LegendScaffold(
       layout: config.layout,

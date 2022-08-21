@@ -3,10 +3,11 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
 const Duration duration = Duration(milliseconds: 200);
 
-class RowMenuTile extends StatelessWidget {
+class RowMenuTile extends LegendWidget {
   // Colors
   final Color foreground;
   final Color background;
@@ -46,9 +47,7 @@ class RowMenuTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
-
+  Widget build(BuildContext context, LegendTheme theme) {
     return SizedBox(
       height: height,
       child: LegendDetector(
@@ -73,8 +72,8 @@ class RowMenuTile extends StatelessWidget {
                   ),
                 if (title != null)
                   LegendText(
+                    title,
                     padding: EdgeInsets.only(left: spacing),
-                    text: title,
                     selectable: false,
                     textStyle: textStyle?.copyWith(color: foreground) ??
                         theme.typography.h2.copyWith(

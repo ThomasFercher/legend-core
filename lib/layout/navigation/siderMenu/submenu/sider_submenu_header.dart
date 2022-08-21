@@ -8,11 +8,12 @@ import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
 /// Represents the parent of a submenu
 /// If not hovered over it will behave like all other Drawertiles
 /// If hovered over it will expand and show the submenu and change its colors
-class HeaderTile extends StatelessWidget {
+class HeaderTile extends LegendWidget {
   HeaderTile({
     required this.sizing,
     required this.colors,
@@ -41,8 +42,7 @@ class HeaderTile extends StatelessWidget {
   final String? current;
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+  Widget build(BuildContext context, LegendTheme theme) {
     bool isCurrent = current == option.route;
     Color foreground = isSelected || isHovered || isCurrent
         ? colors.activeForeground

@@ -22,7 +22,7 @@ class LegendTypography {
 
   factory LegendTypography.applyStyles({
     required LegendTypography base,
-    required TypographyColors colors,
+    required TypographyColorsStyle colors,
     required TypographySizingStyle sizing,
   }) {
     return LegendTypography(

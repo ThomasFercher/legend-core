@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -12,7 +13,7 @@ import 'package:provider/provider.dart';
 const double iosBottomPadding = 12;
 const Duration anmimationDuration = Duration(milliseconds: 220);
 
-class LegendBottomBar extends StatelessWidget {
+class LegendBottomBar extends LegendWidget {
   final bool? fit;
   final BottomBarSizingStyle sizing;
   final BottomBarColorsStyle colors;
@@ -55,7 +56,7 @@ class LegendBottomBar extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     double padding = MediaQuery.of(context).padding.bottom;
     if (PlatformInfo.isIos) {
       padding =
@@ -68,7 +69,6 @@ class LegendBottomBar extends StatelessWidget {
 
     bool fillBottom = sizing.fillBottom;
 
-    LegendTheme theme = context.watch<LegendTheme>();
     return Consumer<BottomBarProvider>(
       builder: (context, provider, child) {
         int selected = provider.selectedIndex;

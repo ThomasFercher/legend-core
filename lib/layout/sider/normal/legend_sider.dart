@@ -12,17 +12,18 @@ import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
 import 'package:provider/provider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class Sider extends StatelessWidget {
+class Sider extends LegendWidget {
   const Sider({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
     LegendTheme theme = Provider.of<LegendTheme>(context);
-    SiderColorsStyle colors = theme.siderPalette;
+    SiderColorsStyle colors = theme.siderColors;
     SiderSizingStyle sizing = theme.siderSizing;
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
     SideMenuColorsStyle menuColors = colors.menuColors;

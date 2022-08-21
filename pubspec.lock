@@ -202,6 +202,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_hooks:
+    dependency: "direct main"
+    description:
+      name: flutter_hooks
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.18.5+1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -327,11 +334,9 @@ packages:
   legend_router:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "78735b10f8e1ab447a52dfe7cf86cd5d20de37fd"
-      url: "https://github.com/ThomasFercher/legend_router"
-    source: git
+      path: "../legend_router"
+      relative: true
+    source: path
     version: "0.0.1"
   legend_utils:
     dependency: "direct main"

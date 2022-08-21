@@ -10,7 +10,6 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
-import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
@@ -88,7 +87,7 @@ class _FixedMenuState extends State<FixedMenu> {
                   theme: theme,
                   options: subOptions,
                   current: currentRoute ?? "",
-                  route: option.route,
+                  route: option,
                   key: widget.optionsKeys[i],
                 );
               } else {
@@ -113,7 +112,7 @@ class _FixedMenuState extends State<FixedMenu> {
     required LegendTheme theme,
     required List<RouteDisplay> options,
     required String current,
-    required String route,
+    required RouteDisplay route,
     required GlobalKey key,
   }) {
     _subMenuShown = true;
@@ -122,6 +121,7 @@ class _FixedMenuState extends State<FixedMenu> {
       theme: theme,
       key: key,
       menuWidth: 200,
+      depth: route.children?.length ?? 1,
       offsetY: theme.appBarSizing.appBarHeight,
       options: options,
       current: current,
@@ -132,7 +132,9 @@ class _FixedMenuState extends State<FixedMenu> {
             hovered = null;
             _subMenuShown = false;
           });
-          LegendRouter.of(context).popModal();
+          print("asd");
+          // TODO: Is called if FixedSiderMenu pushes a Sub Route which results in nothing happening
+          Navigator.of(context).pop();
         }
       },
       onParentExit: (e, offset) {
@@ -140,12 +142,14 @@ class _FixedMenuState extends State<FixedMenu> {
           hovered = null;
           _subMenuShown = false;
         });
-        Navigator.pop(context);
+        Navigator.of(context).pop();
       },
       onParentTap: () {
         _subMenuShown = false;
-        LegendRouter.of(context).popModal();
-        LegendRouter.of(context).pushPage(settings: RouteSettings(name: route));
+        Navigator.of(context).pop();
+        LegendRouter.of(context).pushPage(
+          settings: RouteSettings(name: route.route),
+        );
       },
     );
   }

@@ -1,5 +1,3 @@
-export 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
@@ -8,17 +6,16 @@ import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/route_display.dart';
 import 'package:legend_utils/extensions/extensions.dart';
-import 'package:provider/provider.dart';
 import '../config/appbar_layout.dart';
 import 'contents/scaffold_sider.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
-class LegendScaffold extends StatelessWidget {
+class LegendScaffold extends LegendWidget {
   // Core
   final String pageName;
   final Widget child;
@@ -63,8 +60,7 @@ class LegendScaffold extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+  Widget build(BuildContext context, LegendTheme theme) {
     ScaffoldConfig? config = theme.scaffoldConfig;
 
     return ScaffoldInfo(
@@ -98,8 +94,8 @@ class LegendScaffold extends StatelessWidget {
 
           return Scaffold(
             bottomNavigationBar: LegendBottomBar(
-              colors: theme.bottomBarPalette,
-              sizing: theme.bottomBarSizing!,
+              colors: theme.bottomBarColors,
+              sizing: theme.bottomBarSizing,
               options: LegendRouter.of(context).routeDisplays,
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,

@@ -58,6 +58,8 @@ class LegendPopups {
       context: context,
       builder: (context) => modal,
       barrierColor: Colors.transparent,
+      barrierDismissible: true,
+      useRootNavigator: false,
     );
   }
 }

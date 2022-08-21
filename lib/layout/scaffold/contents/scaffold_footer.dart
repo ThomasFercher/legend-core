@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
-import 'package:provider/provider.dart';
-import '../../../styles/legend_theme.dart';
+import 'package:legend_design_core/state/legend_state.dart';
+import '../scaffoldInfo.dart';
 
-class ScaffoldFooter extends StatelessWidget {
+class ScaffoldFooter extends LegendWidget {
   const ScaffoldFooter({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    LegendTheme theme = context.watch<LegendTheme>();
+
     FooterLayout layout =
         scaffold.layout.getLayout(theme.sizingTheme.key).footerLayout;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/router/modal_router.dart';
 import 'package:provider/provider.dart';
 
 class CollapsedMenu extends StatefulWidget {
@@ -28,8 +29,10 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
         padding: EdgeInsets.all(0),
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
-          LegendRouter.of(context)
-              .pushGlobalModal(settings: RouteSettings(name: '/menudrawer'));
+          ModalRouter.of(context).push(
+            settings: RouteSettings(name: '/menudrawer'),
+            useKey: true,
+          );
         },
         icon: Icons.menu,
         disableShadow: true,

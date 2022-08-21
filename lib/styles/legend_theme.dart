@@ -22,71 +22,45 @@ export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
 export 'sizing/sub_sizing/appbar/appBar_sizing.dart';
+export 'package:provider/provider.dart';
 
+///
+///
+///
 class LegendTheme extends ChangeNotifier {
-  ///
   /// Class containing a list of different Textstyles
-  ///
   late LegendTypography typography;
 
-  ///
   /// Color Theme for the whole applications. Contains a List of [LegendPalette]
-  ///
   final LegendColorTheme colorTheme;
-
-  /// Gets the currently selected [LegendPalette]
   LegendPalette get colors => colorTheme.current;
 
-  /// Gets the current [AppBarColors]
-  AppBarColorsStyle get appBar => colors.appBar;
-
-  /// Gets the current [BottomBarColors]
-  BottomBarColorsStyle get bottomBarPalette => colors.bottomBar;
-
-  /// Gets the current [FooterColors]
-  FooterColorsStyle get footerPalette => colors.footer;
-
-  /// Gets the current [SiderColors]
-  SiderColorsStyle get siderPalette => colors.sider;
-
-  /// Gets the current [MenuDrawerColors]
-  MenuDrawerColorsStyle get menuDrawerPalette => colors.menuDrawer;
-
-  ///
   /// Sizing Theme for the whole applications. Contains a List of [LegendSizing] for multiple
   /// Screen Resolutions and platforms.
-  ///
   final LegendSizingTheme sizingTheme;
 
   /// Gets the current [LegendSizing]
   LegendSizing get sizing => sizingTheme.sizing;
 
+  // Getters for simplified access to sub themes
+  AppBarColorsStyle get appBarColors => colors.appBar;
+  BottomBarColorsStyle get bottomBarColors => colors.bottomBar;
+  FooterColorsStyle get footerColors => colors.footer;
+  SiderColorsStyle get siderColors => colors.sider;
+  MenuDrawerColorsStyle get menuDrawerColors => colors.menuDrawer;
+
   AppBarSizingStyle get appBarSizing => sizing.appBarSizing;
-
-  BottomBarSizingStyle? get bottomBarSizing => sizing.bottomBarSizing;
-
+  BottomBarSizingStyle get bottomBarSizing => sizing.bottomBarSizing;
+  FooterSizingStyle get footerSizing => sizing.footerSizing;
   SiderSizingStyle get siderSizing => sizing.siderSizing;
-
-  /// Gets the current [MenuDrawerSizing]
   MenuDrawerSizingStyle get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
   List<double> get splits => sizingTheme.splits;
 
-  final bool _menuCollapsed = false;
-  bool get menuCollapsed => _menuCollapsed;
-
-  ///
   /// A global Theme for Legendscaffold which which be used every unless overwritten locally
-  ///
   late final ScaffoldConfig? scaffoldConfig;
   final ScaffoldConfig Function(LegendTheme theme)? buildConfig;
-
-  ///
-  /// A bool whether the platform is Mobile. Does not depend on the screen dimensions.
-  ///
-  final bool _isMobile = PlatformInfo.isMobile;
-  bool get isMobile => _isMobile;
 
   LegendTheme({
     this.buildConfig,
