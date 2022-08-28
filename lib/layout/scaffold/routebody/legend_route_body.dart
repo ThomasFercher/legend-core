@@ -13,6 +13,9 @@ import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 /// fixed Widgets.
 ///
 class LegendRouteBody extends LegendWidget {
+  final List<Widget> children;
+
+  /// A List of Slivers which will be provided to a CustomScrollView
   final List<Widget> slivers;
   final bool? singlePage;
   final bool disableContentDecoration;
@@ -22,6 +25,7 @@ class LegendRouteBody extends LegendWidget {
 
   LegendRouteBody({
     Key? key,
+    this.children = const [],
     this.slivers = const [],
     this.builder,
     this.singlePage,
@@ -29,7 +33,7 @@ class LegendRouteBody extends LegendWidget {
     this.sliverAppBar,
     this.sliverPersistentHeader,
   }) : super(key: key) {
-    assert(slivers.isNotEmpty || builder != null);
+    assert(children.isNotEmpty || builder != null || slivers.isNotEmpty);
   }
 
   @override
@@ -51,14 +55,14 @@ class LegendRouteBody extends LegendWidget {
       color: theme.colors.background1,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          if (slivers.isNotEmpty) {
-            List<Widget> _slivers = List.of(
-              slivers.map(
-                (sliver) => Container(
+          if (children.isNotEmpty) {
+            List<Widget> _children = List.of(
+              children.map(
+                (child) => Container(
                   padding:
                       EdgeInsets.symmetric(horizontal: theme.sizing.spacing1)
                           .boolInit(!disableContentDecoration),
-                  child: sliver,
+                  child: child,
                 ),
               ),
             );
@@ -75,8 +79,8 @@ class LegendRouteBody extends LegendWidget {
                     ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
-                      childCount: _slivers.length,
-                      (context, i) => _slivers[i],
+                      childCount: _children.length,
+                      (context, i) => _children[i],
                     ),
                   ),
                   SliverFillRemaining(
@@ -89,6 +93,14 @@ class LegendRouteBody extends LegendWidget {
                     ),
                   ),
                 ],
+              ),
+            );
+          } else if (slivers.isNotEmpty) {
+            return Container(
+              height: constraints.maxHeight,
+              child: CustomScrollView(
+                controller: ScrollController(),
+                slivers: slivers,
               ),
             );
           } else if (single) {
