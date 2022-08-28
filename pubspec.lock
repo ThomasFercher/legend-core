@@ -334,9 +334,11 @@ packages:
   legend_router:
     dependency: "direct main"
     description:
-      path: "../legend_router"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: d25dfe18738fa4f6ed5df1c05411f16a930dc320
+      url: "https://github.com/ThomasFercher/legend_router"
+    source: git
     version: "0.0.1"
   legend_utils:
     dependency: "direct main"
