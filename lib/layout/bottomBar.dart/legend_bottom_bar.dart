@@ -6,7 +6,7 @@ import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +17,7 @@ class LegendBottomBar extends LegendWidget {
   final bool? fit;
   final BottomBarSizingStyle sizing;
   final BottomBarColorsStyle colors;
-  final List<RouteDisplay> options;
+  final List<RouteInfo> options;
 
   LegendBottomBar({
     Key? key,
@@ -35,7 +35,7 @@ class LegendBottomBar extends LegendWidget {
     final int sel = provider.selectedIndex;
 
     for (int i = 0; i < options.length; i++) {
-      final RouteDisplay option = options[i];
+      final RouteInfo option = options[i];
       BottomBarItem w = BottomBarItem(
         width: sizing.itemWidth,
         isSelected: i == sel,
@@ -43,7 +43,7 @@ class LegendBottomBar extends LegendWidget {
         onSelected: (o) {
           provider.selected = i;
           LegendRouter.of(context).pushPage(
-            settings: RouteSettings(name: option.route),
+            settings: RouteSettings(name: option.name),
           );
         },
         sizing: sizing,

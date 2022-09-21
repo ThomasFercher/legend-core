@@ -3,7 +3,7 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_me
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
-  final RouteDisplay option;
+  final RouteInfo option;
   final String? current;
 
   final void Function(bool val)? onResisize;
@@ -62,10 +62,10 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   void didChangeDependencies() {
-    RouteDisplay? sel = RouteInfoProvider.getRouteDisplay(context);
-    List<RouteDisplay>? routes = widget.option.children?.toList();
+    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
+    List<RouteInfo>? routes = widget.option.children?.toList();
     if (routes != null && sel != null) {
-      selected = routes.indexWhere((element) => element.route == sel.route);
+      selected = routes.indexWhere((element) => element.name == sel.name);
     }
     tiles = getTiles(context);
     super.didChangeDependencies();
@@ -78,11 +78,11 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
     List<Widget> tiles = [];
 
     LegendTheme theme = context.watch<LegendTheme>();
-    Iterable<RouteDisplay> options = widget.option.children ?? [];
+    Iterable<RouteInfo> options = widget.option.children ?? [];
     for (int i = 0; i < options.length; i++) {
-      final RouteDisplay option = options.elementAt(i);
+      final RouteInfo option = options.elementAt(i);
 
-      bool isSelected = i == hovered || widget.current == option.route;
+      bool isSelected = i == hovered || widget.current == option.name;
 
       tiles.add(
         ColumnMenuTile(
@@ -107,7 +107,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               Navigator.of(context).pop();
             }
             LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.route));
+                .pushPage(settings: RouteSettings(name: option.name));
           },
         ),
       );
@@ -163,7 +163,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                     }
                     LegendRouter.of(context).pushPage(
                         settings: RouteSettings(
-                      name: widget.option.route,
+                      name: widget.option.name,
                     ));
                   },
                   isHovered: headerIndex == hovered,

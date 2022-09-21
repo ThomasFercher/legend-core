@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
-import 'package:legend_router/router/routes/route_display.dart';
-import 'package:provider/provider.dart';
 
 class BottomBarItem extends LegendWidget {
-  final RouteDisplay option;
+  final RouteInfo option;
   final BottomBarSizingStyle sizing;
   final BottomBarColorsStyle colors;
-  final void Function(RouteDisplay option) onSelected;
+  final void Function(RouteInfo option) onSelected;
   final bool isSelected;
   final double width;
 

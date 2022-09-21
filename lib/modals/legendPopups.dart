@@ -8,7 +8,7 @@ import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
 
@@ -33,11 +33,11 @@ class LegendPopups {
     required Widget alert,
   }) {
     showModal(
-      context: context,
       builder: (context) {
         return alert;
       },
       configuration: _alertConfiguration,
+      context: context,
     );
   }
 
@@ -47,7 +47,7 @@ class LegendPopups {
     ModalConfiguration? config,
   }) {
     /*  showModal(
-      context: context,
+      concontext,
       builder: (context) {
         return modal;
       },

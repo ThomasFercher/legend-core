@@ -9,7 +9,7 @@ import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
 import '../scaffold/scaffoldInfo.dart';
 
@@ -51,25 +51,24 @@ class LegendAppBar extends LegendWidget {
           sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
-          options: LegendRouter.of(context).routeDisplays,
+          options: LegendRouter.of(context).routes,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
           sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
-          options: LegendRouter.of(context).routeDisplays,
+          options: LegendRouter.of(context).routes,
         );
     }
   }
 
   PreferredSize _bottom(BuildContext context) {
     RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
-    RouteDisplay? display = ScaffoldInfo.of(context).display;
 
     if (route is TabviewPageInfo) {
-      List<RouteDisplay> displays = [if (display != null) display];
-      displays.addAll(display?.children?.toList() ?? []);
+      List<RouteInfo> displays = [route];
+      displays.addAll(route.children?.toList() ?? []);
       return PreferredSize(
         preferredSize: Size.fromHeight(route.style.height),
         child: ConstrainedBox(
@@ -83,9 +82,9 @@ class LegendAppBar extends LegendWidget {
     } else if (route is TabviewChildPageInfo) {
       RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
       TabviewPageInfo info = parent as TabviewPageInfo;
-      RouteDisplay? parentDisplay =
-          RouteInfoProvider.getParentRouteDisplay(context);
-      List<RouteDisplay> displays = [if (parentDisplay != null) parentDisplay];
+      RouteInfo? parentDisplay =
+          RouteInfoProvider.getParentRouteInfo(context, route);
+      List<RouteInfo> displays = [if (parentDisplay != null) parentDisplay];
       displays.addAll(parentDisplay?.children?.toList() ?? []);
       return PreferredSize(
         preferredSize: Size.fromHeight(parent.style.height),

@@ -8,14 +8,15 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/menu/menu_colo
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_router/router/route_info_provider.dart';
+
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
   final bool showMenuSubItems;
 
-  final List<RouteDisplay> options;
+  final List<RouteInfo> options;
   late final List<GlobalKey> optionsKeys;
 
   final MenuSizingStyle sizing;
@@ -30,7 +31,7 @@ class FixedMenu extends StatefulWidget {
   }) : super(key: key) {
     optionsKeys = options
         .map((option) => GlobalKey(
-              debugLabel: option.route,
+              debugLabel: option.name,
             ))
         .toList();
   }
@@ -55,16 +56,16 @@ class _FixedMenuState extends State<FixedMenu> {
 
   List<RowMenuTile> getTiles(
     BuildContext context,
-    RouteDisplay? sel,
+    RouteInfo? sel,
   ) {
     List<RowMenuTile> tiles = [];
-    String? currentRoute = LegendRouter.of(context).getCurrent()?.route;
+    String? currentRoute = RouteInfoProvider.getRouteInfo(context)?.name;
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (int i = 0; i < widget.options.length; i++) {
-      final RouteDisplay option = widget.options[i];
-      bool isSelected = i == hovered || option.route == currentRoute;
-      List<RouteDisplay> subOptions = option.children?.toList() ?? [];
+      final RouteInfo option = widget.options[i];
+      bool isSelected = i == hovered || option.name == currentRoute;
+      List<RouteInfo> subOptions = option.children?.toList() ?? [];
       tiles.add(
         RowMenuTile(
           iconSize: sizing.iconSize,
@@ -99,7 +100,7 @@ class _FixedMenuState extends State<FixedMenu> {
           },
           onClicked: () {
             LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.route));
+                .pushPage(settings: RouteSettings(name: option.name));
           },
         ),
       );
@@ -110,9 +111,9 @@ class _FixedMenuState extends State<FixedMenu> {
 
   void showSubMenu({
     required LegendTheme theme,
-    required List<RouteDisplay> options,
+    required List<RouteInfo> options,
     required String current,
-    required RouteDisplay route,
+    required RouteInfo route,
     required GlobalKey key,
   }) {
     _subMenuShown = true;
@@ -148,7 +149,7 @@ class _FixedMenuState extends State<FixedMenu> {
         _subMenuShown = false;
         Navigator.of(context).pop();
         LegendRouter.of(context).pushPage(
-          settings: RouteSettings(name: route.route),
+          settings: RouteSettings(name: route.name),
         );
       },
     );
@@ -156,7 +157,7 @@ class _FixedMenuState extends State<FixedMenu> {
 
   @override
   Widget build(BuildContext context) {
-    RouteDisplay? sel = LegendRouter.of(context).getCurrent();
+    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {

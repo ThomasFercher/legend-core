@@ -1,24 +1,19 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/retry.dart';
+
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
-import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/routes/route_display.dart';
-import 'package:provider/provider.dart';
 
 class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;
   final RouteInfo routeInfo;
-  final RouteDisplay? display;
 
   ScaffoldInfo({
     Key? key,
     required Widget child,
     required this.scaffold,
-    required this.display,
     required this.routeInfo,
   }) : super(key: key, child: child);
 

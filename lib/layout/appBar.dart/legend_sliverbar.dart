@@ -9,13 +9,7 @@ import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_router/router/routes/route_display.dart';
-import 'package:legend_utils/extensions/extensions.dart';
-import 'package:legend_design_core/state/legend_state.dart';
-import 'package:provider/provider.dart';
-
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
 
 const List<Widget> actionsFiller = [
@@ -56,14 +50,14 @@ class LegendSliverBar extends LegendWidget {
           showMenuSubItems: false,
           colors: menuColors,
           sizing: sizing,
-          options: LegendRouter.of(context).routeDisplays,
+          options: LegendRouter.of(context).routes,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
           showMenuSubItems: false,
           colors: menuColors,
           sizing: sizing,
-          options: LegendRouter.of(context).routeDisplays,
+          options: LegendRouter.of(context).routes,
         );
     }
   }
@@ -72,7 +66,7 @@ class LegendSliverBar extends LegendWidget {
     RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
 
     if (route is TabviewPageInfo) {
-      RouteDisplay? display = ScaffoldInfo.of(context).display;
+      RouteInfo? display = ScaffoldInfo.of(context).routeInfo;
 
       return PreferredSize(
         preferredSize: Size.fromHeight(route.style.height),

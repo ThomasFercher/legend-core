@@ -4,8 +4,9 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_til
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -31,7 +32,7 @@ class HeaderTile extends LegendWidget {
   final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
 
-  final RouteDisplay option;
+  final RouteInfo option;
   final bool isSelected;
   final bool isHovered;
   final bool isExpanded;
@@ -43,7 +44,7 @@ class HeaderTile extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    bool isCurrent = current == option.route;
+    bool isCurrent = current == option.name;
     Color foreground = isSelected || isHovered || isCurrent
         ? colors.activeForeground
         : colors.foreground;

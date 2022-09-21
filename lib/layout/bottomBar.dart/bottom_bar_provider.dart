@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-
-import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_router/legend_router.dart';
 
 class BottomBarProvider with ChangeNotifier {
-  final List<RouteDisplay> options;
+  final List<RouteInfo> options;
 
   late int selectedIndex;
 

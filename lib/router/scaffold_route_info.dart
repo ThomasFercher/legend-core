@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/routes/route_display.dart';
 
 abstract class LegendRouteInfo extends RouteInfo {
   final ScaffoldRouteConfig config;
@@ -15,8 +13,10 @@ abstract class LegendRouteInfo extends RouteInfo {
     required this.config,
     required super.name,
     required super.page,
+    required super.title,
     super.arguments,
     super.children,
+    super.icon,
   });
 }
 
@@ -25,8 +25,10 @@ class PageInfo extends LegendRouteInfo {
     required super.config,
     required super.name,
     required super.page,
-    super.children,
+    required super.title,
     super.arguments,
+    super.children,
+    super.icon,
   });
 }
 
@@ -38,8 +40,10 @@ class TabviewPageInfo extends LegendRouteInfo {
     required super.config,
     required super.name,
     required super.children,
+    required super.title,
     super.page = const SizedBox(),
     super.arguments,
+    super.icon,
   });
 }
 
@@ -50,6 +54,8 @@ class TabviewChildPageInfo extends LegendRouteInfo {
     super.children,
     super.arguments,
     required super.config,
+    required super.title,
+    super.icon,
   });
 }
 
@@ -69,14 +75,5 @@ class ScaffoldRouteConfig {
     this.children = const [],
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
-  });
-}
-
-class TabRouteDisplay extends RouteDisplay {
-  const TabRouteDisplay({
-    required super.title,
-    required super.route,
-    required super.children,
-    super.icon,
   });
 }

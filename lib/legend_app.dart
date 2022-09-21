@@ -12,9 +12,8 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/modal_router.dart';
 import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/legend_utils.dart';
-import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'data/asset_loader.dart';
@@ -32,13 +31,11 @@ class LegendNavigatorFrame extends NavigatorFrame {
     BuildContext context,
     Navigator navigator,
     RouteInfo? current,
-    RouteDisplay? display,
   ) {
     if (current is LegendRouteInfo) {
       return ScaffoldFrame(
         page: current,
         child: navigator,
-        display: display,
       );
     } else {
       return navigator;
@@ -67,7 +64,7 @@ class LegendApp extends StatelessWidget {
   final List<SingleChildWidget>? providers;
 
   late final LegendTheme theme;
-  late final List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
+//  late final List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
   late final Map<dynamic, DynamicRouteLayout> routeLayouts =
       routesDelegate.buildLayouts(theme);
 
@@ -126,7 +123,7 @@ class LegendApp extends StatelessWidget {
   ///  Initialize the Providers needed for the app to work.
   ///  Also if the [providers] is not null, they will be added to the MultiProvider.
   ///
-  List<SingleChildWidget> _initProviders() {
+  List<SingleChildWidget> _initProviders(List<RouteInfo> routes) {
     List<SingleChildWidget> _providers = [
       ChangeNotifierProvider<LegendTheme>(
         create: (_) => theme,
@@ -134,7 +131,7 @@ class LegendApp extends StatelessWidget {
       ChangeNotifierProvider<BottomBarProvider>(
         create: (_) => BottomBarProvider(
           first: 0,
-          options: routeDisplays,
+          options: routes,
         ),
       ),
     ];
@@ -147,7 +144,6 @@ class LegendApp extends StatelessWidget {
     // Router Delegate
     final LegendRouterDelegate routerDelegate = LegendRouterDelegate(
       frame: LegendNavigatorFrame(),
-      displays: routeDisplays,
     );
 
     final GlobalKey<NavigatorState> modalNavKey = GlobalKey();
@@ -158,17 +154,16 @@ class LegendApp extends StatelessWidget {
       child: Localizations(
         delegates: localizations,
         locale: Locale('en', 'US'),
-        child: MultiProvider(
-          providers: _initProviders(),
-          child: RestartWidget(
-            child: Builder(builder: (context) {
-              final List<RouteInfo> routes =
-                  routesDelegate.buildRoutes(routeLayouts, theme).ex();
+        child: RestartWidget(
+          child: Builder(builder: (context) {
+            final List<RouteInfo> routes =
+                routesDelegate.buildRoutes(routeLayouts, theme).ex();
 
-              return LegendRouter(
+            return MultiProvider(
+              providers: _initProviders(routes),
+              child: LegendRouter(
                 routerDelegate: routerDelegate,
                 routes: routes,
-                routeDisplays: routeDisplays,
                 child: WidgetsApp(
                   color: theme.colors.primary,
                   debugShowCheckedModeBanner: false,
@@ -207,9 +202,9 @@ class LegendApp extends StatelessWidget {
                     ),
                   ),
                 ),
-              );
-            }),
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

@@ -9,7 +9,7 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/extensions/extensions.dart';
 import '../config/appbar_layout.dart';
 import 'contents/scaffold_sider.dart';
@@ -28,7 +28,6 @@ class LegendScaffold extends LegendWidget {
 
   //
   final RouteInfo route;
-  final RouteDisplay? display;
 
   LegendScaffold({
     required this.pageName,
@@ -37,7 +36,6 @@ class LegendScaffold extends LegendWidget {
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
     required this.route,
-    required this.display,
   });
 
   /// Copies the config onto to the base
@@ -45,7 +43,6 @@ class LegendScaffold extends LegendWidget {
   factory LegendScaffold.withConfig(
       LegendScaffold base, ScaffoldConfig config) {
     return LegendScaffold(
-      display: base.display,
       route: base.route,
       layout: base.layout,
       pageName: base.pageName,
@@ -64,7 +61,6 @@ class LegendScaffold extends LegendWidget {
     ScaffoldConfig? config = theme.scaffoldConfig;
 
     return ScaffoldInfo(
-      display: display,
       routeInfo: route,
       scaffold: config != null ? LegendScaffold.withConfig(this, config) : this,
       child: SizeInfo(
@@ -96,7 +92,7 @@ class LegendScaffold extends LegendWidget {
             bottomNavigationBar: LegendBottomBar(
               colors: theme.bottomBarColors,
               sizing: theme.bottomBarSizing,
-              options: LegendRouter.of(context).routeDisplays,
+              options: LegendRouter.of(context).routes,
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,
             appBar: _appBar(context, theme),

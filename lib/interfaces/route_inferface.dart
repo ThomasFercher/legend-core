@@ -1,7 +1,6 @@
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/routes/route_display.dart';
 
 import '../layout/scaffold/config/scaffold_config.dart';
 
@@ -16,8 +15,6 @@ abstract class RouteInterface<T> {
     Map<T, DynamicRouteLayout> layouts,
     LegendTheme theme,
   );
-
-  List<RouteDisplay> buildDisplays();
 
   ScaffoldConfig buildConfig(LegendTheme theme);
 }

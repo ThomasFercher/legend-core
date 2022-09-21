@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
@@ -11,11 +9,8 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
-import 'package:legend_router/router/routes/route_display.dart';
-import 'package:legend_utils/extensions/extensions.dart';
-import 'package:provider/provider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_router/router/route_info_provider.dart';
 
 class MenuDrawer extends StatefulWidget {
   final List<Widget>? actions;
@@ -41,12 +36,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   List<Widget> getSearchItems(List<int> filtered, BuildContext context) {
     LegendTheme theme = context.watch<LegendTheme>();
-    List<RouteDisplay> options = LegendRouter.of(context).getRouteDisplays;
+    List<RouteInfo> options = LegendRouter.of(context).routes;
     List<Widget> items = [];
     for (var i = 0; i < filtered.length; i++) {
       final Widget widget;
       int index = filtered[i];
-      final RouteDisplay menuOption = options[index];
+      final RouteInfo menuOption = options[index];
 
       widget = ColumnMenuTile(
         foreground: theme.colors.foreground2,
@@ -59,7 +54,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         onClicked: () {
           Navigator.pop(context);
           LegendRouter.of(context).pushPage(
-            settings: RouteSettings(name: menuOption.route),
+            settings: RouteSettings(name: menuOption.name),
           );
         },
         onHover: (val) {
@@ -85,14 +80,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
     });
 
     List<int> items = [];
-    List<RouteDisplay> options = LegendRouter.of(context).getRouteDisplays;
+    List<RouteInfo> options = LegendRouter.of(context).routes;
 
     String filter = text.toLowerCase().trim();
 
     if (text.isNotEmpty) {
       for (int i = 0; i < options.length; i++) {
-        final RouteDisplay option = options[i];
-        String page = option.route;
+        final RouteInfo option = options[i];
+        String page = option.name;
         String title = option.title;
         title = title.toLowerCase();
 
@@ -130,7 +125,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             horizontal: 24,
           );
 
-    String current = LegendRouter.of(context).getCurrent()?.route ?? '';
+    String current = RouteInfoProvider.getRouteInfo(context)?.name ?? '';
 
     return SizedBox(
       width: theme.menuDrawerSizing.width,
@@ -175,10 +170,10 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   depth: current.allMatches('/').length,
                   width: theme.menuDrawerSizing.width - padding.horizontal,
                   hasToPop: true,
-                  options: LegendRouter.of(context).routeDisplays,
+                  options: LegendRouter.of(context).routes,
                   showMenuSubItems: true,
                   textStyle: theme.typography.h2,
-                  current: LegendRouter.of(context).getCurrent()?.route,
+                  current: RouteInfoProvider.getRouteInfo(context)?.name,
                 ),
               ),
             ),

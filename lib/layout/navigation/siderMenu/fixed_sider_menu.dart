@@ -7,7 +7,7 @@ import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_sub
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_utils/functions/functions.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class FixedSiderMenu extends StatefulWidget {
   final bool subMenuExpanded;
   final String? current;
   final int depth;
-  final List<RouteDisplay> options;
+  final List<RouteInfo> options;
   final bool hasToPop;
   final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
@@ -79,7 +79,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    RouteDisplay? sel = LegendRouter.of(context).getCurrent();
+    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
     selected = widget.options.indexWhere((element) => element == sel);
   }
 
@@ -92,8 +92,8 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
     LegendTheme theme = context.watch<LegendTheme>();
 
     for (int i = 0; i < widget.options.length; i++) {
-      final RouteDisplay option = widget.options[i];
-      bool selected = i == hovered || widget.current == option.route;
+      final RouteInfo option = widget.options[i];
+      bool selected = i == hovered || widget.current == option.name;
       if (option.children == null || !(widget.showMenuSubItems)) {
         tiles.add(
           ColumnMenuTile(
@@ -115,7 +115,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
                 Navigator.of(context).pop();
               }
               LegendRouter.of(context).pushPage(
-                settings: RouteSettings(name: option.route),
+                settings: RouteSettings(name: option.name),
               );
             },
           ),

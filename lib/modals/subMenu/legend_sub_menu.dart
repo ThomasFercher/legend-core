@@ -5,7 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+import 'package:legend_router/legend_router.dart';
+
 import 'package:legend_utils/legend_utils.dart';
 
 import '../../layout/navigation/siderMenu/fixed_sider_menu.dart';
@@ -35,7 +36,7 @@ class LegendSubMenu {
   }
 
   static void show({
-    required List<RouteDisplay> options,
+    required List<RouteInfo> options,
     required BuildContext context,
     required GlobalKey key,
     required LegendTheme theme,

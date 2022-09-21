@@ -6,7 +6,7 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_router/router/routes/route_display.dart';
+
 import 'package:legend_utils/extensions/extensions.dart';
 import '../../scaffold/scaffoldInfo.dart';
 
@@ -23,7 +23,7 @@ class TabBarStyle {
 }
 
 class LegendTabBar extends StatefulWidget {
-  final List<RouteDisplay> displays;
+  final List<RouteInfo> displays;
   late final Color border;
 
   LegendTabBar({
@@ -60,18 +60,18 @@ class _LegendTabBarState extends State<LegendTabBar> {
     final double height = route.style.height;
 
     for (int i = 0; i < widget.displays.length; i++) {
-      final RouteDisplay display = widget.displays[i];
+      final RouteInfo display = widget.displays[i];
       Widget item = LegendDetector(
         padding: EdgeInsets.zero,
         onTap: () {
           LegendRouter.of(context).pushPage(
             settings: RouteSettings(
-              name: display.route,
+              name: display.name,
             ),
           );
         },
         child: TabOption(
-          selected: display.route == info.name,
+          selected: display.name == info.name,
           icon: display.icon,
           title: display.title,
           background: widget.style.background,

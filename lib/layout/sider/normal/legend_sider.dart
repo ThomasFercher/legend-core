@@ -34,7 +34,7 @@ class Sider extends LegendWidget {
     bool showLogo = appbarLayout.layout != AppBarLayoutConfig.fixedAbove;
 
     double maxWidth = theme.siderSizing.width;
-    String current = LegendRouter.of(context).getCurrent()?.route ?? '';
+    String current = RouteInfoProvider.getRouteInfo(context)?.name ?? '';
 
     return Container(
       width: maxWidth,
@@ -60,7 +60,7 @@ class Sider extends LegendWidget {
                       sizing: menuSizing,
                       colors: menuColors,
                       depth: current.allMatches('/').length,
-                      options: LegendRouter.of(context).routeDisplays,
+                      options: LegendRouter.of(context).routes,
                       showMenuSubItems: true,
                       width: maxWidth - sizing.horizontalPadding,
                       textStyle: theme.typography.h2,
