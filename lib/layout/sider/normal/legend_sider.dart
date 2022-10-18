@@ -9,10 +9,10 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidem
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 
-import 'package:provider/provider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+
+import '../../scaffold/config/scaffold_config.dart';
 
 class Sider extends LegendWidget {
   const Sider({
@@ -22,7 +22,7 @@ class Sider extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
-    LegendTheme theme = Provider.of<LegendTheme>(context);
+    LegendTheme theme = LegendTheme.of(context);
     SiderColorsStyle colors = theme.siderColors;
     SiderSizingStyle sizing = theme.siderSizing;
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
@@ -79,7 +79,7 @@ class Sider extends LegendWidget {
             ),
           ),
           if (fixedSider.builder != null)
-            Builder(
+            LegendScaffoldBuilder(
               builder: fixedSider.builder!,
             ),
         ],

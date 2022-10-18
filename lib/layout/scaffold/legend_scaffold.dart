@@ -64,7 +64,7 @@ class LegendScaffold extends LegendWidget {
       routeInfo: route,
       scaffold: config != null ? LegendScaffold.withConfig(this, config) : this,
       child: SizeInfo(
-        sizing: theme.sizingTheme,
+        context: context,
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Builder(builder: (context) {
@@ -72,7 +72,7 @@ class LegendScaffold extends LegendWidget {
           BottomBarLayout bottomBarLayout = ScaffoldInfo.of(context)
               .scaffold
               .layout
-              .getLayout(theme.sizingTheme.key)
+              .getLayout(theme.sizing.key)
               .bottomBarLayout;
           bool showBottomBar = bottomBarLayout == BottomBarLayout.Show;
 

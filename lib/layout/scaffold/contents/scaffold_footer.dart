@@ -13,7 +13,7 @@ class ScaffoldFooter extends LegendWidget {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
     FooterLayout layout =
-        scaffold.layout.getLayout(theme.sizingTheme.key).footerLayout;
+        scaffold.layout.getLayout(theme.sizing.key).footerLayout;
 
     FixedFooter? override = scaffold.builders.customFooter;
 

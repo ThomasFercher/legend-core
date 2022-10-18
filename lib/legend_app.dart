@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:legend_design_core/interfaces/route_inferface.dart';
 import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/layout/config/layout_config.dart';
@@ -7,6 +8,8 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/theme_provider.dart';
+
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/modal_router.dart';
@@ -14,7 +17,7 @@ import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';
 
 import 'package:legend_utils/legend_utils.dart';
-import 'package:provider/single_child_widget.dart';
+import 'package:provider/provider.dart';
 
 import 'data/asset_loader.dart';
 import 'layout/bottomBar.dart/bottom_bar_provider.dart';
@@ -60,15 +63,10 @@ class LegendApp extends StatelessWidget {
   final Widget Function(BuildContext context, LegendTheme theme)?
       buildSplashscreen;
 
-  /// Providers that will be added to a Multiprovider Widget that will be added to the root of the App.
-  final List<SingleChildWidget>? providers;
-
-  late final LegendTheme theme;
+//  late final LegendTheme theme;
 //  late final List<RouteDisplay> routeDisplays = routesDelegate.buildDisplays();
-  late final Map<dynamic, DynamicRouteLayout> routeLayouts =
-      routesDelegate.buildLayouts(theme);
 
-  LegendApp({
+  const LegendApp({
     Key? key,
     required this.routesDelegate,
     required this.themeDelegate,
@@ -76,15 +74,7 @@ class LegendApp extends StatelessWidget {
     this.logo,
     this.future,
     this.buildSplashscreen,
-    this.providers,
-  }) : super(key: key) {
-    theme = LegendTheme(
-      colorTheme: themeDelegate.buildColorTheme(),
-      sizingTheme: themeDelegate.buildSizingTheme(),
-      typography: themeDelegate.buildTypography(),
-      buildConfig: routesDelegate.buildConfig,
-    );
-  }
+  });
 
   ///
   /// Do things before any page is built.
@@ -102,7 +92,11 @@ class LegendApp extends StatelessWidget {
   }
 
   Route<dynamic>? _modalGeneration(
-      RouteSettings s, Iterable<RouteInfo> routes, BuildContext context) {
+    RouteSettings s,
+    Iterable<RouteInfo> routes,
+    BuildContext context,
+    LegendTheme theme,
+  ) {
     RouteInfo info = LegendRouter.getRouteWidget(s, routes);
     if (info is ModalRouteInfo) {
       return GlobalModal.modalRouteBuilder(
@@ -112,31 +106,11 @@ class LegendApp extends StatelessWidget {
           child: info.page,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          sizing: theme.sizingTheme,
+          context: context,
         ),
       );
     }
     return null;
-  }
-
-  ///
-  ///  Initialize the Providers needed for the app to work.
-  ///  Also if the [providers] is not null, they will be added to the MultiProvider.
-  ///
-  List<SingleChildWidget> _initProviders(List<RouteInfo> routes) {
-    List<SingleChildWidget> _providers = [
-      ChangeNotifierProvider<LegendTheme>(
-        create: (_) => theme,
-      ),
-      ChangeNotifierProvider<BottomBarProvider>(
-        create: (_) => BottomBarProvider(
-          first: 0,
-          options: routes,
-        ),
-      ),
-    ];
-    if (providers != null) _providers.addAll(providers!);
-    return _providers;
   }
 
   @override
@@ -148,58 +122,87 @@ class LegendApp extends StatelessWidget {
 
     final GlobalKey<NavigatorState> modalNavKey = GlobalKey();
 
-    return LayoutProvider(
-      title: title,
-      logo: logo,
-      child: Localizations(
-        delegates: localizations,
-        locale: Locale('en', 'US'),
-        child: RestartWidget(
-          child: Builder(builder: (context) {
+    final LegendSizingTheme theme = themeDelegate.buildSizingTheme();
+
+    final LegendTheme inital = LegendTheme(
+      scaffoldConfig: routesDelegate.buildConfig(),
+      typography: themeDelegate.buildTypography(),
+      sizing: theme.getSizing(0),
+      colors: themeDelegate.buildColorTheme().current,
+      splits: theme.splits,
+    );
+    final Map<dynamic, DynamicRouteLayout> routeLayouts =
+        routesDelegate.buildLayouts(inital);
+    final List<RouteInfo> routes =
+        routesDelegate.buildRoutes(routeLayouts, inital).ex();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(
+            theme: inital,
+            colorTheme: themeDelegate.buildColorTheme(),
+            sizingTheme: theme,
+          ),
+        ),
+        ChangeNotifierProvider<BottomBarProvider>(
+          create: (_) => BottomBarProvider(
+            first: 0,
+            options: routes,
+          ),
+        ),
+      ],
+      child: LayoutProvider(
+        title: title,
+        logo: logo,
+        child: Localizations(
+          delegates: localizations,
+          locale: Locale('en', 'US'),
+          child: Consumer(builder: (context, ref, _) {
+            LegendTheme theme = LegendTheme.of(context);
+            /*   final Map<dynamic, DynamicRouteLayout> routeLayouts =
+                routesDelegate.buildLayouts(theme);
             final List<RouteInfo> routes =
-                routesDelegate.buildRoutes(routeLayouts, theme).ex();
+                routesDelegate.buildRoutes(routeLayouts, theme).ex();*/
 
-            return MultiProvider(
-              providers: _initProviders(routes),
-              child: LegendRouter(
-                routerDelegate: routerDelegate,
-                routes: routes,
-                child: WidgetsApp(
-                  color: theme.colors.primary,
-                  debugShowCheckedModeBanner: false,
-                  pageRouteBuilder: GlobalModal.pageRouteBuilder,
-                  onGenerateRoute: (r) => _modalGeneration(r, routes, context),
+            return LegendRouter(
+              routerDelegate: routerDelegate,
+              routes: routes,
+              child: WidgetsApp(
+                color: theme.colors.primary,
+                debugShowCheckedModeBanner: false,
+                pageRouteBuilder: GlobalModal.pageRouteBuilder,
+                onGenerateRoute: (r) =>
+                    _modalGeneration(r, routes, context, theme),
+                navigatorKey: modalNavKey,
+                home: ModalRouter(
                   navigatorKey: modalNavKey,
-                  home: ModalRouter(
-                    navigatorKey: modalNavKey,
-                    child: FutureBuilder(
-                      future: _init(context),
-                      builder: (context, snapshot) {
-                        LegendTheme theme = Provider.of<LegendTheme>(context);
+                  child: FutureBuilder(
+                    future: _init(context),
+                    builder: (context, snapshot) {
+                      LegendTheme theme = LegendTheme.of(context);
 
-                        if (snapshot.connectionState == ConnectionState.done ||
-                            buildSplashscreen == null) {
-                          return WidgetsApp.router(
-                            localizationsDelegates: [
-                              GlobalMaterialLocalizations.delegate,
-                              GlobalWidgetsLocalizations.delegate,
-                              GlobalCupertinoLocalizations.delegate,
-                            ],
-                            locale: Locale('en', 'US'),
-                            title: title,
-                            debugShowCheckedModeBanner: false,
-                            routerDelegate: routerDelegate,
-                            routeInformationParser:
-                                LegendRouteInformationParser(),
-                            backButtonDispatcher: RootBackButtonDispatcher(),
-                            color: theme.colors.primary,
-                            useInheritedMediaQuery: true,
-                          );
-                        } else {
-                          return buildSplashscreen!(context, theme);
-                        }
-                      },
-                    ),
+                      if (snapshot.connectionState == ConnectionState.done ||
+                          buildSplashscreen == null) {
+                        return WidgetsApp.router(
+                          localizationsDelegates: [
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          locale: Locale('en', 'US'),
+                          title: title,
+                          debugShowCheckedModeBanner: false,
+                          routerDelegate: routerDelegate,
+                          routeInformationParser:
+                              LegendRouteInformationParser(),
+                          backButtonDispatcher: RootBackButtonDispatcher(),
+                          color: theme.colors.primary,
+                          useInheritedMediaQuery: true,
+                        );
+                      } else {
+                        return buildSplashscreen!(context, theme);
+                      }
+                    },
                   ),
                 ),
               ),

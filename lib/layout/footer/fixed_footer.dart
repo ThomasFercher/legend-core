@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/footer/footer_sizing.dart';
-import 'package:provider/provider.dart';
+
 import 'package:legend_design_core/state/legend_state.dart';
 
 class FixedFooter extends LegendWidget {

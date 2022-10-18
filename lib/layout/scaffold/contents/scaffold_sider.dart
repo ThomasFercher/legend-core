@@ -11,7 +11,7 @@ class ScaffoldSider extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    RouteLayout layout = scaffold.layout.getLayout(theme.sizingTheme.key);
+    RouteLayout layout = scaffold.layout.getLayout(theme.sizing.key);
     if (layout.siderLayout != SiderLayout.None) {
       return Container(
         decoration: BoxDecoration(

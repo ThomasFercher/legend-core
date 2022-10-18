@@ -8,7 +8,7 @@ import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
-import 'package:provider/provider.dart';
+
 import 'package:legend_design_core/state/legend_state.dart';
 
 /// Represents the parent of a submenu

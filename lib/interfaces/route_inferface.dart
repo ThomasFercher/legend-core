@@ -16,5 +16,5 @@ abstract class RouteInterface<T> {
     LegendTheme theme,
   );
 
-  ScaffoldConfig buildConfig(LegendTheme theme);
+  ScaffoldConfig buildConfig();
 }

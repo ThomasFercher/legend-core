@@ -11,7 +11,6 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 
 import 'package:legend_utils/extensions/extensions.dart';
-import 'package:provider/provider.dart';
 
 class FixedMenu extends StatefulWidget {
   final bool showMenuSubItems;
@@ -60,7 +59,7 @@ class _FixedMenuState extends State<FixedMenu> {
   ) {
     List<RowMenuTile> tiles = [];
     String? currentRoute = RouteInfoProvider.getRouteInfo(context)?.name;
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
 
     for (int i = 0; i < widget.options.length; i++) {
       final RouteInfo option = widget.options[i];

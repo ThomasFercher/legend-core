@@ -10,7 +10,6 @@ import 'package:legend_router/router/route_info_provider.dart';
 
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_utils/functions/functions.dart';
-import 'package:provider/provider.dart';
 
 class FixedSiderMenu extends StatefulWidget {
   final double width;
@@ -89,7 +88,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
 
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
 
     for (int i = 0; i < widget.options.length; i++) {
       final RouteInfo option = widget.options[i];

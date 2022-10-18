@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:provider/provider.dart';
 
 export 'package:legend_design_core/styles/legend_theme.dart';
 
@@ -15,7 +14,7 @@ abstract class LegendWidget extends LegendStatefulWidget {
 
 class _LegendState extends LegendState<LegendWidget> {
   @override
-  LegendTheme get theme => context.read<LegendTheme>();
+  LegendTheme get theme => LegendTheme.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -36,5 +35,5 @@ abstract class LegendStatefulWidget extends StatefulWidget {
 }
 
 abstract class LegendState<T extends LegendStatefulWidget> extends State<T> {
-  late final LegendTheme theme = context.read<LegendTheme>();
+  late final LegendTheme theme = LegendTheme.of(context);
 }

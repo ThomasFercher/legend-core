@@ -5,7 +5,6 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_utils/functions/functions.dart';
-import 'package:provider/provider.dart';
 
 import 'appbar_layout_renderbox.dart';
 

@@ -25,7 +25,7 @@ class ScaffoldInfo extends InheritedWidget {
   }
 
   RouteLayout getLayout(LegendTheme theme) {
-    return scaffold.layout.getLayout(theme.sizingTheme.key);
+    return scaffold.layout.getLayout(theme.sizing.key);
   }
 
   static ScaffoldBuilders getBuilders(BuildContext context) {
@@ -38,7 +38,7 @@ class ScaffoldInfo extends InheritedWidget {
 
   bool showFooter(BuildContext context) {
     FooterLayout layout = scaffold.layout
-        .getLayout(context.watch<LegendTheme>().sizingTheme.key)
+        .getLayout(LegendTheme.of(context).sizing.key)
         .footerLayout;
 
     return layout == FooterLayout.Show;

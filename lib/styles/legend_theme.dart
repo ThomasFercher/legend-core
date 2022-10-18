@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
+import 'package:legend_design_core/styles/theme_provider.dart';
 import 'package:legend_utils/legend_utils.dart';
+import 'package:provider/provider.dart';
+import '../interfaces/route_inferface.dart';
 import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
 import 'colors/subcolors/appbar/appBar_colors.dart';
@@ -22,25 +26,24 @@ export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
 export 'sizing/sub_sizing/appbar/appBar_sizing.dart';
-export 'package:provider/provider.dart';
 
 ///
 ///
 ///
-class LegendTheme extends ChangeNotifier {
+///
+@immutable
+class LegendTheme {
   /// Class containing a list of different Textstyles
-  late LegendTypography typography;
+  final LegendTypography typography;
 
   /// Color Theme for the whole applications. Contains a List of [LegendPalette]
-  final LegendColorTheme colorTheme;
-  LegendPalette get colors => colorTheme.current;
+  final LegendPalette colors;
 
   /// Sizing Theme for the whole applications. Contains a List of [LegendSizing] for multiple
   /// Screen Resolutions and platforms.
-  final LegendSizingTheme sizingTheme;
 
   /// Gets the current [LegendSizing]
-  LegendSizing get sizing => sizingTheme.sizing;
+  final LegendSizing sizing;
 
   // Getters for simplified access to sub themes
   AppBarColorsStyle get appBarColors => colors.appBar;
@@ -56,35 +59,43 @@ class LegendTheme extends ChangeNotifier {
   MenuDrawerSizingStyle get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
-  List<double> get splits => sizingTheme.splits;
+  final List<double> splits;
 
   /// A global Theme for Legendscaffold which which be used every unless overwritten locally
-  late final ScaffoldConfig? scaffoldConfig;
-  final ScaffoldConfig Function(LegendTheme theme)? buildConfig;
+  final ScaffoldConfig scaffoldConfig;
 
-  LegendTheme({
-    this.buildConfig,
-    required this.colorTheme,
-    required this.sizingTheme,
-    required LegendTypography typography,
-  }) {
-    // Whenever the SizingTheme changes we have to update the Typography
-    sizingTheme.sizingChanged.listen((event) => changeSizingTheme());
+  const LegendTheme({
+    required this.scaffoldConfig,
+    required this.colors,
+    required this.sizing,
+    required this.splits,
+    required this.typography,
+  });
+  // Whenever the SizingTheme changes we have to update the Typography
+  // sizingTheme.sizingChanged.listen((event) => changeSizingTheme());
 
-    // The typography gets initalized in the body cause it depends on both the color and sizing Theme.
+  /*
+  // The typography gets initalized in the body cause it depends on both the color and sizing Theme.
     this.typography = LegendTypography.applyStyles(
       base: typography,
       sizing: sizing.typographySizing,
       colors: colors.typography,
     );
 
-    systemUIOverrides();
+  */
 
-    if (buildConfig != null) {
-      scaffoldConfig = buildConfig!(this);
-    } else {
-      scaffoldConfig = null;
-    }
+  LegendTheme copyWith({LegendSizing? sizing, LegendPalette? colors}) {
+    return LegendTheme(
+      scaffoldConfig: scaffoldConfig,
+      colors: colors ?? this.colors,
+      sizing: sizing ?? this.sizing,
+      splits: splits,
+      typography: typography,
+    );
+  }
+
+  static LegendTheme of(BuildContext context) {
+    return context.watch<ThemeProvider>().theme;
   }
 
   /// System UI Overrides. This is used to change the colors of the status bar and navigation bar
@@ -101,24 +112,17 @@ class LegendTheme extends ChangeNotifier {
   /// The LegendTypography will be updated accordingly and the App will
   /// restart.
   void changeColorTheme(PaletteType type, BuildContext context) {
-    colorTheme.setType(type);
+    //  colorTheme.setType(type);
     systemUIOverrides();
-    updateTypography();
-    notifyListeners();
-    RestartWidget.restartApp(context);
+
+    //  RestartWidget.restartApp(context);
   }
 
-  void changeSizingTheme() {
-    updateTypography();
-    notifyListeners();
-  }
+  @override
+  bool updateShouldNotify(covariant LegendTheme oldWidget) {
+    if (oldWidget.sizing != sizing) return true;
+    if (oldWidget.colors != colors) return true;
 
-  /// Applies Sizing and Colors to the Typography
-  void updateTypography() {
-    typography = LegendTypography.applyStyles(
-      sizing: sizing.typographySizing,
-      colors: colors.typography,
-      base: typography,
-    );
+    return false;
   }
 }

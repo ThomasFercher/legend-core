@@ -63,9 +63,9 @@ class LegendBottomBar extends LegendWidget {
           (padding - iosBottomPadding) > 0 ? (padding - iosBottomPadding) : 0;
     }
 
-    double spacing =
-        (SizeInfo.of(context).width - (options.length) * sizing.itemWidth) /
-            (options.length + 1);
+    double spacing = (SizeInfo.of(context).logicalWidth -
+            (options.length) * sizing.itemWidth) /
+        (options.length + 1);
 
     bool fillBottom = sizing.fillBottom;
 
@@ -76,46 +76,52 @@ class LegendBottomBar extends LegendWidget {
 
         return SizedBox(
           height: sizing.margin.vertical + sizing.height + padding,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                margin: sizing.margin,
-                height: sizing.height,
-                decoration: sizing.decoration.copyWith(
-                  color: colors.backgroundColor,
-                ),
-                padding: sizing.padding,
-                child: Stack(
-                  children: [
-                    AnimatedPositioned(
-                      duration: anmimationDuration,
-                      curve: Curves.easeInOutCubic,
-                      left: left,
-                      child: SizedBox(
-                        height: sizing.height - sizing.padding.vertical,
-                        child: Container(
-                          width: sizing.itemWidth,
-                          decoration: BoxDecoration(
-                            color: colors.activeColor.withOpacity(0.2),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(sizing.height / 3.6),
+          width: 100,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 100),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: sizing.margin,
+                  height: sizing.height,
+                  decoration: sizing.decoration.copyWith(
+                    color: colors.backgroundColor,
+                  ),
+                  padding: sizing.padding,
+                  child: Stack(
+                    children: [
+                      AnimatedPositioned(
+                        duration: anmimationDuration,
+                        curve: Curves.easeInOutCubic,
+                        left: left,
+                        child: SizedBox(
+                          height: sizing.height - sizing.padding.vertical,
+                          child: Container(
+                            width: sizing.itemWidth,
+                            decoration: BoxDecoration(
+                              color: colors.activeColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(sizing.height / 3.6),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Row(
-                      children: getItems(context, provider).paddingRow(spacing),
-                    ),
-                  ],
+                      Row(
+                        children:
+                            getItems(context, provider).paddingRow(spacing),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                color: fillBottom ? colors.backgroundColor : Colors.transparent,
-                height: padding,
-              ),
-            ],
+                Container(
+                  color:
+                      fillBottom ? colors.backgroundColor : Colors.transparent,
+                  height: padding,
+                ),
+              ],
+            ),
           ),
         );
       },

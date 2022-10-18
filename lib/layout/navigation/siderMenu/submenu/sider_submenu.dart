@@ -7,7 +7,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/side
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:provider/provider.dart';
+
 import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
@@ -77,7 +77,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
 
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     Iterable<RouteInfo> options = widget.option.children ?? [];
     for (int i = 0; i < options.length; i++) {
       final RouteInfo option = options.elementAt(i);
@@ -118,7 +118,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
 
     int headerIndex = widget.option.children?.length ?? 0;
 

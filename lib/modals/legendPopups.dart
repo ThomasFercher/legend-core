@@ -1,16 +1,5 @@
-import 'dart:math';
-
 import 'package:animations/animations.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
-import 'package:legend_design_core/modals/modalSheet.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_router/router/legend_router.dart';
-
-import 'package:legend_utils/functions/functions.dart';
-import 'package:provider/provider.dart';
 
 class LegendPopups {
   static final ModalConfiguration _modalConfiguration =

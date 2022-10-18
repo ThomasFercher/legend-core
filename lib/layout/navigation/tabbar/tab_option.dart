@@ -5,7 +5,6 @@ import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
-import 'package:provider/provider.dart';
 
 class TabOption extends StatefulWidget {
   const TabOption({
@@ -47,7 +46,7 @@ class _TabOptionState extends State<TabOption> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     double iconSize = 24;
     double spacing = 4;
     double padding = 8;

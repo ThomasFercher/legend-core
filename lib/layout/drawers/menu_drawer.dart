@@ -35,7 +35,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
   }
 
   List<Widget> getSearchItems(List<int> filtered, BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     List<RouteInfo> options = LegendRouter.of(context).routes;
     List<Widget> items = [];
     for (var i = 0; i < filtered.length; i++) {
@@ -105,7 +105,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = Provider.of<LegendTheme>(context);
+    LegendTheme theme = LegendTheme.of(context);
     SizeInfo sizeInfo = SizeInfo.of(context);
 
     MenuDrawerSizingStyle sizing = theme.menuDrawerSizing;

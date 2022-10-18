@@ -3,6 +3,7 @@ import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
+import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
@@ -21,7 +22,7 @@ const List<Widget> actionsFiller = [
 
 class LegendSliverBar extends LegendWidget {
   final LegendAppBarConfig config;
-  final WidgetBuilder? actions;
+  final ScaffoldBuilder? actions;
   final Widget? title;
   final Widget? logo;
   final bool showMenu;
@@ -41,7 +42,7 @@ class LegendSliverBar extends LegendWidget {
   });
 
   FixedMenu getMenu(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
     MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
     switch (type) {
@@ -115,7 +116,7 @@ class LegendSliverBar extends LegendWidget {
               if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
               if (showMenu) AppBarItem.MENU: getMenu(context),
               if (actions != null)
-                AppBarItem.ACTIONS: Builder(builder: actions!),
+                AppBarItem.ACTIONS: LegendScaffoldBuilder(builder: actions!),
             },
           ),
         ),

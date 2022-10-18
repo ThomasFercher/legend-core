@@ -3,7 +3,6 @@ import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/modal_router.dart';
-import 'package:provider/provider.dart';
 
 class CollapsedMenu extends StatefulWidget {
   final double width;
@@ -20,7 +19,7 @@ class CollapsedMenu extends StatefulWidget {
 class _CollapsedMenuState extends State<CollapsedMenu> {
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
 
     return Container(
       width: widget.width,

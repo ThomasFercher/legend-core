@@ -56,7 +56,7 @@ class _LegendTabBarState extends State<LegendTabBar> {
     } else {
       return [];
     }
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     final double height = route.style.height;
 
     for (int i = 0; i < widget.displays.length; i++) {
@@ -89,7 +89,7 @@ class _LegendTabBarState extends State<LegendTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     return LayoutBuilder(builder: (context, constraints) {
       double width = constraints.maxWidth;
       double height = constraints.maxHeight;

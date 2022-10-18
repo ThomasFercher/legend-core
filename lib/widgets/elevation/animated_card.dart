@@ -35,7 +35,7 @@ class AnimatedCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = context.watch<LegendTheme>();
+    LegendTheme theme = LegendTheme.of(context);
     AnimationController controller = useAnimationController(
       duration: duration,
       initialValue: 0,

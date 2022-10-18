@@ -1,12 +1,33 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
+import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/styles/legend_theme.dart';
+
+typedef ScaffoldBuilder = Widget Function(
+    BuildContext context, LegendTheme theme);
+
+class LegendScaffoldBuilder extends StatelessWidget {
+  final ScaffoldBuilder builder;
+  const LegendScaffoldBuilder({
+    super.key,
+    required this.builder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    LegendTheme theme = LegendTheme.of(context);
+    return Builder(
+      builder: (context) => builder(context, theme),
+    );
+  }
+}
 
 class ScaffoldBuilders {
-  final Widget Function(BuildContext context)? appBarActions;
-  final Widget Function(BuildContext context)? menuDrawerActions;
+  final ScaffoldBuilder? appBarActions;
+  final ScaffoldBuilder? menuDrawerActions;
   final FixedFooter? customFooter;
   final Widget? appBarBottom;
-  final WidgetBuilder? siderBuilder;
+  final ScaffoldBuilder? siderBuilder;
 
   const ScaffoldBuilders({
     this.appBarActions,
