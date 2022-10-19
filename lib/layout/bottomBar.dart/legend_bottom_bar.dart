@@ -63,9 +63,11 @@ class LegendBottomBar extends LegendWidget {
           (padding - iosBottomPadding) > 0 ? (padding - iosBottomPadding) : 0;
     }
 
-    double spacing = (SizeInfo.of(context).logicalWidth -
-            (options.length) * sizing.itemWidth) /
+    double spacing = (SizeInfo.of(context).logicalWidth +
+            -(options.length) * sizing.itemWidth) /
         (options.length + 1);
+
+    assert(spacing > 0, 'To many Routes provided');
 
     bool fillBottom = sizing.fillBottom;
 
@@ -76,13 +78,12 @@ class LegendBottomBar extends LegendWidget {
 
         return SizedBox(
           height: sizing.margin.vertical + sizing.height + padding,
-          width: 100,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 100),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Container(
                   margin: sizing.margin,
                   height: sizing.height,
                   decoration: sizing.decoration.copyWith(
@@ -115,13 +116,12 @@ class LegendBottomBar extends LegendWidget {
                     ],
                   ),
                 ),
-                Container(
-                  color:
-                      fillBottom ? colors.backgroundColor : Colors.transparent,
-                  height: padding,
-                ),
-              ],
-            ),
+              ),
+              Container(
+                color: fillBottom ? colors.backgroundColor : Colors.transparent,
+                height: padding,
+              ),
+            ],
           ),
         );
       },

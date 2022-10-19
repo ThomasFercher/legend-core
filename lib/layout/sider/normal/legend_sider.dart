@@ -11,7 +11,9 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_router/router/routes/extensions.dart';
 
+import '../../../router/scaffold_route_info.dart';
 import '../../scaffold/config/scaffold_config.dart';
 
 class Sider extends LegendWidget {
@@ -60,7 +62,7 @@ class Sider extends LegendWidget {
                       sizing: menuSizing,
                       colors: menuColors,
                       depth: current.allMatches('/').length,
-                      options: LegendRouter.of(context).routes,
+                      options: LegendRouter.of(context).routes.get<PageInfo>(),
                       showMenuSubItems: true,
                       width: maxWidth - sizing.horizontalPadding,
                       textStyle: theme.typography.h2,

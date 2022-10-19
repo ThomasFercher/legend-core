@@ -9,6 +9,7 @@ import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/extensions.dart';
 
 import 'package:legend_utils/extensions/extensions.dart';
 import '../config/appbar_layout.dart';
@@ -92,7 +93,7 @@ class LegendScaffold extends LegendWidget {
             bottomNavigationBar: LegendBottomBar(
               colors: theme.bottomBarColors,
               sizing: theme.bottomBarSizing,
-              options: LegendRouter.of(context).routes,
+              options: LegendRouter.of(context).routes.get<PageInfo>(),
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,
             appBar: _appBar(context, theme),

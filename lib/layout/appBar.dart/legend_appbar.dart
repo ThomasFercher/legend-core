@@ -10,6 +10,7 @@ import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/extensions.dart';
 
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
 import '../scaffold/scaffoldInfo.dart';
@@ -46,20 +47,21 @@ class LegendAppBar extends LegendWidget {
     LegendTheme theme = LegendTheme.of(context);
     MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
     MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
+    final routes = LegendRouter.of(context).routes.get<PageInfo>();
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
           sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
-          options: LegendRouter.of(context).routes,
+          options: routes,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
           sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
-          options: LegendRouter.of(context).routes,
+          options: routes,
         );
     }
   }

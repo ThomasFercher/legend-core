@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
@@ -11,6 +12,7 @@ import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/router/routes/extensions.dart';
 
 class MenuDrawer extends StatefulWidget {
   final List<Widget>? actions;
@@ -170,7 +172,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   depth: current.allMatches('/').length,
                   width: theme.menuDrawerSizing.width - padding.horizontal,
                   hasToPop: true,
-                  options: LegendRouter.of(context).routes,
+                  options: LegendRouter.of(context).routes.get<PageInfo>(),
                   showMenuSubItems: true,
                   textStyle: theme.typography.h2,
                   current: RouteInfoProvider.getRouteInfo(context)?.name,

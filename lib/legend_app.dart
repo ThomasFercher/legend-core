@@ -127,7 +127,7 @@ class LegendApp extends StatelessWidget {
     final LegendTheme inital = LegendTheme(
       scaffoldConfig: routesDelegate.buildConfig(),
       typography: themeDelegate.buildTypography(),
-      sizing: theme.getSizing(0),
+      sizing: theme.getSizing(1000),
       colors: themeDelegate.buildColorTheme().current,
       splits: theme.splits,
     );
