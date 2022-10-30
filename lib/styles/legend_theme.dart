@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
-import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/theme_provider.dart';
-import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
-import '../interfaces/route_inferface.dart';
-import 'colors/legend_color_theme.dart';
 import 'colors/legend_palette.dart';
 import 'colors/subcolors/appbar/appBar_colors.dart';
 import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
-import 'sizing/legend_sizing_theme.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
@@ -71,58 +64,24 @@ class LegendTheme {
     required this.splits,
     required this.typography,
   });
-  // Whenever the SizingTheme changes we have to update the Typography
-  // sizingTheme.sizingChanged.listen((event) => changeSizingTheme());
-
-  /*
-  // The typography gets initalized in the body cause it depends on both the color and sizing Theme.
-    this.typography = LegendTypography.applyStyles(
-      base: typography,
-      sizing: sizing.typographySizing,
-      colors: colors.typography,
-    );
-
-  */
 
   LegendTheme copyWith({LegendSizing? sizing, LegendPalette? colors}) {
+    final LegendPalette _colors = colors ?? this.colors;
+    final LegendSizing _sizing = sizing ?? this.sizing;
     return LegendTheme(
       scaffoldConfig: scaffoldConfig,
-      colors: colors ?? this.colors,
-      sizing: sizing ?? this.sizing,
+      colors: _colors,
+      sizing: _sizing,
       splits: splits,
-      typography: typography,
+      typography: LegendTypography.applyStyles(
+        base: typography,
+        sizing: _sizing.typographySizing,
+        colors: _colors.typography,
+      ),
     );
   }
 
   static LegendTheme of(BuildContext context) {
     return context.watch<ThemeProvider>().theme;
-  }
-
-  /// System UI Overrides. This is used to change the colors of the status bar and navigation bar
-  void systemUIOverrides() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: colors.bottomBar.backgroundColor,
-      ),
-    );
-  }
-
-  /// Changes the current [LegendPalette] responding to the [type]
-  /// The LegendTypography will be updated accordingly and the App will
-  /// restart.
-  void changeColorTheme(PaletteType type, BuildContext context) {
-    //  colorTheme.setType(type);
-    systemUIOverrides();
-
-    //  RestartWidget.restartApp(context);
-  }
-
-  @override
-  bool updateShouldNotify(covariant LegendTheme oldWidget) {
-    if (oldWidget.sizing != sizing) return true;
-    if (oldWidget.colors != colors) return true;
-
-    return false;
   }
 }
