@@ -84,6 +84,10 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
       bool isSelected = i == hovered || widget.current == option.name;
 
+      BorderRadius? borderRadius = i == options.length - 1
+          ? BorderRadius.vertical(bottom: sizing.borderRadius.bottomLeft)
+          : null;
+
       tiles.add(
         ColumnMenuTile(
           background: isSelected ? colors.activeBackground : colors.background,
@@ -91,7 +95,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
           title: widget.collapsed ? null : option.title,
           icon: option.icon,
           padding: widget.collapsed ? null : sizing.padding,
-          borderRadius: sizing.borderRadius,
+          borderRadius: borderRadius,
           iconSize: sizing.iconSize,
           height: sizing.itemHeight,
           onHover: (value) {

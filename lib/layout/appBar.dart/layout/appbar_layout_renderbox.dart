@@ -185,10 +185,7 @@ class AppBarLayoutRenderBox extends RenderBox
 
       // Center Vertically
       Offset offset_action = Offset(
-        maxWidth -
-            (isMenuCollapsed ? menuSize.width : 0) -
-            actionSize.width -
-            spacing,
+        maxWidth - menuSize.width - actionSize.width - spacing,
         centerVertically(maxHeight, actionSize),
       );
 

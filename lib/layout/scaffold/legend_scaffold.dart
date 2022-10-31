@@ -93,7 +93,11 @@ class LegendScaffold extends LegendWidget {
             bottomNavigationBar: LegendBottomBar(
               colors: theme.bottomBarColors,
               sizing: theme.bottomBarSizing,
-              options: LegendRouter.of(context).routes.get<PageInfo>(),
+              options: LegendRouter.of(context)
+                  .routes
+                  .get<PageInfo>()
+                  .where((element) => element.depth == 1)
+                  .toList(),
             ).boolInit(showBottomBar),
             endDrawerEnableOpenDragGesture: false,
             appBar: _appBar(context, theme),

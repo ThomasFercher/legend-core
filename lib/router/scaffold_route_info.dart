@@ -32,7 +32,7 @@ class PageInfo extends LegendRouteInfo {
   });
 }
 
-class TabviewPageInfo extends LegendRouteInfo {
+class TabviewPageInfo extends PageInfo {
   final TabBarStyle style;
 
   const TabviewPageInfo({
@@ -47,7 +47,7 @@ class TabviewPageInfo extends LegendRouteInfo {
   });
 }
 
-class TabviewChildPageInfo extends LegendRouteInfo {
+class TabviewChildPageInfo extends PageInfo {
   const TabviewChildPageInfo({
     required super.name,
     required super.page,

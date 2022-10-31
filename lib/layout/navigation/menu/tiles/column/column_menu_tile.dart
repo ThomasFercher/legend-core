@@ -5,6 +5,7 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
+import 'package:legend_design_core/widgets/gestures/ripple_detector.dart';
 import 'package:legend_utils/legend_utils.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -48,22 +49,22 @@ class ColumnMenuTile extends LegendWidget {
 
     return SizedBox(
       height: height,
-      child: LegendDetector(
-        onHover: onHover,
-        onTap: onClicked,
-        padding: EdgeInsets.zero,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 50),
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: borderRadius,
-          ),
-          child: Padding(
-            padding: padding ?? EdgeInsets.zero,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 50),
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: borderRadius,
+        ),
+        child: RippleDetector(
+          onHover: onHover,
+          onTap: onClicked,
+          borderRadius: borderRadius,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: padding ?? EdgeInsets.zero,
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: center
                       ? MainAxisAlignment.center
@@ -84,18 +85,17 @@ class ColumnMenuTile extends LegendWidget {
                         ),
                         selectable: false,
                       ),
-                    if (trailling != null && title != null)
-                      Expanded(child: Container()),
+                    const Spacer(),
                     if (trailling != null && title != null) trailling!,
                   ],
                 ).expandIf(height != null),
-                if (trailling != null && title == null)
-                  Padding(
-                    padding: EdgeInsets.only(top: spacing),
-                    child: trailling!,
-                  ),
-              ],
-            ),
+              ),
+              if (trailling != null && title == null)
+                Padding(
+                  padding: EdgeInsets.only(top: spacing),
+                  child: trailling!,
+                ),
+            ],
           ),
         ),
       ),

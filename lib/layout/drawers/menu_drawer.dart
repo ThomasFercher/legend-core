@@ -172,7 +172,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                   depth: current.allMatches('/').length,
                   width: theme.menuDrawerSizing.width - padding.horizontal,
                   hasToPop: true,
-                  options: LegendRouter.of(context).routes.get<PageInfo>(),
+                  options: LegendRouter.of(context)
+                      .routes
+                      .get<PageInfo>()
+                      .where((element) => element.depth == 1)
+                      .toList(),
                   showMenuSubItems: true,
                   textStyle: theme.typography.h2,
                   current: RouteInfoProvider.getRouteInfo(context)?.name,

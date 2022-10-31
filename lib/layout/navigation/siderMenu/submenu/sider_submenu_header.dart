@@ -77,7 +77,7 @@ class HeaderTile extends LegendWidget {
           onExpanded();
         },
       ),
-      borderRadius: sizing.borderRadius,
+      borderRadius: BorderRadius.vertical(top: sizing.borderRadius.topLeft),
       onHover: onHover,
       onClicked: onClicked,
       iconSize: sizing.iconSize,
