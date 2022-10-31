@@ -47,7 +47,11 @@ class LegendAppBar extends LegendWidget {
     LegendTheme theme = LegendTheme.of(context);
     MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
     MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
-    final routes = LegendRouter.of(context).routes.get<PageInfo>();
+    final routes = LegendRouter.of(context)
+        .routes
+        .get<PageInfo>()
+        .where((element) => element.depth == 1)
+        .toList();
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
@@ -67,7 +71,7 @@ class LegendAppBar extends LegendWidget {
   }
 
   PreferredSize _bottom(BuildContext context) {
-    RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
+    RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
 
     if (route is TabviewPageInfo) {
       List<RouteInfo> displays = [route];
@@ -85,10 +89,9 @@ class LegendAppBar extends LegendWidget {
     } else if (route is TabviewChildPageInfo) {
       RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
       TabviewPageInfo info = parent as TabviewPageInfo;
-      RouteInfo? parentDisplay =
-          RouteInfoProvider.getParentRouteInfo(context, route);
-      List<RouteInfo> displays = [if (parentDisplay != null) parentDisplay];
-      displays.addAll(parentDisplay?.children?.toList() ?? []);
+
+      List<RouteInfo> displays = [parent];
+      displays.addAll(parent.children?.toList() ?? []);
       return PreferredSize(
         preferredSize: Size.fromHeight(parent.style.height),
         child: ConstrainedBox(

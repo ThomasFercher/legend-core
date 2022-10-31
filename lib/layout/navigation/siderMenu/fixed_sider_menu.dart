@@ -78,7 +78,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
+    RouteInfo? sel = LegendRouter.of(context).routerDelegate.current;
     selected = widget.options.indexWhere((element) => element == sel);
   }
 

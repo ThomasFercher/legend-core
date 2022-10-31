@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class RippleDetector extends StatelessWidget {
   final Widget child;
   final void Function()? onTap;
   final void Function(bool)? onHover;
   final BorderRadius? borderRadius;
+  final Color? highlightColor;
 
   const RippleDetector({
     Key? key,
@@ -13,6 +13,7 @@ class RippleDetector extends StatelessWidget {
     this.onHover,
     this.onTap,
     this.borderRadius,
+    this.highlightColor,
   }) : super(key: key);
 
   @override
@@ -24,6 +25,7 @@ class RippleDetector extends StatelessWidget {
         child: child,
         onTap: onTap,
         onHover: onHover,
+        highlightColor: highlightColor,
       ),
     );
   }

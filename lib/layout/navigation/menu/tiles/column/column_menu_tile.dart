@@ -59,43 +59,33 @@ class ColumnMenuTile extends LegendWidget {
           onHover: onHover,
           onTap: onClicked,
           borderRadius: borderRadius,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: padding ?? EdgeInsets.zero,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: center
-                      ? MainAxisAlignment.center
-                      : MainAxisAlignment.start,
-                  children: [
-                    if (icon != null)
-                      Icon(
-                        icon,
-                        color: foreground,
-                        size: iconSize,
-                      ),
-                    if (title != null)
-                      LegendText(
-                        title,
-                        padding: EdgeInsets.only(left: spacing),
-                        textStyle: theme.typography.h1.copyWith(
-                          color: foreground,
-                        ),
-                        selectable: false,
-                      ),
-                    const Spacer(),
-                    if (trailling != null && title != null) trailling!,
-                  ],
-                ).expandIf(height != null),
-              ),
-              if (trailling != null && title == null)
-                Padding(
-                  padding: EdgeInsets.only(top: spacing),
-                  child: trailling!,
-                ),
-            ],
+          highlightColor: theme.colors.primary.withOpacity(0.6),
+          child: Padding(
+            padding: padding ?? EdgeInsets.zero,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment:
+                  center ? MainAxisAlignment.center : MainAxisAlignment.start,
+              children: [
+                if (icon != null)
+                  Icon(
+                    icon,
+                    color: foreground,
+                    size: iconSize,
+                  ),
+                if (title != null)
+                  LegendText(
+                    title,
+                    padding: EdgeInsets.only(left: spacing),
+                    textStyle: theme.typography.h1.copyWith(
+                      color: foreground,
+                    ),
+                    selectable: false,
+                  ),
+                const Spacer(),
+                if (trailling != null && title != null) trailling!,
+              ],
+            ),
           ),
         ),
       ),

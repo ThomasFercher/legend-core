@@ -58,7 +58,8 @@ class _FixedMenuState extends State<FixedMenu> {
     RouteInfo? sel,
   ) {
     List<RowMenuTile> tiles = [];
-    String? currentRoute = RouteInfoProvider.getRouteInfo(context)?.name;
+    String? currentRoute =
+        LegendRouter.of(context).routerDelegate.current?.name;
     LegendTheme theme = LegendTheme.of(context);
 
     for (int i = 0; i < widget.options.length; i++) {
@@ -156,7 +157,7 @@ class _FixedMenuState extends State<FixedMenu> {
 
   @override
   Widget build(BuildContext context) {
-    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
+    RouteInfo? sel = LegendRouter.of(context).routerDelegate.current;
 
     return LayoutBuilder(
       builder: (context, constraints) {
