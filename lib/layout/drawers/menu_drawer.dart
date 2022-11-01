@@ -26,6 +26,7 @@ class MenuDrawer extends StatefulWidget {
 class _MenuDrawerState extends State<MenuDrawer> {
   late String text;
   late int? hovered;
+  late final ScrollController controller;
   late List<int> searchItems;
 
   @override
@@ -33,6 +34,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
     text = '';
     hovered = null;
     searchItems = [];
+    controller = ScrollController();
     super.initState();
   }
 
@@ -134,7 +136,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
       height: sizeInfo.height,
       child: Container(
         color: colors.background,
-        padding: padding,
+        padding: EdgeInsets.only(
+          left: padding.horizontal / 2,
+          right: padding.horizontal * 0.25 * 0.5,
+          top: padding.vertical / 2,
+          bottom: padding.vertical / 2,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -165,21 +172,36 @@ class _MenuDrawerState extends State<MenuDrawer> {
               height: theme.sizing.spacing2,
             ),
             Flexible(
-              child: SingleChildScrollView(
-                child: FixedSiderMenu(
-                  sizing: menuSizing,
-                  colors: menuColors,
-                  depth: current.allMatches('/').length,
-                  width: theme.menuDrawerSizing.width - padding.horizontal,
-                  hasToPop: true,
-                  options: LegendRouter.of(context)
-                      .routes
-                      .get<PageInfo>()
-                      .where((element) => element.depth == 1)
-                      .toList(),
-                  showMenuSubItems: true,
-                  textStyle: theme.typography.h2,
-                  current: RouteInfoProvider.getRouteInfo(context)?.name,
+              child: Scrollbar(
+                controller: controller,
+                child: ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context).copyWith(
+                    scrollbars: false,
+                  ),
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: padding.horizontal * 0.75 * 0.5,
+                      ),
+                      child: FixedSiderMenu(
+                        sizing: menuSizing,
+                        colors: menuColors,
+                        depth: current.allMatches('/').length,
+                        width:
+                            theme.menuDrawerSizing.width - padding.horizontal,
+                        hasToPop: true,
+                        options: LegendRouter.of(context)
+                            .routes
+                            .get<PageInfo>()
+                            .where((element) => element.depth == 1)
+                            .toList(),
+                        showMenuSubItems: true,
+                        textStyle: theme.typography.h2,
+                        current: RouteInfoProvider.getRouteInfo(context)?.name,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
