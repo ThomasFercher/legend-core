@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/modals/modalSheet.dart';
+import 'package:legend_design_core/widgets/elevation/elevated_card.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
 
@@ -146,16 +147,18 @@ class LegendSubMenu {
                   color: Colors.transparent,
                 ),
               ),
+              const SizedBox(
+                height: 8,
+              ),
               Container(
                 width: menuWidth,
                 constraints: BoxConstraints(
                   maxHeight: maxHeight ?? double.infinity,
                 ),
-                child: Card(
-                  color: colors.background,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: theme.sizing.radius4.asRadius(),
-                  ),
+                child: ElevatedCard(
+                  background: colors.background,
+                  borderRadius: theme.sizing.radius4.asRadius(),
+                  elevation: theme.sizing.elevation2,
                   child: Padding(
                     padding: EdgeInsets.all(theme.sizing.spacing1),
                     child: FixedSiderMenu(

@@ -63,19 +63,26 @@ class HeaderTile extends LegendWidget {
           ? EdgeInsets.symmetric(
               vertical: sizing.padding.vertical / 2,
             )
-          : EdgeInsets.symmetric(
-              horizontal: sizing.padding.horizontal / 2,
+          : EdgeInsets.only(
+              left: sizing.padding.horizontal / 2,
+              right: sizing.padding.horizontal / 4,
             ),
-      trailling: LegendAnimatedIcon(
-        icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
-        theme: LegendAnimtedIconTheme(
-          disabled: theme.colors.menuDrawer.foreground.lighten(),
-          enabled: theme.colors.menuDrawer.foreground_menu_selction,
+      trailling: Container(
+        height: sizing.itemHeight,
+        child: LegendAnimatedIcon(
+          icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
+          theme: LegendAnimtedIconTheme(
+            disabled: theme.colors.menuDrawer.foreground.lighten(),
+            enabled: theme.colors.menuDrawer.foreground_menu_selction,
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 12,
+          ),
+          iconSize: sizing.iconSize,
+          onPressed: () {
+            onExpanded();
+          },
         ),
-        iconSize: sizing.iconSize,
-        onPressed: () {
-          onExpanded();
-        },
       ),
       borderRadius: BorderRadius.vertical(top: sizing.borderRadius.topLeft),
       onHover: onHover,

@@ -62,40 +62,38 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: widget.padding,
-      child: LegendDetector(
-        background: Colors.transparent,
-        onTap: () => widget.onPressed(),
-        onHover: (value) {
-          if (value && !hovered && !widget.isSelected) {
-            if (!_controller.isAnimating || !hovered) {
-              _controller.forward();
-              hovered = true;
-            }
-          } else if (!widget.isSelected) {
-            if (!_controller.isAnimating || hovered) {
-              _controller.reverse();
-              hovered = false;
-            }
+    return LegendDetector(
+      background: Colors.transparent,
+      onTap: () => widget.onPressed(),
+      onHover: (value) {
+        if (value && !hovered && !widget.isSelected) {
+          if (!_controller.isAnimating || !hovered) {
+            _controller.forward();
+            hovered = true;
           }
-        },
-        child: Container(
-          decoration: widget.disableShadow
-              ? null
-              : BoxDecoration(
-                  boxShadow: [
-                    widget.theme.getAnimatedShadow(color),
-                  ],
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(widget.iconSize ?? 8 / 2),
-                  ),
+        } else if (!widget.isSelected) {
+          if (!_controller.isAnimating || hovered) {
+            _controller.reverse();
+            hovered = false;
+          }
+        }
+      },
+      child: Container(
+        padding: widget.padding,
+        decoration: widget.disableShadow
+            ? null
+            : BoxDecoration(
+                boxShadow: [
+                  widget.theme.getAnimatedShadow(color),
+                ],
+                borderRadius: BorderRadius.all(
+                  Radius.circular(widget.iconSize ?? 8 / 2),
                 ),
-          child: Icon(
-            widget.icon,
-            color: color,
-            size: widget.iconSize,
-          ),
+              ),
+        child: Icon(
+          widget.icon,
+          color: color,
+          size: widget.iconSize,
         ),
       ),
     );

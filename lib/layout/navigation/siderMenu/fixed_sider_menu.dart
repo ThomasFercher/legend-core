@@ -4,10 +4,7 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_til
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_submenu.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
-
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_utils/functions/functions.dart';
 
@@ -58,7 +55,7 @@ class FixedSiderMenu extends StatefulWidget {
 }
 
 class _FixedSiderMenuState extends State<FixedSiderMenu> {
-  late int selected;
+  String? _selected;
   late int? hovered;
   late Map<int, bool> expanded;
   late final SideMenuColorsStyle colors;
@@ -68,7 +65,6 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   void initState() {
     colors = widget.colors;
     sizing = widget.sizing;
-    selected = 0;
     hovered = null;
     expanded = {};
     widget.subMenuExpanded;
@@ -78,8 +74,8 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    RouteInfo? sel = LegendRouter.of(context).routerDelegate.current;
-    selected = widget.options.indexWhere((element) => element == sel);
+    _selected =
+        LegendRouter.of(context).routerDelegate.currentConfiguration.last.name;
   }
 
   /// This Method returns the whole menu.
@@ -88,11 +84,9 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
 
-    LegendTheme theme = LegendTheme.of(context);
-
     for (int i = 0; i < widget.options.length; i++) {
       final RouteInfo option = widget.options[i];
-      bool selected = i == hovered || widget.current == option.name;
+      bool selected = i == hovered || _selected == option.name;
       if (option.children == null || !(widget.showMenuSubItems)) {
         tiles.add(
           ColumnMenuTile(
@@ -150,17 +144,12 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   Widget build(BuildContext context) {
     List<Widget> tiles = getTiles(context);
 
-    return LayoutBuilder(
-      builder: (context, snapshot) {
-        return ColoredBox(
-          color: colors.menuBackground,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: tiles.traillingPaddingCol(sizing.spacing, last: false),
-          ),
-        );
-      },
+    return ColoredBox(
+      color: colors.menuBackground,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: tiles.traillingPaddingCol(sizing.spacing, last: false),
+      ),
     );
   }
 }
