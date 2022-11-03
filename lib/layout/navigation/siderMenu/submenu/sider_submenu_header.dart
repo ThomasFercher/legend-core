@@ -75,6 +75,7 @@ class HeaderTile extends LegendWidget {
             disabled: theme.colors.menuDrawer.foreground.lighten(),
             enabled: theme.colors.menuDrawer.foreground_menu_selction,
           ),
+          disableShadow: true,
           padding: EdgeInsets.symmetric(
             horizontal: 12,
           ),

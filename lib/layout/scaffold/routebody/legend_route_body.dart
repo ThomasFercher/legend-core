@@ -44,115 +44,126 @@ class LegendRouteBody extends LegendWidget {
     bool single = singlePage ?? scaffold.whether.singlePage;
 
     double footerHeight = showFooter
-        ? theme.scaffoldConfig?.builders?.customFooter?.sizing?.height ?? 0
+        ? theme.scaffoldConfig.builders?.customFooter?.sizing?.height ?? 0
         : 0;
 
     EdgeInsetsGeometry contentPadding = !disableContentDecoration
         ? EdgeInsets.all(theme.sizing.spacing1)
         : EdgeInsets.zero;
 
-    return ColoredBox(
-      color: theme.colors.background1,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (children.isNotEmpty) {
-            List<Widget> _children = List.of(
-              children.map(
-                (child) => Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: theme.sizing.spacing1)
-                          .boolInit(!disableContentDecoration),
-                  child: child,
-                ),
-              ),
-            );
+    final ScrollController controller = ScrollController();
 
-            return Container(
-              height: constraints.maxHeight,
-              child: CustomScrollView(
-                controller: ScrollController(),
-                slivers: [
-                  if (sliverAppBar != null) sliverAppBar!,
-                  if (sliverPersistentHeader != null)
-                    SliverPersistentHeader(
-                      delegate: sliverPersistentHeader!,
-                    ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: _children.length,
-                      (context, i) => _children[i],
-                    ),
-                  ),
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(child: Container()),
-                        if (showFooter) ScaffoldFooter(),
-                      ],
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        scrollbars: false,
+      ),
+      child: Scrollbar(
+        controller: controller,
+        child: ColoredBox(
+          color: theme.colors.background1,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (children.isNotEmpty) {
+                List<Widget> _children = List.of(
+                  children.map(
+                    (child) => Container(
+                      padding: EdgeInsets.symmetric(
+                              horizontal: theme.sizing.spacing1)
+                          .boolInit(!disableContentDecoration),
+                      child: child,
                     ),
                   ),
-                ],
-              ),
-            );
-          } else if (slivers.isNotEmpty) {
-            return Container(
-              height: constraints.maxHeight,
-              child: CustomScrollView(
-                controller: ScrollController(),
-                slivers: slivers,
-              ),
-            );
-          } else if (single) {
-            return Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: contentPadding,
-                    child: Builder(
-                      builder: (BuildContext context) {
-                        return builder!(
-                          context,
-                          Size(
-                            constraints.maxWidth,
-                            constraints.maxHeight - footerHeight,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                if (showFooter) ScaffoldFooter(),
-              ],
-            );
-          } else {
-            return CustomScrollView(
-              slivers: [
-                if (sliverAppBar != null) sliverAppBar!,
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: contentPadding,
-                    child: Builder(
-                      builder: (context) => builder!(
-                        context,
-                        Size(constraints.maxWidth, double.infinity),
+                );
+
+                return Container(
+                  height: constraints.maxHeight,
+                  child: CustomScrollView(
+                    controller: controller,
+                    slivers: [
+                      if (sliverAppBar != null) sliverAppBar!,
+                      if (sliverPersistentHeader != null)
+                        SliverPersistentHeader(
+                          delegate: sliverPersistentHeader!,
+                        ),
+                      SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: _children.length,
+                          (context, i) => _children[i],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(child: Container()),
-                      if (showFooter) ScaffoldFooter(),
+                      SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(child: Container()),
+                            if (showFooter) ScaffoldFooter(),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            );
-          }
-        },
+                );
+              } else if (slivers.isNotEmpty) {
+                return Container(
+                  height: constraints.maxHeight,
+                  child: CustomScrollView(
+                    controller: controller,
+                    slivers: slivers,
+                  ),
+                );
+              } else if (single) {
+                return Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: contentPadding,
+                        child: Builder(
+                          builder: (BuildContext context) {
+                            return builder!(
+                              context,
+                              Size(
+                                constraints.maxWidth,
+                                constraints.maxHeight - footerHeight,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    if (showFooter) ScaffoldFooter(),
+                  ],
+                );
+              } else {
+                return CustomScrollView(
+                  controller: controller,
+                  slivers: [
+                    if (sliverAppBar != null) sliverAppBar!,
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: contentPadding,
+                        child: Builder(
+                          builder: (context) => builder!(
+                            context,
+                            Size(constraints.maxWidth, double.infinity),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(child: Container()),
+                          if (showFooter) ScaffoldFooter(),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        ),
       ),
     );
   }
