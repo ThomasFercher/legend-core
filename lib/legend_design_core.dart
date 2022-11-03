@@ -4,3 +4,4 @@ library legend_design_core;
 // Or do nothin?
 export 'package:provider/provider.dart';
 export 'package:legend_router/legend_router.dart';
+export 'package:legend_utils/legend_utils.dart';

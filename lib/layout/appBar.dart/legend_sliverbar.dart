@@ -115,10 +115,10 @@ class LegendSliverBar extends LegendWidget {
           child: AppBarDelegate(
             type: type,
             children: {
-              if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
-              if (showMenu) AppBarItem.MENU: getMenu(context),
+              if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
+              if (showMenu) AppBarItem.menu: getMenu(context),
               if (actions != null)
-                AppBarItem.ACTIONS: LegendScaffoldBuilder(builder: actions!),
+                AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
             },
           ),
         ),

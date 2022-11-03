@@ -11,9 +11,8 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_siz
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/extensions.dart';
-
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
-import '../scaffold/scaffoldInfo.dart';
+import 'legend_backbutton.dart';
 
 const List<Widget> actionsFiller = [
   SizedBox(
@@ -30,6 +29,7 @@ class LegendAppBar extends LegendWidget {
   final bool showMenu;
   final bool showTitle;
   final bool showLogo;
+  final bool showBackButton;
   final AppBarLayoutType type;
 
   const LegendAppBar({
@@ -40,6 +40,7 @@ class LegendAppBar extends LegendWidget {
     this.showMenu = true,
     this.showLogo = true,
     this.showTitle = true,
+    this.showBackButton = true,
     required this.type,
   });
 
@@ -124,10 +125,11 @@ class LegendAppBar extends LegendWidget {
           child: AppBarDelegate(
             type: type,
             children: {
-              if (showTitle) AppBarItem.TITLE: title ?? ScaffoldTitle(),
-              if (showMenu) AppBarItem.MENU: getMenu(context),
+              if (showBackButton) AppBarItem.backButton: LegendBackButton(),
+              if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
+              if (showMenu) AppBarItem.menu: getMenu(context),
               if (actions != null)
-                AppBarItem.ACTIONS: LegendScaffoldBuilder(builder: actions!),
+                AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
             },
           ),
         ),

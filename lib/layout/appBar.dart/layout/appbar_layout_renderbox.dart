@@ -27,8 +27,8 @@ class AppBarLayoutRenderBox extends RenderBox
     double width = 0;
     BoxConstraints childConstraints = constraints;
 
-    for (AppBarItem item in items) {
-      if (item == AppBarItem.MENU) continue;
+    for (final AppBarItem item in items) {
+      if (item == AppBarItem.menu) continue;
       RenderBox? child = childForSlot(item);
       if (child == null) continue;
       child.layout(childConstraints, parentUsesSize: true);
@@ -39,7 +39,7 @@ class AppBarLayoutRenderBox extends RenderBox
   }
 
   double getMenuWidth() {
-    RenderBox? menu = childForSlot(AppBarItem.MENU);
+    RenderBox? menu = childForSlot(AppBarItem.menu);
 
     if (menu == null) return 0;
 
@@ -53,19 +53,9 @@ class AppBarLayoutRenderBox extends RenderBox
   }
 
   double getTitleWidth() {
-    RenderBox? menu = childForSlot(AppBarItem.TITLE);
+    RenderBox? menu = childForSlot(AppBarItem.title);
 
     if (menu == null) return 0;
-
-    menu.layout(BoxConstraints(), parentUsesSize: true);
-
-    return menu.size.width;
-  }
-
-  double? getHeight() {
-    RenderBox? menu = childForSlot(AppBarItem.MENU);
-
-    if (menu == null) return null;
 
     menu.layout(BoxConstraints(), parentUsesSize: true);
 
@@ -76,7 +66,6 @@ class AppBarLayoutRenderBox extends RenderBox
       (maxHeight - s.height) / 2;
 
   /// Layout
-
   void LoTiMeAcMe(
     double maxWidth,
     double maxHeight,
@@ -86,10 +75,31 @@ class AppBarLayoutRenderBox extends RenderBox
     RenderBox? title,
     RenderBox? menu,
     RenderBox? actions,
+    RenderBox? backButton,
   ) {
-    BoxConstraints childConstraints = this.constraints;
+    BoxConstraints childConstraints = constraints;
 
     Offset offset = Offset.zero;
+
+    //BackButton
+    var backButtonSize = Size.zero;
+    if (backButton != null) {
+      //Layout
+      backButton.layout(childConstraints, parentUsesSize: true);
+      backButtonSize = backButton.size;
+
+      // Center Vertically
+      offset = Offset(offset.dx, centerVertically(maxHeight, backButtonSize));
+
+      final BoxParentData parentData = backButton.parentData! as BoxParentData;
+      parentData.offset = offset;
+
+      // Update Offset and Constraints
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - backButtonSize.width,
+      );
+      offset = offset.translate(backButtonSize.width, 0);
+    }
 
     // Title
     Size titleSize = Size.zero;
@@ -198,7 +208,6 @@ class AppBarLayoutRenderBox extends RenderBox
   }
 
   ///
-
   void MeLoTiAc(
     double maxWidth,
     double maxHeight,
@@ -206,16 +215,38 @@ class AppBarLayoutRenderBox extends RenderBox
     RenderBox? title,
     RenderBox? menu,
     RenderBox? actions,
+    RenderBox? backButton,
   ) {
-    BoxConstraints childConstraints = this.constraints;
+    BoxConstraints childConstraints = constraints;
 
     Offset offset = Offset.zero;
     double titleWidth = getTitleWidth();
     double menuWidth = getMenuWidth();
     double centerTitleDx = (maxWidth - titleWidth) / 2;
 
+    //BackButton
+    var backButtonSize = Size.zero;
+    if (backButton != null) {
+      //Layout
+      backButton.layout(childConstraints, parentUsesSize: true);
+      backButtonSize = backButton.size;
+
+      // Center Vertically
+      offset = Offset(offset.dx, centerVertically(maxHeight, backButtonSize));
+
+      final BoxParentData parentData = backButton.parentData! as BoxParentData;
+      parentData.offset = offset;
+
+      // Update Offset and Constraints
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - backButtonSize.width,
+      );
+      offset = offset.translate(backButtonSize.width, 0);
+    }
+
+    // Menu Collapse Check
     bool isMenuCollapsed;
-    if (centerTitleDx > menuWidth * 0.75) {
+    if (centerTitleDx > menuWidth + backButtonSize.width + 2 * spacing) {
       isMenuCollapsed = false;
     } else {
       isMenuCollapsed = true;
@@ -264,7 +295,7 @@ class AppBarLayoutRenderBox extends RenderBox
 
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
-      double left = spacing;
+      double left = spacing + backButtonSize.width;
 
       double width = centerTitleDx * 11 / 12;
       // Layout
@@ -321,16 +352,15 @@ class AppBarLayoutRenderBox extends RenderBox
     double maxHeight = constraints.maxHeight;
     contentSize = Size(maxWidth, constraints.maxHeight);
 
-    BoxConstraints childConstraints = constraints;
-
     //RenderBoxes
     bool isMenuCollapsed = false;
     double menuWidth = 0;
     double spaceFilled = 0;
 
-    RenderBox? actions = childForSlot(AppBarItem.ACTIONS);
-    RenderBox? title = childForSlot(AppBarItem.TITLE);
-    RenderBox? menu = childForSlot(AppBarItem.MENU);
+    RenderBox? actions = childForSlot(AppBarItem.actions);
+    RenderBox? title = childForSlot(AppBarItem.title);
+    RenderBox? menu = childForSlot(AppBarItem.menu);
+    RenderBox? backButton = childForSlot(AppBarItem.backButton);
 
     if (menu != null) {
       menuWidth = getMenuWidth();
@@ -351,25 +381,11 @@ class AppBarLayoutRenderBox extends RenderBox
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         MeLoTiAc(
-          maxWidth,
-          maxHeight,
-          remaining,
-          title,
-          menu,
-          actions,
-        );
+            maxWidth, maxHeight, remaining, title, menu, actions, backButton);
         break;
       case AppBarLayoutType.TiMeAc:
-        LoTiMeAcMe(
-          maxWidth,
-          maxHeight,
-          isMenuCollapsed,
-          menuCenter,
-          remaining,
-          title,
-          menu,
-          actions,
-        );
+        LoTiMeAcMe(maxWidth, maxHeight, isMenuCollapsed, menuCenter, remaining,
+            title, menu, actions, backButton);
         break;
     }
 

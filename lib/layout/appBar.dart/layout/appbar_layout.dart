@@ -1,17 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/layout_provider.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_utils/functions/functions.dart';
-
 import 'appbar_layout_renderbox.dart';
 
 enum AppBarItem {
-  TITLE,
-  MENU,
-  ACTIONS,
+  title,
+  menu,
+  actions,
+  backButton,
 }
 
 enum AppBarLayoutType {

@@ -30,7 +30,7 @@ class Sider extends LegendWidget {
     SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
     SideMenuColorsStyle menuColors = colors.menuColors;
 
-    // Dumb Fix
+    // Dumb Fix TODO: Something
     AppBarLayout appbarLayout =
         ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
     bool showLogo = appbarLayout.layout != AppBarLayoutConfig.fixedAbove;
@@ -62,7 +62,11 @@ class Sider extends LegendWidget {
                       sizing: menuSizing,
                       colors: menuColors,
                       depth: current.allMatches('/').length,
-                      options: LegendRouter.of(context).routes.get<PageInfo>(),
+                      options: LegendRouter.of(context)
+                          .routes
+                          .get<PageInfo>()
+                          .where((element) => element.depth == 1)
+                          .toList(),
                       showMenuSubItems: true,
                       width: maxWidth - sizing.horizontalPadding,
                       textStyle: theme.typography.h2,
