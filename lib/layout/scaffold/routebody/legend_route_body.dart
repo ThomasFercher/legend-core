@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/builder_body.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/children_body.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/single_body.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/sliver_body.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
@@ -36,135 +41,48 @@ class LegendRouteBody extends LegendWidget {
     assert(children.isNotEmpty || builder != null || slivers.isNotEmpty);
   }
 
+  Widget _body(bool single) {
+    if (children.isNotEmpty) {
+      return ChildrenBody();
+    }
+    if (slivers.isNotEmpty) {
+      return SliverBody();
+    }
+    if (single) {
+      return SingleBody();
+    }
+    return BuilderBody();
+  }
+
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    ScaffoldInfo info = ScaffoldInfo.of(context);
-    LegendScaffold scaffold = info.scaffold;
-    bool showFooter = info.showFooter(context);
-    bool single = singlePage ?? scaffold.whether.singlePage;
-
-    double footerHeight = showFooter
-        ? theme.scaffoldConfig.builders?.customFooter?.sizing?.height ?? 0
-        : 0;
-
-    EdgeInsetsGeometry contentPadding = !disableContentDecoration
-        ? EdgeInsets.all(theme.sizing.spacing1)
-        : EdgeInsets.zero;
-
+    final info = ScaffoldInfo.of(context);
+    final scaffold = info.scaffold;
+    final showFooter = info.showFooter(context);
+    final single = singlePage ?? scaffold.whether.singlePage;
     final ScrollController controller = ScrollController();
 
-    return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(
-        scrollbars: false,
-      ),
-      child: Scrollbar(
-        controller: controller,
-        child: ColoredBox(
-          color: theme.colors.background1,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              if (children.isNotEmpty) {
-                List<Widget> _children = List.of(
-                  children.map(
-                    (child) => Container(
-                      padding: EdgeInsets.symmetric(
-                              horizontal: theme.sizing.spacing1)
-                          .boolInit(!disableContentDecoration),
-                      child: child,
-                    ),
-                  ),
-                );
-
-                return Container(
-                  height: constraints.maxHeight,
-                  child: CustomScrollView(
-                    controller: controller,
-                    slivers: [
-                      if (sliverAppBar != null) sliverAppBar!,
-                      if (sliverPersistentHeader != null)
-                        SliverPersistentHeader(
-                          delegate: sliverPersistentHeader!,
-                        ),
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: _children.length,
-                          (context, i) => _children[i],
-                        ),
-                      ),
-                      SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Column(
-                          children: <Widget>[
-                            Expanded(child: Container()),
-                            if (showFooter) ScaffoldFooter(),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              } else if (slivers.isNotEmpty) {
-                return Container(
-                  height: constraints.maxHeight,
-                  child: CustomScrollView(
-                    controller: controller,
-                    slivers: slivers,
-                  ),
-                );
-              } else if (single) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: contentPadding,
-                        child: Builder(
-                          builder: (BuildContext context) {
-                            return builder!(
-                              context,
-                              Size(
-                                constraints.maxWidth,
-                                constraints.maxHeight - footerHeight,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    if (showFooter) ScaffoldFooter(),
-                  ],
-                );
-              } else {
-                return CustomScrollView(
-                  controller: controller,
-                  slivers: [
-                    if (sliverAppBar != null) sliverAppBar!,
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: contentPadding,
-                        child: Builder(
-                          builder: (context) => builder!(
-                            context,
-                            Size(constraints.maxWidth, double.infinity),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(child: Container()),
-                          if (showFooter) ScaffoldFooter(),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              }
-            },
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RouteBodyInfo(
+          info: this,
+          constraints: constraints,
+          scrollController: controller,
+          showFooter: showFooter,
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              scrollbars: false,
+            ),
+            child: Scrollbar(
+              controller: controller,
+              child: ColoredBox(
+                color: theme.colors.background1,
+                child: _body(single),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
