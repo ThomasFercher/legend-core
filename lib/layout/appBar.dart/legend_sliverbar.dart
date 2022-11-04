@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/appBar.dart/legend_backbutton.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
@@ -29,6 +30,7 @@ class LegendSliverBar extends LegendWidget {
   final bool showMenu;
   final bool showTitle;
   final bool showLogo;
+  final bool showBackButton;
   final AppBarLayoutType type;
 
   const LegendSliverBar({
@@ -39,6 +41,7 @@ class LegendSliverBar extends LegendWidget {
     this.showMenu = true,
     this.showLogo = true,
     this.showTitle = true,
+    this.showBackButton = true,
     required this.type,
   });
 
@@ -115,6 +118,7 @@ class LegendSliverBar extends LegendWidget {
           child: AppBarDelegate(
             type: type,
             children: {
+              if (showBackButton) AppBarItem.backButton: LegendBackButton(),
               if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
               if (showMenu) AppBarItem.menu: getMenu(context),
               if (actions != null)

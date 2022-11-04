@@ -21,8 +21,9 @@ class ScaffoldHeader extends LegendWidget {
     AppBarLayout layout =
         ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
 
-    final bool showBackButton =
-        !PlatformInfo.isWeb && !LegendRouter.of(context).isFirstOnStack();
+    final showBackButton = !PlatformInfo.isWeb &&
+        !LegendRouter.of(context).isFirstOnStack() &&
+        scaffold.whether.showBackButton;
 
     switch (layout.layout) {
       case AppBarLayoutConfig.fixedAbove:

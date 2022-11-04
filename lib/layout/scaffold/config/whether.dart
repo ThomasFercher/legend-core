@@ -12,6 +12,7 @@ class ScaffoldWhether {
   final bool showSiderChildMenu;
   final bool shareParentSiderMenu;
   final bool singlePage;
+  final bool showBackButton;
 
   const ScaffoldWhether({
     this.showSiderMenu = false,
@@ -21,6 +22,7 @@ class ScaffoldWhether {
     this.showSiderChildMenu = false,
     this.shareParentSiderMenu = false,
     this.singlePage = false,
+    this.showBackButton = true,
   });
 
   factory ScaffoldWhether.copyWith(ScaffoldWhether base, ScaffoldWhether copy) {
@@ -34,6 +36,7 @@ class ScaffoldWhether {
       showSiderSubMenu: base.showSiderSubMenu.overWrite(copy.showSiderSubMenu),
       showTopSubMenu: base.showTopSubMenu.overWrite(copy.showTopSubMenu),
       singlePage: base.singlePage.overWrite(copy.singlePage),
+      showBackButton: base.showBackButton.overWrite(copy.showBackButton),
     );
   }
 }
