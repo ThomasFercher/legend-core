@@ -9,6 +9,7 @@ import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart'
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/route_info_provider.dart';
@@ -99,6 +100,10 @@ class LegendSliverBar extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
+    final _showBackButton = !PlatformInfo.isWeb &&
+        !LegendRouter.of(context).isFirstOnStack() &&
+        showBackButton;
+
     return SliverAppBar(
       leadingWidth: 0,
       titleSpacing: 0,
@@ -118,7 +123,7 @@ class LegendSliverBar extends LegendWidget {
           child: AppBarDelegate(
             type: type,
             children: {
-              if (showBackButton) AppBarItem.backButton: LegendBackButton(),
+              if (_showBackButton) AppBarItem.backButton: LegendBackButton(),
               if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
               if (showMenu) AppBarItem.menu: getMenu(context),
               if (actions != null)
