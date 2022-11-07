@@ -62,7 +62,6 @@ class TabviewChildPageInfo extends PageInfo {
 class ScaffoldRouteConfig {
   // Core
   final String pageName;
-  final List<Widget> children;
 
   // Configs
   final ScaffoldBuilders builders;
@@ -72,7 +71,6 @@ class ScaffoldRouteConfig {
   const ScaffoldRouteConfig({
     required this.pageName,
     required this.layout,
-    this.children = const [],
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),
   });

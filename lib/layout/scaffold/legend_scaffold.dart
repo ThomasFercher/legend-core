@@ -69,6 +69,8 @@ class LegendScaffold extends LegendWidget {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Builder(builder: (context) {
+          final theme = LegendTheme.of(context);
+
           // Bottom Bar Layout
           BottomBarLayout bottomBarLayout = ScaffoldInfo.of(context)
               .scaffold

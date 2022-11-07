@@ -9,22 +9,14 @@ abstract class SiderSizing {
   final double width;
   final double iconSize;
   final double spacing;
-  final double itemHeight;
-  final double subMenuHeaderHeight;
-  final EdgeInsets itemPadding;
-  final EdgeInsets subItemPadding;
-  final double horizontalPadding;
+  final EdgeInsetsGeometry padding;
   late final SideMenuSizing sideMenuSizing;
 
   SiderSizing({
     required this.width,
     required this.iconSize,
     required this.spacing,
-    required this.itemHeight,
-    required this.subMenuHeaderHeight,
-    required this.subItemPadding,
-    required this.itemPadding,
-    required this.horizontalPadding,
+    required this.padding,
     required this.sideMenuSizing,
   });
 }

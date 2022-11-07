@@ -129,7 +129,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
             horizontal: 24,
           );
 
-    String current = RouteInfoProvider.getRouteInfo(context)?.name ?? '';
+    String? current =
+        LegendRouter.of(context).routerDelegate.currentConfiguration.last.name;
 
     return SizedBox(
       width: theme.menuDrawerSizing.width,
@@ -187,10 +188,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       child: FixedSiderMenu(
                         sizing: menuSizing,
                         colors: menuColors,
-                        depth: current.allMatches('/').length,
+                        depth: current?.allMatches('/').length ?? 0,
                         width:
                             theme.menuDrawerSizing.width - padding.horizontal,
                         hasToPop: true,
+                        current: current,
                         options: LegendRouter.of(context)
                             .routes
                             .get<PageInfo>()
@@ -198,7 +200,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             .toList(),
                         showMenuSubItems: true,
                         textStyle: theme.typography.h2,
-                        current: RouteInfoProvider.getRouteInfo(context)?.name,
                       ),
                     ),
                   ),

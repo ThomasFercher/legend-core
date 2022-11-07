@@ -23,7 +23,7 @@ class ElevatedBox extends StatelessWidget {
     required this.elevation,
     required this.child,
     this.shadowColor = _shadowColor,
-    this.margin = EdgeInsets.zero,
+    this.margin = const EdgeInsets.all(4),
     this.padding = EdgeInsets.zero,
     BoxDecoration? decoration,
   }) {

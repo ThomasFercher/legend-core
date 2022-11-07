@@ -36,57 +36,46 @@ class Sider extends LegendWidget {
     bool showLogo = appbarLayout.layout != AppBarLayoutConfig.fixedAbove;
 
     double maxWidth = theme.siderSizing.width;
-    String current = RouteInfoProvider.getRouteInfo(context)?.name ?? '';
+    String? current = LegendRouter.of(context).routerDelegate.current?.name;
 
+    print(current);
     return Container(
       width: maxWidth,
       height: MediaQuery.of(context).size.height,
       color: theme.colors.sider.background,
+      padding: sizing.padding,
       child: Column(
         children: [
           if (showLogo && LayoutProvider.of(context).logo != null)
-            LayoutProvider.of(context).logo!,
+            Padding(
+              padding: EdgeInsets.only(top: sizing.spacing),
+              child: LayoutProvider.of(context).logo!,
+            ),
           SizedBox(
-            height: sizing.itemHeight / 2,
+            height: menuSizing.itemHeight / 2,
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: sizing.horizontalPadding,
-              ),
-              child: Column(
-                children: [
-                  if (fixedSider.showMenu)
-                    FixedSiderMenu(
-                      current: current,
-                      sizing: menuSizing,
-                      colors: menuColors,
-                      depth: current.allMatches('/').length,
-                      options: LegendRouter.of(context)
-                          .routes
-                          .get<PageInfo>()
-                          .where((element) => element.depth == 1)
-                          .toList(),
-                      showMenuSubItems: true,
-                      width: maxWidth - sizing.horizontalPadding,
-                      textStyle: theme.typography.h2,
-                    ),
-
-                  /*   RouteInfoProvider.getParentRouteDisplay(context)
-                                    ?.children
-                                    ?.toList() ??
-                             RouteInfoProvider.getRouteDisplay(context)
-                                ?.children
-                                ?.toList() ??
-                            [],
-                     */
-                ],
+          if (fixedSider.showMenu)
+            SingleChildScrollView(
+              child: FixedSiderMenu(
+                current: current,
+                sizing: menuSizing,
+                colors: menuColors,
+                depth: current?.allMatches('/').length ?? 0,
+                options: LegendRouter.of(context)
+                    .routes
+                    .get<PageInfo>()
+                    .where((element) => element.depth == 1)
+                    .toList(),
+                showMenuSubItems: true,
+                width: maxWidth - sizing.padding.horizontal,
+                textStyle: theme.typography.h2,
               ),
             ),
-          ),
           if (fixedSider.builder != null)
-            LegendScaffoldBuilder(
-              builder: fixedSider.builder!,
+            Expanded(
+              child: LegendScaffoldBuilder(
+                builder: fixedSider.builder!,
+              ),
             ),
         ],
       ),

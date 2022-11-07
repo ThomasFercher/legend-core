@@ -22,18 +22,18 @@ class FixedSiderMenu extends StatefulWidget {
   late final bool collapsed;
 
   FixedSiderMenu({
-    Key? key,
+    super.key,
     required this.width,
     required this.options,
     required this.showMenuSubItems,
     required this.colors,
     required this.sizing,
-    required this.current,
+    required this.textStyle,
     required this.depth,
+    this.current,
     this.subMenuExpanded = true,
     this.hasToPop = false,
-    required this.textStyle,
-  }) : super(key: key) {
+  }) {
     double biggestTitleWidth = 0;
 
     for (var i = 0; i < options.length; i++) {
@@ -55,27 +55,15 @@ class FixedSiderMenu extends StatefulWidget {
 }
 
 class _FixedSiderMenuState extends State<FixedSiderMenu> {
-  String? _selected;
   late int? hovered;
-  late Map<int, bool> expanded;
-  late final SideMenuColorsStyle colors;
-  late final SideMenuSizingStyle sizing;
+
+  SideMenuColorsStyle get colors => widget.colors;
+  SideMenuSizingStyle get sizing => widget.sizing;
 
   @override
   void initState() {
-    colors = widget.colors;
-    sizing = widget.sizing;
     hovered = null;
-    expanded = {};
-    widget.subMenuExpanded;
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _selected =
-        LegendRouter.of(context).routerDelegate.currentConfiguration.last.name;
   }
 
   /// This Method returns the whole menu.
@@ -83,10 +71,12 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   /// we add a [RowMenuTile].
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
+    final current = widget.current;
 
     for (int i = 0; i < widget.options.length; i++) {
-      final RouteInfo option = widget.options[i];
-      bool selected = i == hovered || _selected == option.name;
+      final option = widget.options[i];
+      final selected = i == hovered || current == option.name;
+
       if (option.children == null || !(widget.showMenuSubItems)) {
         tiles.add(
           ColumnMenuTile(
@@ -116,22 +106,14 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
       } else if (widget.showMenuSubItems) {
         tiles.add(
           SiderSubMenu(
-            current: widget.current,
+            current: current,
             option: option,
             sizing: sizing,
             colors: colors,
             hasToPop: widget.hasToPop,
             collapsed: widget.collapsed,
-            onResisize: (val) {
-              setState(() {
-                expanded.putIfAbsent(
-                  i,
-                  () => val,
-                );
-                expanded.update(i, (value) => val);
-              });
-            },
             expanded: false,
+            onResisize: (_) => setState(() {}),
           ),
         );
       }
