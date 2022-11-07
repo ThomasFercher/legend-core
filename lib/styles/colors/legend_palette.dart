@@ -13,6 +13,7 @@ import 'package:legend_design_core/styles/typography/typography.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'core_colors.dart';
 import 'subcolors/micros/menu/menu_colors.dart';
+import 'subcolors/micros/tabbar/tabbar_colors.dart';
 
 class LegendPalette implements LegendCoreColors {
   ///  Primary Color
@@ -186,6 +187,9 @@ class LegendPalette implements LegendCoreColors {
             background: colors.background,
             foreground: colors.foreground,
             menuBackground: colors.background,
+          ),
+          tabbarColors: TabbarColorsStyle(
+            background: colors.foreground,
           ),
         );
       },
