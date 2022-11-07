@@ -38,7 +38,6 @@ class Sider extends LegendWidget {
     double maxWidth = theme.siderSizing.width;
     String? current = LegendRouter.of(context).routerDelegate.current?.name;
 
-    print(current);
     return Container(
       width: maxWidth,
       height: MediaQuery.of(context).size.height,

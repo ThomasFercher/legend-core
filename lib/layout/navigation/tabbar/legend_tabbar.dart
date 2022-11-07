@@ -1,95 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/tab_option.dart';
-import 'package:legend_design_core/router/scaffold_route_info.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
-
 import 'package:legend_utils/extensions/extensions.dart';
 import '../../scaffold/scaffoldInfo.dart';
 
-class TabBarStyle {
-  final Color background;
-  final double height;
-  final MainAxisAlignment alignment;
+class LegendTabBar extends LegendWidget {
+  final List<RouteInfo> routes;
 
-  TabBarStyle({
-    required this.background,
-    required this.height,
-    required this.alignment,
+  const LegendTabBar({
+    super.key,
+    required this.routes,
   });
-}
 
-class LegendTabBar extends StatefulWidget {
-  final List<RouteInfo> displays;
-  late final Color border;
-
-  LegendTabBar({
-    Key? key,
-    required this.style,
-    required this.displays,
-  }) : super(key: key) {
-    border = style.background.lighten();
-  }
-
-  final TabBarStyle style;
-
-  @override
-  State<LegendTabBar> createState() => _LegendTabBarState();
-}
-
-class _LegendTabBarState extends State<LegendTabBar> {
-  List<Widget> getOptions() {
+  List<Widget> getOptions(BuildContext context) {
     List<Widget> items = [];
-    RouteInfo? info = ScaffoldInfo.of(context).routeInfo;
+    final theme = LegendTheme.of(context);
+    final routeLayout = ScaffoldInfo.of(context).getLayout(theme);
+    final current = ScaffoldInfo.of(context).routeInfo;
 
-    TabviewPageInfo route;
+    if (routeLayout.appBarHasTabbar) {
+      final double height = theme.appBarSizing.tabbarSizing?.height ?? 56;
 
-    if (info is TabviewChildPageInfo) {
-      RouteInfo? parentInfo =
-          RouteInfoProvider.getParentRouteInfo(context, info);
-      route = parentInfo as TabviewPageInfo;
-    } else if (info is TabviewPageInfo) {
-      route = info;
-    } else {
-      return [];
-    }
-    LegendTheme theme = LegendTheme.of(context);
-    final double height = route.style.height;
-
-    for (int i = 0; i < widget.displays.length; i++) {
-      final RouteInfo display = widget.displays[i];
-      Widget item = LegendDetector(
-        padding: EdgeInsets.zero,
-        onTap: () {
-          LegendRouter.of(context).pushPage(
-            settings: RouteSettings(
-              name: display.name,
+      for (int i = 0; i < routes.length; i++) {
+        final RouteInfo route = routes[i];
+        Widget item = LegendDetector(
+          padding: EdgeInsets.zero,
+          onTap: () {
+            LegendRouter.of(context).pushPage(
+              settings: RouteSettings(
+                name: route.name,
+              ),
+            );
+          },
+          child: TabOption(
+            selected: route.name == current.name,
+            icon: route.icon,
+            title: route.title,
+            background: theme.appBarColors.tabbarColors?.background ??
+                theme.colors.background1,
+            border: theme.appBarColors.tabbarColors?.background ??
+                theme.colors.background1,
+            padding: EdgeInsets.symmetric(
+              horizontal: height / 2,
             ),
-          );
-        },
-        child: TabOption(
-          selected: display.name == info.name,
-          icon: display.icon,
-          title: display.title,
-          background: widget.style.background,
-          border: widget.border,
-          padding: EdgeInsets.symmetric(
-            horizontal: height / 2,
+            height: height,
           ),
-          height: height,
-        ),
-      );
-      items.add(item);
+        );
+        items.add(item);
+      }
     }
+
     return items;
   }
 
   @override
-  Widget build(BuildContext context) {
-    LegendTheme theme = LegendTheme.of(context);
+  Widget build(BuildContext context, theme) {
+    final colors = theme.appBarColors.tabbarColors;
     return LayoutBuilder(builder: (context, constraints) {
       double width = constraints.maxWidth;
       double height = constraints.maxHeight;
@@ -97,12 +66,12 @@ class _LegendTabBarState extends State<LegendTabBar> {
       return Container(
         width: width,
         height: height,
-        color: widget.style.background,
+        color: colors?.background ?? theme.colors.background1,
         child: Container(
           height: height,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: getOptions().paddingRow(8),
+            children: getOptions(context).paddingRow(8),
           ),
         ),
       );

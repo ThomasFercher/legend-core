@@ -39,9 +39,11 @@ abstract class AppBarColorsInfo implements AppBarColorsInfoNull {
 class AppBarColorsComponentsInfo {
   final MenuColorsInfoNull? menuColors;
   final SideMenuColorsInfoNull? subMenuColors;
+  final TabbarColorsInfoNull? tabbarColors;
   AppBarColorsComponentsInfo({
     this.menuColors,
     this.subMenuColors,
+    this.tabbarColors,
   });
 }
 
@@ -50,9 +52,12 @@ class AppBarColorsComponentsOverride implements AppBarColorsComponentsInfo {
   final MenuColorsOverride? menuColors;
   @override
   final SideMenuColorsOverride? subMenuColors;
+  @override
+  final TabbarColorsOverride? tabbarColors;
   AppBarColorsComponentsOverride({
     this.menuColors,
     this.subMenuColors,
+    this.tabbarColors,
   });
 }
 
@@ -61,9 +66,12 @@ class AppBarColorsComponents implements AppBarColorsComponentsInfo {
   final MenuColorsStyle menuColors;
   @override
   final SideMenuColorsStyle subMenuColors;
+  @override
+  final TabbarColorsStyle? tabbarColors;
   AppBarColorsComponents({
     required this.menuColors,
     required this.subMenuColors,
+    this.tabbarColors,
   });
 }
 
@@ -75,6 +83,8 @@ class AppBarColorsOverride extends AppBarColorsInfoNull
   late final MenuColorsOverride? menuColors;
   @override
   late final SideMenuColorsOverride? subMenuColors;
+  @override
+  late final TabbarColorsOverride? tabbarColors;
   AppBarColorsOverride({
     this.buildComponents,
     super.background,
@@ -85,6 +95,7 @@ class AppBarColorsOverride extends AppBarColorsInfoNull
     AppBarColorsComponentsOverride? components = buildComponents?.call(this);
     menuColors = components?.menuColors;
     subMenuColors = components?.subMenuColors;
+    tabbarColors = components?.tabbarColors;
   }
 }
 
@@ -96,6 +107,8 @@ class AppBarColorsStyle extends AppBarColorsInfo
   late final MenuColorsStyle menuColors;
   @override
   late final SideMenuColorsStyle subMenuColors;
+  @override
+  late final TabbarColorsStyle? tabbarColors;
   AppBarColorsStyle({
     required this.buildComponents,
     required super.background,
@@ -106,6 +119,7 @@ class AppBarColorsStyle extends AppBarColorsInfo
     AppBarColorsComponents components = buildComponents.call(this);
     menuColors = components.menuColors;
     subMenuColors = components.subMenuColors;
+    tabbarColors = components.tabbarColors;
   }
   factory AppBarColorsStyle.override(
     AppBarColorsStyle def,
@@ -125,6 +139,10 @@ class AppBarColorsStyle extends AppBarColorsInfo
               MenuColorsStyle.override(def.menuColors, override.menuColors),
           subMenuColors: SideMenuColorsStyle.override(
               def.subMenuColors, override.subMenuColors),
+          tabbarColors: def.tabbarColors == null
+              ? null
+              : TabbarColorsStyle.override(
+                  def.tabbarColors!, override.tabbarColors),
         );
       },
     );

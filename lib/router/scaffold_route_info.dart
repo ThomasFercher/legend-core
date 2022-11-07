@@ -32,33 +32,6 @@ class PageInfo extends LegendRouteInfo {
   });
 }
 
-class TabviewPageInfo extends PageInfo {
-  final TabBarStyle style;
-
-  const TabviewPageInfo({
-    required this.style,
-    required super.config,
-    required super.name,
-    required super.children,
-    required super.title,
-    super.page = const SizedBox(),
-    super.arguments,
-    super.icon,
-  });
-}
-
-class TabviewChildPageInfo extends PageInfo {
-  const TabviewChildPageInfo({
-    required super.name,
-    required super.page,
-    super.children,
-    super.arguments,
-    required super.config,
-    required super.title,
-    super.icon,
-  });
-}
-
 class ScaffoldRouteConfig {
   // Core
   final String pageName;

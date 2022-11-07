@@ -44,9 +44,11 @@ abstract class AppBarSizingInfo implements AppBarSizingInfoNull {
 class AppBarSizingComponentsInfo {
   final MenuSizingInfoNull? menuSizing;
   final SideMenuSizingInfoNull? subMenuSizing;
+  final TabbarSizingInfoNull? tabbarSizing;
   AppBarSizingComponentsInfo({
     this.menuSizing,
     this.subMenuSizing,
+    this.tabbarSizing,
   });
 }
 
@@ -55,9 +57,12 @@ class AppBarSizingComponentsOverride implements AppBarSizingComponentsInfo {
   final MenuSizingOverride? menuSizing;
   @override
   final SideMenuSizingOverride? subMenuSizing;
+  @override
+  final TabbarSizingOverride? tabbarSizing;
   AppBarSizingComponentsOverride({
     this.menuSizing,
     this.subMenuSizing,
+    this.tabbarSizing,
   });
 }
 
@@ -66,9 +71,12 @@ class AppBarSizingComponents implements AppBarSizingComponentsInfo {
   final MenuSizingStyle menuSizing;
   @override
   final SideMenuSizingStyle subMenuSizing;
+  @override
+  final TabbarSizingStyle? tabbarSizing;
   AppBarSizingComponents({
     required this.menuSizing,
     required this.subMenuSizing,
+    this.tabbarSizing,
   });
 }
 
@@ -80,6 +88,8 @@ class AppBarSizingOverride extends AppBarSizingInfoNull
   late final MenuSizingOverride? menuSizing;
   @override
   late final SideMenuSizingOverride? subMenuSizing;
+  @override
+  late final TabbarSizingOverride? tabbarSizing;
   AppBarSizingOverride({
     this.buildComponents,
     super.contentPadding,
@@ -91,6 +101,7 @@ class AppBarSizingOverride extends AppBarSizingInfoNull
     AppBarSizingComponentsOverride? components = buildComponents?.call(this);
     menuSizing = components?.menuSizing;
     subMenuSizing = components?.subMenuSizing;
+    tabbarSizing = components?.tabbarSizing;
   }
 }
 
@@ -102,6 +113,8 @@ class AppBarSizingStyle extends AppBarSizingInfo
   late final MenuSizingStyle menuSizing;
   @override
   late final SideMenuSizingStyle subMenuSizing;
+  @override
+  late final TabbarSizingStyle? tabbarSizing;
   AppBarSizingStyle({
     required this.buildComponents,
     required super.contentPadding,
@@ -113,6 +126,7 @@ class AppBarSizingStyle extends AppBarSizingInfo
     AppBarSizingComponents components = buildComponents.call(this);
     menuSizing = components.menuSizing;
     subMenuSizing = components.subMenuSizing;
+    tabbarSizing = components.tabbarSizing;
   }
   factory AppBarSizingStyle.override(
     AppBarSizingStyle def,
@@ -133,6 +147,10 @@ class AppBarSizingStyle extends AppBarSizingInfo
               MenuSizingStyle.override(def.menuSizing, override.menuSizing),
           subMenuSizing: SideMenuSizingStyle.override(
               def.subMenuSizing, override.subMenuSizing),
+          tabbarSizing: def.tabbarSizing == null
+              ? null
+              : TabbarSizingStyle.override(
+                  def.tabbarSizing!, override.tabbarSizing),
         );
       },
     );

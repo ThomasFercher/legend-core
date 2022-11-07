@@ -68,6 +68,7 @@ class LegendTheme {
   LegendTheme copyWith({LegendSizing? sizing, LegendPalette? colors}) {
     final LegendPalette _colors = colors ?? this.colors;
     final LegendSizing _sizing = sizing ?? this.sizing;
+
     return LegendTheme(
       scaffoldConfig: scaffoldConfig,
       colors: _colors,

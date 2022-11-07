@@ -15,13 +15,16 @@ class RouteLayout {
 
   const RouteLayout({
     this.appBarLayout = const AppBarLayout(
-      AppBarLayoutConfig.none,
-      AppBarLayoutType.MeTiAc,
+      layout: AppBarLayoutConfig.none,
+      aligment: AppBarLayoutType.MeTiAc,
+      showTabbar: false,
     ),
     this.siderLayout = SiderLayout.None,
     this.footerLayout = FooterLayout.None,
     this.bottomBarLayout = BottomBarLayout.None,
   });
+
+  bool get appBarHasTabbar => appBarLayout.showTabbar == true;
 }
 
 class DynamicRouteLayout {

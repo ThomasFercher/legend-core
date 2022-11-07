@@ -4,14 +4,12 @@ import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart'
 import 'package:legend_design_core/layout/config/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_header.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
-import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/extensions.dart';
-
-import 'package:legend_utils/extensions/extensions.dart';
 import '../config/appbar_layout.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -66,8 +64,6 @@ class LegendScaffold extends LegendWidget {
       scaffold: config != null ? LegendScaffold.withConfig(this, config) : this,
       child: SizeInfo(
         context: context,
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
         child: Builder(builder: (context) {
           final theme = LegendTheme.of(context);
 
@@ -123,17 +119,15 @@ class LegendScaffold extends LegendWidget {
   }
 
   PreferredSize? _appBar(BuildContext context, LegendTheme theme) {
-    AppBarLayout l = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    AppBarLayout layout =
+        ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
     double bottomHeight = 0;
-    if (route is TabviewPageInfo) {
-      TabviewPageInfo routeInfo = route as TabviewPageInfo;
-      bottomHeight = routeInfo.style.height;
-    } else if (route is TabviewChildPageInfo) {
-      RouteInfo? parent = RouteInfoProvider.getParentRouteInfo(context, route);
-      TabviewPageInfo parentRouteINfo = parent as TabviewPageInfo;
-      bottomHeight = parentRouteINfo.style.height;
+
+    if (layout.showTabbar) {
+      bottomHeight = theme.appBarSizing.tabbarSizing?.height ?? 48;
     }
-    if (l.layout == AppBarLayoutConfig.fixedAbove) {
+
+    if (layout.layout == AppBarLayoutConfig.fixedAbove) {
       return PreferredSize(
         child: ScaffoldHeader(),
         preferredSize: Size(

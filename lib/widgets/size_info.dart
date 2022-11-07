@@ -40,14 +40,12 @@ class SizeInfo extends InheritedWidget {
   late final double safeWidth;
   late final double safeHeight;
 
-  final double width;
-  final double height;
-
   final BuildContext context;
 
+  double get width => logicalWidth;
+  double get height => logicalHeight;
+
   SizeInfo({
-    required this.width,
-    required this.height,
     required super.child,
     required this.context,
   }) {
@@ -70,9 +68,7 @@ class SizeInfo extends InheritedWidget {
     safeWidth = logicalWidth - paddingLeft - paddingRight;
     safeHeight = logicalHeight - paddingTop - paddingBottom;
 
-    context
-        .watch<ThemeProvider>()
-        .changeSize(Size(logicalWidth, logicalHeight));
+    context.read<ThemeProvider>().changeSize(Size(logicalWidth, logicalHeight));
   }
 
   static SizeInfo of(BuildContext context) {

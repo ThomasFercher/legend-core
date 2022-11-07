@@ -16,18 +16,23 @@ class ThemeProvider extends ChangeNotifier {
     systemUIOverrides();
   }
 
-  void changeSize(Size size) =>
-      theme = theme.copyWith(sizing: sizingTheme.getSizing(size.width));
+  /// Gets called every time the screen dimension change
+  void changeSize(Size size) {
+    final prev = sizingTheme.key;
+    final next = sizingTheme.setWidth(size.width);
+
+    if (prev != next) theme = theme.copyWith(sizing: sizingTheme.sizing);
+  }
 
   /// Changes the current [LegendPalette] responding to the [type]
   /// The LegendTypography will be updated accordingly.
   ///  and the App will restart.
-  void changeColorTheme(PaletteType type) => {
-        colorTheme.setType(type),
-        theme = theme.copyWith(colors: colorTheme.current),
-        systemUIOverrides(),
-        notifyListeners()
-      };
+  void changeColorTheme(PaletteType type) {
+    colorTheme.setType(type);
+    theme = theme.copyWith(colors: colorTheme.current);
+    systemUIOverrides();
+    notifyListeners();
+  }
 
   /// System UI Overrides. This is used to change the colors of the status bar and navigation bar
   void systemUIOverrides() {

@@ -70,32 +70,35 @@ class LegendSliverBar extends LegendWidget {
   }
 
   PreferredSize _bottom(BuildContext context) {
-    RouteInfo? route = RouteInfoProvider.getRouteInfo(context);
+    RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
+    final theme = LegendTheme.of(context);
+    final layout = ScaffoldInfo.of(context).getLayout(theme);
 
-    if (route is TabviewPageInfo) {
-      RouteInfo? display = ScaffoldInfo.of(context).routeInfo;
+    if (layout.appBarHasTabbar && route != null) {
+      var routes = [route];
 
+      if (route.children != null && route.children!.isNotEmpty) {
+        routes.addAll(route.children!);
+      } else {
+        RouteInfo? parent =
+            RouteInfoProvider.getParentRouteInfo(context, route);
+        if (parent != null) {
+          routes = [parent];
+          if (parent.children != null) routes.addAll(parent.children!);
+        }
+      }
+      final height = theme.appBarSizing.tabbarSizing?.height ?? 56;
       return PreferredSize(
-        preferredSize: Size.fromHeight(route.style.height),
+        preferredSize: Size.fromHeight(height),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: route.style.height),
+          constraints: BoxConstraints(maxHeight: height),
           child: LegendTabBar(
-            style: route.style,
-            displays: [],
+            routes: routes,
           ),
         ),
       );
-    } else if (route is TabviewChildPageInfo) {
-      TabviewPageInfo parent =
-          RouteInfoProvider.getParentRouteInfo(context, route)
-              as TabviewPageInfo;
-      return PreferredSize(
-        preferredSize: Size.fromHeight(parent.style.height),
-        child: Container(), //LegendTabBar(),
-      );
-    } else {
-      return PreferredSize(child: Container(), preferredSize: Size.zero);
     }
+    return PreferredSize(child: Container(), preferredSize: Size.zero);
   }
 
   @override

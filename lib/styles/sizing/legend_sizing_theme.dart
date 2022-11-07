@@ -1,13 +1,13 @@
-// ignore_for_file: prefer_initializing_formals
-
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/styles/sizing/core/legend_sizing.dart';
-
 import 'core/override.dart';
 
 class LegendSizingTheme {
   final LegendSizing defaultSizing;
   late final List<LegendSizing> sizings;
+
+  double _key = 0;
+  double get key => _key;
 
   LegendSizingTheme({
     required this.defaultSizing,
@@ -35,8 +35,7 @@ class LegendSizingTheme {
   }
 
   /// Returns LegendSizing depending on the current Screen Width
-  LegendSizing getSizing(double width) {
-    double _key = getNearestKey(width);
+  LegendSizing get sizing {
     if (sizings.isEmpty) {
       return defaultSizing;
     }
@@ -67,14 +66,20 @@ class LegendSizingTheme {
     return splits.last;
   }
 
+  double setWidth(double width) {
+    double newKey = getNearestKey(width);
+    if (newKey != _key) _key = newKey;
+    return _key;
+  }
+
   /// Returns true if the current [LegendSizing] key is the same as [width]
-  // bool sizeIs(double width) => _key == getNearestKey(width);
+  bool sizeIs(double width) => _key == getNearestKey(width);
 
   /// Returns true if the current [LegendSizing] key is smaller than the
   /// specified [maxWidth]
-  // bool sizeIsMax(double maxWidth) => _key < getNearestKey(maxWidth);
+  bool sizeIsMax(double maxWidth) => _key < getNearestKey(maxWidth);
 
   /// Returns true if the current [LegendSizing] key is bigger than the
   /// specified [minWidth]
-  // bool sizeIsMin(double minWidth) => _key > getNearestKey(minWidth);
+  bool sizeIsMin(double minWidth) => _key > getNearestKey(minWidth);
 }

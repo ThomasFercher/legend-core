@@ -133,7 +133,7 @@ class _FixedMenuState extends State<FixedMenu> {
             hovered = null;
             _subMenuShown = false;
           });
-          print("asd");
+
           // TODO: Is called if FixedSiderMenu pushes a Sub Route which results in nothing happening
           Navigator.of(context).pop();
         }
