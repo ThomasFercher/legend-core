@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/elevation/elevated_card.dart';
-
 import '../../styles/legend_theme.dart';
 
 class AnimatedCard extends HookWidget {
@@ -35,7 +31,6 @@ class AnimatedCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = LegendTheme.of(context);
     AnimationController controller = useAnimationController(
       duration: duration,
       initialValue: 0,
@@ -45,24 +40,25 @@ class AnimatedCard extends HookWidget {
         Tween<double>(begin: 1, end: 10).animate(controller);
 
     return AnimatedBuilder(
-        animation: offset,
-        builder: (context, _) {
-          return ElevatedCard(
-            width: width,
-            height: height,
-            borderRadius: borderRadius,
-            background: background,
-            elevation: offset.value,
-            onHover: (hovered) {
-              if (hovered) {
-                controller.forward();
-              } else {
-                controller.reverse();
-              }
-            },
-            onTap: onTap,
-            child: child,
-          );
-        });
+      animation: offset,
+      builder: (context, _) {
+        return ElevatedCard(
+          width: width,
+          height: height,
+          borderRadius: borderRadius,
+          background: background,
+          elevation: offset.value,
+          onHover: (hovered) {
+            if (hovered) {
+              controller.forward();
+            } else {
+              controller.reverse();
+            }
+          },
+          onTap: onTap,
+          child: child,
+        );
+      },
+    );
   }
 }

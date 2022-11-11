@@ -1,6 +1,5 @@
+import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_layout.dart';
 import 'package:legend_design_core/layout/config/appbar_layout.dart';
-
-import '../appBar.dart/layout/appbar_layout.dart';
 
 ///
 /// This Class defines the overall Layout of the App.
@@ -8,23 +7,19 @@ import '../appBar.dart/layout/appbar_layout.dart';
 /// on [RouteLayout] to layout. This class allows you to define a Layout for every possibility there is in Cross Platform Apps.
 ///
 class RouteLayout {
-  final AppBarLayout appBarLayout;
-  final SiderLayout siderLayout;
-  final FooterLayout footerLayout;
-  final BottomBarLayout bottomBarLayout;
+  final AppBarLayout? appBarLayout;
+  final SiderLayout? siderLayout;
+  final FooterLayout? footerLayout;
+  final BottomBarLayout? bottomBarLayout;
 
   const RouteLayout({
-    this.appBarLayout = const AppBarLayout(
-      layout: AppBarLayoutConfig.none,
-      aligment: AppBarLayoutType.MeTiAc,
-      showTabbar: false,
-    ),
-    this.siderLayout = SiderLayout.None,
-    this.footerLayout = FooterLayout.None,
-    this.bottomBarLayout = BottomBarLayout.None,
+    this.appBarLayout,
+    this.siderLayout,
+    this.footerLayout,
+    this.bottomBarLayout,
   });
 
-  bool get appBarHasTabbar => appBarLayout.showTabbar == true;
+  bool get appBarHasTabbar => appBarLayout?.showTabbar == true;
 }
 
 class DynamicRouteLayout {
@@ -101,11 +96,6 @@ enum SiderLayout {
 
 enum FooterLayout {
   // Fixed ?
-  Show,
-  None,
-}
-
-enum BottomBarLayout {
   Show,
   None,
 }

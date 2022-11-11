@@ -12,12 +12,12 @@ class ScaffoldFooter extends LegendWidget {
   Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
-    FooterLayout layout =
-        scaffold.layout.getLayout(theme.sizing.key).footerLayout;
+    final layout = scaffold.layout.getLayout(theme.sizing.key).footerLayout;
 
     FixedFooter? override = scaffold.builders.customFooter;
 
     switch (layout) {
+      case null:
       case FooterLayout.None:
         return Container();
       case FooterLayout.Show:

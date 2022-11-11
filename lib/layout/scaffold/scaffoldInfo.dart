@@ -37,7 +37,7 @@ class ScaffoldInfo extends InheritedWidget {
   }
 
   bool showFooter(BuildContext context) {
-    FooterLayout layout = scaffold.layout
+    final layout = scaffold.layout
         .getLayout(LegendTheme.of(context).sizing.key)
         .footerLayout;
 
@@ -51,7 +51,7 @@ class ScaffoldInfo extends InheritedWidget {
       );
 
   @override
-  bool updateShouldNotify(ScaffoldInfo old) {
-    return old != this;
+  bool updateShouldNotify(ScaffoldInfo oldWidget) {
+    return oldWidget != this;
   }
 }

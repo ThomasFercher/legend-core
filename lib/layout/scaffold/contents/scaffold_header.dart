@@ -18,17 +18,16 @@ class ScaffoldHeader extends LegendWidget {
   Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
-    AppBarLayout layout =
-        ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    final layout = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
 
     final showBackButton = !PlatformInfo.isWeb &&
         !LegendRouter.of(context).isFirstOnStack() &&
         scaffold.whether.showBackButton;
 
-    switch (layout.layout) {
+    switch (layout?.layout) {
       case AppBarLayoutConfig.fixedAbove:
         return LegendAppBar(
-          type: layout.aligment,
+          type: layout!.aligment,
           actions: scaffold.builders.appBarActions,
           showBackButton: showBackButton,
           config: LegendAppBarConfig(
@@ -41,7 +40,7 @@ class ScaffoldHeader extends LegendWidget {
         );
       case AppBarLayoutConfig.none:
         return LegendAppBar(
-          type: layout.aligment,
+          type: layout!.aligment,
           actions: scaffold.builders.appBarActions,
           showBackButton: showBackButton,
           config: LegendAppBarConfig(

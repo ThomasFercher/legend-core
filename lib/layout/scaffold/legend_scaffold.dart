@@ -68,12 +68,12 @@ class LegendScaffold extends LegendWidget {
           final theme = LegendTheme.of(context);
 
           // Bottom Bar Layout
-          BottomBarLayout bottomBarLayout = ScaffoldInfo.of(context)
+          final bottomBarLayout = ScaffoldInfo.of(context)
               .scaffold
               .layout
               .getLayout(theme.sizing.key)
               .bottomBarLayout;
-          bool showBottomBar = bottomBarLayout == BottomBarLayout.Show;
+          bool showBottomBar = bottomBarLayout != null;
 
           // Update Navigation Bar Color if needed
           Color _systemNavigationBarColor = showBottomBar
@@ -119,24 +119,19 @@ class LegendScaffold extends LegendWidget {
   }
 
   PreferredSize? _appBar(BuildContext context, LegendTheme theme) {
-    AppBarLayout layout =
-        ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    final layout = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
     double bottomHeight = 0;
 
-    if (layout.showTabbar) {
+    if (layout?.showTabbar ?? false) {
       bottomHeight = theme.appBarSizing.tabbarSizing?.height ?? 48;
     }
 
-    if (layout.layout == AppBarLayoutConfig.fixedAbove) {
-      return PreferredSize(
-        child: ScaffoldHeader(),
-        preferredSize: Size(
-          MediaQuery.of(context).size.width,
-          theme.appBarSizing.appBarHeight + bottomHeight,
-        ),
-      );
-    } else {
-      return null;
-    }
+    return PreferredSize(
+      child: ScaffoldHeader(),
+      preferredSize: Size(
+        MediaQuery.of(context).size.width,
+        theme.appBarSizing.appBarHeight + bottomHeight,
+      ),
+    );
   }
 }
