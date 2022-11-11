@@ -32,8 +32,7 @@ dependencies:
   legend_annotations:
     git: 
       url: https://github.com/ThomasFercher/legend_annotations
-    git: 
-      url: https://github.com/ThomasFercher/legend_annotations
+  
 
 
 dev_dependencies:
