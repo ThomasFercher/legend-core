@@ -24,15 +24,16 @@ dependencies:
     git: 
       url: https://github.com/ThomasFercher/legend_utils
   legend_router:
-    #git:
-    #  url: https://github.com/ThomasFercher/legend_router
-    path: "../legend_router"
+    git:
+      url: https://github.com/ThomasFercher/legend_router
+   
+
 
   legend_annotations:
     git: 
       url: https://github.com/ThomasFercher/legend_annotations
-    #git: 
-    #  url: https://github.com/ThomasFercher/legend_annotations
+    git: 
+      url: https://github.com/ThomasFercher/legend_annotations
 
 
 dev_dependencies:
