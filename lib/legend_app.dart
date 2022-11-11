@@ -115,24 +115,21 @@ class LegendApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Router Delegate
-    final LegendRouterDelegate routerDelegate = LegendRouterDelegate(
-      frame: LegendNavigatorFrame(),
-    );
+    final routerDelegate = LegendRouterDelegate(frame: LegendNavigatorFrame());
     final GlobalKey<NavigatorState> modalNavKey = GlobalKey();
-    final LegendSizingTheme sizingTheme = themeDelegate.buildSizingTheme();
-    final LegendTheme inital = LegendTheme(
+
+    // Theme Delegates
+    final sizingTheme = themeDelegate.buildSizingTheme();
+    final colorTheme = themeDelegate.buildColorTheme();
+    final inital = LegendTheme(
       scaffoldConfig: routesDelegate.buildConfig(),
       typography: themeDelegate.buildTypography(),
       sizing: sizingTheme.sizing,
-      colors: themeDelegate.buildColorTheme().current,
+      colors: colorTheme.current,
       splits: sizingTheme.splits,
     );
-    final Map<dynamic, DynamicRouteLayout> routeLayouts =
-        routesDelegate.buildLayouts(
-      sizingTheme.splits,
-    );
-    final List<RouteInfo> routes =
-        routesDelegate.buildRoutes(routeLayouts).expandChildren();
+    final routeLayouts = routesDelegate.buildLayouts(sizingTheme.splits);
+    final routes = routesDelegate.buildRoutes(routeLayouts).expandChildren();
     return Localizations(
       delegates: localizations,
       locale: Locale('en', 'US'),
@@ -141,15 +138,12 @@ class LegendApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => ThemeProvider(
               theme: inital,
-              colorTheme: themeDelegate.buildColorTheme(),
+              colorTheme: colorTheme,
               sizingTheme: sizingTheme,
             ),
           ),
           ChangeNotifierProvider<BottomBarProvider>(
-            create: (_) => BottomBarProvider(
-              first: 0,
-              options: routes,
-            ),
+            create: (_) => BottomBarProvider(),
           ),
         ],
         child: LayoutProvider(
@@ -164,12 +158,9 @@ class LegendApp extends StatelessWidget {
                 color: Colors.transparent,
                 debugShowCheckedModeBanner: false,
                 pageRouteBuilder: GlobalModal.pageRouteBuilder,
-                onGenerateRoute: (r) => _modalGeneration(
-                  r,
-                  routes,
-                  context,
-                  inital,
-                ),
+                onGenerateRoute: (r) {
+                  return _modalGeneration(r, routes, context, inital);
+                },
                 navigatorKey: modalNavKey,
                 home: ModalRouter(
                   navigatorKey: modalNavKey,

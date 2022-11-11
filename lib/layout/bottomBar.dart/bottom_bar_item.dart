@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -6,29 +7,28 @@ import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 
 class BottomBarItem extends LegendWidget {
   final RouteInfo option;
-  final BottomBarSizingStyle sizing;
-  final BottomBarColorsStyle colors;
   final void Function(RouteInfo option) onSelected;
   final bool isSelected;
   final double width;
 
-  BottomBarItem({
-    required this.width,
+  const BottomBarItem({
     required this.option,
-    required this.sizing,
-    required this.colors,
     required this.onSelected,
     required this.isSelected,
-    Key? key,
-  }) : super(key: key);
+    required this.width,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
+    final info = BottomBarInfo.of(context);
+    final sizing = info.sizing;
+    final colors = info.colors;
     final Color color = isSelected ? colors.activeColor : colors.disabledColor;
-
+    final height = sizing.height - sizing.padding.vertical;
     return Container(
       width: width,
-      height: sizing.height - sizing.padding.vertical,
+      height: height,
       child: LegendDetector(
         background: Colors.transparent,
         borderRadius: BorderRadius.all(
