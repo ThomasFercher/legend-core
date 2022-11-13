@@ -3,7 +3,7 @@
 part of 'bottom_bar_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class BottomBarColorsInfoNull {

@@ -3,7 +3,7 @@
 part of 'menu_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class MenuSizingInfoNull {

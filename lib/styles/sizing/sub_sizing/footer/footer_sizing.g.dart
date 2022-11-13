@@ -3,7 +3,7 @@
 part of 'footer_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class FooterSizingInfoNull {

@@ -3,7 +3,7 @@
 part of 'appBar_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class AppBarSizingInfoNull {

@@ -3,7 +3,7 @@
 part of 'sider_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class SiderSizingInfoNull {

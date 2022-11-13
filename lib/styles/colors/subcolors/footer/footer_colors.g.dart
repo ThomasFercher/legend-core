@@ -3,7 +3,7 @@
 part of 'footer_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class FooterColorsInfoNull {

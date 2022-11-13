@@ -3,7 +3,7 @@
 part of 'tabbar_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class TabbarSizingInfoNull {

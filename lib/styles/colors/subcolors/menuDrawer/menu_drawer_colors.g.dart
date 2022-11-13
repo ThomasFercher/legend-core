@@ -3,7 +3,7 @@
 part of 'menu_drawer_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class MenuDrawerColorsInfoNull {

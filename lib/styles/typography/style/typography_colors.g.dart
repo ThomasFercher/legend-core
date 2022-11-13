@@ -3,7 +3,7 @@
 part of 'typography_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class TypographyColorsInfoNull {

@@ -3,7 +3,7 @@
 part of 'bottomBar_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class BottomBarSizingInfoNull {

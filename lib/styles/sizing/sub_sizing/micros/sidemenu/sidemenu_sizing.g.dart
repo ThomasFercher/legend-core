@@ -3,7 +3,7 @@
 part of 'sidemenu_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class SideMenuSizingInfoNull {

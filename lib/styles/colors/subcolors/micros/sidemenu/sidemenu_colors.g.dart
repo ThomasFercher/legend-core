@@ -3,7 +3,7 @@
 part of 'sidemenu_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class SideMenuColorsInfoNull {

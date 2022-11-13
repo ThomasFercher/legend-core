@@ -3,7 +3,7 @@
 part of 'appBar_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class AppBarColorsInfoNull {

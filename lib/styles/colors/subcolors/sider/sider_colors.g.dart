@@ -3,7 +3,7 @@
 part of 'sider_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class SiderColorsInfoNull {

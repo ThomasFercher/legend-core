@@ -3,7 +3,7 @@
 part of 'menu_colors.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class MenuColorsInfoNull {

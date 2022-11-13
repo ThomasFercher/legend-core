@@ -3,7 +3,7 @@
 part of 'menuDrawer_sizing.dart';
 
 // **************************************************************************
-// SubSizingGenerator
+// StyleGenerator
 // **************************************************************************
 
 abstract class MenuDrawerSizingInfoNull {

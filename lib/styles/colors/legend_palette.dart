@@ -190,6 +190,9 @@ class LegendPalette implements LegendCoreColors {
           ),
           tabbarColors: TabbarColorsStyle(
             background: colors.foreground,
+            foreground: colors.foreground,
+            selection: colors.selected,
+            disabled: colors.background.lighten(0.2),
           ),
         );
       },
