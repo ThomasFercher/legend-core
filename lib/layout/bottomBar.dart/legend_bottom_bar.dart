@@ -36,7 +36,6 @@ class LegendBottomBar extends LegendWidget {
     BottomBarProvider provider,
     double itemWidth,
   ) {
-    print(itemWidth);
     final int sel = provider.selectedIndex;
     return [
       for (int i = 0; i < options.length; i++)
@@ -76,23 +75,26 @@ class LegendBottomBar extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     double padding = MediaQuery.of(context).padding.bottom;
-    if (PlatformInfo.isIos) {
-      padding =
-          (padding - iosBottomPadding) > 0 ? (padding - iosBottomPadding) : 0;
+    if (PlatformInfo.isIos && (padding - iosBottomPadding) > 0) {
+      padding = padding - iosBottomPadding;
+    } else {
+      padding = 0;
     }
     final width = SizeInfo.of(context).logicalWidth - sizing.padding.horizontal;
     final length = options.length;
     var itemWidth = sizing.itemWidth;
     var spacing = (width - (length * itemWidth)) / (length + 1);
 
-    assert(length <= 5, 'To many Routes provided');
+    assert(length <= 5, 'To many Routes provided'); //TODO: Rethink
 
     if (spacing <= 0) {
       itemWidth = width * 0.9 / length;
       spacing = width * 0.1 / (length + 1);
     }
-    assert(spacing >= 0,
-        'Not enough space for Routes . Occurred at width ${width}px.');
+    assert(
+      spacing >= 0,
+      'Not enough space for Routes . Occurred at width ${width}px.',
+    );
 
     return BottomBarInfo(
       bottomBar: this,
