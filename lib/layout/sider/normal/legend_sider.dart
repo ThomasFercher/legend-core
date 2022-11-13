@@ -44,10 +44,10 @@ class Sider extends LegendWidget {
       padding: sizing.padding,
       child: Column(
         children: [
-          if (showLogo && LayoutProvider.of(context).logo != null)
+          if (showLogo)
             Padding(
               padding: EdgeInsets.only(top: sizing.spacing),
-              child: LayoutProvider.of(context).logo!,
+              child: LayoutProvider.of(context).getLogo(context),
             ),
           SizedBox(
             height: menuSizing.itemHeight / 2,

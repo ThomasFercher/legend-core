@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -54,7 +56,7 @@ class LegendApp extends StatelessWidget {
   // Interface containing Methods related to Colors and Sizing
   final ThemeInterface themeDelegate;
 
-  final Widget? logo;
+  final Widget Function(BuildContext context)? logoBuilder;
   final String title;
 
   /// Until this [future] completes, the app will show a Splascreen.
@@ -72,7 +74,7 @@ class LegendApp extends StatelessWidget {
     required this.routesDelegate,
     required this.themeDelegate,
     required this.title,
-    this.logo,
+    this.logoBuilder,
     this.future,
     this.buildSplashscreen,
   });
@@ -146,52 +148,54 @@ class LegendApp extends StatelessWidget {
             create: (_) => BottomBarProvider(),
           ),
         ],
-        child: LayoutProvider(
-          title: title,
-          logo: logo,
-          child: LegendRouter(
+        builder: (context, child) {
+          return LegendRouter(
             routerDelegate: routerDelegate,
             routes: routes,
             child: Builder(builder: (context) {
-              return WidgetsApp(
-                localizationsDelegates: localizations,
-                color: Colors.transparent,
-                debugShowCheckedModeBanner: false,
-                pageRouteBuilder: GlobalModal.pageRouteBuilder,
-                onGenerateRoute: (r) {
-                  return _modalGeneration(r, routes, context, inital);
-                },
-                navigatorKey: modalNavKey,
-                home: ModalRouter(
+              return LayoutProvider(
+                title: title,
+                logoBuilder: logoBuilder,
+                child: WidgetsApp(
+                  localizationsDelegates: localizations,
+                  color: Colors.transparent,
+                  debugShowCheckedModeBanner: false,
+                  pageRouteBuilder: GlobalModal.pageRouteBuilder,
+                  onGenerateRoute: (r) {
+                    return _modalGeneration(r, routes, context, inital);
+                  },
                   navigatorKey: modalNavKey,
-                  child: FutureBuilder(
-                    future: _init(context),
-                    builder: (context, snapshot) {
-                      final theme = LegendTheme.of(context);
+                  home: ModalRouter(
+                    navigatorKey: modalNavKey,
+                    child: FutureBuilder(
+                      future: _init(context),
+                      builder: (context, snapshot) {
+                        final theme = LegendTheme.of(context);
 
-                      if (snapshot.connectionState == ConnectionState.done ||
-                          buildSplashscreen == null) {
-                        return WidgetsApp.router(
-                          localizationsDelegates: localizations,
-                          title: title,
-                          debugShowCheckedModeBanner: false,
-                          routerDelegate: routerDelegate,
-                          routeInformationParser:
-                              LegendRouteInformationParser(),
-                          backButtonDispatcher: RootBackButtonDispatcher(),
-                          color: theme.colors.primary,
-                          useInheritedMediaQuery: true,
-                        );
-                      } else {
-                        return buildSplashscreen!(context, theme);
-                      }
-                    },
+                        if (snapshot.connectionState == ConnectionState.done ||
+                            buildSplashscreen == null) {
+                          return WidgetsApp.router(
+                            localizationsDelegates: localizations,
+                            title: title,
+                            debugShowCheckedModeBanner: false,
+                            routerDelegate: routerDelegate,
+                            routeInformationParser:
+                                LegendRouteInformationParser(),
+                            backButtonDispatcher: RootBackButtonDispatcher(),
+                            color: theme.colors.primary,
+                            useInheritedMediaQuery: true,
+                          );
+                        } else {
+                          return buildSplashscreen!(context, theme);
+                        }
+                      },
+                    ),
                   ),
                 ),
               );
             }),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

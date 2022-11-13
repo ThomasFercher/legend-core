@@ -1,21 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 
 class LayoutProvider extends InheritedWidget {
   final FixedFooter? globalFooter;
-  final Widget? logo;
+  final Widget Function(BuildContext context)? logoBuilder;
   final String? title;
 
-  LayoutProvider({
-    Key? key,
-    required this.child,
+  const LayoutProvider({
+    required super.child,
+    super.key,
     this.globalFooter,
-    this.logo,
+    this.logoBuilder,
     this.title,
-  }) : super(key: key, child: child);
+  });
 
-  @override
-  final Widget child;
+  Widget getLogo(BuildContext context) {
+    if (logoBuilder == null) return SizedBox.shrink();
+    return logoBuilder!(context);
+  }
 
   static LayoutProvider of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<LayoutProvider>()!;

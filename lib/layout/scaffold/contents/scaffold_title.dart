@@ -9,6 +9,7 @@ class ScaffoldTitle extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
+    final logo = LayoutProvider.of(context).getLogo(context);
     return GestureDetector(
       onTap: () {
         if (RouteInfoProvider.of(context).route.name != '/') {
@@ -21,7 +22,7 @@ class ScaffoldTitle extends LegendWidget {
         constraints: BoxConstraints(
           maxHeight: theme.appBarSizing.logoSize,
         ),
-        child: LayoutProvider.of(context).logo,
+        child: logo,
       ),
     );
   }
