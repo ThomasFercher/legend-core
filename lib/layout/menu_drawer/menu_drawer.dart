@@ -11,7 +11,6 @@ import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawe
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/extensions.dart';
 
 class MenuDrawer extends StatefulWidget {
@@ -109,13 +108,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = LegendTheme.of(context);
-    SizeInfo sizeInfo = SizeInfo.of(context);
-
-    MenuDrawerSizingStyle sizing = theme.menuDrawerSizing;
-    MenuDrawerColorsStyle colors = theme.menuDrawerColors;
-    SideMenuSizingStyle menuSizing = sizing.sideMenuSizing;
-    SideMenuColorsStyle menuColors = colors.menuColors;
+    final theme = LegendTheme.of(context);
+    final sizeInfo = SizeInfo.of(context);
+    final sizing = theme.menuDrawerSizing;
+    final colors = theme.menuDrawerColors;
+    final menuSizing = sizing.sideMenuSizing;
+    final menuColors = colors.menuColors;
 
     double topPadding = MediaQuery.of(context).padding.top;
 
@@ -188,16 +186,11 @@ class _MenuDrawerState extends State<MenuDrawer> {
                       child: FixedSiderMenu(
                         sizing: menuSizing,
                         colors: menuColors,
-                        depth: current?.allMatches('/').length ?? 0,
                         width:
                             theme.menuDrawerSizing.width - padding.horizontal,
                         hasToPop: true,
                         current: current,
-                        options: LegendRouter.of(context)
-                            .routes
-                            .get<PageInfo>()
-                            .where((element) => element.depth == 1)
-                            .toList(),
+                        options: LegendRouter.of(context).topRoutes,
                         showMenuSubItems: true,
                         textStyle: theme.typography.h2,
                       ),

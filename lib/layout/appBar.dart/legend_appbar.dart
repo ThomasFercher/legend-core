@@ -2,25 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
-import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
 import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_router/router/routes/extensions.dart';
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
+import 'appbar_layout_config.dart';
 import 'legend_backbutton.dart';
 
-const List<Widget> actionsFiller = [
-  SizedBox(
-    height: 0,
-    width: 0,
-  )
-];
+const List<Widget> actionsFiller = [SizedBox.shrink()];
 
 class LegendAppBar extends LegendWidget {
   final LegendAppBarConfig config;
@@ -33,6 +26,8 @@ class LegendAppBar extends LegendWidget {
   final bool showBackButton;
   final AppBarLayoutType type;
 
+  final Widget? bottom;
+
   const LegendAppBar({
     required this.config,
     this.actions,
@@ -43,17 +38,14 @@ class LegendAppBar extends LegendWidget {
     this.showTitle = true,
     this.showBackButton = true,
     required this.type,
+    this.bottom,
   });
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = LegendTheme.of(context);
     MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
     MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
-    final routes = LegendRouter.of(context)
-        .routes
-        .get<PageInfo>()
-        .where((element) => element.depth == 1)
-        .toList();
+    final routes = LegendRouter.of(context).topRoutes;
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
@@ -72,64 +64,31 @@ class LegendAppBar extends LegendWidget {
     }
   }
 
-  PreferredSize _bottom(BuildContext context) {
-    RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
-    final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context).getLayout(theme);
-
-    if (layout.appBarHasTabbar && route != null) {
-      var routes = [route];
-
-      if (route.children != null && route.children!.isNotEmpty) {
-        routes.addAll(route.children!);
-      } else {
-        RouteInfo? parent =
-            RouteInfoProvider.getParentRouteInfo(context, route);
-        if (parent != null) {
-          routes = [parent];
-          if (parent.children != null) routes.addAll(parent.children!);
-        }
-      }
-      final height = theme.appBarSizing.tabbarSizing?.height ?? 56;
-      return PreferredSize(
-        preferredSize: Size.fromHeight(height),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: height),
-          child: LegendTabBar(
-            routes: routes,
-          ),
-        ),
-      );
-    }
-    return PreferredSize(child: Container(), preferredSize: Size.zero);
-  }
-
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    return AppBar(
-      leadingWidth: 0,
-      titleSpacing: 0,
-      elevation: config.elevation,
-      toolbarHeight: config.appBarHeight,
-      actions: actionsFiller,
-      backgroundColor: theme.appBarColors.background,
-      bottom: _bottom(context),
-      title: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: config.appBarHeight),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
-          child: AppBarDelegate(
-            type: type,
-            children: {
-              if (showBackButton) AppBarItem.backButton: LegendBackButton(),
-              if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
-              if (showMenu) AppBarItem.menu: getMenu(context),
-              if (actions != null)
-                AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
-            },
+    return Column(
+      children: [
+        Container(
+          constraints: BoxConstraints(maxHeight: config.appBarHeight),
+          decoration: BoxDecoration(
+            color: theme.appBarColors.background,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: config.horizontalPadding),
+            child: AppBarDelegate(
+              type: type,
+              children: {
+                if (showBackButton) AppBarItem.backButton: LegendBackButton(),
+                if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
+                if (showMenu) AppBarItem.menu: getMenu(context),
+                if (actions != null)
+                  AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
+              },
+            ),
           ),
         ),
-      ),
+        if (bottom != null) bottom!,
+      ],
     );
   }
 }

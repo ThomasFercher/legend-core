@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';

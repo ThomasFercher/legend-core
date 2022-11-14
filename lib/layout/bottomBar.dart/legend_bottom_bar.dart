@@ -35,13 +35,13 @@ class LegendBottomBar extends LegendWidget {
     BuildContext context,
     BottomBarProvider provider,
     double itemWidth,
+    int selected,
   ) {
-    final int sel = provider.selectedIndex;
     return [
       for (int i = 0; i < options.length; i++)
         BottomBarItem(
           width: itemWidth,
-          isSelected: i == sel,
+          isSelected: i == selected,
           option: options[i],
           onSelected: (o) {
             provider.selected = i;
@@ -75,6 +75,7 @@ class LegendBottomBar extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     double padding = MediaQuery.of(context).padding.bottom;
+    final RouteInfo? current = LegendRouter.of(context).routerDelegate.current;
     if (PlatformInfo.isIos && (padding - iosBottomPadding) > 0) {
       padding = padding - iosBottomPadding;
     } else {
@@ -117,16 +118,20 @@ class LegendBottomBar extends LegendWidget {
                     final layout = ScaffoldInfo.of(context)
                         .getLayout(theme)
                         .bottomBarLayout!;
-                    final selected = provider.selectedIndex;
+                    var selected = provider.selectedIndex;
+
+                    if (current != null && current != provider.current) {
+                      selected = provider.routes.indexOf(current);
+                    }
                     final left =
                         selected * itemWidth + (selected + 1) * spacing;
-
                     return Stack(
                       children: [
                         _getBehind(layout.selectionType, left, itemWidth),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: getItems(context, provider, itemWidth),
+                          children:
+                              getItems(context, provider, itemWidth, selected),
                         ),
                       ],
                     );

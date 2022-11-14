@@ -1,4 +1,9 @@
-import '../appBar.dart/layout/appbar_layout.dart';
+import 'layout/appbar_layout.dart';
+
+enum AppBarLayoutType {
+  TiMeAc,
+  MeTiAc,
+}
 
 enum AppBarLayoutConfig {
   fixedAbove,

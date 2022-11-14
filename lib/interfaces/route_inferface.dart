@@ -1,4 +1,4 @@
-import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_router/router/legend_router.dart';
 
 import '../layout/scaffold/config/scaffold_config.dart';

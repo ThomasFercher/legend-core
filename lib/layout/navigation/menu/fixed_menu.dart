@@ -122,7 +122,6 @@ class _FixedMenuState extends State<FixedMenu> {
       theme: theme,
       key: key,
       menuWidth: 200,
-      depth: route.children?.length ?? 1,
       offsetY: theme.appBarSizing.appBarHeight,
       options: options,
       current: current,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
+import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -28,10 +30,12 @@ class _CollapsedMenuState extends State<CollapsedMenu> {
         padding: EdgeInsets.all(0),
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
-          ModalRouter.of(context).push(
+          /*   ModalRouter.of(context).push(
             settings: RouteSettings(name: '/menudrawer'),
             useKey: true,
-          );
+          );*/
+
+          context.read<AppBarProvider>().show(true);
         },
         icon: Icons.menu,
         disableShadow: true,

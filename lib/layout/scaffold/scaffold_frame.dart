@@ -20,8 +20,6 @@ class ScaffoldFrame extends StatelessWidget {
       builders: config.builders,
       whether: config.whether,
       child: child,
-      pageName: "test", // ?
-
       route: page,
     );
   }

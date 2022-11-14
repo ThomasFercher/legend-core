@@ -6,7 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:legend_design_core/interfaces/route_inferface.dart';
 import 'package:legend_design_core/interfaces/theme_interface.dart';
-import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
@@ -145,7 +146,15 @@ class LegendApp extends StatelessWidget {
             ),
           ),
           ChangeNotifierProvider<BottomBarProvider>(
-            create: (_) => BottomBarProvider(),
+            create: (_) => BottomBarProvider(
+              routes: routes
+                  .whereType<PageRouteInfo>()
+                  .where((r) => r.depth == 1)
+                  .toList(),
+            ),
+          ),
+          ChangeNotifierProvider<AppBarProvider>(
+            create: (_) => AppBarProvider(),
           ),
         ],
         builder: (context, child) {

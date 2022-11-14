@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';

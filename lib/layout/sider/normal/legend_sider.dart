@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/config/appbar_layout.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
@@ -58,12 +58,7 @@ class Sider extends LegendWidget {
                 current: current,
                 sizing: menuSizing,
                 colors: menuColors,
-                depth: current?.allMatches('/').length ?? 0,
-                options: LegendRouter.of(context)
-                    .routes
-                    .get<PageInfo>()
-                    .where((element) => element.depth == 1)
-                    .toList(),
+                options: LegendRouter.of(context).topRoutes,
                 showMenuSubItems: true,
                 width: maxWidth - sizing.padding.horizontal,
                 textStyle: theme.typography.h2,

@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/config/layout_config.dart';
-import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 import 'package:legend_router/router/legend_router.dart';
 
-abstract class LegendRouteInfo extends RouteInfo {
+abstract class LegendRouteInfo extends PageRouteInfo {
   final ScaffoldRouteConfig config;
 
   const LegendRouteInfo({

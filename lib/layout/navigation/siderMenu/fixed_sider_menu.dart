@@ -13,7 +13,6 @@ class FixedSiderMenu extends StatefulWidget {
   final bool showMenuSubItems;
   final bool subMenuExpanded;
   final String? current;
-  final int depth;
   final List<RouteInfo> options;
   final bool hasToPop;
   final SideMenuColorsStyle colors;
@@ -29,7 +28,6 @@ class FixedSiderMenu extends StatefulWidget {
     required this.colors,
     required this.sizing,
     required this.textStyle,
-    required this.depth,
     this.current,
     this.subMenuExpanded = true,
     this.hasToPop = false,

@@ -1,5 +1,6 @@
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_layout.dart';
-import 'package:legend_design_core/layout/config/appbar_layout.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
+import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 
 ///
 /// This Class defines the overall Layout of the App.
@@ -11,12 +12,14 @@ class RouteLayout {
   final SiderLayout? siderLayout;
   final FooterLayout? footerLayout;
   final BottomBarLayout? bottomBarLayout;
+  final MenuDrawerLayout? menuDrawerLayout;
 
   const RouteLayout({
     this.appBarLayout,
     this.siderLayout,
     this.footerLayout,
     this.bottomBarLayout,
+    this.menuDrawerLayout,
   });
 
   bool get appBarHasTabbar => appBarLayout?.showTabbar == true;

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:legend_design_core/layout/config/layout_config.dart';
+import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
