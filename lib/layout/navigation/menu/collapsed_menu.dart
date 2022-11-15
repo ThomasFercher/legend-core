@@ -1,43 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
+import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
+import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/legend_design_core.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
-import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_router/router/modal_router.dart';
 
-class CollapsedMenu extends StatefulWidget {
+class CollapsedMenu extends LegendWidget {
   final double width;
 
   const CollapsedMenu({
-    Key? key,
+    super.key,
     required this.width,
-  }) : super(key: key);
+  });
 
   @override
-  State<CollapsedMenu> createState() => _CollapsedMenuState();
-}
-
-class _CollapsedMenuState extends State<CollapsedMenu> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LegendTheme theme) {
     LegendTheme theme = LegendTheme.of(context);
+    final layout = ScaffoldInfo.of(context).getLayout(theme);
+
+    final useMenuDrawerAppBar =
+        layout.menuDrawerLayout?.type == MenuDrawerLayoutType.beneathAppBar;
+
+    var icon = Icons.menu;
+
+    if (useMenuDrawerAppBar) {
+      if (context.watch<AppBarProvider>().showMenu) {
+        icon = Icons.close_rounded;
+      }
+    }
 
     return Container(
-      width: widget.width,
+      width: width,
       alignment: Alignment.center,
       child: LegendAnimatedIcon(
         padding: EdgeInsets.all(0),
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
-          /*   ModalRouter.of(context).push(
-            settings: RouteSettings(name: '/menudrawer'),
-            useKey: true,
-          );*/
-
-          context.read<AppBarProvider>().show(true);
+          if (useMenuDrawerAppBar) {
+            context.read<AppBarProvider>().toggle();
+          } else {
+            ModalRouter.of(context).push(
+              settings: RouteSettings(name: '/menudrawer'),
+              useKey: true,
+            );
+          }
         },
-        icon: Icons.menu,
+        icon: icon,
         disableShadow: true,
         theme: LegendAnimtedIconTheme(
           disabled: theme.colors.appBar.foreground,

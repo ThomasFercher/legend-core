@@ -59,6 +59,17 @@ class MenuColorsStyle extends MenuColorsInfo {
     required super.foreground,
     required super.menuBackground,
   });
+  MenuColorsStyle.copy({
+    required super.background,
+    required super.activeForeground,
+    required super.activeBackground,
+    required super.foreground,
+    required super.menuBackground,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory MenuColorsStyle.override(
     MenuColorsStyle def,
     MenuColorsOverride? override,
@@ -72,6 +83,25 @@ class MenuColorsStyle extends MenuColorsInfo {
       activeBackground: override.activeBackground ?? def.activeBackground,
       foreground: override.foreground ?? def.foreground,
       menuBackground: override.menuBackground ?? def.menuBackground,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  MenuColorsStyle copyWith({
+    Color? background,
+    Color? activeForeground,
+    Color? activeBackground,
+    Color? foreground,
+    Color? menuBackground,
+  }) {
+    return MenuColorsStyle.copy(
+      background: background ?? this.background,
+      activeForeground: activeForeground ?? this.activeForeground,
+      activeBackground: activeBackground ?? this.activeBackground,
+      foreground: foreground ?? this.foreground,
+      menuBackground: menuBackground ?? this.menuBackground,
     );
   }
 }

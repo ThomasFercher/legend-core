@@ -75,7 +75,7 @@ class LegendBottomBar extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     double padding = MediaQuery.of(context).padding.bottom;
-    final RouteInfo? current = LegendRouter.of(context).routerDelegate.current;
+
     if (PlatformInfo.isIos && (padding - iosBottomPadding) > 0) {
       padding = padding - iosBottomPadding;
     } else {
@@ -97,6 +97,16 @@ class LegendBottomBar extends LegendWidget {
       'Not enough space for Routes . Occurred at width ${width}px.',
     );
 
+    final RouteInfo? current = LegendRouter.of(context).current;
+    final provider = context.watch<BottomBarProvider>();
+    final layout = ScaffoldInfo.of(context).getLayout(theme).bottomBarLayout!;
+    var selected = provider.selectedIndex;
+
+    if (current != null && current != provider.current) {
+      selected = provider.routes.indexWhere((r) => r.name == current.name);
+    }
+    final left = selected * itemWidth + (selected + 1) * spacing;
+
     return BottomBarInfo(
       bottomBar: this,
       child: SizedBox(
@@ -113,29 +123,15 @@ class LegendBottomBar extends LegendWidget {
                   color: colors.backgroundColor,
                 ),
                 padding: sizing.padding,
-                child: Consumer<BottomBarProvider>(
-                  builder: (context, provider, child) {
-                    final layout = ScaffoldInfo.of(context)
-                        .getLayout(theme)
-                        .bottomBarLayout!;
-                    var selected = provider.selectedIndex;
-
-                    if (current != null && current != provider.current) {
-                      selected = provider.routes.indexOf(current);
-                    }
-                    final left =
-                        selected * itemWidth + (selected + 1) * spacing;
-                    return Stack(
-                      children: [
-                        _getBehind(layout.selectionType, left, itemWidth),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children:
-                              getItems(context, provider, itemWidth, selected),
-                        ),
-                      ],
-                    );
-                  },
+                child: Stack(
+                  children: [
+                    _getBehind(layout.selectionType, left, itemWidth),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children:
+                          getItems(context, provider, itemWidth, selected),
+                    ),
+                  ],
                 ),
               ),
             ),

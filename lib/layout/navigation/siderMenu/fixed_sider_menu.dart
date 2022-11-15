@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
+import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_submenu.dart';
@@ -15,6 +17,7 @@ class FixedSiderMenu extends StatefulWidget {
   final String? current;
   final List<RouteInfo> options;
   final bool hasToPop;
+  final bool hasToPopMenuDrawer;
   final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
   final TextStyle textStyle;
@@ -31,6 +34,7 @@ class FixedSiderMenu extends StatefulWidget {
     this.current,
     this.subMenuExpanded = true,
     this.hasToPop = false,
+    this.hasToPopMenuDrawer = false,
   }) {
     double biggestTitleWidth = 0;
 
@@ -95,6 +99,9 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
               if (widget.hasToPop) {
                 Navigator.of(context).pop();
               }
+              if (widget.hasToPopMenuDrawer) {
+                context.read<AppBarProvider>().pop();
+              }
               LegendRouter.of(context).pushPage(
                 settings: RouteSettings(name: option.name),
               );
@@ -111,6 +118,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
             hasToPop: widget.hasToPop,
             collapsed: widget.collapsed,
             expanded: false,
+            hasToPopMenudrawer: widget.hasToPopMenuDrawer,
             onResisize: (_) => setState(() {}),
           ),
         );
@@ -124,11 +132,13 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
   Widget build(BuildContext context) {
     List<Widget> tiles = getTiles(context);
 
-    return ColoredBox(
-      color: colors.menuBackground,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: tiles.traillingPaddingCol(sizing.spacing, last: false),
+    return SingleChildScrollView(
+      child: ColoredBox(
+        color: colors.menuBackground,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: tiles.traillingPaddingCol(sizing.spacing, last: false),
+        ),
       ),
     );
   }

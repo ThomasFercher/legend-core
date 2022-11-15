@@ -59,6 +59,17 @@ class SideMenuColorsStyle extends SideMenuColorsInfo {
     required super.foreground,
     required super.menuBackground,
   });
+  SideMenuColorsStyle.copy({
+    required super.background,
+    required super.activeForeground,
+    required super.activeBackground,
+    required super.foreground,
+    required super.menuBackground,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory SideMenuColorsStyle.override(
     SideMenuColorsStyle def,
     SideMenuColorsOverride? override,
@@ -72,6 +83,25 @@ class SideMenuColorsStyle extends SideMenuColorsInfo {
       activeBackground: override.activeBackground ?? def.activeBackground,
       foreground: override.foreground ?? def.foreground,
       menuBackground: override.menuBackground ?? def.menuBackground,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  SideMenuColorsStyle copyWith({
+    Color? background,
+    Color? activeForeground,
+    Color? activeBackground,
+    Color? foreground,
+    Color? menuBackground,
+  }) {
+    return SideMenuColorsStyle.copy(
+      background: background ?? this.background,
+      activeForeground: activeForeground ?? this.activeForeground,
+      activeBackground: activeBackground ?? this.activeBackground,
+      foreground: foreground ?? this.foreground,
+      menuBackground: menuBackground ?? this.menuBackground,
     );
   }
 }

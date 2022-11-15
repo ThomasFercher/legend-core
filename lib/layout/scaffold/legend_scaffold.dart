@@ -90,7 +90,9 @@ class LegendScaffold extends LegendWidget {
                 color: theme.colors.background1,
                 child: Column(
                   children: [
-                    ScaffoldHeader(context: context),
+                    SingleChildScrollView(
+                      child: ScaffoldHeader(context: context),
+                    ),
                     Expanded(
                       child: Row(
                         children: [

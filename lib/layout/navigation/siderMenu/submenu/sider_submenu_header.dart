@@ -55,7 +55,7 @@ class HeaderTile extends LegendWidget {
     return ColumnMenuTile(
       foreground: foreground,
       background: background,
-      spacing: sizing.spacing,
+      // spacing: sizing.spacing,
       icon: option.icon,
       title: collapsed ? null : option.title,
       height: collapsed ? null : sizing.itemHeight,
@@ -63,10 +63,7 @@ class HeaderTile extends LegendWidget {
           ? EdgeInsets.symmetric(
               vertical: sizing.padding.vertical / 2,
             )
-          : EdgeInsets.only(
-              left: sizing.padding.horizontal / 2,
-              right: sizing.padding.horizontal / 4,
-            ),
+          : sizing.padding,
       trailling: Container(
         height: sizing.itemHeight,
         child: LegendAnimatedIcon(

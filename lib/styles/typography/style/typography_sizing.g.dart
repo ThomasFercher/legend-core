@@ -66,6 +66,18 @@ class TypographySizingStyle extends TypographySizingInfo {
     required super.h4,
     required super.h5,
   });
+  TypographySizingStyle.copy({
+    required super.h0,
+    required super.h1,
+    required super.h2,
+    required super.h3,
+    required super.h4,
+    required super.h5,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory TypographySizingStyle.override(
     TypographySizingStyle def,
     TypographySizingOverride? override,
@@ -80,6 +92,27 @@ class TypographySizingStyle extends TypographySizingInfo {
       h3: override.h3 ?? def.h3,
       h4: override.h4 ?? def.h4,
       h5: override.h5 ?? def.h5,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  TypographySizingStyle copyWith({
+    double? h0,
+    double? h1,
+    double? h2,
+    double? h3,
+    double? h4,
+    double? h5,
+  }) {
+    return TypographySizingStyle.copy(
+      h0: h0 ?? this.h0,
+      h1: h1 ?? this.h1,
+      h2: h2 ?? this.h2,
+      h3: h3 ?? this.h3,
+      h4: h4 ?? this.h4,
+      h5: h5 ?? this.h5,
     );
   }
 }

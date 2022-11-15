@@ -45,6 +45,15 @@ class FooterSizingStyle extends FooterSizingInfo {
     required super.maxWidth,
     required super.padding,
   });
+  FooterSizingStyle.copy({
+    required super.height,
+    required super.maxWidth,
+    required super.padding,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory FooterSizingStyle.override(
     FooterSizingStyle def,
     FooterSizingOverride? override,
@@ -56,6 +65,21 @@ class FooterSizingStyle extends FooterSizingInfo {
       height: override.height ?? def.height,
       maxWidth: override.maxWidth ?? def.maxWidth,
       padding: override.padding ?? def.padding,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  FooterSizingStyle copyWith({
+    double? height,
+    double? maxWidth,
+    EdgeInsets? padding,
+  }) {
+    return FooterSizingStyle.copy(
+      height: height ?? this.height,
+      maxWidth: maxWidth ?? this.maxWidth,
+      padding: padding ?? this.padding,
     );
   }
 }

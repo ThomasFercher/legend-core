@@ -52,6 +52,16 @@ class TabbarColorsStyle extends TabbarColorsInfo {
     required super.selection,
     required super.disabled,
   });
+  TabbarColorsStyle.copy({
+    required super.background,
+    required super.foreground,
+    required super.selection,
+    required super.disabled,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory TabbarColorsStyle.override(
     TabbarColorsStyle def,
     TabbarColorsOverride? override,
@@ -64,6 +74,23 @@ class TabbarColorsStyle extends TabbarColorsInfo {
       foreground: override.foreground ?? def.foreground,
       selection: override.selection ?? def.selection,
       disabled: override.disabled ?? def.disabled,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  TabbarColorsStyle copyWith({
+    Color? background,
+    Color? foreground,
+    Color? selection,
+    Color? disabled,
+  }) {
+    return TabbarColorsStyle.copy(
+      background: background ?? this.background,
+      foreground: foreground ?? this.foreground,
+      selection: selection ?? this.selection,
+      disabled: disabled ?? this.disabled,
     );
   }
 }

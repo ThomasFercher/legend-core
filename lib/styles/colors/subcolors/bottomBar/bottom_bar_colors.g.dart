@@ -45,6 +45,15 @@ class BottomBarColorsStyle extends BottomBarColorsInfo {
     required super.disabledColor,
     required super.backgroundColor,
   });
+  BottomBarColorsStyle.copy({
+    required super.activeColor,
+    required super.disabledColor,
+    required super.backgroundColor,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory BottomBarColorsStyle.override(
     BottomBarColorsStyle def,
     BottomBarColorsOverride? override,
@@ -56,6 +65,21 @@ class BottomBarColorsStyle extends BottomBarColorsInfo {
       activeColor: override.activeColor ?? def.activeColor,
       disabledColor: override.disabledColor ?? def.disabledColor,
       backgroundColor: override.backgroundColor ?? def.backgroundColor,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  BottomBarColorsStyle copyWith({
+    Color? activeColor,
+    Color? disabledColor,
+    Color? backgroundColor,
+  }) {
+    return BottomBarColorsStyle.copy(
+      activeColor: activeColor ?? this.activeColor,
+      disabledColor: disabledColor ?? this.disabledColor,
+      backgroundColor: backgroundColor ?? this.backgroundColor,
     );
   }
 }

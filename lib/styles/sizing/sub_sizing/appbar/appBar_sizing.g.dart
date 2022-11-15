@@ -107,8 +107,6 @@ class AppBarSizingOverride extends AppBarSizingInfoNull
 
 class AppBarSizingStyle extends AppBarSizingInfo
     implements AppBarSizingComponents {
-  final AppBarSizingComponents Function(AppBarSizingInfo sizing)
-      buildComponents;
   @override
   late final MenuSizingStyle menuSizing;
   @override
@@ -116,7 +114,8 @@ class AppBarSizingStyle extends AppBarSizingInfo
   @override
   late final TabbarSizingStyle? tabbarSizing;
   AppBarSizingStyle({
-    required this.buildComponents,
+    required AppBarSizingComponents Function(AppBarSizingInfo sizing)
+        buildComponents,
     required super.contentPadding,
     required super.logoSize,
     required super.spacing,
@@ -128,6 +127,20 @@ class AppBarSizingStyle extends AppBarSizingInfo
     subMenuSizing = components.subMenuSizing;
     tabbarSizing = components.tabbarSizing;
   }
+  AppBarSizingStyle.copy({
+    required super.contentPadding,
+    required super.logoSize,
+    required super.spacing,
+    required super.appBarHeight,
+    required super.iconSize,
+    required this.menuSizing,
+    required this.subMenuSizing,
+    this.tabbarSizing,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory AppBarSizingStyle.override(
     AppBarSizingStyle def,
     AppBarSizingOverride? override,
@@ -153,6 +166,31 @@ class AppBarSizingStyle extends AppBarSizingInfo
                   def.tabbarSizing!, override.tabbarSizing),
         );
       },
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  AppBarSizingStyle copyWith({
+    EdgeInsets? contentPadding,
+    double? logoSize,
+    double? spacing,
+    double? appBarHeight,
+    double? iconSize,
+    MenuSizingStyle? menuSizing,
+    SideMenuSizingStyle? subMenuSizing,
+    TabbarSizingStyle? tabbarSizing,
+  }) {
+    return AppBarSizingStyle.copy(
+      contentPadding: contentPadding ?? this.contentPadding,
+      logoSize: logoSize ?? this.logoSize,
+      spacing: spacing ?? this.spacing,
+      appBarHeight: appBarHeight ?? this.appBarHeight,
+      iconSize: iconSize ?? this.iconSize,
+      menuSizing: menuSizing ?? this.menuSizing,
+      subMenuSizing: subMenuSizing ?? this.subMenuSizing,
+      tabbarSizing: tabbarSizing ?? this.tabbarSizing,
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
+import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 
@@ -17,6 +19,7 @@ class SiderSubMenu extends StatefulWidget {
   final void Function(bool val)? onResisize;
   final bool expanded;
   final bool hasToPop;
+  final bool hasToPopMenudrawer;
   final bool collapsed;
   final SideMenuColorsStyle colors;
   final SideMenuSizingStyle sizing;
@@ -28,6 +31,7 @@ class SiderSubMenu extends StatefulWidget {
     required this.expanded,
     required this.hasToPop,
     required this.collapsed,
+    required this.hasToPopMenudrawer,
     this.onResisize,
     required this.current,
   });
@@ -110,6 +114,9 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             if (widget.hasToPop) {
               Navigator.of(context).pop();
             }
+            if (widget.hasToPopMenudrawer) {
+              context.read<AppBarProvider>().pop();
+            }
             LegendRouter.of(context)
                 .pushPage(settings: RouteSettings(name: option.name));
           },
@@ -122,8 +129,6 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   Widget build(BuildContext context) {
-    LegendTheme theme = LegendTheme.of(context);
-
     int headerIndex = widget.option.children?.length ?? 0;
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -162,13 +167,17 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                     setState(() {
                       selected = headerIndex;
                     });
+                    if (widget.hasToPopMenudrawer) {
+                      context.read<AppBarProvider>().pop();
+                    }
                     if (widget.hasToPop) {
                       Navigator.of(context).pop();
                     }
                     LegendRouter.of(context).pushPage(
-                        settings: RouteSettings(
-                      name: widget.option.name,
-                    ));
+                      settings: RouteSettings(
+                        name: widget.option.name,
+                      ),
+                    );
                   },
                   isHovered: headerIndex == hovered,
                   isSelected: headerIndex == selected,

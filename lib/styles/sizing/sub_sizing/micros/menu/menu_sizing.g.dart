@@ -66,6 +66,18 @@ class MenuSizingStyle extends MenuSizingInfo {
     required super.height,
     required super.iconSize,
   });
+  MenuSizingStyle.copy({
+    required super.spacing,
+    required super.itemSpacing,
+    required super.padding,
+    required super.borderRadius,
+    required super.height,
+    required super.iconSize,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory MenuSizingStyle.override(
     MenuSizingStyle def,
     MenuSizingOverride? override,
@@ -80,6 +92,27 @@ class MenuSizingStyle extends MenuSizingInfo {
       borderRadius: override.borderRadius ?? def.borderRadius,
       height: override.height ?? def.height,
       iconSize: override.iconSize ?? def.iconSize,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  MenuSizingStyle copyWith({
+    double? spacing,
+    double? itemSpacing,
+    EdgeInsetsGeometry? padding,
+    BorderRadius? borderRadius,
+    double? height,
+    double? iconSize,
+  }) {
+    return MenuSizingStyle.copy(
+      spacing: spacing ?? this.spacing,
+      itemSpacing: itemSpacing ?? this.itemSpacing,
+      padding: padding ?? this.padding,
+      borderRadius: borderRadius ?? this.borderRadius,
+      height: height ?? this.height,
+      iconSize: iconSize ?? this.iconSize,
     );
   }
 }

@@ -99,12 +99,11 @@ class MenuDrawerColorsOverride extends MenuDrawerColorsInfoNull
 
 class MenuDrawerColorsStyle extends MenuDrawerColorsInfo
     implements MenuDrawerColorsComponents {
-  final MenuDrawerColorsComponents Function(MenuDrawerColorsInfo sizing)
-      buildComponents;
   @override
   late final SideMenuColorsStyle menuColors;
   MenuDrawerColorsStyle({
-    required this.buildComponents,
+    required MenuDrawerColorsComponents Function(MenuDrawerColorsInfo sizing)
+        buildComponents,
     required super.background,
     required super.backgroundMenu,
     required super.foreground,
@@ -116,6 +115,20 @@ class MenuDrawerColorsStyle extends MenuDrawerColorsInfo
     MenuDrawerColorsComponents components = buildComponents.call(this);
     menuColors = components.menuColors;
   }
+  MenuDrawerColorsStyle.copy({
+    required super.background,
+    required super.backgroundMenu,
+    required super.foreground,
+    required super.foreground_selection,
+    required super.background_selection,
+    required super.background_menu_selection,
+    required super.foreground_menu_selction,
+    required this.menuColors,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory MenuDrawerColorsStyle.override(
     MenuDrawerColorsStyle def,
     MenuDrawerColorsOverride? override,
@@ -141,6 +154,33 @@ class MenuDrawerColorsStyle extends MenuDrawerColorsInfo
               SideMenuColorsStyle.override(def.menuColors, override.menuColors),
         );
       },
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  MenuDrawerColorsStyle copyWith({
+    Color? background,
+    Color? backgroundMenu,
+    Color? foreground,
+    Color? foreground_selection,
+    Color? background_selection,
+    Color? background_menu_selection,
+    Color? foreground_menu_selction,
+    SideMenuColorsStyle? menuColors,
+  }) {
+    return MenuDrawerColorsStyle.copy(
+      background: background ?? this.background,
+      backgroundMenu: backgroundMenu ?? this.backgroundMenu,
+      foreground: foreground ?? this.foreground,
+      foreground_selection: foreground_selection ?? this.foreground_selection,
+      background_selection: background_selection ?? this.background_selection,
+      background_menu_selection:
+          background_menu_selection ?? this.background_menu_selection,
+      foreground_menu_selction:
+          foreground_menu_selction ?? this.foreground_menu_selction,
+      menuColors: menuColors ?? this.menuColors,
     );
   }
 }

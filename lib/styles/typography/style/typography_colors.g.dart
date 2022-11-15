@@ -66,6 +66,18 @@ class TypographyColorsStyle extends TypographyColorsInfo {
     required super.h4,
     required super.h5,
   });
+  TypographyColorsStyle.copy({
+    required super.h0,
+    required super.h1,
+    required super.h2,
+    required super.h3,
+    required super.h4,
+    required super.h5,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory TypographyColorsStyle.override(
     TypographyColorsStyle def,
     TypographyColorsOverride? override,
@@ -80,6 +92,27 @@ class TypographyColorsStyle extends TypographyColorsInfo {
       h3: override.h3 ?? def.h3,
       h4: override.h4 ?? def.h4,
       h5: override.h5 ?? def.h5,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  TypographyColorsStyle copyWith({
+    Color? h0,
+    Color? h1,
+    Color? h2,
+    Color? h3,
+    Color? h4,
+    Color? h5,
+  }) {
+    return TypographyColorsStyle.copy(
+      h0: h0 ?? this.h0,
+      h1: h1 ?? this.h1,
+      h2: h2 ?? this.h2,
+      h3: h3 ?? this.h3,
+      h4: h4 ?? this.h4,
+      h5: h5 ?? this.h5,
     );
   }
 }

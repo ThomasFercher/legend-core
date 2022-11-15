@@ -38,6 +38,14 @@ class FooterColorsStyle extends FooterColorsInfo {
     required super.background,
     required super.foreground,
   });
+  FooterColorsStyle.copy({
+    required super.background,
+    required super.foreground,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory FooterColorsStyle.override(
     FooterColorsStyle def,
     FooterColorsOverride? override,
@@ -48,6 +56,19 @@ class FooterColorsStyle extends FooterColorsInfo {
     return FooterColorsStyle(
       background: override.background ?? def.background,
       foreground: override.foreground ?? def.foreground,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  FooterColorsStyle copyWith({
+    Color? background,
+    Color? foreground,
+  }) {
+    return FooterColorsStyle.copy(
+      background: background ?? this.background,
+      foreground: foreground ?? this.foreground,
     );
   }
 }

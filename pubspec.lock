@@ -329,7 +329,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "75ace402f551d62831537375c56c0fb5fe49d90e"
+      resolved-ref: de22ab6ed55ec3acd4ed9d44c6a55535116a7946
       url: "https://github.com/ThomasFercher/legend_router"
     source: git
     version: "0.0.1"

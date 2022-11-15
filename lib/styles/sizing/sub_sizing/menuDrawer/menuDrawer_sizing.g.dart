@@ -105,12 +105,11 @@ class MenuDrawerSizingOverride extends MenuDrawerSizingInfoNull
 
 class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
     implements MenuDrawerSizingComponents {
-  final MenuDrawerSizingComponents Function(MenuDrawerSizingInfo sizing)
-      buildComponents;
   @override
   late final SideMenuSizingStyle sideMenuSizing;
   MenuDrawerSizingStyle({
-    required this.buildComponents,
+    required MenuDrawerSizingComponents Function(MenuDrawerSizingInfo sizing)
+        buildComponents,
     required super.width,
     required super.iconSize,
     required super.spacing,
@@ -123,6 +122,21 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
     MenuDrawerSizingComponents components = buildComponents.call(this);
     sideMenuSizing = components.sideMenuSizing;
   }
+  MenuDrawerSizingStyle.copy({
+    required super.width,
+    required super.iconSize,
+    required super.spacing,
+    required super.itemHeight,
+    required super.subMenuHeaderHeight,
+    required super.subMenuIconSize,
+    required super.itemPadding,
+    required super.subItemPadding,
+    required this.sideMenuSizing,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory MenuDrawerSizingStyle.override(
     MenuDrawerSizingStyle def,
     MenuDrawerSizingOverride? override,
@@ -146,6 +160,33 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
               def.sideMenuSizing, override.sideMenuSizing),
         );
       },
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  MenuDrawerSizingStyle copyWith({
+    double? width,
+    double? iconSize,
+    double? spacing,
+    double? itemHeight,
+    double? subMenuHeaderHeight,
+    double? subMenuIconSize,
+    EdgeInsets? itemPadding,
+    EdgeInsets? subItemPadding,
+    SideMenuSizingStyle? sideMenuSizing,
+  }) {
+    return MenuDrawerSizingStyle.copy(
+      width: width ?? this.width,
+      iconSize: iconSize ?? this.iconSize,
+      spacing: spacing ?? this.spacing,
+      itemHeight: itemHeight ?? this.itemHeight,
+      subMenuHeaderHeight: subMenuHeaderHeight ?? this.subMenuHeaderHeight,
+      subMenuIconSize: subMenuIconSize ?? this.subMenuIconSize,
+      itemPadding: itemPadding ?? this.itemPadding,
+      subItemPadding: subItemPadding ?? this.subItemPadding,
+      sideMenuSizing: sideMenuSizing ?? this.sideMenuSizing,
     );
   }
 }

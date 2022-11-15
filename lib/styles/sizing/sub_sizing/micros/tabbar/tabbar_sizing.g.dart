@@ -38,6 +38,14 @@ class TabbarSizingStyle extends TabbarSizingInfo {
     required super.height,
     required super.alignment,
   });
+  TabbarSizingStyle.copy({
+    required super.height,
+    required super.alignment,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory TabbarSizingStyle.override(
     TabbarSizingStyle def,
     TabbarSizingOverride? override,
@@ -48,6 +56,19 @@ class TabbarSizingStyle extends TabbarSizingInfo {
     return TabbarSizingStyle(
       height: override.height ?? def.height,
       alignment: override.alignment ?? def.alignment,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  TabbarSizingStyle copyWith({
+    double? height,
+    MainAxisAlignment? alignment,
+  }) {
+    return TabbarSizingStyle.copy(
+      height: height ?? this.height,
+      alignment: alignment ?? this.alignment,
     );
   }
 }

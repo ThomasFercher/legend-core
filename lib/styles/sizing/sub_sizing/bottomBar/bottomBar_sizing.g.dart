@@ -101,6 +101,23 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
     required super.alignment,
     required super.fillBottom,
   });
+  BottomBarSizingStyle.copy({
+    required super.decoration,
+    required super.height,
+    required super.showText,
+    required super.textAtBottom,
+    required super.iconSize,
+    required super.margin,
+    required super.itemPadding,
+    required super.padding,
+    required super.itemWidth,
+    required super.alignment,
+    required super.fillBottom,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory BottomBarSizingStyle.override(
     BottomBarSizingStyle def,
     BottomBarSizingOverride? override,
@@ -120,6 +137,37 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
       itemWidth: override.itemWidth ?? def.itemWidth,
       alignment: override.alignment ?? def.alignment,
       fillBottom: override.fillBottom ?? def.fillBottom,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  BottomBarSizingStyle copyWith({
+    BoxDecoration? decoration,
+    double? height,
+    bool? showText,
+    bool? textAtBottom,
+    double? iconSize,
+    EdgeInsets? margin,
+    EdgeInsets? itemPadding,
+    EdgeInsets? padding,
+    double? itemWidth,
+    MainAxisAlignment? alignment,
+    bool? fillBottom,
+  }) {
+    return BottomBarSizingStyle.copy(
+      decoration: decoration ?? this.decoration,
+      height: height ?? this.height,
+      showText: showText ?? this.showText,
+      textAtBottom: textAtBottom ?? this.textAtBottom,
+      iconSize: iconSize ?? this.iconSize,
+      margin: margin ?? this.margin,
+      itemPadding: itemPadding ?? this.itemPadding,
+      padding: padding ?? this.padding,
+      itemWidth: itemWidth ?? this.itemWidth,
+      alignment: alignment ?? this.alignment,
+      fillBottom: fillBottom ?? this.fillBottom,
     );
   }
 }

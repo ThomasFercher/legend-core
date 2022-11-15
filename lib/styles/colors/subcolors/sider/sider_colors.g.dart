@@ -79,11 +79,11 @@ class SiderColorsOverride extends SiderColorsInfoNull
 
 class SiderColorsStyle extends SiderColorsInfo
     implements SiderColorsComponents {
-  final SiderColorsComponents Function(SiderColorsInfo sizing) buildComponents;
   @override
   late final SideMenuColorsStyle menuColors;
   SiderColorsStyle({
-    required this.buildComponents,
+    required SiderColorsComponents Function(SiderColorsInfo sizing)
+        buildComponents,
     required super.background,
     required super.backgroundMenu,
     required super.foreground,
@@ -92,6 +92,17 @@ class SiderColorsStyle extends SiderColorsInfo
     SiderColorsComponents components = buildComponents.call(this);
     menuColors = components.menuColors;
   }
+  SiderColorsStyle.copy({
+    required super.background,
+    required super.backgroundMenu,
+    required super.foreground,
+    required super.selection,
+    required this.menuColors,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory SiderColorsStyle.override(
     SiderColorsStyle def,
     SiderColorsOverride? override,
@@ -110,6 +121,25 @@ class SiderColorsStyle extends SiderColorsInfo
               SideMenuColorsStyle.override(def.menuColors, override.menuColors),
         );
       },
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  SiderColorsStyle copyWith({
+    Color? background,
+    Color? backgroundMenu,
+    Color? foreground,
+    Color? selection,
+    SideMenuColorsStyle? menuColors,
+  }) {
+    return SiderColorsStyle.copy(
+      background: background ?? this.background,
+      backgroundMenu: backgroundMenu ?? this.backgroundMenu,
+      foreground: foreground ?? this.foreground,
+      selection: selection ?? this.selection,
+      menuColors: menuColors ?? this.menuColors,
     );
   }
 }

@@ -101,8 +101,6 @@ class AppBarColorsOverride extends AppBarColorsInfoNull
 
 class AppBarColorsStyle extends AppBarColorsInfo
     implements AppBarColorsComponents {
-  final AppBarColorsComponents Function(AppBarColorsInfo sizing)
-      buildComponents;
   @override
   late final MenuColorsStyle menuColors;
   @override
@@ -110,7 +108,8 @@ class AppBarColorsStyle extends AppBarColorsInfo
   @override
   late final TabbarColorsStyle? tabbarColors;
   AppBarColorsStyle({
-    required this.buildComponents,
+    required AppBarColorsComponents Function(AppBarColorsInfo sizing)
+        buildComponents,
     required super.background,
     required super.icon,
     required super.selected,
@@ -121,6 +120,19 @@ class AppBarColorsStyle extends AppBarColorsInfo
     subMenuColors = components.subMenuColors;
     tabbarColors = components.tabbarColors;
   }
+  AppBarColorsStyle.copy({
+    required super.background,
+    required super.icon,
+    required super.selected,
+    required super.foreground,
+    required this.menuColors,
+    required this.subMenuColors,
+    this.tabbarColors,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
   factory AppBarColorsStyle.override(
     AppBarColorsStyle def,
     AppBarColorsOverride? override,
@@ -145,6 +157,29 @@ class AppBarColorsStyle extends AppBarColorsInfo
                   def.tabbarColors!, override.tabbarColors),
         );
       },
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  AppBarColorsStyle copyWith({
+    Color? background,
+    Color? icon,
+    Color? selected,
+    Color? foreground,
+    MenuColorsStyle? menuColors,
+    SideMenuColorsStyle? subMenuColors,
+    TabbarColorsStyle? tabbarColors,
+  }) {
+    return AppBarColorsStyle.copy(
+      background: background ?? this.background,
+      icon: icon ?? this.icon,
+      selected: selected ?? this.selected,
+      foreground: foreground ?? this.foreground,
+      menuColors: menuColors ?? this.menuColors,
+      subMenuColors: subMenuColors ?? this.subMenuColors,
+      tabbarColors: tabbarColors ?? this.tabbarColors,
     );
   }
 }

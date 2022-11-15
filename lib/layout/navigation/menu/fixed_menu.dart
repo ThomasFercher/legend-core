@@ -87,7 +87,7 @@ class _FixedMenuState extends State<FixedMenu> {
                 showSubMenu(
                   theme: theme,
                   options: subOptions,
-                  current: currentRoute ?? "",
+                  current: currentRoute ?? '',
                   route: option,
                   key: widget.optionsKeys[i],
                 );
