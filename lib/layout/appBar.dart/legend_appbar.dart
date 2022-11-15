@@ -10,7 +10,7 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_siz
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/routes/extensions.dart';
 import '../../styles/colors/subcolors/micros/menu/menu_colors.dart';
-import 'appbar_layout_config.dart';
+import 'appbar_layout.dart';
 import 'legend_backbutton.dart';
 
 const List<Widget> actionsFiller = [SizedBox.shrink()];

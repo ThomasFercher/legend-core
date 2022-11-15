@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -16,12 +15,10 @@ class ScaffoldFooter extends LegendWidget {
 
     FixedFooter? override = scaffold.builders.customFooter;
 
-    switch (layout) {
-      case null:
-      case FooterLayout.None:
-        return Container();
-      case FooterLayout.Show:
-        return override ?? Container();
+    if (layout == null || override == null) {
+      return SizedBox.shrink();
     }
+
+    return override;
   }
 }

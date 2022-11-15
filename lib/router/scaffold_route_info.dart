@@ -1,4 +1,4 @@
-import 'package:legend_design_core/layout/layout_config.dart';
+import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 import 'package:legend_router/router/legend_router.dart';
@@ -30,16 +30,12 @@ class PageInfo extends LegendRouteInfo {
 }
 
 class ScaffoldRouteConfig {
-  // Core
-  final String pageName;
-
   // Configs
   final ScaffoldBuilders builders;
   final ScaffoldWhether whether;
   final DynamicRouteLayout layout;
 
   const ScaffoldRouteConfig({
-    required this.pageName,
     required this.layout,
     this.whether = const ScaffoldWhether(),
     this.builders = const ScaffoldBuilders(),

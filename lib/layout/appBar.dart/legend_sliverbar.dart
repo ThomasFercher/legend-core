@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
-import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/legend_backbutton.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
