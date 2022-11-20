@@ -4,13 +4,13 @@ import 'package:legend_annotations/legend_annotations.dart';
 part 'tabbar_colors.g.dart';
 
 @legendStyle
-abstract class TabbarColors {
+abstract class TabbarColorsStyle {
   final Color background;
   final Color foreground;
   final Color selection;
   final Color disabled;
 
-  const TabbarColors(
+  const TabbarColorsStyle(
     this.background,
     this.disabled,
     this.foreground,

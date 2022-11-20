@@ -1,24 +1,24 @@
 import 'route_layout.dart';
 
 class DynamicRouteLayout {
-  final Map<double, RouteLayoutStyle> layouts;
+  final Map<double, RouteLayout> layouts;
 
   const DynamicRouteLayout({
     required this.layouts,
   });
 
-  RouteLayoutStyle getLayout(double split) {
+  RouteLayout getLayout(double split) {
     return layouts[split] ?? layouts.values.first;
   }
 
   factory DynamicRouteLayout.override(
     List<double> splits, {
-    required RouteLayoutStyle defaultLayout,
+    required RouteLayout defaultLayout,
     Map<double, RouteLayoutOverride>? overrides,
   }) {
-    final layouts = <double, RouteLayoutStyle>{
+    final layouts = <double, RouteLayout>{
       for (final split in splits)
-        split: RouteLayoutStyle.override(defaultLayout, overrides?[split])
+        split: RouteLayout.override(defaultLayout, overrides?[split])
     };
 
     return DynamicRouteLayout(layouts: layouts);
@@ -26,7 +26,7 @@ class DynamicRouteLayout {
 
   factory DynamicRouteLayout.single(
     List<double> splits, {
-    required RouteLayoutStyle layout,
+    required RouteLayout layout,
   }) {
     return DynamicRouteLayout(
       layouts: {

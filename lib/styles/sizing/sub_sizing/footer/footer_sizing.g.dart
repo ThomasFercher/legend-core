@@ -39,13 +39,13 @@ class FooterSizingOverride extends FooterSizingInfoNull {
   });
 }
 
-class FooterSizingStyle extends FooterSizingInfo {
-  FooterSizingStyle({
+class FooterSizing extends FooterSizingInfo {
+  FooterSizing({
     required super.height,
     required super.maxWidth,
     required super.padding,
   });
-  FooterSizingStyle.copy({
+  FooterSizing.copy({
     required super.height,
     required super.maxWidth,
     required super.padding,
@@ -54,14 +54,14 @@ class FooterSizingStyle extends FooterSizingInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory FooterSizingStyle.override(
-    FooterSizingStyle def,
+  factory FooterSizing.override(
+    FooterSizing def,
     FooterSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return FooterSizingStyle(
+    return FooterSizing(
       height: override.height ?? def.height,
       maxWidth: override.maxWidth ?? def.maxWidth,
       padding: override.padding ?? def.padding,
@@ -71,12 +71,12 @@ class FooterSizingStyle extends FooterSizingInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  FooterSizingStyle copyWith({
+  FooterSizing copyWith({
     double? height,
     double? maxWidth,
     EdgeInsets? padding,
   }) {
-    return FooterSizingStyle.copy(
+    return FooterSizing.copy(
       height: height ?? this.height,
       maxWidth: maxWidth ?? this.maxWidth,
       padding: padding ?? this.padding,

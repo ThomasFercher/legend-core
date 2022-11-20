@@ -7,20 +7,25 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/tabbar/tabbar_
 part 'appBar_colors.g.dart';
 
 @legendStyle
-abstract class AppBarColors {
+abstract class AppBarColorsStyle {
   final Color background;
   final Color icon;
   final Color selected;
   final Color foreground;
+  @LegendSubStyle()
+  final MenuColorsStyle menuColors;
+  @LegendSubStyle()
+  final SideMenuColorsStyle subMenuColors;
+  @LegendSubStyle()
+  final TabbarColorsStyle? tabbarColors;
 
-  late final MenuColors menuColors;
-  late final SideMenuColors subMenuColors;
-  late final TabbarColors? tabbarColors;
-
-  AppBarColors({
-    required this.background,
-    required this.icon,
-    required this.selected,
-    required this.foreground,
-  });
+  const AppBarColorsStyle(
+    this.background,
+    this.icon,
+    this.selected,
+    this.foreground,
+    this.menuColors,
+    this.subMenuColors,
+    this.tabbarColors,
+  );
 }

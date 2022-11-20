@@ -33,12 +33,12 @@ class FooterColorsOverride extends FooterColorsInfoNull {
   });
 }
 
-class FooterColorsStyle extends FooterColorsInfo {
-  FooterColorsStyle({
+class FooterColors extends FooterColorsInfo {
+  FooterColors({
     required super.background,
     required super.foreground,
   });
-  FooterColorsStyle.copy({
+  FooterColors.copy({
     required super.background,
     required super.foreground,
   });
@@ -46,14 +46,14 @@ class FooterColorsStyle extends FooterColorsInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory FooterColorsStyle.override(
-    FooterColorsStyle def,
+  factory FooterColors.override(
+    FooterColors def,
     FooterColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return FooterColorsStyle(
+    return FooterColors(
       background: override.background ?? def.background,
       foreground: override.foreground ?? def.foreground,
     );
@@ -62,11 +62,11 @@ class FooterColorsStyle extends FooterColorsInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  FooterColorsStyle copyWith({
+  FooterColors copyWith({
     Color? background,
     Color? foreground,
   }) {
-    return FooterColorsStyle.copy(
+    return FooterColors.copy(
       background: background ?? this.background,
       foreground: foreground ?? this.foreground,
     );

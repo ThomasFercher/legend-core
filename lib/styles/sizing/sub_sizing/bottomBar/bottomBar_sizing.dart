@@ -4,7 +4,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 part 'bottomBar_sizing.g.dart';
 
 @legendStyle
-class BottomBarSizing {
+class BottomBarSizingStyle {
   /// A BoxDecoration for customising Boxshadows, BorderRadius, Borders, etc...
   final BoxDecoration decoration;
 
@@ -38,7 +38,7 @@ class BottomBarSizing {
   /// Whether to fill the bottom
   final bool fillBottom;
 
-  const BottomBarSizing({
+  const BottomBarSizingStyle({
     required this.showText,
     required this.textAtBottom,
     required this.fillBottom,

@@ -19,17 +19,13 @@ const Duration anmimationDuration = Duration(milliseconds: 220);
 
 class LegendBottomBar extends LegendWidget {
   final bool? fit;
-  final BottomBarSizingStyle sizing;
-  final BottomBarColorsStyle colors;
   final List<RouteInfo> options;
 
   const LegendBottomBar({
-    Key? key,
+    super.key,
     this.fit,
-    required this.sizing,
-    required this.colors,
     required this.options,
-  }) : super(key: key);
+  });
 
   List<BottomBarItem> getItems(
     BuildContext context,
@@ -74,6 +70,9 @@ class LegendBottomBar extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
+    final sizing = theme.bottomBarSizing;
+    final colors = theme.bottomBarColors;
+
     double padding = MediaQuery.of(context).padding.bottom;
 
     if (PlatformInfo.isIos && (padding - iosBottomPadding) > 0) {
@@ -108,7 +107,8 @@ class LegendBottomBar extends LegendWidget {
     final left = selected * itemWidth + (selected + 1) * spacing;
 
     return BottomBarInfo(
-      bottomBar: this,
+      colors: colors,
+      sizing: sizing,
       child: SizedBox(
         height: sizing.margin.vertical + sizing.height + padding,
         width: SizeInfo.of(context).logicalWidth,
@@ -142,26 +142,6 @@ class LegendBottomBar extends LegendWidget {
               height: padding,
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget getAnimationObject(double left) {
-    return AnimatedPositioned(
-      duration: anmimationDuration,
-      curve: Curves.easeInOutCubic,
-      left: left,
-      child: SizedBox(
-        height: sizing.height - sizing.padding.vertical,
-        child: Container(
-          width: sizing.itemWidth,
-          decoration: BoxDecoration(
-            color: colors.activeColor.withOpacity(0.2),
-            borderRadius: BorderRadius.all(
-              Radius.circular(sizing.height / 3.6),
-            ),
-          ),
         ),
       ),
     );

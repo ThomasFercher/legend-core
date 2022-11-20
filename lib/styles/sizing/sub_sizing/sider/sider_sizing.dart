@@ -5,14 +5,15 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/side
 part 'sider_sizing.g.dart';
 
 @legendStyle
-abstract class SiderSizing {
+abstract class SiderSizingStyle {
   final double width;
   final double iconSize;
   final double spacing;
   final EdgeInsetsGeometry padding;
-  late final SideMenuSizing sideMenuSizing;
+  @LegendSubStyle()
+  final SideMenuSizingStyle sideMenuSizing;
 
-  SiderSizing({
+  const SiderSizingStyle({
     required this.width,
     required this.iconSize,
     required this.spacing,

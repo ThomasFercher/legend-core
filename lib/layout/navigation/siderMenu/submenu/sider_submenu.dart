@@ -21,8 +21,8 @@ class SiderSubMenu extends StatefulWidget {
   final bool hasToPop;
   final bool hasToPopMenudrawer;
   final bool collapsed;
-  final SideMenuColorsStyle colors;
-  final SideMenuSizingStyle sizing;
+  final SideMenuColors colors;
+  final SideMenuSizing sizing;
 
   SiderSubMenu({
     required this.colors,
@@ -61,8 +61,8 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   double getMaxHeight() =>
       (widget.option.children?.length ?? 0) * sizing.itemHeight;
 
-  SideMenuSizingStyle get sizing => widget.sizing;
-  SideMenuColorsStyle get colors => widget.colors;
+  SideMenuSizing get sizing => widget.sizing;
+  SideMenuColors get colors => widget.colors;
 
   @override
   void didChangeDependencies() {

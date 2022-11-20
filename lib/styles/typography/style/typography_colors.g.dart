@@ -57,8 +57,8 @@ class TypographyColorsOverride extends TypographyColorsInfoNull {
   });
 }
 
-class TypographyColorsStyle extends TypographyColorsInfo {
-  TypographyColorsStyle({
+class TypographyColors extends TypographyColorsInfo {
+  TypographyColors({
     required super.h0,
     required super.h1,
     required super.h2,
@@ -66,7 +66,7 @@ class TypographyColorsStyle extends TypographyColorsInfo {
     required super.h4,
     required super.h5,
   });
-  TypographyColorsStyle.copy({
+  TypographyColors.copy({
     required super.h0,
     required super.h1,
     required super.h2,
@@ -78,14 +78,14 @@ class TypographyColorsStyle extends TypographyColorsInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory TypographyColorsStyle.override(
-    TypographyColorsStyle def,
+  factory TypographyColors.override(
+    TypographyColors def,
     TypographyColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return TypographyColorsStyle(
+    return TypographyColors(
       h0: override.h0 ?? def.h0,
       h1: override.h1 ?? def.h1,
       h2: override.h2 ?? def.h2,
@@ -98,7 +98,7 @@ class TypographyColorsStyle extends TypographyColorsInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  TypographyColorsStyle copyWith({
+  TypographyColors copyWith({
     Color? h0,
     Color? h1,
     Color? h2,
@@ -106,7 +106,7 @@ class TypographyColorsStyle extends TypographyColorsInfo {
     Color? h4,
     Color? h5,
   }) {
-    return TypographyColorsStyle.copy(
+    return TypographyColors.copy(
       h0: h0 ?? this.h0,
       h1: h1 ?? this.h1,
       h2: h2 ?? this.h2,

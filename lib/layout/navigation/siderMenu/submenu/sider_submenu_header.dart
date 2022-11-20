@@ -29,8 +29,8 @@ class HeaderTile extends LegendWidget {
     this.current,
   });
 
-  final SideMenuColorsStyle colors;
-  final SideMenuSizingStyle sizing;
+  final SideMenuColors colors;
+  final SideMenuSizing sizing;
 
   final RouteInfo option;
   final bool isSelected;
@@ -70,7 +70,7 @@ class HeaderTile extends LegendWidget {
           icon: isExpanded ? Icons.arrow_upward : Icons.arrow_downward,
           theme: LegendAnimtedIconTheme(
             disabled: theme.colors.menuDrawer.foreground.lighten(),
-            enabled: theme.colors.menuDrawer.foreground_menu_selction,
+            enabled: theme.colors.menuDrawer.foregroundMenuSelection,
           ),
           disableShadow: true,
           padding: EdgeInsets.symmetric(

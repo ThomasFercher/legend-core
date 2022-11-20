@@ -51,15 +51,15 @@ class MenuColorsOverride extends MenuColorsInfoNull {
   });
 }
 
-class MenuColorsStyle extends MenuColorsInfo {
-  MenuColorsStyle({
+class MenuColors extends MenuColorsInfo {
+  MenuColors({
     required super.background,
     required super.activeForeground,
     required super.activeBackground,
     required super.foreground,
     required super.menuBackground,
   });
-  MenuColorsStyle.copy({
+  MenuColors.copy({
     required super.background,
     required super.activeForeground,
     required super.activeBackground,
@@ -70,14 +70,14 @@ class MenuColorsStyle extends MenuColorsInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory MenuColorsStyle.override(
-    MenuColorsStyle def,
+  factory MenuColors.override(
+    MenuColors def,
     MenuColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return MenuColorsStyle(
+    return MenuColors(
       background: override.background ?? def.background,
       activeForeground: override.activeForeground ?? def.activeForeground,
       activeBackground: override.activeBackground ?? def.activeBackground,
@@ -89,14 +89,14 @@ class MenuColorsStyle extends MenuColorsInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  MenuColorsStyle copyWith({
+  MenuColors copyWith({
     Color? background,
     Color? activeForeground,
     Color? activeBackground,
     Color? foreground,
     Color? menuBackground,
   }) {
-    return MenuColorsStyle.copy(
+    return MenuColors.copy(
       background: background ?? this.background,
       activeForeground: activeForeground ?? this.activeForeground,
       activeBackground: activeBackground ?? this.activeBackground,

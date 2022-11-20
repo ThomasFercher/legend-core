@@ -39,17 +39,17 @@ class LegendTheme {
   final LegendSizing sizing;
 
   // Getters for simplified access to sub themes
-  AppBarColorsStyle get appBarColors => colors.appBar;
-  BottomBarColorsStyle get bottomBarColors => colors.bottomBar;
-  FooterColorsStyle get footerColors => colors.footer;
-  SiderColorsStyle get siderColors => colors.sider;
-  MenuDrawerColorsStyle get menuDrawerColors => colors.menuDrawer;
+  AppBarColors get appBarColors => colors.appBar;
+  BottomBarColors get bottomBarColors => colors.bottomBar;
+  FooterColors get footerColors => colors.footer;
+  SiderColors get siderColors => colors.sider;
+  MenuDrawerColors get menuDrawerColors => colors.menuDrawer;
 
-  AppBarSizingStyle get appBarSizing => sizing.appBarSizing;
-  BottomBarSizingStyle get bottomBarSizing => sizing.bottomBarSizing;
-  FooterSizingStyle get footerSizing => sizing.footerSizing;
-  SiderSizingStyle get siderSizing => sizing.siderSizing;
-  MenuDrawerSizingStyle get menuDrawerSizing => sizing.menuDrawerSizing;
+  AppBarSizing get appBarSizing => sizing.appBarSizing;
+  BottomBarSizing get bottomBarSizing => sizing.bottomBarSizing;
+  FooterSizing get footerSizing => sizing.footerSizing;
+  SiderSizing get siderSizing => sizing.siderSizing;
+  MenuDrawerSizing get menuDrawerSizing => sizing.menuDrawerSizing;
 
   /// Returns the splits of the Sizing Theme as a List
   final List<double> splits;

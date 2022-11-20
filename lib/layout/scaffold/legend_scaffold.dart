@@ -103,8 +103,6 @@ class LegendScaffold extends LegendWidget {
                     ),
                     if (showBottomBar)
                       LegendBottomBar(
-                        colors: theme.bottomBarColors,
-                        sizing: theme.bottomBarSizing,
                         options: LegendRouter.of(context).topRoutes,
                       )
                   ],

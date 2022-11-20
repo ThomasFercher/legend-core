@@ -40,17 +40,17 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
   /// Sub Sizing
   ///
   @override
-  late final TypographySizingStyle typographySizing;
+  late final TypographySizing typographySizing;
   @override
-  late final AppBarSizingStyle appBarSizing;
+  late final AppBarSizing appBarSizing;
   @override
-  late final BottomBarSizingStyle bottomBarSizing;
+  late final BottomBarSizing bottomBarSizing;
   @override
-  late final SiderSizingStyle siderSizing;
+  late final SiderSizing siderSizing;
   @override
-  late final MenuDrawerSizingStyle menuDrawerSizing;
+  late final MenuDrawerSizing menuDrawerSizing;
   @override
-  late final FooterSizingStyle footerSizing;
+  late final FooterSizing footerSizing;
 
   final LegendSubSizing Function(LegendCoreSizing sizing) subSizing;
 
@@ -159,27 +159,27 @@ class LegendSizing implements LegendSubSizingInfo, LegendCoreSizing {
       key: override.key,
       subSizing: (_) {
         return LegendSubSizing(
-          typographySizing: TypographySizingStyle.override(
+          typographySizing: TypographySizing.override(
             def.typographySizing,
             override.typographySizing,
           ),
-          appBarSizing: AppBarSizingStyle.override(
+          appBarSizing: AppBarSizing.override(
             def.appBarSizing,
             override.appBarSizing,
           ),
-          bottomBarSizing: BottomBarSizingStyle.override(
+          bottomBarSizing: BottomBarSizing.override(
             def.bottomBarSizing,
             override.bottomBarSizing,
           ),
-          siderSizing: SiderSizingStyle.override(
+          siderSizing: SiderSizing.override(
             def.siderSizing,
             override.siderSizing,
           ),
-          menuDrawerSizing: MenuDrawerSizingStyle.override(
+          menuDrawerSizing: MenuDrawerSizing.override(
             def.menuDrawerSizing,
             override.menuDrawerSizing,
           ),
-          footerSizing: FooterSizingStyle.override(
+          footerSizing: FooterSizing.override(
             def.footerSizing,
             override.footerSizing,
           ),

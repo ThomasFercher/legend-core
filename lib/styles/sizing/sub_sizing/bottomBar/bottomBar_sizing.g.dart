@@ -87,8 +87,8 @@ class BottomBarSizingOverride extends BottomBarSizingInfoNull {
   });
 }
 
-class BottomBarSizingStyle extends BottomBarSizingInfo {
-  BottomBarSizingStyle({
+class BottomBarSizing extends BottomBarSizingInfo {
+  BottomBarSizing({
     required super.decoration,
     required super.height,
     required super.showText,
@@ -101,7 +101,7 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
     required super.alignment,
     required super.fillBottom,
   });
-  BottomBarSizingStyle.copy({
+  BottomBarSizing.copy({
     required super.decoration,
     required super.height,
     required super.showText,
@@ -118,14 +118,14 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory BottomBarSizingStyle.override(
-    BottomBarSizingStyle def,
+  factory BottomBarSizing.override(
+    BottomBarSizing def,
     BottomBarSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return BottomBarSizingStyle(
+    return BottomBarSizing(
       decoration: override.decoration ?? def.decoration,
       height: override.height ?? def.height,
       showText: override.showText ?? def.showText,
@@ -143,7 +143,7 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  BottomBarSizingStyle copyWith({
+  BottomBarSizing copyWith({
     BoxDecoration? decoration,
     double? height,
     bool? showText,
@@ -156,7 +156,7 @@ class BottomBarSizingStyle extends BottomBarSizingInfo {
     MainAxisAlignment? alignment,
     bool? fillBottom,
   }) {
-    return BottomBarSizingStyle.copy(
+    return BottomBarSizing.copy(
       decoration: decoration ?? this.decoration,
       height: height ?? this.height,
       showText: showText ?? this.showText,

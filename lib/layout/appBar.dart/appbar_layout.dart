@@ -14,22 +14,17 @@ enum AppBarLayoutConfig {
   none,
 }
 
-@legendStyle
-class AppBarLayout {
+@LegendStyle()
+abstract class AppBarLayoutStyle {
   final AppBarLayoutConfig layout;
   final AppBarLayoutType aligment;
   final bool showTabbar;
 
-  const AppBarLayout({
+  const AppBarLayoutStyle({
     required this.layout,
     required this.aligment,
     this.showTabbar = false,
   });
-
-  const AppBarLayout.none()
-      : layout = AppBarLayoutConfig.none,
-        aligment = AppBarLayoutType.MeTiAc,
-        showTabbar = false;
 
   /*AppBarLayout copyWith({
     AppBarLayoutConfig? layout,

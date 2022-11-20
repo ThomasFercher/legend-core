@@ -74,7 +74,7 @@ class MenuDrawerSizingComponentsOverride
 
 class MenuDrawerSizingComponents implements MenuDrawerSizingComponentsInfo {
   @override
-  final SideMenuSizingStyle sideMenuSizing;
+  final SideMenuSizing sideMenuSizing;
   MenuDrawerSizingComponents({
     required this.sideMenuSizing,
   });
@@ -103,11 +103,11 @@ class MenuDrawerSizingOverride extends MenuDrawerSizingInfoNull
   }
 }
 
-class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
+class MenuDrawerSizing extends MenuDrawerSizingInfo
     implements MenuDrawerSizingComponents {
   @override
-  late final SideMenuSizingStyle sideMenuSizing;
-  MenuDrawerSizingStyle({
+  late final SideMenuSizing sideMenuSizing;
+  MenuDrawerSizing({
     required MenuDrawerSizingComponents Function(MenuDrawerSizingInfo sizing)
         buildComponents,
     required super.width,
@@ -122,7 +122,7 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
     MenuDrawerSizingComponents components = buildComponents.call(this);
     sideMenuSizing = components.sideMenuSizing;
   }
-  MenuDrawerSizingStyle.copy({
+  MenuDrawerSizing.copy({
     required super.width,
     required super.iconSize,
     required super.spacing,
@@ -137,14 +137,14 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory MenuDrawerSizingStyle.override(
-    MenuDrawerSizingStyle def,
+  factory MenuDrawerSizing.override(
+    MenuDrawerSizing def,
     MenuDrawerSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return MenuDrawerSizingStyle(
+    return MenuDrawerSizing(
       width: override.width ?? def.width,
       iconSize: override.iconSize ?? def.iconSize,
       spacing: override.spacing ?? def.spacing,
@@ -156,7 +156,7 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
       subItemPadding: override.subItemPadding ?? def.subItemPadding,
       buildComponents: (_) {
         return MenuDrawerSizingComponents(
-          sideMenuSizing: SideMenuSizingStyle.override(
+          sideMenuSizing: SideMenuSizing.override(
               def.sideMenuSizing, override.sideMenuSizing),
         );
       },
@@ -166,7 +166,7 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  MenuDrawerSizingStyle copyWith({
+  MenuDrawerSizing copyWith({
     double? width,
     double? iconSize,
     double? spacing,
@@ -175,9 +175,9 @@ class MenuDrawerSizingStyle extends MenuDrawerSizingInfo
     double? subMenuIconSize,
     EdgeInsets? itemPadding,
     EdgeInsets? subItemPadding,
-    SideMenuSizingStyle? sideMenuSizing,
+    SideMenuSizing? sideMenuSizing,
   }) {
-    return MenuDrawerSizingStyle.copy(
+    return MenuDrawerSizing.copy(
       width: width ?? this.width,
       iconSize: iconSize ?? this.iconSize,
       spacing: spacing ?? this.spacing,

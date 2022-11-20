@@ -57,8 +57,8 @@ class TypographySizingOverride extends TypographySizingInfoNull {
   });
 }
 
-class TypographySizingStyle extends TypographySizingInfo {
-  TypographySizingStyle({
+class TypographySizing extends TypographySizingInfo {
+  TypographySizing({
     required super.h0,
     required super.h1,
     required super.h2,
@@ -66,7 +66,7 @@ class TypographySizingStyle extends TypographySizingInfo {
     required super.h4,
     required super.h5,
   });
-  TypographySizingStyle.copy({
+  TypographySizing.copy({
     required super.h0,
     required super.h1,
     required super.h2,
@@ -78,14 +78,14 @@ class TypographySizingStyle extends TypographySizingInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory TypographySizingStyle.override(
-    TypographySizingStyle def,
+  factory TypographySizing.override(
+    TypographySizing def,
     TypographySizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return TypographySizingStyle(
+    return TypographySizing(
       h0: override.h0 ?? def.h0,
       h1: override.h1 ?? def.h1,
       h2: override.h2 ?? def.h2,
@@ -98,7 +98,7 @@ class TypographySizingStyle extends TypographySizingInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  TypographySizingStyle copyWith({
+  TypographySizing copyWith({
     double? h0,
     double? h1,
     double? h2,
@@ -106,7 +106,7 @@ class TypographySizingStyle extends TypographySizingInfo {
     double? h4,
     double? h5,
   }) {
-    return TypographySizingStyle.copy(
+    return TypographySizing.copy(
       h0: h0 ?? this.h0,
       h1: h1 ?? this.h1,
       h2: h2 ?? this.h2,

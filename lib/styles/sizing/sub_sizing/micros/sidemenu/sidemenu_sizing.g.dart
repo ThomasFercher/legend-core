@@ -51,15 +51,15 @@ class SideMenuSizingOverride extends SideMenuSizingInfoNull {
   });
 }
 
-class SideMenuSizingStyle extends SideMenuSizingInfo {
-  SideMenuSizingStyle({
+class SideMenuSizing extends SideMenuSizingInfo {
+  SideMenuSizing({
     required super.spacing,
     required super.padding,
     required super.borderRadius,
     required super.itemHeight,
     required super.iconSize,
   });
-  SideMenuSizingStyle.copy({
+  SideMenuSizing.copy({
     required super.spacing,
     required super.padding,
     required super.borderRadius,
@@ -70,14 +70,14 @@ class SideMenuSizingStyle extends SideMenuSizingInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory SideMenuSizingStyle.override(
-    SideMenuSizingStyle def,
+  factory SideMenuSizing.override(
+    SideMenuSizing def,
     SideMenuSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return SideMenuSizingStyle(
+    return SideMenuSizing(
       spacing: override.spacing ?? def.spacing,
       padding: override.padding ?? def.padding,
       borderRadius: override.borderRadius ?? def.borderRadius,
@@ -89,14 +89,14 @@ class SideMenuSizingStyle extends SideMenuSizingInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  SideMenuSizingStyle copyWith({
+  SideMenuSizing copyWith({
     double? spacing,
     EdgeInsetsGeometry? padding,
     BorderRadius? borderRadius,
     double? itemHeight,
     double? iconSize,
   }) {
-    return SideMenuSizingStyle.copy(
+    return SideMenuSizing.copy(
       spacing: spacing ?? this.spacing,
       padding: padding ?? this.padding,
       borderRadius: borderRadius ?? this.borderRadius,

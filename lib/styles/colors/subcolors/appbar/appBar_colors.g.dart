@@ -63,11 +63,11 @@ class AppBarColorsComponentsOverride implements AppBarColorsComponentsInfo {
 
 class AppBarColorsComponents implements AppBarColorsComponentsInfo {
   @override
-  final MenuColorsStyle menuColors;
+  final MenuColors menuColors;
   @override
-  final SideMenuColorsStyle subMenuColors;
+  final SideMenuColors subMenuColors;
   @override
-  final TabbarColorsStyle? tabbarColors;
+  final TabbarColors? tabbarColors;
   AppBarColorsComponents({
     required this.menuColors,
     required this.subMenuColors,
@@ -99,15 +99,14 @@ class AppBarColorsOverride extends AppBarColorsInfoNull
   }
 }
 
-class AppBarColorsStyle extends AppBarColorsInfo
-    implements AppBarColorsComponents {
+class AppBarColors extends AppBarColorsInfo implements AppBarColorsComponents {
   @override
-  late final MenuColorsStyle menuColors;
+  late final MenuColors menuColors;
   @override
-  late final SideMenuColorsStyle subMenuColors;
+  late final SideMenuColors subMenuColors;
   @override
-  late final TabbarColorsStyle? tabbarColors;
-  AppBarColorsStyle({
+  late final TabbarColors? tabbarColors;
+  AppBarColors({
     required AppBarColorsComponents Function(AppBarColorsInfo sizing)
         buildComponents,
     required super.background,
@@ -120,7 +119,7 @@ class AppBarColorsStyle extends AppBarColorsInfo
     subMenuColors = components.subMenuColors;
     tabbarColors = components.tabbarColors;
   }
-  AppBarColorsStyle.copy({
+  AppBarColors.copy({
     required super.background,
     required super.icon,
     required super.selected,
@@ -133,28 +132,26 @@ class AppBarColorsStyle extends AppBarColorsInfo
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory AppBarColorsStyle.override(
-    AppBarColorsStyle def,
+  factory AppBarColors.override(
+    AppBarColors def,
     AppBarColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return AppBarColorsStyle(
+    return AppBarColors(
       background: override.background ?? def.background,
       icon: override.icon ?? def.icon,
       selected: override.selected ?? def.selected,
       foreground: override.foreground ?? def.foreground,
       buildComponents: (_) {
         return AppBarColorsComponents(
-          menuColors:
-              MenuColorsStyle.override(def.menuColors, override.menuColors),
-          subMenuColors: SideMenuColorsStyle.override(
+          menuColors: MenuColors.override(def.menuColors, override.menuColors),
+          subMenuColors: SideMenuColors.override(
               def.subMenuColors, override.subMenuColors),
           tabbarColors: def.tabbarColors == null
               ? null
-              : TabbarColorsStyle.override(
-                  def.tabbarColors!, override.tabbarColors),
+              : TabbarColors.override(def.tabbarColors!, override.tabbarColors),
         );
       },
     );
@@ -163,16 +160,16 @@ class AppBarColorsStyle extends AppBarColorsInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  AppBarColorsStyle copyWith({
+  AppBarColors copyWith({
     Color? background,
     Color? icon,
     Color? selected,
     Color? foreground,
-    MenuColorsStyle? menuColors,
-    SideMenuColorsStyle? subMenuColors,
-    TabbarColorsStyle? tabbarColors,
+    MenuColors? menuColors,
+    SideMenuColors? subMenuColors,
+    TabbarColors? tabbarColors,
   }) {
-    return AppBarColorsStyle.copy(
+    return AppBarColors.copy(
       background: background ?? this.background,
       icon: icon ?? this.icon,
       selected: selected ?? this.selected,

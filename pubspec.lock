@@ -313,7 +313,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "387ca3d209e92ab9a386906db5f1b69d25543801"
+      resolved-ref: "3560a151cf40aaa7488ad48f5a18ba5415db1e51"
       url: "https://github.com/ThomasFercher/legend_annotations"
     source: git
     version: "1.0.0"

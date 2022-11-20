@@ -1,19 +1,21 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
+import 'package:legend_design_core/state/legend_state.dart';
 
 class BottomBarInfo extends InheritedWidget {
-  final LegendBottomBar bottomBar;
+  final BottomBarSizing sizing;
+  final BottomBarColors colors;
 
   const BottomBarInfo({
     super.key,
     required super.child,
-    required this.bottomBar,
+    required this.colors,
+    required this.sizing,
   });
 
-  static LegendBottomBar of(BuildContext context) {
+  static BottomBarInfo of(BuildContext context) {
     final result = context.dependOnInheritedWidgetOfExactType<BottomBarInfo>();
     assert(result != null, 'No LegendBottomBar found in context');
-    return result!.bottomBar;
+    return result!;
   }
 
   @override

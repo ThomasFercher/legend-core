@@ -3,7 +3,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 part 'typography_sizing.g.dart';
 
 @legendStyle
-class TypographySizing {
+abstract class TypographySizingStyle {
   final double h0;
   final double h1;
   final double h2;
@@ -11,7 +11,7 @@ class TypographySizing {
   final double h4;
   final double h5;
 
-  const TypographySizing({
+  const TypographySizingStyle({
     required this.h0,
     required this.h1,
     required this.h2,

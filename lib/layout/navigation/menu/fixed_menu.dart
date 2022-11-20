@@ -18,8 +18,8 @@ class FixedMenu extends StatefulWidget {
   final List<RouteInfo> options;
   late final List<GlobalKey> optionsKeys;
 
-  final MenuSizingStyle sizing;
-  final MenuColorsStyle colors;
+  final MenuSizing sizing;
+  final MenuColors colors;
 
   FixedMenu({
     Key? key,
@@ -50,8 +50,8 @@ class _FixedMenuState extends State<FixedMenu> {
     super.initState();
   }
 
-  MenuColorsStyle get colors => widget.colors;
-  MenuSizingStyle get sizing => widget.sizing;
+  MenuColors get colors => widget.colors;
+  MenuSizing get sizing => widget.sizing;
 
   List<RowMenuTile> getTiles(
     BuildContext context,

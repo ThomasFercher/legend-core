@@ -53,7 +53,7 @@ class SiderSizingComponentsOverride implements SiderSizingComponentsInfo {
 
 class SiderSizingComponents implements SiderSizingComponentsInfo {
   @override
-  final SideMenuSizingStyle sideMenuSizing;
+  final SideMenuSizing sideMenuSizing;
   SiderSizingComponents({
     required this.sideMenuSizing,
   });
@@ -77,11 +77,10 @@ class SiderSizingOverride extends SiderSizingInfoNull
   }
 }
 
-class SiderSizingStyle extends SiderSizingInfo
-    implements SiderSizingComponents {
+class SiderSizing extends SiderSizingInfo implements SiderSizingComponents {
   @override
-  late final SideMenuSizingStyle sideMenuSizing;
-  SiderSizingStyle({
+  late final SideMenuSizing sideMenuSizing;
+  SiderSizing({
     required SiderSizingComponents Function(SiderSizingInfo sizing)
         buildComponents,
     required super.width,
@@ -92,7 +91,7 @@ class SiderSizingStyle extends SiderSizingInfo
     SiderSizingComponents components = buildComponents.call(this);
     sideMenuSizing = components.sideMenuSizing;
   }
-  SiderSizingStyle.copy({
+  SiderSizing.copy({
     required super.width,
     required super.iconSize,
     required super.spacing,
@@ -103,21 +102,21 @@ class SiderSizingStyle extends SiderSizingInfo
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory SiderSizingStyle.override(
-    SiderSizingStyle def,
+  factory SiderSizing.override(
+    SiderSizing def,
     SiderSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return SiderSizingStyle(
+    return SiderSizing(
       width: override.width ?? def.width,
       iconSize: override.iconSize ?? def.iconSize,
       spacing: override.spacing ?? def.spacing,
       padding: override.padding ?? def.padding,
       buildComponents: (_) {
         return SiderSizingComponents(
-          sideMenuSizing: SideMenuSizingStyle.override(
+          sideMenuSizing: SideMenuSizing.override(
               def.sideMenuSizing, override.sideMenuSizing),
         );
       },
@@ -127,14 +126,14 @@ class SiderSizingStyle extends SiderSizingInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  SiderSizingStyle copyWith({
+  SiderSizing copyWith({
     double? width,
     double? iconSize,
     double? spacing,
     EdgeInsetsGeometry? padding,
-    SideMenuSizingStyle? sideMenuSizing,
+    SideMenuSizing? sideMenuSizing,
   }) {
-    return SiderSizingStyle.copy(
+    return SiderSizing.copy(
       width: width ?? this.width,
       iconSize: iconSize ?? this.iconSize,
       spacing: spacing ?? this.spacing,

@@ -2,12 +2,9 @@ import 'package:legend_annotations/legend_annotations.dart';
 
 part 'sider_layout.g.dart';
 
-@legendCopy
-class SiderLayout {
-  SiderLayout copyWithInstance(SiderLayout? instance) =>
-      _$copyWithInstance(instance: this, copyInstance: instance);
+@legendStyle
+class SiderLayoutStyle {
+  final bool left;
 
-  SiderLayout copyWith() => _$copyWith(
-        instance: this,
-      );
+  SiderLayoutStyle(this.left);
 }

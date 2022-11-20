@@ -5,7 +5,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 part 'typography_colors.g.dart';
 
 @legendStyle
-class TypographyColors {
+abstract class TypographyColorsStyle {
   final Color h0;
   final Color h1;
   final Color h2;
@@ -13,7 +13,7 @@ class TypographyColors {
   final Color h4;
   final Color h5;
 
-  const TypographyColors({
+  const TypographyColorsStyle({
     required this.h0,
     required this.h1,
     required this.h2,
@@ -22,7 +22,7 @@ class TypographyColors {
     required this.h5,
   });
 
-  factory TypographyColors.baseColor({required Color color}) {
+/*  factory TypographyColorsStyle.baseColor({required Color color}) {
     return TypographyColors(
       h0: color,
       h1: color,
@@ -31,5 +31,5 @@ class TypographyColors {
       h4: color,
       h5: color,
     );
-  }
+  }*/
 }

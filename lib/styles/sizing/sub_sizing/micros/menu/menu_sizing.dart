@@ -4,7 +4,7 @@ import 'package:legend_annotations/legend_annotations.dart';
 part 'menu_sizing.g.dart';
 
 @legendStyle
-abstract class MenuSizing {
+abstract class MenuSizingStyle {
   final double spacing;
   final double itemSpacing;
   final EdgeInsetsGeometry padding;
@@ -12,7 +12,7 @@ abstract class MenuSizing {
   final double height;
   final double iconSize;
 
-  const MenuSizing({
+  const MenuSizingStyle({
     required this.spacing,
     required this.borderRadius,
     required this.iconSize,

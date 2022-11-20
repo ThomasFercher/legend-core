@@ -3,18 +3,61 @@
 part of 'sider_layout.dart';
 
 // **************************************************************************
-// CopyGenerator
+// StyleGenerator
 // **************************************************************************
 
-SiderLayout _$copyWith({
-  required SiderLayout instance,
-}) {
-  return SiderLayout();
+abstract class SiderLayoutInfoNull {
+  final bool? left;
+  const SiderLayoutInfoNull({
+    required this.left,
+  });
 }
 
-SiderLayout _$copyWithInstance({
-  required SiderLayout instance,
-  SiderLayout? copyInstance,
-}) {
-  return SiderLayout();
+abstract class SiderLayoutInfo implements SiderLayoutInfoNull {
+  @override
+  final bool left;
+  const SiderLayoutInfo({
+    required this.left,
+  });
+}
+
+class SiderLayoutOverride extends SiderLayoutInfoNull {
+  SiderLayoutOverride({
+    super.left,
+  });
+}
+
+class SiderLayout extends SiderLayoutInfo {
+  SiderLayout({
+    required super.left,
+  });
+  SiderLayout.copy({
+    required super.left,
+  });
+
+// **************************************************************************
+// Override
+// **************************************************************************
+  factory SiderLayout.override(
+    SiderLayout def,
+    SiderLayoutOverride? override,
+  ) {
+    if (override == null) {
+      return def;
+    }
+    return SiderLayout(
+      left: override.left ?? def.left,
+    );
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  SiderLayout copyWith({
+    bool? left,
+  }) {
+    return SiderLayout.copy(
+      left: left ?? this.left,
+    );
+  }
 }

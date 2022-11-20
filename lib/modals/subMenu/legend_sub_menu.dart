@@ -73,8 +73,8 @@ class LegendSubMenu {
     bool hasExited = false;
 
     //Styles
-    SideMenuColorsStyle colors = theme.appBarColors.subMenuColors;
-    SideMenuSizingStyle sizing = theme.appBarSizing.subMenuSizing;
+    final colors = theme.appBarColors.subMenuColors;
+    final sizing = theme.appBarSizing.subMenuSizing;
 
     LegendPopups.showLegendModal(
       context: context,

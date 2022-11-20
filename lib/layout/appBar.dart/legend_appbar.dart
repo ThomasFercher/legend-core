@@ -43,8 +43,8 @@ class LegendAppBar extends LegendWidget {
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = LegendTheme.of(context);
-    MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
-    MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
+    final menuColors = theme.colors.appBar.menuColors;
+    final sizing = theme.appBarSizing.menuSizing;
     final routes = LegendRouter.of(context).topRoutes;
     switch (type) {
       case AppBarLayoutType.MeTiAc:

@@ -22,8 +22,8 @@ class LegendTypography {
 
   factory LegendTypography.applyStyles({
     required LegendTypography base,
-    required TypographyColorsStyle colors,
-    required TypographySizingStyle sizing,
+    required TypographyColors colors,
+    required TypographySizing sizing,
   }) {
     return LegendTypography(
       h0: base.h0.copyWith(color: colors.h0, fontSize: sizing.h0),

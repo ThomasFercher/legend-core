@@ -7,22 +7,11 @@ enum BottomBarSelectionType {
   icon,
 }
 
-@legendCopy
-class BottomBarLayout {
+@legendStyle
+class BottomBarLayoutStyle {
   final BottomBarSelectionType selectionType;
 
-  const BottomBarLayout({
+  const BottomBarLayoutStyle({
     required this.selectionType,
   });
-
-  BottomBarLayout copyWith({
-    BottomBarSelectionType? selectionType,
-  }) =>
-      _$copyWith(
-        instance: this,
-        selectionType: selectionType,
-      );
-
-  BottomBarLayout copyWithInstance(BottomBarLayout? instance) =>
-      _$copyWithInstance(instance: this, copyInstance: instance);
 }

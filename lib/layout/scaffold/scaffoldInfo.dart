@@ -24,7 +24,7 @@ class ScaffoldInfo extends InheritedWidget {
     return result!;
   }
 
-  RouteLayoutStyle getLayout(LegendTheme theme) {
+  RouteLayout getLayout(LegendTheme theme) {
     return scaffold.layout.getLayout(theme.sizing.key);
   }
 

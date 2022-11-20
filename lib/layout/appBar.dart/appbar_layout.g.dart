@@ -39,13 +39,13 @@ class AppBarLayoutOverride extends AppBarLayoutInfoNull {
   });
 }
 
-class AppBarLayoutStyle extends AppBarLayoutInfo {
-  AppBarLayoutStyle({
+class AppBarLayout extends AppBarLayoutInfo {
+  AppBarLayout({
     required super.layout,
     required super.aligment,
     required super.showTabbar,
   });
-  AppBarLayoutStyle.copy({
+  AppBarLayout.copy({
     required super.layout,
     required super.aligment,
     required super.showTabbar,
@@ -54,14 +54,14 @@ class AppBarLayoutStyle extends AppBarLayoutInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory AppBarLayoutStyle.override(
-    AppBarLayoutStyle def,
+  factory AppBarLayout.override(
+    AppBarLayout def,
     AppBarLayoutOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return AppBarLayoutStyle(
+    return AppBarLayout(
       layout: override.layout ?? def.layout,
       aligment: override.aligment ?? def.aligment,
       showTabbar: override.showTabbar ?? def.showTabbar,
@@ -71,12 +71,12 @@ class AppBarLayoutStyle extends AppBarLayoutInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  AppBarLayoutStyle copyWith({
+  AppBarLayout copyWith({
     AppBarLayoutConfig? layout,
     AppBarLayoutType? aligment,
     bool? showTabbar,
   }) {
-    return AppBarLayoutStyle.copy(
+    return AppBarLayout.copy(
       layout: layout ?? this.layout,
       aligment: aligment ?? this.aligment,
       showTabbar: showTabbar ?? this.showTabbar,

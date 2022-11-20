@@ -53,7 +53,7 @@ class SiderColorsComponentsOverride implements SiderColorsComponentsInfo {
 
 class SiderColorsComponents implements SiderColorsComponentsInfo {
   @override
-  final SideMenuColorsStyle menuColors;
+  final SideMenuColors menuColors;
   SiderColorsComponents({
     required this.menuColors,
   });
@@ -77,11 +77,10 @@ class SiderColorsOverride extends SiderColorsInfoNull
   }
 }
 
-class SiderColorsStyle extends SiderColorsInfo
-    implements SiderColorsComponents {
+class SiderColors extends SiderColorsInfo implements SiderColorsComponents {
   @override
-  late final SideMenuColorsStyle menuColors;
-  SiderColorsStyle({
+  late final SideMenuColors menuColors;
+  SiderColors({
     required SiderColorsComponents Function(SiderColorsInfo sizing)
         buildComponents,
     required super.background,
@@ -92,7 +91,7 @@ class SiderColorsStyle extends SiderColorsInfo
     SiderColorsComponents components = buildComponents.call(this);
     menuColors = components.menuColors;
   }
-  SiderColorsStyle.copy({
+  SiderColors.copy({
     required super.background,
     required super.backgroundMenu,
     required super.foreground,
@@ -103,14 +102,14 @@ class SiderColorsStyle extends SiderColorsInfo
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory SiderColorsStyle.override(
-    SiderColorsStyle def,
+  factory SiderColors.override(
+    SiderColors def,
     SiderColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return SiderColorsStyle(
+    return SiderColors(
       background: override.background ?? def.background,
       backgroundMenu: override.backgroundMenu ?? def.backgroundMenu,
       foreground: override.foreground ?? def.foreground,
@@ -118,7 +117,7 @@ class SiderColorsStyle extends SiderColorsInfo
       buildComponents: (_) {
         return SiderColorsComponents(
           menuColors:
-              SideMenuColorsStyle.override(def.menuColors, override.menuColors),
+              SideMenuColors.override(def.menuColors, override.menuColors),
         );
       },
     );
@@ -127,14 +126,14 @@ class SiderColorsStyle extends SiderColorsInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  SiderColorsStyle copyWith({
+  SiderColors copyWith({
     Color? background,
     Color? backgroundMenu,
     Color? foreground,
     Color? selection,
-    SideMenuColorsStyle? menuColors,
+    SideMenuColors? menuColors,
   }) {
-    return SiderColorsStyle.copy(
+    return SiderColors.copy(
       background: background ?? this.background,
       backgroundMenu: backgroundMenu ?? this.backgroundMenu,
       foreground: foreground ?? this.foreground,

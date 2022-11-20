@@ -68,11 +68,11 @@ class AppBarSizingComponentsOverride implements AppBarSizingComponentsInfo {
 
 class AppBarSizingComponents implements AppBarSizingComponentsInfo {
   @override
-  final MenuSizingStyle menuSizing;
+  final MenuSizing menuSizing;
   @override
-  final SideMenuSizingStyle subMenuSizing;
+  final SideMenuSizing subMenuSizing;
   @override
-  final TabbarSizingStyle? tabbarSizing;
+  final TabbarSizing? tabbarSizing;
   AppBarSizingComponents({
     required this.menuSizing,
     required this.subMenuSizing,
@@ -105,15 +105,14 @@ class AppBarSizingOverride extends AppBarSizingInfoNull
   }
 }
 
-class AppBarSizingStyle extends AppBarSizingInfo
-    implements AppBarSizingComponents {
+class AppBarSizing extends AppBarSizingInfo implements AppBarSizingComponents {
   @override
-  late final MenuSizingStyle menuSizing;
+  late final MenuSizing menuSizing;
   @override
-  late final SideMenuSizingStyle subMenuSizing;
+  late final SideMenuSizing subMenuSizing;
   @override
-  late final TabbarSizingStyle? tabbarSizing;
-  AppBarSizingStyle({
+  late final TabbarSizing? tabbarSizing;
+  AppBarSizing({
     required AppBarSizingComponents Function(AppBarSizingInfo sizing)
         buildComponents,
     required super.contentPadding,
@@ -127,7 +126,7 @@ class AppBarSizingStyle extends AppBarSizingInfo
     subMenuSizing = components.subMenuSizing;
     tabbarSizing = components.tabbarSizing;
   }
-  AppBarSizingStyle.copy({
+  AppBarSizing.copy({
     required super.contentPadding,
     required super.logoSize,
     required super.spacing,
@@ -141,14 +140,14 @@ class AppBarSizingStyle extends AppBarSizingInfo
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory AppBarSizingStyle.override(
-    AppBarSizingStyle def,
+  factory AppBarSizing.override(
+    AppBarSizing def,
     AppBarSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return AppBarSizingStyle(
+    return AppBarSizing(
       contentPadding: override.contentPadding ?? def.contentPadding,
       logoSize: override.logoSize ?? def.logoSize,
       spacing: override.spacing ?? def.spacing,
@@ -156,14 +155,12 @@ class AppBarSizingStyle extends AppBarSizingInfo
       iconSize: override.iconSize ?? def.iconSize,
       buildComponents: (_) {
         return AppBarSizingComponents(
-          menuSizing:
-              MenuSizingStyle.override(def.menuSizing, override.menuSizing),
-          subMenuSizing: SideMenuSizingStyle.override(
+          menuSizing: MenuSizing.override(def.menuSizing, override.menuSizing),
+          subMenuSizing: SideMenuSizing.override(
               def.subMenuSizing, override.subMenuSizing),
           tabbarSizing: def.tabbarSizing == null
               ? null
-              : TabbarSizingStyle.override(
-                  def.tabbarSizing!, override.tabbarSizing),
+              : TabbarSizing.override(def.tabbarSizing!, override.tabbarSizing),
         );
       },
     );
@@ -172,17 +169,17 @@ class AppBarSizingStyle extends AppBarSizingInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  AppBarSizingStyle copyWith({
+  AppBarSizing copyWith({
     EdgeInsets? contentPadding,
     double? logoSize,
     double? spacing,
     double? appBarHeight,
     double? iconSize,
-    MenuSizingStyle? menuSizing,
-    SideMenuSizingStyle? subMenuSizing,
-    TabbarSizingStyle? tabbarSizing,
+    MenuSizing? menuSizing,
+    SideMenuSizing? subMenuSizing,
+    TabbarSizing? tabbarSizing,
   }) {
-    return AppBarSizingStyle.copy(
+    return AppBarSizing.copy(
       contentPadding: contentPadding ?? this.contentPadding,
       logoSize: logoSize ?? this.logoSize,
       spacing: spacing ?? this.spacing,

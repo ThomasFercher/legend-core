@@ -8,21 +8,11 @@ enum MenuDrawerLayoutType {
   beneathAppBar,
 }
 
-@legendCopy
-class MenuDrawerLayout {
+@legendStyle
+class MenuDrawerLayoutStyle {
   final MenuDrawerLayoutType type;
 
-  const MenuDrawerLayout({
+  const MenuDrawerLayoutStyle({
     required this.type,
   });
-  MenuDrawerLayout copyWithInstance(MenuDrawerLayout? instance) =>
-      _$copyWithInstance(instance: this, copyInstance: instance);
-
-  MenuDrawerLayout copyWith(
-    MenuDrawerLayoutType type,
-  ) =>
-      _$copyWith(
-        instance: this,
-        type: type,
-      );
 }

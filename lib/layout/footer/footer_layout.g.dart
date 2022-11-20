@@ -3,18 +3,38 @@
 part of 'footer_layout.dart';
 
 // **************************************************************************
-// CopyGenerator
+// StyleGenerator
 // **************************************************************************
 
-FooterLayout _$copyWith({
-  required FooterLayout instance,
-}) {
-  return FooterLayout();
+abstract class FooterLayoutInfoNull {}
+
+abstract class FooterLayoutInfo implements FooterLayoutInfoNull {}
+
+class FooterLayoutOverride extends FooterLayoutInfoNull {
+  FooterLayoutOverride();
 }
 
-FooterLayout _$copyWithInstance({
-  required FooterLayout instance,
-  FooterLayout? copyInstance,
-}) {
-  return FooterLayout();
+class FooterLayout extends FooterLayoutInfo {
+  FooterLayout();
+  FooterLayout.copy();
+
+// **************************************************************************
+// Override
+// **************************************************************************
+  factory FooterLayout.override(
+    FooterLayout def,
+    FooterLayoutOverride? override,
+  ) {
+    if (override == null) {
+      return def;
+    }
+    return FooterLayout();
+  }
+
+// **************************************************************************
+// Copy With
+// **************************************************************************
+  FooterLayout copyWith() {
+    return FooterLayout.copy();
+  }
 }

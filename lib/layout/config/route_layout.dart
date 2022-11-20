@@ -13,23 +13,31 @@ part 'route_layout.g.dart';
 /// Both [LegendScaffold] and [LegendRouteBody], which are used to display the core of your app and pages, depend
 /// on [RouteLayout] to layout. This class allows you to define a Layout for every possibility there is in Cross Platform Apps.
 ///
-@legendStyle
-class RouteLayout {
-  final AppBarLayoutStyle appBarLayout;
-  final SiderLayout? siderLayout;
-  final FooterLayout? footerLayout;
-  final BottomBarLayout? bottomBarLayout;
-  final MenuDrawerLayout? menuDrawerLayout;
+@LegendStyle(nullable: true)
+abstract class RouteLayoutStyle {
+  @LegendSubStyleField()
+  final AppBarLayoutStyle? appBarLayout;
+  @LegendSubStyleField()
+  final SiderLayoutStyle? siderLayout;
+  @LegendSubStyleField()
+  final FooterLayoutStyle? footerLayout;
+  @LegendSubStyleField()
+  final BottomBarLayoutStyle? bottomBarLayout;
+  @LegendSubStyleField()
+  final MenuDrawerLayoutStyle? menuDrawerLayout;
 
-  const RouteLayout({
+  // TODO: Implement Annotation for Fields which need override Methods on for buildMethod (current) and one for without build method
+
+  RouteLayoutStyle({
     required this.appBarLayout,
-    this.siderLayout,
-    this.footerLayout,
-    this.bottomBarLayout,
-    this.menuDrawerLayout,
+    required this.siderLayout,
+    required this.footerLayout,
+    required this.bottomBarLayout,
+    required this.menuDrawerLayout,
   });
 
-  bool get appBarHasTabbar => appBarLayout.showTabbar == true;
+  bool get appBarHasTabbar =>
+      appBarLayout?.showTabbar == true; // TODO: Copy in Generator
 
   /* RouteLayout copyWith({
     AppBarLayout? appBarLayout,

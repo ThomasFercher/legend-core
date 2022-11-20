@@ -49,8 +49,8 @@ class LegendSliverBar extends LegendWidget {
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = LegendTheme.of(context);
-    MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
-    MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
+    final menuColors = theme.colors.appBar.menuColors;
+    final sizing = theme.appBarSizing.menuSizing;
     final routes = LegendRouter.of(context).routes.get<PageInfo>();
     switch (type) {
       case AppBarLayoutType.MeTiAc:
@@ -75,7 +75,7 @@ class LegendSliverBar extends LegendWidget {
     final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context).getLayout(theme);
 
-    if (layout.appBarHasTabbar && route != null) {
+    if (layout.appBarLayout?.showTabbar == true && route != null) {
       var routes = [route];
 
       if (route.children != null && route.children!.isNotEmpty) {
