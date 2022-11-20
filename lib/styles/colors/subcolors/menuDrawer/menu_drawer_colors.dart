@@ -5,25 +5,25 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidem
 part 'menu_drawer_colors.g.dart';
 
 @legendStyle
-abstract class MenuDrawerColors {
+abstract class MenuDrawerColorsStyle {
   final Color background;
   final Color backgroundMenu;
   final Color foreground;
-  final Color foreground_selection;
-  final Color background_selection;
-  final Color background_menu_selection;
-  final Color foreground_menu_selction;
+  final Color foregroundSelection;
+  final Color backgroundSelection;
+  final Color backgroundMenuSelection;
+  final Color foregroundMenuSelection;
+  @LegendSubStyle()
+  final SideMenuColorsStyle menuColors;
 
-  late final SideMenuColors menuColors;
-
-  MenuDrawerColors({
-    required this.background,
-    required this.backgroundMenu,
-    required this.foreground,
-    required this.foreground_selection,
-    required this.background_selection,
-    required this.background_menu_selection,
-    required this.foreground_menu_selction,
-    required this.menuColors,
-  });
+  const MenuDrawerColorsStyle(
+    this.background,
+    this.backgroundMenu,
+    this.foreground,
+    this.foregroundSelection,
+    this.backgroundSelection,
+    this.backgroundMenuSelection,
+    this.foregroundMenuSelection,
+    this.menuColors,
+  );
 }

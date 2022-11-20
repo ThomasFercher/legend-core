@@ -10,18 +10,18 @@ abstract class MenuDrawerColorsInfoNull {
   final Color? background;
   final Color? backgroundMenu;
   final Color? foreground;
-  final Color? foreground_selection;
-  final Color? background_selection;
-  final Color? background_menu_selection;
-  final Color? foreground_menu_selction;
+  final Color? foregroundSelection;
+  final Color? backgroundSelection;
+  final Color? backgroundMenuSelection;
+  final Color? foregroundMenuSelection;
   const MenuDrawerColorsInfoNull({
     required this.background,
     required this.backgroundMenu,
     required this.foreground,
-    required this.foreground_selection,
-    required this.background_selection,
-    required this.background_menu_selection,
-    required this.foreground_menu_selction,
+    required this.foregroundSelection,
+    required this.backgroundSelection,
+    required this.backgroundMenuSelection,
+    required this.foregroundMenuSelection,
   });
 }
 
@@ -33,21 +33,21 @@ abstract class MenuDrawerColorsInfo implements MenuDrawerColorsInfoNull {
   @override
   final Color foreground;
   @override
-  final Color foreground_selection;
+  final Color foregroundSelection;
   @override
-  final Color background_selection;
+  final Color backgroundSelection;
   @override
-  final Color background_menu_selection;
+  final Color backgroundMenuSelection;
   @override
-  final Color foreground_menu_selction;
+  final Color foregroundMenuSelection;
   const MenuDrawerColorsInfo({
     required this.background,
     required this.backgroundMenu,
     required this.foreground,
-    required this.foreground_selection,
-    required this.background_selection,
-    required this.background_menu_selection,
-    required this.foreground_menu_selction,
+    required this.foregroundSelection,
+    required this.backgroundSelection,
+    required this.backgroundMenuSelection,
+    required this.foregroundMenuSelection,
   });
 }
 
@@ -69,7 +69,7 @@ class MenuDrawerColorsComponentsOverride
 
 class MenuDrawerColorsComponents implements MenuDrawerColorsComponentsInfo {
   @override
-  final SideMenuColorsStyle menuColors;
+  final SideMenuColors menuColors;
   MenuDrawerColorsComponents({
     required this.menuColors,
   });
@@ -86,10 +86,10 @@ class MenuDrawerColorsOverride extends MenuDrawerColorsInfoNull
     super.background,
     super.backgroundMenu,
     super.foreground,
-    super.foreground_selection,
-    super.background_selection,
-    super.background_menu_selection,
-    super.foreground_menu_selction,
+    super.foregroundSelection,
+    super.backgroundSelection,
+    super.backgroundMenuSelection,
+    super.foregroundMenuSelection,
   }) {
     MenuDrawerColorsComponentsOverride? components =
         buildComponents?.call(this);
@@ -97,61 +97,61 @@ class MenuDrawerColorsOverride extends MenuDrawerColorsInfoNull
   }
 }
 
-class MenuDrawerColorsStyle extends MenuDrawerColorsInfo
+class MenuDrawerColors extends MenuDrawerColorsInfo
     implements MenuDrawerColorsComponents {
   @override
-  late final SideMenuColorsStyle menuColors;
-  MenuDrawerColorsStyle({
+  late final SideMenuColors menuColors;
+  MenuDrawerColors({
     required MenuDrawerColorsComponents Function(MenuDrawerColorsInfo sizing)
         buildComponents,
     required super.background,
     required super.backgroundMenu,
     required super.foreground,
-    required super.foreground_selection,
-    required super.background_selection,
-    required super.background_menu_selection,
-    required super.foreground_menu_selction,
+    required super.foregroundSelection,
+    required super.backgroundSelection,
+    required super.backgroundMenuSelection,
+    required super.foregroundMenuSelection,
   }) {
     MenuDrawerColorsComponents components = buildComponents.call(this);
     menuColors = components.menuColors;
   }
-  MenuDrawerColorsStyle.copy({
+  MenuDrawerColors.copy({
     required super.background,
     required super.backgroundMenu,
     required super.foreground,
-    required super.foreground_selection,
-    required super.background_selection,
-    required super.background_menu_selection,
-    required super.foreground_menu_selction,
+    required super.foregroundSelection,
+    required super.backgroundSelection,
+    required super.backgroundMenuSelection,
+    required super.foregroundMenuSelection,
     required this.menuColors,
   });
 
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory MenuDrawerColorsStyle.override(
-    MenuDrawerColorsStyle def,
+  factory MenuDrawerColors.override(
+    MenuDrawerColors def,
     MenuDrawerColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return MenuDrawerColorsStyle(
+    return MenuDrawerColors(
       background: override.background ?? def.background,
       backgroundMenu: override.backgroundMenu ?? def.backgroundMenu,
       foreground: override.foreground ?? def.foreground,
-      foreground_selection:
-          override.foreground_selection ?? def.foreground_selection,
-      background_selection:
-          override.background_selection ?? def.background_selection,
-      background_menu_selection:
-          override.background_menu_selection ?? def.background_menu_selection,
-      foreground_menu_selction:
-          override.foreground_menu_selction ?? def.foreground_menu_selction,
+      foregroundSelection:
+          override.foregroundSelection ?? def.foregroundSelection,
+      backgroundSelection:
+          override.backgroundSelection ?? def.backgroundSelection,
+      backgroundMenuSelection:
+          override.backgroundMenuSelection ?? def.backgroundMenuSelection,
+      foregroundMenuSelection:
+          override.foregroundMenuSelection ?? def.foregroundMenuSelection,
       buildComponents: (_) {
         return MenuDrawerColorsComponents(
           menuColors:
-              SideMenuColorsStyle.override(def.menuColors, override.menuColors),
+              SideMenuColors.override(def.menuColors, override.menuColors),
         );
       },
     );
@@ -160,26 +160,26 @@ class MenuDrawerColorsStyle extends MenuDrawerColorsInfo
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  MenuDrawerColorsStyle copyWith({
+  MenuDrawerColors copyWith({
     Color? background,
     Color? backgroundMenu,
     Color? foreground,
-    Color? foreground_selection,
-    Color? background_selection,
-    Color? background_menu_selection,
-    Color? foreground_menu_selction,
-    SideMenuColorsStyle? menuColors,
+    Color? foregroundSelection,
+    Color? backgroundSelection,
+    Color? backgroundMenuSelection,
+    Color? foregroundMenuSelection,
+    SideMenuColors? menuColors,
   }) {
-    return MenuDrawerColorsStyle.copy(
+    return MenuDrawerColors.copy(
       background: background ?? this.background,
       backgroundMenu: backgroundMenu ?? this.backgroundMenu,
       foreground: foreground ?? this.foreground,
-      foreground_selection: foreground_selection ?? this.foreground_selection,
-      background_selection: background_selection ?? this.background_selection,
-      background_menu_selection:
-          background_menu_selection ?? this.background_menu_selection,
-      foreground_menu_selction:
-          foreground_menu_selction ?? this.foreground_menu_selction,
+      foregroundSelection: foregroundSelection ?? this.foregroundSelection,
+      backgroundSelection: backgroundSelection ?? this.backgroundSelection,
+      backgroundMenuSelection:
+          backgroundMenuSelection ?? this.backgroundMenuSelection,
+      foregroundMenuSelection:
+          foregroundMenuSelection ?? this.foregroundMenuSelection,
       menuColors: menuColors ?? this.menuColors,
     );
   }

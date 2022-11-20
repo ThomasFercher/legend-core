@@ -157,7 +157,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                     icon: Icons.close,
                     disableShadow: true,
                     theme: LegendAnimtedIconTheme(
-                      enabled: colors.foreground_selection,
+                      enabled: colors.foregroundSelection,
                       disabled: colors.foreground,
                     ),
                     onPressed: () {

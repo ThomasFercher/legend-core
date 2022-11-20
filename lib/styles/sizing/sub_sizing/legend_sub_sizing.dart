@@ -9,17 +9,17 @@ import 'sider/sider_sizing.dart';
 
 abstract class LegendSubSizingInfo implements LegendSubSizingInfoNull {
   @override
-  final AppBarSizingStyle appBarSizing;
+  final AppBarSizing appBarSizing;
   @override
-  final BottomBarSizingStyle bottomBarSizing;
+  final BottomBarSizing bottomBarSizing;
   @override
-  final TypographySizingStyle typographySizing;
+  final TypographySizing typographySizing;
   @override
-  final SiderSizingStyle siderSizing;
+  final SiderSizing siderSizing;
   @override
-  final MenuDrawerSizingStyle menuDrawerSizing;
+  final MenuDrawerSizing menuDrawerSizing;
   @override
-  final FooterSizingStyle footerSizing;
+  final FooterSizing footerSizing;
 
   const LegendSubSizingInfo({
     required this.appBarSizing,

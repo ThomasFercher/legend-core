@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:legend_annotations/legend_annotations.dart';
+
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 
 part 'menuDrawer_sizing.g.dart';
 
 @legendStyle
-abstract class MenuDrawerSizing {
+abstract class MenuDrawerSizingStyle {
   final double width;
   final double iconSize;
   final double spacing;
@@ -14,9 +15,10 @@ abstract class MenuDrawerSizing {
   final double subMenuIconSize;
   final EdgeInsets itemPadding;
   final EdgeInsets subItemPadding;
-  late final SideMenuSizing sideMenuSizing;
+  @LegendSubStyle()
+  final SideMenuSizingStyle sideMenuSizing;
 
-  MenuDrawerSizing({
+  MenuDrawerSizingStyle({
     required this.width,
     required this.iconSize,
     required this.spacing,

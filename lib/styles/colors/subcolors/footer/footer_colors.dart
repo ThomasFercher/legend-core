@@ -5,11 +5,11 @@ import 'package:legend_utils/functions/functions.dart';
 part 'footer_colors.g.dart';
 
 @legendStyle
-abstract class FooterColors {
+abstract class FooterColorsStyle {
   final Color background;
   final Color foreground;
 
-  const FooterColors({
+  const FooterColorsStyle({
     required this.background,
     required this.foreground,
   });

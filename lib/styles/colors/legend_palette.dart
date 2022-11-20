@@ -97,22 +97,22 @@ class LegendPalette implements LegendCoreColors {
   // These Themes, if null, will get generated with the required colors.
 
   /// Footer Color Palette
-  late final FooterColorsStyle footer;
+  late final FooterColors footer;
 
   /// AppBar Color Palette
-  late final AppBarColorsStyle appBar;
+  late final AppBarColors appBar;
 
   /// Sider Color Palette
-  late final SiderColorsStyle sider;
+  late final SiderColors sider;
 
   /// BottomBar Color Palette
-  late final BottomBarColorsStyle bottomBar;
+  late final BottomBarColors bottomBar;
 
   /// Typography Color Palette
-  late final TypographyColorsStyle typography;
+  late final TypographyColors typography;
 
   /// Typography Color Palette
-  late final MenuDrawerColorsStyle menuDrawer;
+  late final MenuDrawerColors menuDrawer;
 
   final LegendSubColors Function(LegendCoreColors colors)? subcolors;
 
@@ -148,7 +148,7 @@ class LegendPalette implements LegendCoreColors {
     LegendSubColors subColors = subcolors?.call(this) ?? LegendSubColors();
 
     // Typography
-    TypographyColorsStyle typographyColors = TypographyColorsStyle(
+    TypographyColors typographyColors = TypographyColors(
       h0: foreground1,
       h1: foreground2,
       h2: foreground3,
@@ -157,38 +157,38 @@ class LegendPalette implements LegendCoreColors {
       h5: foreground5,
     );
     typography =
-        TypographyColorsStyle.override(typographyColors, subColors.typography);
+        TypographyColors.override(typographyColors, subColors.typography);
 
     // Footer
-    FooterColorsStyle footerColors = FooterColorsStyle(
+    FooterColors footerColors = FooterColors(
       background: background4,
       foreground: foreground4,
     );
-    footer = FooterColorsStyle.override(footerColors, subColors.footer);
+    footer = FooterColors.override(footerColors, subColors.footer);
 
     // AppBar
-    AppBarColorsStyle appBarColors = AppBarColorsStyle(
+    AppBarColors appBarColors = AppBarColors(
       background: primary,
       icon: foreground1,
       selected: selection,
       foreground: foreground1,
       buildComponents: (AppBarColorsInfo colors) {
         return AppBarColorsComponents(
-          menuColors: MenuColorsStyle(
+          menuColors: MenuColors(
             activeBackground: colors.background.lighten(),
             activeForeground: colors.selected,
             background: colors.background,
             foreground: colors.foreground,
             menuBackground: colors.background,
           ),
-          subMenuColors: SideMenuColorsStyle(
+          subMenuColors: SideMenuColors(
             activeBackground: colors.background.lighten(),
             activeForeground: colors.selected,
             background: colors.background,
             foreground: colors.foreground,
             menuBackground: colors.background,
           ),
-          tabbarColors: TabbarColorsStyle(
+          tabbarColors: TabbarColors(
             background: colors.foreground,
             foreground: colors.foreground,
             selection: colors.selected,
@@ -197,26 +197,25 @@ class LegendPalette implements LegendCoreColors {
         );
       },
     );
-    appBar = AppBarColorsStyle.override(appBarColors, subColors.appBar);
+    appBar = AppBarColors.override(appBarColors, subColors.appBar);
 
     // BottomBar
-    BottomBarColorsStyle bottomBarColors = BottomBarColorsStyle(
+    BottomBarColors bottomBarColors = BottomBarColors(
       backgroundColor: background1,
       activeColor: selection,
       disabledColor: disabled,
     );
-    bottomBar =
-        BottomBarColorsStyle.override(bottomBarColors, subColors.bottomBar);
+    bottomBar = BottomBarColors.override(bottomBarColors, subColors.bottomBar);
 
     // Sider
-    SiderColorsStyle siderColors = SiderColorsStyle(
+    SiderColors siderColors = SiderColors(
         background: background1,
         foreground: foreground1,
         selection: selection,
         backgroundMenu: background1,
         buildComponents: (colors) {
           return SiderColorsComponents(
-            menuColors: SideMenuColorsStyle(
+            menuColors: SideMenuColors(
               background: colors.background,
               activeForeground: colors.selection,
               activeBackground: colors.background.lighten(),
@@ -225,22 +224,22 @@ class LegendPalette implements LegendCoreColors {
             ),
           );
         });
-    sider = SiderColorsStyle.override(siderColors, subColors.sider);
+    sider = SiderColors.override(siderColors, subColors.sider);
 
     // Menu Drawer
-    MenuDrawerColorsStyle menuDrawerColors = MenuDrawerColorsStyle(
+    MenuDrawerColors menuDrawerColors = MenuDrawerColors(
       background: primary,
       backgroundMenu: onPrimary,
-      background_menu_selection: onPrimary.lighten(),
-      background_selection: onPrimary,
+      backgroundMenuSelection: onPrimary.lighten(),
+      backgroundSelection: onPrimary,
       foreground: foreground1,
-      foreground_menu_selction: selection,
-      foreground_selection: selection,
+      foregroundMenuSelection: selection,
+      foregroundSelection: selection,
       buildComponents: (MenuDrawerColorsInfo colors) {
         return MenuDrawerColorsComponents(
-          menuColors: SideMenuColorsStyle(
+          menuColors: SideMenuColors(
             activeBackground: colors.background.lighten(),
-            activeForeground: colors.foreground_selection,
+            activeForeground: colors.foregroundSelection,
             background: colors.background,
             foreground: colors.foreground,
             menuBackground: colors.backgroundMenu,
@@ -248,7 +247,7 @@ class LegendPalette implements LegendCoreColors {
         );
       },
     );
-    menuDrawer = MenuDrawerColorsStyle.override(
+    menuDrawer = MenuDrawerColors.override(
       menuDrawerColors,
       subColors.menuDrawer,
     );

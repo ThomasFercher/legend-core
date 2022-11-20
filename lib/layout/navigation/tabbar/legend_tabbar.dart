@@ -21,7 +21,7 @@ class LegendTabBar extends LegendWidget {
     final routeLayout = ScaffoldInfo.of(context).getLayout(theme);
     final current = ScaffoldInfo.of(context).routeInfo;
 
-    if (routeLayout.appBarHasTabbar) {
+    if (routeLayout.appBarLayout?.showTabbar == true) {
       final double height = theme.appBarSizing.tabbarSizing?.height ?? 56;
 
       for (int i = 0; i < routes.length; i++) {

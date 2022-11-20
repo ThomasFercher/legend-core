@@ -1,13 +1,18 @@
+import 'package:legend_annotations/legend_annotations.dart';
+
+part 'menu_drawer_layout.g.dart';
+
 enum MenuDrawerLayoutType {
   drawerRight,
   drawerLeft,
   beneathAppBar,
 }
 
-class MenuDrawerLayout {
+@legendStyle
+class MenuDrawerLayoutStyle {
   final MenuDrawerLayoutType type;
 
-  const MenuDrawerLayout({
+  const MenuDrawerLayoutStyle({
     required this.type,
   });
 }

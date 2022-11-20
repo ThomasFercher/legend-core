@@ -7,7 +7,7 @@ import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/bottom/scaffold_header_bottom.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import '../../../appBar.dart/appbar_layout_config.dart';
+import '../../../appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import '../../scaffoldInfo.dart';
 

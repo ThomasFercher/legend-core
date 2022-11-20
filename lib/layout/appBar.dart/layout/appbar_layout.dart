@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'appbar_layout_renderbox.dart';
 
 enum AppBarItem {

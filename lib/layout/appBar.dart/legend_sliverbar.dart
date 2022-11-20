@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
-import 'package:legend_design_core/layout/appBar.dart/appbar_layout_config.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/legend_backbutton.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
@@ -49,8 +49,8 @@ class LegendSliverBar extends LegendWidget {
 
   FixedMenu getMenu(BuildContext context) {
     LegendTheme theme = LegendTheme.of(context);
-    MenuColorsStyle menuColors = theme.colors.appBar.menuColors;
-    MenuSizingStyle sizing = theme.appBarSizing.menuSizing;
+    final menuColors = theme.colors.appBar.menuColors;
+    final sizing = theme.appBarSizing.menuSizing;
     final routes = LegendRouter.of(context).routes.get<PageInfo>();
     switch (type) {
       case AppBarLayoutType.MeTiAc:
@@ -75,7 +75,7 @@ class LegendSliverBar extends LegendWidget {
     final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context).getLayout(theme);
 
-    if (layout.appBarHasTabbar && route != null) {
+    if (layout.appBarLayout?.showTabbar == true && route != null) {
       var routes = [route];
 
       if (route.children != null && route.children!.isNotEmpty) {

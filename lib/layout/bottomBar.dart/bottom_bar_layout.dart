@@ -1,12 +1,17 @@
+import 'package:legend_annotations/legend_annotations.dart';
+
+part 'bottom_bar_layout.g.dart';
+
 enum BottomBarSelectionType {
   whole,
   icon,
 }
 
-class BottomBarLayout {
+@legendStyle
+class BottomBarLayoutStyle {
   final BottomBarSelectionType selectionType;
 
-  const BottomBarLayout({
+  const BottomBarLayoutStyle({
     required this.selectionType,
   });
 }

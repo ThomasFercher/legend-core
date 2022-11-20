@@ -1,7 +1,7 @@
 export 'package:legend_design_core/layout/scaffold/config/builders.dart';
 export 'package:legend_design_core/layout/scaffold/config/whether.dart';
 
-import 'package:legend_design_core/layout/layout_config.dart';
+import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 

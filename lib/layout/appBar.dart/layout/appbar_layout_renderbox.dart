@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '../appbar_layout_config.dart';
+import '../appbar_layout.dart';
 import 'appbar_layout.dart';
 
 class AppBarLayoutRenderBox extends RenderBox

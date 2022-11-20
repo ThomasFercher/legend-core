@@ -5,12 +5,12 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/footer/footer_sizing
 import 'package:legend_design_core/state/legend_state.dart';
 
 class FixedFooter extends LegendWidget {
-  final FooterSizingStyle? sizing;
-  final FooterColorsStyle? colors;
+  final FooterSizing? sizing;
+  final FooterColors? colors;
   final Widget Function(
     BuildContext context,
-    FooterColorsStyle colors,
-    FooterSizingStyle sizing,
+    FooterColors colors,
+    FooterSizing sizing,
   ) builder;
 
   FixedFooter({
@@ -21,8 +21,8 @@ class FixedFooter extends LegendWidget {
   });
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    FooterSizingStyle size = sizing ?? theme.sizing.footerSizing;
-    FooterColorsStyle color = colors ?? theme.colors.footer;
+    final size = sizing ?? theme.sizing.footerSizing;
+    final color = colors ?? theme.colors.footer;
 
     return Container(
       width: MediaQuery.of(context).size.width,

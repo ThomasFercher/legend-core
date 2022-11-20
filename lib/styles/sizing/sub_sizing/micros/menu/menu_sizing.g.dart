@@ -57,8 +57,8 @@ class MenuSizingOverride extends MenuSizingInfoNull {
   });
 }
 
-class MenuSizingStyle extends MenuSizingInfo {
-  MenuSizingStyle({
+class MenuSizing extends MenuSizingInfo {
+  MenuSizing({
     required super.spacing,
     required super.itemSpacing,
     required super.padding,
@@ -66,7 +66,7 @@ class MenuSizingStyle extends MenuSizingInfo {
     required super.height,
     required super.iconSize,
   });
-  MenuSizingStyle.copy({
+  MenuSizing.copy({
     required super.spacing,
     required super.itemSpacing,
     required super.padding,
@@ -78,14 +78,14 @@ class MenuSizingStyle extends MenuSizingInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory MenuSizingStyle.override(
-    MenuSizingStyle def,
+  factory MenuSizing.override(
+    MenuSizing def,
     MenuSizingOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return MenuSizingStyle(
+    return MenuSizing(
       spacing: override.spacing ?? def.spacing,
       itemSpacing: override.itemSpacing ?? def.itemSpacing,
       padding: override.padding ?? def.padding,
@@ -98,7 +98,7 @@ class MenuSizingStyle extends MenuSizingInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  MenuSizingStyle copyWith({
+  MenuSizing copyWith({
     double? spacing,
     double? itemSpacing,
     EdgeInsetsGeometry? padding,
@@ -106,7 +106,7 @@ class MenuSizingStyle extends MenuSizingInfo {
     double? height,
     double? iconSize,
   }) {
-    return MenuSizingStyle.copy(
+    return MenuSizing.copy(
       spacing: spacing ?? this.spacing,
       itemSpacing: itemSpacing ?? this.itemSpacing,
       padding: padding ?? this.padding,

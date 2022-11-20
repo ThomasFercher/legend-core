@@ -51,15 +51,15 @@ class SideMenuColorsOverride extends SideMenuColorsInfoNull {
   });
 }
 
-class SideMenuColorsStyle extends SideMenuColorsInfo {
-  SideMenuColorsStyle({
+class SideMenuColors extends SideMenuColorsInfo {
+  SideMenuColors({
     required super.background,
     required super.activeForeground,
     required super.activeBackground,
     required super.foreground,
     required super.menuBackground,
   });
-  SideMenuColorsStyle.copy({
+  SideMenuColors.copy({
     required super.background,
     required super.activeForeground,
     required super.activeBackground,
@@ -70,14 +70,14 @@ class SideMenuColorsStyle extends SideMenuColorsInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory SideMenuColorsStyle.override(
-    SideMenuColorsStyle def,
+  factory SideMenuColors.override(
+    SideMenuColors def,
     SideMenuColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return SideMenuColorsStyle(
+    return SideMenuColors(
       background: override.background ?? def.background,
       activeForeground: override.activeForeground ?? def.activeForeground,
       activeBackground: override.activeBackground ?? def.activeBackground,
@@ -89,14 +89,14 @@ class SideMenuColorsStyle extends SideMenuColorsInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  SideMenuColorsStyle copyWith({
+  SideMenuColors copyWith({
     Color? background,
     Color? activeForeground,
     Color? activeBackground,
     Color? foreground,
     Color? menuBackground,
   }) {
-    return SideMenuColorsStyle.copy(
+    return SideMenuColors.copy(
       background: background ?? this.background,
       activeForeground: activeForeground ?? this.activeForeground,
       activeBackground: activeBackground ?? this.activeBackground,

@@ -5,12 +5,12 @@ import 'package:legend_utils/functions/functions.dart';
 part 'bottom_bar_colors.g.dart';
 
 @legendStyle
-abstract class BottomBarColors {
+abstract class BottomBarColorsStyle {
   final Color activeColor;
   final Color disabledColor;
   final Color backgroundColor;
 
-  const BottomBarColors({
+  const BottomBarColorsStyle({
     required this.activeColor,
     required this.disabledColor,
     required this.backgroundColor,

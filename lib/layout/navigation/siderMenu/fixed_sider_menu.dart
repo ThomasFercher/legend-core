@@ -6,9 +6,6 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/submenu/sider_submenu.dart';
-import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_utils/extensions/extensions.dart';
-import 'package:legend_utils/functions/functions.dart';
 
 class FixedSiderMenu extends StatefulWidget {
   final double width;
@@ -18,8 +15,8 @@ class FixedSiderMenu extends StatefulWidget {
   final List<RouteInfo> options;
   final bool hasToPop;
   final bool hasToPopMenuDrawer;
-  final SideMenuColorsStyle colors;
-  final SideMenuSizingStyle sizing;
+  final SideMenuColors colors;
+  final SideMenuSizing sizing;
   final TextStyle textStyle;
   late final bool collapsed;
 
@@ -59,8 +56,8 @@ class FixedSiderMenu extends StatefulWidget {
 class _FixedSiderMenuState extends State<FixedSiderMenu> {
   late int? hovered;
 
-  SideMenuColorsStyle get colors => widget.colors;
-  SideMenuSizingStyle get sizing => widget.sizing;
+  SideMenuColors get colors => widget.colors;
+  SideMenuSizing get sizing => widget.sizing;
 
   @override
   void initState() {

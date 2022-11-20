@@ -45,14 +45,14 @@ class TabbarColorsOverride extends TabbarColorsInfoNull {
   });
 }
 
-class TabbarColorsStyle extends TabbarColorsInfo {
-  TabbarColorsStyle({
+class TabbarColors extends TabbarColorsInfo {
+  TabbarColors({
     required super.background,
     required super.foreground,
     required super.selection,
     required super.disabled,
   });
-  TabbarColorsStyle.copy({
+  TabbarColors.copy({
     required super.background,
     required super.foreground,
     required super.selection,
@@ -62,14 +62,14 @@ class TabbarColorsStyle extends TabbarColorsInfo {
 // **************************************************************************
 // Override
 // **************************************************************************
-  factory TabbarColorsStyle.override(
-    TabbarColorsStyle def,
+  factory TabbarColors.override(
+    TabbarColors def,
     TabbarColorsOverride? override,
   ) {
     if (override == null) {
       return def;
     }
-    return TabbarColorsStyle(
+    return TabbarColors(
       background: override.background ?? def.background,
       foreground: override.foreground ?? def.foreground,
       selection: override.selection ?? def.selection,
@@ -80,13 +80,13 @@ class TabbarColorsStyle extends TabbarColorsInfo {
 // **************************************************************************
 // Copy With
 // **************************************************************************
-  TabbarColorsStyle copyWith({
+  TabbarColors copyWith({
     Color? background,
     Color? foreground,
     Color? selection,
     Color? disabled,
   }) {
-    return TabbarColorsStyle.copy(
+    return TabbarColors.copy(
       background: background ?? this.background,
       foreground: foreground ?? this.foreground,
       selection: selection ?? this.selection,

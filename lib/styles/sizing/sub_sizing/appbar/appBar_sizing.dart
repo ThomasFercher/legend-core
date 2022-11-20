@@ -7,22 +7,28 @@ import 'package:legend_design_core/styles/sizing/sub_sizing/micros/tabbar/tabbar
 part 'appBar_sizing.g.dart';
 
 @legendStyle
-abstract class AppBarSizing {
+abstract class AppBarSizingStyle {
   final EdgeInsets contentPadding;
   final double logoSize;
   final double spacing;
   final double appBarHeight;
   final double iconSize;
-  late final MenuSizing menuSizing;
-  late final SideMenuSizing subMenuSizing;
-  late final TabbarSizing? tabbarSizing;
 
-  AppBarSizing({
-    required this.appBarHeight,
-    required this.contentPadding,
-    required this.iconSize,
-    required this.spacing,
-    required this.logoSize,
-    required this.menuSizing,
-  });
+  @LegendSubStyle()
+  final MenuSizingStyle menuSizing;
+  @LegendSubStyle()
+  final SideMenuSizingStyle subMenuSizing;
+  @LegendSubStyle()
+  final TabbarSizingStyle? tabbarSizing;
+
+  const AppBarSizingStyle(
+    this.contentPadding,
+    this.logoSize,
+    this.spacing,
+    this.appBarHeight,
+    this.iconSize,
+    this.menuSizing,
+    this.subMenuSizing,
+    this.tabbarSizing,
+  );
 }

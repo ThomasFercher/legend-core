@@ -1,28 +1,19 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:legend_design_core/interfaces/route_inferface.dart';
 import 'package:legend_design_core/interfaces/theme_interface.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
-import 'package:legend_design_core/layout/layout_config.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_frame.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/theme_provider.dart';
-
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_router/router/modal_router.dart';
 import 'package:legend_router/router/modals/global_modal.dart';
 import 'package:legend_router/router/route_info_parser.dart';
-
-import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
-
 import 'data/asset_loader.dart';
 import 'layout/bottomBar.dart/bottom_bar_provider.dart';
 
