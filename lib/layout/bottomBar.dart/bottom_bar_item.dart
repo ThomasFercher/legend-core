@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
-import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/legend_router.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 
 class BottomBarItem extends LegendWidget {

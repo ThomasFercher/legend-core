@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/layout/config/route_layout.dart';
-import 'package:legend_design_core/layout/footer/footer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/legend_router.dart';
 
 class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;

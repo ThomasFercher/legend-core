@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import '../scaffoldInfo.dart';
+import '../scaffold_info.dart';
 
 class ScaffoldFooter extends LegendWidget {
   const ScaffoldFooter({Key? key}) : super(key: key);

@@ -5,11 +5,7 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_til
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
-
-import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-
 import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
@@ -66,7 +62,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
 
   @override
   void didChangeDependencies() {
-    RouteInfo? sel = RouteInfoProvider.getRouteInfo(context);
+    RouteInfo? sel = LegendRouter.of(context).current;
     List<RouteInfo>? routes = widget.option.children?.toList();
     if (routes != null && sel != null) {
       selected = routes.indexWhere((element) => element.name == sel.name);
@@ -117,8 +113,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
             if (widget.hasToPopMenudrawer) {
               context.read<AppBarProvider>().pop();
             }
-            LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.name));
+            LegendRouter.of(context).pushPage(option.name);
           },
         ),
       );
@@ -174,9 +169,7 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                       Navigator.of(context).pop();
                     }
                     LegendRouter.of(context).pushPage(
-                      settings: RouteSettings(
-                        name: widget.option.name,
-                      ),
+                      widget.option.name,
                     );
                   },
                   isHovered: headerIndex == hovered,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legend_router/router/legend_router.dart';
-import 'package:legend_router/router/route_info_provider.dart';
+import 'package:legend_router/legend_router.dart';
 import '../../layout_provider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -13,9 +12,7 @@ class ScaffoldTitle extends LegendWidget {
     return GestureDetector(
       onTap: () {
         if (RouteInfoProvider.of(context).route.name != '/') {
-          LegendRouter.of(context).pushPage(
-            settings: const RouteSettings(name: '/'),
-          );
+          LegendRouter.of(context).pushPage('/');
         }
       },
       child: ConstrainedBox(

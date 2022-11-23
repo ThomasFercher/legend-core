@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/tab_option.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
-import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/legend_router.dart';
 import 'package:legend_utils/extensions/extensions.dart';
-import '../../scaffold/scaffoldInfo.dart';
+import '../../scaffold/scaffold_info.dart';
 
 class LegendTabBar extends LegendWidget {
   final List<RouteInfo> routes;
@@ -30,9 +30,7 @@ class LegendTabBar extends LegendWidget {
           padding: EdgeInsets.zero,
           onTap: () {
             LegendRouter.of(context).pushPage(
-              settings: RouteSettings(
-                name: route.name,
-              ),
+              route.name,
             );
           },
           child: TabOption(

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:legend_router/router/routes/route_info.dart';
+import 'package:legend_router/legend_router.dart';
 
 class BottomBarProvider with ChangeNotifier {
   final List<RouteInfo> routes;

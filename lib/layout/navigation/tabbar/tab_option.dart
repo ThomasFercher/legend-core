@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
-import 'package:legend_router/router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
 
 class TabOption extends StatefulWidget {

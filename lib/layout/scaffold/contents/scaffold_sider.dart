@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import '../../config/route_layout.dart';

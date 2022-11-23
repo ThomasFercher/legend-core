@@ -4,12 +4,11 @@ import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_info.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/legend_router.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:legend_utils/legend_utils.dart';
 import 'package:provider/provider.dart';
 
 import 'behind/behind_whole.dart';
@@ -42,7 +41,7 @@ class LegendBottomBar extends LegendWidget {
           onSelected: (o) {
             provider.selected = i;
             LegendRouter.of(context).pushPage(
-              settings: RouteSettings(name: options[i].name),
+              options[i].name,
             );
           },
         )

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/collapsed_menu.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
-import 'package:legend_design_core/modals/legendPopups.dart';
 import 'package:legend_design_core/modals/subMenu/legend_sub_menu.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/menu/menu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/menu/menu_sizing.dart';
-import 'package:legend_router/router/legend_router.dart';
+import 'package:legend_router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_router/router/route_info_provider.dart';
-
 import 'package:legend_utils/extensions/extensions.dart';
 
 class FixedMenu extends StatefulWidget {
@@ -99,8 +95,7 @@ class _FixedMenuState extends State<FixedMenu> {
             }
           },
           onClicked: () {
-            LegendRouter.of(context)
-                .pushPage(settings: RouteSettings(name: option.name));
+            LegendRouter.of(context).pushPage(option.name);
           },
         ),
       );
@@ -148,7 +143,7 @@ class _FixedMenuState extends State<FixedMenu> {
         _subMenuShown = false;
         Navigator.of(context).pop();
         LegendRouter.of(context).pushPage(
-          settings: RouteSettings(name: route.name),
+          route.name,
         );
       },
     );

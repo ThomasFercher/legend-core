@@ -9,7 +9,7 @@ import 'package:legend_design_core/layout/scaffold/routebody/layouts/sliver_body
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 
 ///
 /// This Widget will displayed directly under the Navigator/Router hence is a Page.

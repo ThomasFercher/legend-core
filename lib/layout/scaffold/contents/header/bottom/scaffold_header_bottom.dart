@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/menu_drawer/menu_drawer_appbar.dart';
 import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/bottom/scaffold_tabbar.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
+import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
 class ScaffoldHeaderBottom extends StatelessWidget {

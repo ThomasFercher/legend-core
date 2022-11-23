@@ -100,7 +100,7 @@ class _FixedSiderMenuState extends State<FixedSiderMenu> {
                 context.read<AppBarProvider>().pop();
               }
               LegendRouter.of(context).pushPage(
-                settings: RouteSettings(name: option.name),
+                option.name,
               );
             },
           ),

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import 'package:legend_router/router/route_info_provider.dart';
 
 class ScaffoldTabbar extends LegendWidget {
   const ScaffoldTabbar({Key? key}) : super(key: key);

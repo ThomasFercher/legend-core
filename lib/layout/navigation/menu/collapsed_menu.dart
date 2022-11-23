@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
-import 'package:legend_design_core/layout/scaffold/scaffoldInfo.dart';
 import 'package:legend_design_core/legend_design_core.dart';
+import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 
@@ -40,10 +40,7 @@ class CollapsedMenu extends LegendWidget {
           if (useMenuDrawerAppBar) {
             context.read<AppBarProvider>().toggle();
           } else {
-            ModalRouter.of(context).push(
-              settings: RouteSettings(name: '/menudrawer'),
-              useKey: true,
-            );
+            ModalRouter.of(context).push('/menudrawer');
           }
         },
         icon: icon,

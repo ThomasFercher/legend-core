@@ -9,7 +9,7 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import '../../../appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import '../../scaffoldInfo.dart';
+import '../../scaffold_info.dart';
 
 class ScaffoldHeader extends StatelessWidget {
   final BuildContext context;
@@ -25,7 +25,7 @@ class ScaffoldHeader extends StatelessWidget {
     final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
     final showBackButton = !PlatformInfo.isWeb &&
-        !LegendRouter.of(context).isFirstOnStack() &&
+        !LegendRouter.of(context).isFirstOnStack &&
         scaffold.whether.showBackButton;
 
     if (layout == null || layout.layout == AppBarLayoutConfig.body) {
