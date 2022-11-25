@@ -66,9 +66,6 @@ class LegendApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Router Delegate
-    final routerDelegate = LegendRouterDelegate(frame: LegendNavigatorFrame());
-
     // Theme Delegates
     final sizingTheme = themeDelegate.buildSizingTheme();
     final colorTheme = themeDelegate.buildColorTheme();
@@ -83,6 +80,10 @@ class LegendApp extends StatelessWidget {
     final routes = routesDelegate.buildRoutes(routeLayouts).expandedChildren;
     final bottombarRoutes =
         routes.whereType<PageRouteInfo>().where((r) => r.depth == 1).toList();
+
+    // Router Delegate
+    final routerDelegate =
+        LegendRouterDelegate(frame: LegendNavigatorFrame(), routes: routes);
 
     return Localizations(
       delegates: localizations,
@@ -124,19 +125,18 @@ class LegendApp extends StatelessWidget {
                 logoBuilder: logoBuilder,
                 child: MetricReactor(
                   child: ModalNavigator(
-                    buildHome: (route) {
-                      return Router(
-                        routerDelegate: routerDelegate,
-                        routeInformationParser: LegendRouteInformationParser(),
-                        routeInformationProvider:
-                            LegendRouteInformationProvider(
-                          initialRouteInformation: RouteInformation(
-                            location: route,
-                          ),
+                    home: Router(
+                      routerDelegate: routerDelegate,
+                      routeInformationParser: LegendRouteInformationParser(),
+                      routeInformationProvider:
+                          PlatformRouteInformationProvider(
+                        initialRouteInformation: RouteInformation(
+                          location: WidgetsBinding
+                              .instance.platformDispatcher.defaultRouteName,
                         ),
-                        backButtonDispatcher: RootBackButtonDispatcher(),
-                      );
-                    },
+                      ),
+                      backButtonDispatcher: RootBackButtonDispatcher(),
+                    ),
                   ),
                 ),
               ),

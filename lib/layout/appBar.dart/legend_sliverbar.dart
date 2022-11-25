@@ -69,7 +69,7 @@ class LegendSliverBar extends LegendWidget {
   PreferredSize _bottom(BuildContext context) {
     RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
     final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context).getLayout(theme);
+    final layout = ScaffoldInfo.of(context)!.getLayout(theme);
 
     if (layout.appBarLayout?.showTabbar == true && route != null) {
       var routes = [route];

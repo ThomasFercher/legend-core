@@ -24,7 +24,8 @@ class Sider extends LegendWidget {
     final menuColors = colors.menuColors;
 
     // Dumb Fix TODO: Something
-    final appbarLayout = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    final appbarLayout =
+        ScaffoldInfo.of(context)!.getLayout(theme).appBarLayout;
     bool showLogo = appbarLayout?.layout != AppBarLayoutConfig.fixedAbove;
 
     double maxWidth = theme.siderSizing.width;

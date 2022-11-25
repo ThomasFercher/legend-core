@@ -56,7 +56,7 @@ class LegendRouteBody extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    final info = ScaffoldInfo.of(context);
+    final info = ScaffoldInfo.of(context)!;
     final scaffold = info.scaffold;
     final showFooter = info.showFooter(context);
     final single = singlePage ?? scaffold.whether.singlePage;

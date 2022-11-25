@@ -17,7 +17,7 @@ class CollapsedMenu extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendTheme theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context).getLayout(theme);
+    final layout = ScaffoldInfo.of(context)!.getLayout(theme);
 
     final useMenuDrawerAppBar =
         layout.menuDrawerLayout?.type == MenuDrawerLayoutType.beneathAppBar;

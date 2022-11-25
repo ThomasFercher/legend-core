@@ -60,7 +60,7 @@ class LegendScaffold extends LegendWidget {
         builder: (context) {
           final theme = LegendTheme.of(context);
           // Bottom Bar Layout
-          final bottomBarLayout = ScaffoldInfo.of(context)
+          final bottomBarLayout = ScaffoldInfo.of(context)!
               .scaffold
               .layout
               .getLayout(theme.sizing.key)

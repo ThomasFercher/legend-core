@@ -1,18 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/widgets/metric_state.dart';
-import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
 
 class ModalNavigator extends LegendWidget {
-  final Widget Function(String initalRoute) buildHome;
+  final Widget home;
 
   const ModalNavigator({
     super.key,
-    required this.buildHome,
+    required this.home,
   });
 
   Route<dynamic>? _modalGeneration(
@@ -21,7 +17,7 @@ class ModalNavigator extends LegendWidget {
     BuildContext context,
     LegendTheme theme,
   ) {
-    RouteInfo info = LegendRouter.getRouteWidget(s, routes);
+    final info = LegendRouter.getRouteWidget(s, routes);
     if (info is ModalRouteInfo) {
       return GlobalModal.modalRouteBuilder(
         s,
@@ -48,20 +44,12 @@ class ModalNavigator extends LegendWidget {
       },
       initialRoute: initalRoute,
       onGenerateInitialRoutes: (state, initialRoute) {
-        print('Inital Route: $initialRoute');
-
-        final modalRouteSetting = RouteSettings(name: initialRoute);
-        final info = LegendRouter.getRouteWidget(modalRouteSetting, routes);
-        final isModal = info is ModalRouteInfo;
-        final route = isModal ? '/' : initialRoute;
-
         return [
           CupertinoPageRoute(
-            settings: const RouteSettings(name: '/'),
             builder: (BuildContext context) {
               return ModalRouter(
                 navigatorKey: modalNavKey,
-                child: buildHome(route),
+                child: home,
               );
             },
           ),

@@ -21,9 +21,9 @@ class ScaffoldHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaffold = ScaffoldInfo.of(context).scaffold;
+    final scaffold = ScaffoldInfo.of(context)!.scaffold;
     final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context).getLayout(theme).appBarLayout;
+    final layout = ScaffoldInfo.of(context)!.getLayout(theme).appBarLayout;
     final showBackButton = !PlatformInfo.isWeb &&
         !LegendRouter.of(context).isFirstOnStack &&
         scaffold.whether.showBackButton;

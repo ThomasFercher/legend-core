@@ -10,7 +10,7 @@ class ScaffoldSider extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
+    LegendScaffold scaffold = ScaffoldInfo.of(context)!.scaffold;
     final layout = scaffold.layout.getLayout(theme.sizing.key);
 
     if (layout.siderLayout == null) {

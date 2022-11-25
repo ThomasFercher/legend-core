@@ -16,23 +16,22 @@ class ScaffoldInfo extends InheritedWidget {
     required this.routeInfo,
   }) : super(key: key, child: child);
 
-  static ScaffoldInfo of(BuildContext context) {
-    final ScaffoldInfo? result =
-        context.dependOnInheritedWidgetOfExactType<ScaffoldInfo>();
-    assert(result != null, 'No ScaffoldInfo found in context');
-    return result!;
+  static ScaffoldInfo? of(BuildContext context) {
+    final result = context.dependOnInheritedWidgetOfExactType<ScaffoldInfo>();
+    //assert(result != null, 'No ScaffoldInfo found in context');
+    return result;
   }
 
   RouteLayout getLayout(LegendTheme theme) {
     return scaffold.layout.getLayout(theme.sizing.key);
   }
 
-  static ScaffoldBuilders getBuilders(BuildContext context) {
-    return ScaffoldInfo.of(context).scaffold.builders;
+  static ScaffoldBuilders? getBuilders(BuildContext context) {
+    return ScaffoldInfo.of(context)!?.scaffold.builders;
   }
 
-  static ScaffoldWhether whether(BuildContext context) {
-    return ScaffoldInfo.of(context).scaffold.whether;
+  static ScaffoldWhether? whether(BuildContext context) {
+    return ScaffoldInfo.of(context)!?.scaffold.whether;
   }
 
   bool showFooter(BuildContext context) {

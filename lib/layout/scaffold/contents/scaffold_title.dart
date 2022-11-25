@@ -11,7 +11,7 @@ class ScaffoldTitle extends LegendWidget {
     final logo = LayoutProvider.of(context).getLogo(context);
     return GestureDetector(
       onTap: () {
-        if (RouteInfoProvider.of(context).route.name != '/') {
+        if (RouteInfoProvider.of(context)?.route.name != '/') {
           LegendRouter.of(context).pushPage('/');
         }
       },

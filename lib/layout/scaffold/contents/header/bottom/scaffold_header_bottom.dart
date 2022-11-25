@@ -13,7 +13,7 @@ class ScaffoldHeaderBottom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context).getLayout(theme);
+    final layout = ScaffoldInfo.of(context)!.getLayout(theme);
     final appBarLayout = layout.appBarLayout;
 
     final showTabbar = (appBarLayout?.showTabbar ?? false) &&
