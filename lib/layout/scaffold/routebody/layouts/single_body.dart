@@ -16,26 +16,19 @@ class SingleBody extends LegendWidget {
     final footerHeight = routeBodyInfo.showFooter
         ? theme.scaffoldConfig.builders?.customFooter?.sizing?.height ?? 0
         : 0;
-    return Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: contentPadding,
-            child: Builder(
-              builder: (BuildContext context) {
-                return routeBody.builder!(
-                  context,
-                  Size(
-                    routeBodyInfo.constraints.maxWidth,
-                    routeBodyInfo.constraints.maxHeight - footerHeight,
-                  ),
-                );
-              },
+    return Padding(
+      padding: contentPadding,
+      child: Builder(
+        builder: (BuildContext context) {
+          return routeBody.builder!(
+            context,
+            Size(
+              routeBodyInfo.constraints.maxWidth,
+              routeBodyInfo.constraints.maxHeight - footerHeight,
             ),
-          ),
-        ),
-        if (routeBodyInfo.showFooter) ScaffoldFooter(),
-      ],
+          );
+        },
+      ),
     );
   }
 }

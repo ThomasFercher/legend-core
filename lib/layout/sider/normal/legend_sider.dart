@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
+import 'package:legend_design_core/layout/config/route_layout.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/sider/siderInfo.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
 import '../../scaffold/config/scaffold_config.dart';
 
@@ -17,23 +19,21 @@ class Sider extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
-    LegendTheme theme = LegendTheme.of(context);
+    RouteLayout layout = ScaffoldInfo.of(context)!.getLayout(theme);
+
     final colors = theme.siderColors;
     final sizing = theme.siderSizing;
     final menuSizing = sizing.sideMenuSizing;
     final menuColors = colors.menuColors;
 
-    // Dumb Fix TODO: Something
-    final appbarLayout =
-        ScaffoldInfo.of(context)!.getLayout(theme).appBarLayout;
-    bool showLogo = appbarLayout?.layout != AppBarLayoutConfig.fixedAbove;
+    bool showLogo = layout.appBarLayout == null;
 
     double maxWidth = theme.siderSizing.width;
     String? current = LegendRouter.of(context).routerDelegate.current?.name;
 
     return Container(
       width: maxWidth,
-      height: MediaQuery.of(context).size.height,
+      height: SizeInfo.of(context).height,
       color: theme.colors.sider.background,
       padding: sizing.padding,
       child: Column(

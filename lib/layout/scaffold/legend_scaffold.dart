@@ -1,13 +1,16 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
+import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/scaffold_header.dart';
+import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
-import 'package:legend_design_core/widgets/metric_state.dart';
-import 'package:legend_design_core/widgets/size_info.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -41,74 +44,70 @@ class LegendScaffold extends LegendWidget {
       layout: base.layout,
       child: base.child,
       builders: config.builders != null
-          ? ScaffoldBuilders.copyWith(base.builders, config.builders!)
+          ? ScaffoldBuilders.copyWith(config.builders!, base.builders)
           : base.builders,
       whether: config.whether != null
-          ? ScaffoldWhether.copyWith(base.whether, config.whether!)
+          ? ScaffoldWhether.copyWith(config.whether!, base.whether)
           : base.whether,
     );
   }
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    ScaffoldConfig config = theme.scaffoldConfig;
-    final m = SizeInfo.of(context);
+    final scaffoldInfo = LegendScaffold.withConfig(
+      this,
+      theme.scaffoldConfig,
+    );
+    // Bottom Bar Layout
+    final layout = scaffoldInfo.layout.getLayout(theme.sizing.key);
+    bool showBottomBar = layout.bottomBarLayout != null;
+    bool showFooter = layout.footerLayout != null;
+
+    // Update Navigation Bar Color if needed
+    Color _systemNavigationBarColor = showBottomBar
+        ? theme.colors.bottomBar.backgroundColor
+        : theme.colors.background1;
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: _systemNavigationBarColor,
+      ),
+    );
     return ScaffoldInfo(
       routeInfo: route,
-      scaffold: LegendScaffold.withConfig(this, config),
-      child: Builder(
-        builder: (context) {
-          final theme = LegendTheme.of(context);
-          // Bottom Bar Layout
-          final bottomBarLayout = ScaffoldInfo.of(context)!
-              .scaffold
-              .layout
-              .getLayout(theme.sizing.key)
-              .bottomBarLayout;
-          bool showBottomBar = bottomBarLayout != null;
-
-          // Update Navigation Bar Color if needed
-          Color _systemNavigationBarColor = showBottomBar
-              ? theme.colors.bottomBar.backgroundColor
-              : theme.colors.background1;
-
-          SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              systemNavigationBarColor: _systemNavigationBarColor,
-            ),
-          );
-
-          return Material(
-            type: MaterialType.transparency,
-            child: ColoredBox(
-              color: theme.colors.background1,
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: ScaffoldHeader(context: context),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        ScaffoldSider(),
-                        Expanded(
-                          child: Container(
+      scaffold: scaffoldInfo,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ColoredBox(
+          color: theme.colors.background1,
+          child: Column(
+            children: [
+              ScaffoldHeader(context: context),
+              Expanded(
+                child: Row(
+                  children: [
+                    ScaffoldSider(),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Expanded(
                             child: child,
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  if (showBottomBar)
-                    LegendBottomBar(
-                      options: LegendRouter.of(context).topRoutes,
+                          if (showFooter) ScaffoldFooter(),
+                        ],
+                      ),
                     )
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+              if (showBottomBar)
+                LegendBottomBar(
+                  options: LegendRouter.of(context).topRoutes,
+                )
+            ],
+          ),
+        ),
       ),
     );
   }

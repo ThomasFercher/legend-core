@@ -17,24 +17,12 @@ class ScaffoldSider extends LegendWidget {
       return Container();
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            spreadRadius: 4,
-            blurRadius: 8,
-            offset: Offset(0, 0),
-          )
-        ],
-      ),
-      child: LegendSider(
-        builder: scaffold.builders.siderBuilder,
-        showMenu: scaffold.whether.showSiderMenu,
-        showSubMenu: scaffold.whether.showSiderSubMenu,
-        showChildMenu: scaffold.whether.showSiderChildMenu,
-        showParentMenu: scaffold.whether.shareParentSiderMenu,
-      ),
+    return LegendSider(
+      builder: scaffold.builders.siderBuilder,
+      showMenu: scaffold.whether.showSiderMenu,
+      showSubMenu: scaffold.whether.showSiderSubMenu,
+      showChildMenu: scaffold.whether.showSiderChildMenu,
+      showParentMenu: scaffold.whether.shareParentSiderMenu,
     );
   }
 }

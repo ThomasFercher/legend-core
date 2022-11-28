@@ -27,11 +27,11 @@ class ScaffoldInfo extends InheritedWidget {
   }
 
   static ScaffoldBuilders? getBuilders(BuildContext context) {
-    return ScaffoldInfo.of(context)!?.scaffold.builders;
+    return ScaffoldInfo.of(context)?.scaffold.builders;
   }
 
   static ScaffoldWhether? whether(BuildContext context) {
-    return ScaffoldInfo.of(context)!?.scaffold.whether;
+    return ScaffoldInfo.of(context)?.scaffold.whether;
   }
 
   bool showFooter(BuildContext context) {

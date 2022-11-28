@@ -39,6 +39,7 @@ class ScaffoldHeader extends StatelessWidget {
       type: layout.aligment,
       actions: scaffold.builders.appBarActions,
       showBackButton: showBackButton,
+      showMenu: scaffold.whether.showAppBarMenu,
       bottom: ScaffoldHeaderBottom(),
       config: LegendAppBarConfig(
         appBarHeight: theme.appBarSizing.appBarHeight,
