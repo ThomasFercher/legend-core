@@ -14,10 +14,12 @@ class ElevatedCard extends StatelessWidget {
     this.onTap,
     this.width,
     this.height,
+    this.border,
   });
 
   final double elevation;
   final BorderRadius? borderRadius;
+  final BoxBorder? border;
   final Color? background;
   final EdgeInsets padding;
   final Widget child;
@@ -32,6 +34,7 @@ class ElevatedCard extends StatelessWidget {
     return ElevatedBox(
       decoration: BoxDecoration(
         borderRadius: borderRadius,
+        border: border,
         color: background,
       ),
       padding: padding,

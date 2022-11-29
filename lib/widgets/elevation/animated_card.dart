@@ -15,6 +15,7 @@ class AnimatedCard extends HookWidget {
   final double? width;
   final double? height;
   final Duration duration;
+  final BoxBorder? border;
 
   AnimatedCard({
     Key? key,
@@ -23,6 +24,7 @@ class AnimatedCard extends HookWidget {
     this.background,
     required this.padding,
     required this.child,
+    this.border,
     this.onTap,
     this.height,
     this.width,
@@ -45,6 +47,7 @@ class AnimatedCard extends HookWidget {
         return ElevatedCard(
           width: width,
           height: height,
+          border: border,
           borderRadius: borderRadius,
           background: background,
           elevation: offset.value,
