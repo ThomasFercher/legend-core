@@ -31,7 +31,7 @@ class ThemeProvider extends ChangeNotifier {
   /// The LegendTypography will be updated accordingly.
   ///  and the App will restart.
   void changeColorTheme(PaletteType type) {
-    colorTheme.setType(type);
+    colorTheme.type = type;
     theme = theme.copyWith(colors: colorTheme.current);
     systemUIOverrides();
     notifyListeners();

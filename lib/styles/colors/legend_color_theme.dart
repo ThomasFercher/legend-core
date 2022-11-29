@@ -1,44 +1,45 @@
 import 'package:legend_design_core/styles/colors/legend_palette.dart';
 
+const lightKey = 'light';
+const darkKey = 'dark';
+
 class LegendColorTheme {
-  final PaletteType initalType;
-  final List<LegendPalette> themes;
-  late PaletteType _type;
+  final LegendPalette light;
+  final LegendPalette dark;
+  final Map<String, LegendPalette>? custom;
 
-  void setType(PaletteType type) => _type = type;
-
-  PaletteType get type => _type;
-  int get index => _type.index;
+  PaletteType _type;
+  set type(PaletteType type) => _type = type;
+  String get key => _type.key;
 
   LegendPalette get current {
-    int i = index;
-    if (i < themes.length) {
-      return themes[i];
-    } else {
-      return themes[0];
-    }
+    if (key == darkKey) return dark;
+    if (key == lightKey) return light;
+    if (custom == null) return light;
+    return custom![key] ?? light; // TODO:System Default
   }
 
   LegendColorTheme({
-    this.initalType = const PaletteType(0),
-    required this.themes,
-  }) {
-    _type = initalType;
-  }
+    required PaletteType initalType,
+    required this.light,
+    required this.dark,
+    this.custom,
+  }) : _type = initalType;
 }
 
 class PaletteType {
-  final int index;
+  final String key;
 
-  const PaletteType(this.index);
+  const PaletteType(this.key);
 
   factory PaletteType.dark() {
-    return const PaletteType(1);
+    return const PaletteType('dark');
   }
+
   factory PaletteType.light() {
-    return const PaletteType(0);
+    return const PaletteType('light');
   }
-  factory PaletteType.custom({required int i}) {
-    return PaletteType(i);
+  factory PaletteType.custom(String key) {
+    return PaletteType(key);
   }
 }

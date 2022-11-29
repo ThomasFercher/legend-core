@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:legend_design_core/interfaces/route_inferface.dart';
-import 'package:legend_design_core/interfaces/theme_interface.dart';
+import 'package:legend_design_core/interfaces/legend_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/router/modal_navigator.dart';
@@ -10,7 +9,6 @@ import 'package:legend_design_core/router/navigator_frame.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/theme_provider.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
-import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
 import 'package:provider/provider.dart';
 import 'data/asset_loader.dart';
@@ -23,13 +21,13 @@ const List<LocalizationsDelegate<dynamic>> localizations = [
 ];
 
 class LegendApp extends StatelessWidget {
-  // Interface containing Methos related to Routing
-  final RouteInterface<dynamic> routesDelegate;
+  ///
+  final LegendConfig config;
 
-  // Interface containing Methods related to Colors and Sizing
-  final ThemeInterface themeDelegate;
-
+  ///
   final Widget Function(BuildContext context)? logoBuilder;
+
+  ///
   final String title;
 
   /// Until this [future] completes, the app will show a Splascreen.
@@ -40,9 +38,8 @@ class LegendApp extends StatelessWidget {
       buildSplashscreen;
 
   const LegendApp({
-    Key? key,
-    required this.routesDelegate,
-    required this.themeDelegate,
+    super.key,
+    required this.config,
     required this.title,
     this.logoBuilder,
     this.future,
@@ -66,24 +63,24 @@ class LegendApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Theme Delegates
-    final sizingTheme = themeDelegate.buildSizingTheme();
-    final colorTheme = themeDelegate.buildColorTheme();
+    // Config
     final _theme = LegendTheme(
-      scaffoldConfig: routesDelegate.buildConfig(),
-      typography: themeDelegate.buildTypography(),
-      sizing: sizingTheme.sizing,
-      colors: colorTheme.current,
-      splits: sizingTheme.splits,
+      scaffoldConfig: config.scaffoldConfig,
+      typography: config.typography,
+      sizing: config.sizingTheme.sizing,
+      colors: config.colorTheme.current,
+      splits: config.sizingTheme.splits,
     );
-    final routeLayouts = routesDelegate.buildLayouts(sizingTheme.splits);
-    final routes = routesDelegate.buildRoutes(routeLayouts).expandedChildren;
+
+    final routes = config.routes;
     final bottombarRoutes =
         routes.whereType<PageRouteInfo>().where((r) => r.depth == 1).toList();
 
     // Router Delegate
-    final routerDelegate =
-        LegendRouterDelegate(frame: LegendNavigatorFrame(), routes: routes);
+    final routerDelegate = LegendRouterDelegate(
+      frame: LegendNavigatorFrame(),
+      routes: routes,
+    );
 
     return Localizations(
       delegates: localizations,
@@ -93,8 +90,8 @@ class LegendApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => ThemeProvider(
               theme: _theme,
-              colorTheme: colorTheme,
-              sizingTheme: sizingTheme,
+              colorTheme: config.colorTheme,
+              sizingTheme: config.sizingTheme,
             ),
           ),
           ChangeNotifierProvider<BottomBarProvider>(
