@@ -68,30 +68,26 @@ class LegendScaffold extends LegendWidget {
         ? theme.colors.bottomBar.backgroundColor
         : theme.colors.background1;
 
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: _systemNavigationBarColor,
-      ),
-    );
-    return ScaffoldInfo(
-      routeInfo: route,
-      scaffold: scaffoldInfo,
-      child: Material(
-        type: MaterialType.transparency,
-        child: ColoredBox(
-          color: theme.colors.background1,
-          child: Column(
-            children: [
-              ScaffoldHeader(context: context),
-              Expanded(
-                child: Row(
-                  children: [
-                    ScaffoldSider(),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
+          SystemChrome.setSystemUIOverlayStyle(
+            SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: _systemNavigationBarColor,
+            ),
+          );
+
+          return Material(
+            type: MaterialType.transparency,
+            child: ColoredBox(
+              color: theme.colors.background1,
+              child: Column(
+                children: [
+                  ScaffoldHeader(context: context),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        ScaffoldSider(),
+                        Expanded(
+                          child: Container(
                             child: child,
                           ),
                           if (showFooter) ScaffoldFooter(),
