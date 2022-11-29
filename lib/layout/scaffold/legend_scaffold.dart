@@ -75,30 +75,34 @@ class LegendScaffold extends LegendWidget {
       ),
     );
 
-    return Material(
-      type: MaterialType.transparency,
-      child: ColoredBox(
-        color: theme.colors.background1,
-        child: Column(
-          children: [
-            ScaffoldHeader(context: context),
-            Expanded(
-              child: Row(
-                children: [
-                  ScaffoldSider(),
-                  Expanded(
-                    child: Container(
-                      child: child,
+    return ScaffoldInfo(
+      routeInfo: route,
+      scaffold: scaffoldInfo,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ColoredBox(
+          color: theme.colors.background1,
+          child: Column(
+            children: [
+              ScaffoldHeader(context: context),
+              Expanded(
+                child: Row(
+                  children: [
+                    ScaffoldSider(),
+                    Expanded(
+                      child: Container(
+                        child: child,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (showBottomBar)
-              LegendBottomBar(
-                options: LegendRouter.of(context).topRoutes,
-              )
-          ],
+              if (showBottomBar)
+                LegendBottomBar(
+                  options: LegendRouter.of(context).topRoutes,
+                )
+            ],
+          ),
         ),
       ),
     );
