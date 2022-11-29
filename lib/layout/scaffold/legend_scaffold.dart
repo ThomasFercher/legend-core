@@ -68,41 +68,37 @@ class LegendScaffold extends LegendWidget {
         ? theme.colors.bottomBar.backgroundColor
         : theme.colors.background1;
 
-          SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              systemNavigationBarColor: _systemNavigationBarColor,
-            ),
-          );
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: _systemNavigationBarColor,
+      ),
+    );
 
-          return Material(
-            type: MaterialType.transparency,
-            child: ColoredBox(
-              color: theme.colors.background1,
-              child: Column(
+    return Material(
+      type: MaterialType.transparency,
+      child: ColoredBox(
+        color: theme.colors.background1,
+        child: Column(
+          children: [
+            ScaffoldHeader(context: context),
+            Expanded(
+              child: Row(
                 children: [
-                  ScaffoldHeader(context: context),
+                  ScaffoldSider(),
                   Expanded(
-                    child: Row(
-                      children: [
-                        ScaffoldSider(),
-                        Expanded(
-                          child: Container(
-                            child: child,
-                          ),
-                          if (showFooter) ScaffoldFooter(),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                    child: Container(
+                      child: child,
+                    ),
+                  ),
+                ],
               ),
-              if (showBottomBar)
-                LegendBottomBar(
-                  options: LegendRouter.of(context).topRoutes,
-                )
-            ],
-          ),
+            ),
+            if (showBottomBar)
+              LegendBottomBar(
+                options: LegendRouter.of(context).topRoutes,
+              )
+          ],
         ),
       ),
     );
