@@ -31,13 +31,13 @@ class PageInfo extends LegendRouteInfo {
 
 class ScaffoldRouteConfig {
   // Configs
-  final ScaffoldBuilders builders;
-  final ScaffoldWhether whether;
+  final ScaffoldBuildersOverride? builders;
+  final ScaffoldWhetherOverride? whether;
   final DynamicRouteLayout layout;
 
   const ScaffoldRouteConfig({
     required this.layout,
-    this.whether = const ScaffoldWhether(),
-    this.builders = const ScaffoldBuilders(),
+    this.whether,
+    this.builders,
   });
 }

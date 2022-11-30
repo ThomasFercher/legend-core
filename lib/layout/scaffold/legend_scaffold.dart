@@ -17,51 +17,26 @@ import 'package:legend_design_core/state/legend_state.dart';
 class LegendScaffold extends LegendWidget {
   // Core
   final Widget child;
-
-  final DynamicRouteLayout layout;
+  final RouteInfo route;
 
   // Configs
+  final DynamicRouteLayout dynamicLayout;
   final ScaffoldBuilders builders;
   final ScaffoldWhether whether;
 
-  //
-  final RouteInfo route;
-
   LegendScaffold({
     required this.child,
-    required this.layout,
-    this.whether = const ScaffoldWhether(),
-    this.builders = const ScaffoldBuilders(),
+    required this.dynamicLayout,
+    required this.whether,
+    required this.builders,
     required this.route,
   });
 
-  /// Copies the config onto to the base
-  /// If one attribute is not null in config it will override the same attribute from base
-  factory LegendScaffold.withConfig(
-      LegendScaffold base, ScaffoldConfig config) {
-    return LegendScaffold(
-      route: base.route,
-      layout: base.layout,
-      child: base.child,
-      builders: config.builders != null
-          ? ScaffoldBuilders.copyWith(config.builders!, base.builders)
-          : base.builders,
-      whether: config.whether != null
-          ? ScaffoldWhether.copyWith(config.whether!, base.whether)
-          : base.whether,
-    );
-  }
-
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    final scaffoldInfo = LegendScaffold.withConfig(
-      this,
-      theme.scaffoldConfig,
-    );
     // Bottom Bar Layout
-    final layout = scaffoldInfo.layout.getLayout(theme.sizing.key);
+    final layout = dynamicLayout.getLayout(theme.sizing.key);
     bool showBottomBar = layout.bottomBarLayout != null;
-    bool showFooter = layout.footerLayout != null;
 
     // Update Navigation Bar Color if needed
     Color _systemNavigationBarColor = showBottomBar
@@ -77,7 +52,7 @@ class LegendScaffold extends LegendWidget {
 
     return ScaffoldInfo(
       routeInfo: route,
-      scaffold: scaffoldInfo,
+      scaffold: this,
       child: Material(
         type: MaterialType.transparency,
         child: ColoredBox(

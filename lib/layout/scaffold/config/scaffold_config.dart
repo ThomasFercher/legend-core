@@ -1,18 +1,22 @@
 export 'package:legend_design_core/layout/scaffold/config/builders.dart';
 export 'package:legend_design_core/layout/scaffold/config/whether.dart';
 
+import 'package:legend_annotations/legend_annotations.dart';
 import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
 import 'package:legend_design_core/layout/scaffold/config/builders.dart';
 import 'package:legend_design_core/layout/scaffold/config/whether.dart';
 
-class ScaffoldConfig {
-  final ScaffoldBuilders? builders;
-  final ScaffoldWhether? whether;
-  final DynamicRouteLayout? layout;
+part 'scaffold_config.g.dart';
 
-  ScaffoldConfig({
-    this.layout,
-    this.builders,
-    this.whether,
+@LegendStyle()
+abstract class ScaffoldConfigStyle {
+  @LegendSubStyleField()
+  final ScaffoldBuildersStyle builders;
+  @LegendSubStyleField()
+  final ScaffoldWhetherStyle whether;
+
+  ScaffoldConfigStyle({
+    required this.builders,
+    required this.whether,
   });
 }

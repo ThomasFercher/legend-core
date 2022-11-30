@@ -1,10 +1,15 @@
+import 'package:legend_annotations/legend_annotations.dart';
+
+part 'whether.g.dart';
+
 extension Overwrite on bool {
   bool overWrite(bool copy) {
     return copy != this ? copy : this;
   }
 }
 
-class ScaffoldWhether {
+@LegendStyle()
+abstract class ScaffoldWhetherStyle {
   final bool showSiderMenu;
   final bool showSiderSubMenu;
   final bool showAppBarMenu;
@@ -14,7 +19,7 @@ class ScaffoldWhether {
   final bool singlePage;
   final bool showBackButton;
 
-  const ScaffoldWhether({
+  const ScaffoldWhetherStyle({
     this.showSiderMenu = false,
     this.showSiderSubMenu = false,
     this.showAppBarMenu = false,
@@ -25,7 +30,7 @@ class ScaffoldWhether {
     this.showBackButton = true,
   });
 
-  factory ScaffoldWhether.copyWith(ScaffoldWhether base, ScaffoldWhether copy) {
+  /* factory ScaffoldWhether.copyWith(ScaffoldWhether base, ScaffoldWhether copy) {
     return ScaffoldWhether(
       shareParentSiderMenu:
           base.shareParentSiderMenu.overWrite(copy.shareParentSiderMenu),
@@ -38,5 +43,5 @@ class ScaffoldWhether {
       singlePage: base.singlePage.overWrite(copy.singlePage),
       showBackButton: base.showBackButton.overWrite(copy.showBackButton),
     );
-  }
+  }*/
 }
