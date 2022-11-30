@@ -108,8 +108,7 @@ class LegendApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) {
               if (buildSplashscreen != null) {
-                final theme = LegendTheme.of(context);
-                return buildSplashscreen!(context, theme);
+                return buildSplashscreen!(context, _theme);
               }
               return Container();
             }
