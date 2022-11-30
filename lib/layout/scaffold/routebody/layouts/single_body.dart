@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -14,21 +15,28 @@ class SingleBody extends LegendWidget {
         ? EdgeInsets.all(theme.sizing.spacing1)
         : EdgeInsets.zero;
     final footerHeight = routeBodyInfo.showFooter
-        ? theme.scaffoldConfig.builders?.customFooter?.sizing?.height ?? 0
+        ? theme.scaffoldConfig.builders.customFooter?.sizing?.height ?? 0
         : 0;
-    return Padding(
-      padding: contentPadding,
-      child: Builder(
-        builder: (BuildContext context) {
-          return routeBody.builder!(
-            context,
-            Size(
-              routeBodyInfo.constraints.maxWidth,
-              routeBodyInfo.constraints.maxHeight - footerHeight,
+    return Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: contentPadding,
+            child: Builder(
+              builder: (BuildContext context) {
+                return routeBody.builder!(
+                  context,
+                  Size(
+                    routeBodyInfo.constraints.maxWidth,
+                    routeBodyInfo.constraints.maxHeight - footerHeight,
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
+          ),
+        ),
+        ScaffoldFooter()
+      ],
     );
   }
 }

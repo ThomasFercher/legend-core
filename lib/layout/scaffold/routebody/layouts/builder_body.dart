@@ -31,6 +31,12 @@ class BuilderBody extends LegendWidget {
         ),
         SliverFillRemaining(
           hasScrollBody: false,
+          child: Column(
+            children: const [
+              Spacer(),
+              ScaffoldFooter(),
+            ],
+          ),
         ),
       ],
     );

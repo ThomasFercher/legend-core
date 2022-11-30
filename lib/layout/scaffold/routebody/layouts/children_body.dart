@@ -41,7 +41,7 @@ class ChildrenBody extends LegendWidget {
           ),
           SliverFillRemaining(
             hasScrollBody: false,
-            child: SizedBox.shrink(),
+            child: ScaffoldFooter(),
           ),
         ],
       ),
