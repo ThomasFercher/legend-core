@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
-import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/builder_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/children_body.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/decoration/inner_elevation.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/single_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/sliver_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
-import 'package:legend_utils/extensions/extensions.dart';
+import 'package:legend_design_core/widgets/layout/has_height.dart';
+import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 
@@ -17,7 +19,7 @@ import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 /// wont be layout here but further up in the Scaffold Frame which is above the Navigator/Router and more suited for
 /// fixed Widgets.
 ///
-class LegendRouteBody extends LegendWidget {
+class LegendRouteBody extends HookWidget {
   final List<Widget> children;
 
   /// A List of Slivers which will be provided to a CustomScrollView
@@ -25,7 +27,7 @@ class LegendRouteBody extends LegendWidget {
   final bool? singlePage;
   final bool disableContentDecoration;
   final Widget Function(BuildContext context, Size s)? builder;
-  final Widget? sliverAppBar;
+  final HasHeight? sliverAppBar;
   final PersistentHeader? sliverPersistentHeader;
 
   LegendRouteBody({
@@ -55,11 +57,15 @@ class LegendRouteBody extends LegendWidget {
   }
 
   @override
-  Widget build(BuildContext context, LegendTheme theme) {
+  Widget build(BuildContext context) {
+    final theme = LegendTheme.of(context);
     final info = ScaffoldInfo.of(context)!;
+    final layout = info.getLayout(theme);
     final scaffold = info.scaffold;
-    final showFooter = info.showFooter(context);
     final single = singlePage ?? scaffold.whether.singlePage;
+
+    final bool showSliverBar = sliverAppBar != null &&
+        layout.appBarLayout?.layout == AppBarLayoutConfig.body;
     final ScrollController controller = ScrollController();
 
     return LayoutBuilder(
@@ -68,7 +74,7 @@ class LegendRouteBody extends LegendWidget {
           info: this,
           constraints: constraints,
           scrollController: controller,
-          showFooter: showFooter,
+          showSliverBar: showSliverBar,
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(
               scrollbars: false,

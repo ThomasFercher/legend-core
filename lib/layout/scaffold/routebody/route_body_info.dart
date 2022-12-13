@@ -5,7 +5,7 @@ class RouteBodyInfo extends InheritedWidget {
   final LegendRouteBody info;
   final ScrollController scrollController;
   final BoxConstraints constraints;
-  final bool showFooter;
+  final bool showSliverBar;
 
   const RouteBodyInfo({
     super.key,
@@ -13,7 +13,7 @@ class RouteBodyInfo extends InheritedWidget {
     required this.info,
     required this.constraints,
     required this.scrollController,
-    required this.showFooter,
+    required this.showSliverBar,
   });
 
   static RouteBodyInfo of(BuildContext context) {

@@ -13,27 +13,17 @@ import '../../scaffold_info.dart';
 
 class ScaffoldHeader extends StatelessWidget {
   final BuildContext context;
+  final AppBarLayout layout;
 
-  ScaffoldHeader({
-    super.key,
-    required this.context,
-  });
+  ScaffoldHeader({super.key, required this.context, required this.layout});
 
   @override
   Widget build(BuildContext context) {
     final scaffold = ScaffoldInfo.of(context)!.scaffold;
     final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context)!.getLayout(theme).appBarLayout;
     final showBackButton = !PlatformInfo.isWeb &&
         !LegendRouter.of(context).isFirstOnStack &&
         scaffold.whether.showBackButton;
-
-    if (layout == null || layout.layout == AppBarLayoutConfig.body) {
-      return PreferredSize(
-        preferredSize: Size.zero,
-        child: SizedBox.shrink(),
-      );
-    }
 
     return LegendAppBar(
       type: layout.aligment,

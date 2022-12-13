@@ -8,12 +8,14 @@ import 'package:legend_router/legend_router.dart';
 class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;
   final RouteInfo routeInfo;
+  final RouteLayout routeLayout;
 
   ScaffoldInfo({
     Key? key,
     required Widget child,
     required this.scaffold,
     required this.routeInfo,
+    required this.routeLayout,
   }) : super(key: key, child: child);
 
   static ScaffoldInfo? of(BuildContext context) {

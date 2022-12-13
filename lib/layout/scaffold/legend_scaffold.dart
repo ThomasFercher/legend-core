@@ -1,13 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
-import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/scaffold_header.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
@@ -50,34 +46,38 @@ class LegendScaffold extends LegendWidget {
       ),
     );
 
+    final appBarLayout = layout.appBarLayout;
+
+    bool showHeader = appBarLayout != null &&
+        appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
     return ScaffoldInfo(
+      routeLayout: layout,
       routeInfo: route,
       scaffold: this,
       child: Material(
         type: MaterialType.transparency,
-        child: ColoredBox(
-          color: theme.colors.background1,
-          child: Column(
-            children: [
-              ScaffoldHeader(context: context),
-              Expanded(
-                child: Row(
-                  children: [
-                    ScaffoldSider(),
-                    Expanded(
-                      child: Container(
-                        child: child,
-                      ),
-                    ),
-                  ],
-                ),
+        child: Column(
+          children: [
+            if (showHeader)
+              ScaffoldHeader(
+                context: context,
+                layout: appBarLayout,
               ),
-              if (showBottomBar)
-                LegendBottomBar(
-                  options: LegendRouter.of(context).topRoutes,
-                )
-            ],
-          ),
+            Expanded(
+              child: Row(
+                children: [
+                  ScaffoldSider(),
+                  Expanded(
+                    child: child,
+                  ),
+                ],
+              ),
+            ),
+            if (showBottomBar)
+              LegendBottomBar(
+                options: LegendRouter.of(context).topRoutes,
+              )
+          ],
         ),
       ),
     );

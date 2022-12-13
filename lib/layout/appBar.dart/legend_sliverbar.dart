@@ -11,6 +11,7 @@ import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
+import 'package:legend_design_core/widgets/layout/has_height.dart';
 import 'package:legend_router/legend_router.dart';
 
 const List<Widget> actionsFiller = [
@@ -20,7 +21,7 @@ const List<Widget> actionsFiller = [
   )
 ];
 
-class LegendSliverBar extends LegendWidget {
+class LegendSliverBar extends LegendWidget implements HasHeight {
   final LegendAppBarConfig config;
   final ScaffoldBuilder? actions;
   final Widget? title;
@@ -40,7 +41,7 @@ class LegendSliverBar extends LegendWidget {
     this.showLogo = true,
     this.showTitle = true,
     this.showBackButton = true,
-    required this.type,
+    this.type = AppBarLayoutType.TiMeAc,
   });
 
   FixedMenu getMenu(BuildContext context) {
@@ -113,7 +114,9 @@ class LegendSliverBar extends LegendWidget {
       leading: Container(),
       snap: config.snap,
       floating: config.floating,
+      scrolledUnderElevation: config.elevation,
       actions: actionsFiller,
+      forceElevated: config.forceElevate,
       backgroundColor: theme.appBarColors.background,
       bottom: _bottom(context),
       title: ConstrainedBox(
@@ -134,4 +137,7 @@ class LegendSliverBar extends LegendWidget {
       ),
     );
   }
+
+  @override
+  double get height => config.appBarHeight;
 }

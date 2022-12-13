@@ -8,16 +8,18 @@ class LegendAppBarConfig {
   final double actionSpaceing;
   final bool showSubMenu;
   final bool disableBackButton;
+  final bool forceElevate;
 
   LegendAppBarConfig({
     required this.appBarHeight,
-    required this.showSubMenu,
     required this.elevation,
+    this.showSubMenu = true,
     this.floating = false,
     this.pinned = false,
     this.snap = false,
     this.horizontalPadding = 12,
     this.actionSpaceing = 8,
     this.disableBackButton = false,
+    this.forceElevate = false,
   });
 }
