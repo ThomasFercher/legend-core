@@ -43,10 +43,10 @@ class Sider extends LegendWidget {
               padding: EdgeInsets.only(top: sizing.spacing),
               child: LayoutProvider.of(context).getLogo(context),
             ),
-          SizedBox(
-            height: menuSizing.itemHeight / 2,
-          ),
-          if (fixedSider.showMenu)
+          if (fixedSider.showMenu) ...[
+            SizedBox(
+              height: menuSizing.itemHeight / 2,
+            ),
             SingleChildScrollView(
               child: FixedSiderMenu(
                 current: current,
@@ -58,6 +58,7 @@ class Sider extends LegendWidget {
                 textStyle: theme.typography.h2,
               ),
             ),
+          ],
           if (fixedSider.builder != null)
             Expanded(
               child: LegendScaffoldBuilder(
