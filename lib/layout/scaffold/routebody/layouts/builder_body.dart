@@ -1,8 +1,6 @@
-import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
-import 'package:legend_design_core/layout/scaffold/routebody/layouts/decoration/inner_elevation.dart';
+import 'package:flutter/material.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/widgets/fill_remaining_footer.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
-import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
 class BuilderBody extends LegendWidget {
@@ -22,47 +20,28 @@ class BuilderBody extends LegendWidget {
     );
     final scrollController = routeBodyInfo.scrollController;
 
-    final bool showFooter = ScaffoldInfo.of(context)!.showFooter(context);
-    final double footerHeight = showFooter ? theme.footerSizing.height : 0;
-
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return [
-          if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-          if (routeBody.sliverPersistentHeader != null)
-            SliverPersistentHeader(
-              delegate: routeBody.sliverPersistentHeader!,
-            ),
-        ];
-      },
+    return CustomScrollView(
       controller: scrollController,
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: contentPadding,
-              child: Builder(
-                builder: (context) => routeBody.builder!(
-                  context,
-                  contentSize,
-                ),
+      slivers: [
+        if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+        if (routeBody.sliverPersistentHeader != null)
+          SliverPersistentHeader(
+            delegate: routeBody.sliverPersistentHeader!,
+          ),
+        SliverToBoxAdapter(
+          child: Container(
+            color: Colors.red,
+            padding: contentPadding,
+            child: Builder(
+              builder: (context) => routeBody.builder!(
+                context,
+                contentSize,
               ),
             ),
           ),
-          if (showFooter)
-            SliverFillRemaining(
-              child: Column(
-                children: [
-                  Spacer(),
-                  ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(height: footerHeight),
-                    child: const ScaffoldFooter(),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
+        ),
+        if (routeBodyInfo.showFooter) FillRemainingFooter()
+      ],
     );
   }
 }

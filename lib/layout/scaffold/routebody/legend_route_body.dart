@@ -4,10 +4,10 @@ import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/slivers/persistent_header.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/builder_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/children_body.dart';
-import 'package:legend_design_core/layout/scaffold/routebody/layouts/decoration/inner_elevation.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/single_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/sliver_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
+import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/layout/has_height.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -77,6 +77,8 @@ class LegendRouteBody extends HookWidget {
 
     final combineShadows = info.showHeader || showSliverBar;
 
+    final bool showFooter = info.showFooter(context);
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return RouteBodyInfo(
@@ -84,6 +86,7 @@ class LegendRouteBody extends HookWidget {
           constraints: constraints,
           scrollController: controller,
           showSliverBar: showSliverBar,
+          showFooter: showFooter,
           child: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(
               scrollbars: false,

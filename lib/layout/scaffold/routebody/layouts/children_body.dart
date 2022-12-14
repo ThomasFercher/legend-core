@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_footer.dart';
-import 'package:legend_design_core/layout/scaffold/routebody/layouts/decoration/inner_elevation.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/widgets/fill_remaining_footer.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -24,42 +24,25 @@ class ChildrenBody extends LegendWidget {
           child: child,
         ),
     ];
-    final bool showFooter = ScaffoldInfo.of(context)!.showFooter(context);
-    final double footerHeight = showFooter ? theme.footerSizing.height : 0;
 
-    return Container(
+    return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-            if (routeBody.sliverPersistentHeader != null)
-              SliverPersistentHeader(
-                delegate: routeBody.sliverPersistentHeader!,
-              ),
-          ];
-        },
+      child: CustomScrollView(
         controller: routeBodyInfo.scrollController,
-        body: CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: children.length,
-                (context, i) => children[i],
-              ),
+        slivers: [
+          if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+          if (routeBody.sliverPersistentHeader != null)
+            SliverPersistentHeader(
+              delegate: routeBody.sliverPersistentHeader!,
             ),
-            SliverFillRemaining(
-              child: SizedBox.shrink(),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              childCount: children.length,
+              (context, i) => children[i],
             ),
-            if (showFooter)
-              SliverToBoxAdapter(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(height: footerHeight),
-                  child: const ScaffoldFooter(),
-                ),
-              ),
-          ],
-        ),
+          ),
+          if (routeBodyInfo.showFooter) FillRemainingFooter()
+        ],
       ),
     );
   }
