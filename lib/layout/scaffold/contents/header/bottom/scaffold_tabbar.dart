@@ -4,7 +4,12 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
 class ScaffoldTabbar extends LegendWidget {
-  const ScaffoldTabbar({Key? key}) : super(key: key);
+  final double height;
+
+  const ScaffoldTabbar({
+    super.key,
+    required this.height,
+  });
 
   @override
   Widget build(BuildContext context, theme) {
@@ -23,7 +28,7 @@ class ScaffoldTabbar extends LegendWidget {
         if (parent.children != null) routes.addAll(parent.children!);
       }
     }
-    final height = theme.appBarSizing.tabbarSizing?.height ?? 56;
+
     return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: height),
       child: LegendTabBar(

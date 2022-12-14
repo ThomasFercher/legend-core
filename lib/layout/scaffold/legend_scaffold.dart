@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
+import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
+import 'package:legend_design_core/layout/config/route_layout.dart';
+import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/scaffold_header.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/layouts/decoration/inner_elevation.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -32,6 +37,7 @@ class LegendScaffold extends LegendWidget {
   Widget build(BuildContext context, LegendTheme theme) {
     // Bottom Bar Layout
     final layout = dynamicLayout.getLayout(theme.sizing.key);
+    print(layout.siderLayout);
     bool showBottomBar = layout.bottomBarLayout != null;
 
     // Update Navigation Bar Color if needed
@@ -53,31 +59,98 @@ class LegendScaffold extends LegendWidget {
     return ScaffoldInfo(
       routeLayout: layout,
       routeInfo: route,
+      showHeader: showHeader,
       scaffold: this,
       child: Material(
         type: MaterialType.transparency,
-        child: Column(
+        child: Stack(
           children: [
-            if (showHeader)
-              ScaffoldHeader(
-                context: context,
-                layout: appBarLayout,
-              ),
-            Expanded(
-              child: Row(
-                children: [
-                  ScaffoldSider(),
-                  Expanded(
-                    child: child,
+            Column(
+              children: [
+                if (showHeader)
+                  ScaffoldHeader(
+                    context: context,
+                    layout: appBarLayout,
                   ),
-                ],
-              ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      ScaffoldSider(),
+                      Expanded(
+                        child: child,
+                      ),
+                    ],
+                  ),
+                ),
+                if (showBottomBar)
+                  LegendBottomBar(
+                    options: LegendRouter.of(context).topRoutes,
+                  )
+              ],
             ),
-            if (showBottomBar)
-              LegendBottomBar(
-                options: LegendRouter.of(context).topRoutes,
-              )
+            if (showHeader) headerShadow(layout, theme, context),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget headerShadow(
+      RouteLayout routeLayout, LegendTheme theme, BuildContext context) {
+    final siderShowing = routeLayout.siderLayout != null;
+    final appBarShowing = routeLayout.appBarLayout != null &&
+        routeLayout.appBarLayout!.layout == AppBarLayoutConfig.fixedAbove;
+    final tabbarShowing = routeLayout.appBarLayout?.showTabbar ?? false;
+
+    final provider = context.watch<AppBarProvider>();
+    final menuDrawerShowing = routeLayout.menuDrawerLayout != null &&
+        routeLayout.menuDrawerLayout!.type ==
+            MenuDrawerLayoutType.beneathAppBar;
+
+    // Shadow Positioning
+    double top = 0;
+    if (appBarShowing) {
+      top = theme.appBarSizing.appBarHeight;
+    }
+    if (tabbarShowing) {
+      top += theme.appBarSizing.tabbarSizing!.height;
+    }
+
+    bool show = true;
+    if (menuDrawerShowing) {
+      if (provider.menuShownAfterAnimation && !provider.showMenu) {
+        show = false;
+      }
+
+      if (!provider.menuShownAfterAnimation && provider.showMenu) {
+        show = false;
+      }
+
+      if (provider.menuShownAfterAnimation && provider.showMenu) {
+        show = false;
+      }
+    }
+
+    double left = 0;
+    double right = 0;
+    if (siderShowing) {
+      left = routeLayout.siderLayout!.left ? theme.siderSizing.width : 0;
+      right = routeLayout.siderLayout!.left ? 0 : theme.siderSizing.width;
+    }
+
+    return Positioned(
+      top: top,
+      left: left,
+      right: right,
+      bottom: 0,
+      child: AnimatedOpacity(
+        duration:
+            show ? Duration(milliseconds: 200) : Duration(milliseconds: 10),
+        opacity: show ? 1 : 0,
+        child: IgnorePointer(
+          child: InnerElevation(
+            shadowSide: ShadowSide.top,
+          ),
         ),
       ),
     );

@@ -9,6 +9,7 @@ class ScaffoldInfo extends InheritedWidget {
   final LegendScaffold scaffold;
   final RouteInfo routeInfo;
   final RouteLayout routeLayout;
+  final bool showHeader;
 
   ScaffoldInfo({
     Key? key,
@@ -16,6 +17,7 @@ class ScaffoldInfo extends InheritedWidget {
     required this.scaffold,
     required this.routeInfo,
     required this.routeLayout,
+    required this.showHeader,
   }) : super(key: key, child: child);
 
   static ScaffoldInfo? of(BuildContext context) {

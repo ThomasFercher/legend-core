@@ -60,13 +60,22 @@ class LegendRouteBody extends HookWidget {
   Widget build(BuildContext context) {
     final theme = LegendTheme.of(context);
     final info = ScaffoldInfo.of(context)!;
-    final layout = info.getLayout(theme);
+    final layout = info.routeLayout;
     final scaffold = info.scaffold;
     final single = singlePage ?? scaffold.whether.singlePage;
 
     final bool showSliverBar = sliverAppBar != null &&
         layout.appBarLayout?.layout == AppBarLayoutConfig.body;
     final ScrollController controller = ScrollController();
+    final siderLayout = layout.siderLayout;
+
+    final ShadowSide? shadowSide = siderLayout == null
+        ? null
+        : siderLayout.left
+            ? ShadowSide.left
+            : ShadowSide.right;
+
+    final combineShadows = info.showHeader || showSliverBar;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -83,7 +92,11 @@ class LegendRouteBody extends HookWidget {
               controller: controller,
               child: ColoredBox(
                 color: theme.colors.background1,
-                child: _body(single),
+                child: InnerElevation(
+                  shadowSide: shadowSide,
+                  combineShadows: combineShadows,
+                  child: _body(single),
+                ),
               ),
             ),
           ),

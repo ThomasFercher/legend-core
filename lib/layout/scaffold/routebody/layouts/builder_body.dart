@@ -36,35 +36,32 @@ class BuilderBody extends LegendWidget {
         ];
       },
       controller: scrollController,
-      body: InnerElevation(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: contentPadding,
-                child: Builder(
-                  builder: (context) => routeBody.builder!(
-                    context,
-                    contentSize,
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: contentPadding,
+              child: Builder(
+                builder: (context) => routeBody.builder!(
+                  context,
+                  contentSize,
                 ),
               ),
             ),
-            if (showFooter)
-              SliverFillRemaining(
-                child: Column(
-                  children: [
-                    Spacer(),
-                    ConstrainedBox(
-                      constraints:
-                          BoxConstraints.tightFor(height: footerHeight),
-                      child: const ScaffoldFooter(),
-                    ),
-                  ],
-                ),
+          ),
+          if (showFooter)
+            SliverFillRemaining(
+              child: Column(
+                children: [
+                  Spacer(),
+                  ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(height: footerHeight),
+                    child: const ScaffoldFooter(),
+                  ),
+                ],
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }

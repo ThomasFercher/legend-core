@@ -13,23 +13,19 @@ class SliverBody extends LegendWidget {
 
     return Container(
       height: routeBodyInfo.constraints.maxHeight,
-      child: InnerElevation(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-              if (routeBody.sliverPersistentHeader != null)
-                SliverPersistentHeader(
-                  delegate: routeBody.sliverPersistentHeader!,
-                ),
-            ];
-          },
-          body: InnerElevation(
-            child: CustomScrollView(
-              controller: routeBodyInfo.scrollController,
-              slivers: routeBody.slivers,
-            ),
-          ),
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+            if (routeBody.sliverPersistentHeader != null)
+              SliverPersistentHeader(
+                delegate: routeBody.sliverPersistentHeader!,
+              ),
+          ];
+        },
+        body: CustomScrollView(
+          controller: routeBodyInfo.scrollController,
+          slivers: routeBody.slivers,
         ),
       ),
     );

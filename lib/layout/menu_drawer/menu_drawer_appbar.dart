@@ -6,7 +6,6 @@ import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 
 const Duration duration = Duration(milliseconds: 250);
-const Duration reverseDuration = Duration(milliseconds: 200);
 
 class MenuDrawerAppBar extends StatelessWidget {
   const MenuDrawerAppBar({Key? key}) : super(key: key);

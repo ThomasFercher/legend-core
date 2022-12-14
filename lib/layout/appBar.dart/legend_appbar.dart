@@ -9,10 +9,6 @@ import 'package:legend_router/legend_router.dart';
 import 'appbar_layout.dart';
 import 'legend_backbutton.dart';
 
-const List<Widget> actionsFiller = [SizedBox.shrink()];
-
-/// TODO: Implenment Elevation? Can also be implented in Widget over Content but maybe this is more complicated
-
 class LegendAppBar extends LegendWidget {
   final LegendAppBarConfig config;
   final ScaffoldBuilder? actions;

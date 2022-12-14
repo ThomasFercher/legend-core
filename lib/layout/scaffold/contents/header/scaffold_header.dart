@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
-import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/appBar.dart/legend_appbar.dart';
-import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/bottom/scaffold_header_bottom.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
@@ -19,7 +16,8 @@ class ScaffoldHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scaffold = ScaffoldInfo.of(context)!.scaffold;
+    final info = ScaffoldInfo.of(context)!;
+    final scaffold = info.scaffold;
     final theme = LegendTheme.of(context);
     final showBackButton = !PlatformInfo.isWeb &&
         !LegendRouter.of(context).isFirstOnStack &&
@@ -30,7 +28,10 @@ class ScaffoldHeader extends StatelessWidget {
       actions: scaffold.builders.appBarActions,
       showBackButton: showBackButton,
       showMenu: scaffold.whether.showAppBarMenu,
-      bottom: ScaffoldHeaderBottom(),
+      bottom: ScaffoldHeaderBottom(
+        appbarLayout: info.routeLayout.appBarLayout!,
+        menuDrawerLayout: info.routeLayout.menuDrawerLayout,
+      ),
       config: LegendAppBarConfig(
         appBarHeight: theme.appBarSizing.appBarHeight,
         showSubMenu: scaffold.whether.showTopSubMenu,

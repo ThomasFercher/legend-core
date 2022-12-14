@@ -3,8 +3,6 @@ import 'package:legend_design_core/widgets/shadow/inner_box_shadow.dart';
 import 'dart:math' as math;
 
 enum ShadowSide {
-  topleft,
-  topright,
   top,
   left,
   right,
@@ -12,9 +10,11 @@ enum ShadowSide {
 
 class InnerBoxDecoration extends BoxDecoration {
   final ShadowSide shadowSide;
+  final bool combine;
 
   const InnerBoxDecoration({
     required this.shadowSide,
+    required this.combine,
     super.backgroundBlendMode,
     super.border,
     super.borderRadius,
@@ -199,6 +199,7 @@ class _InnerBoxDecorationPainter extends BoxPainter {
         boxShadow.spreadRadius,
         boxShadow.blurRadius,
         _decoration.shadowSide,
+        _decoration.combine,
       );
       if (innerRect.isEmpty) {
         final paint = Paint()..color = color;
@@ -213,7 +214,7 @@ class _InnerBoxDecorationPainter extends BoxPainter {
       final outerRect = _areaCastingShadowInHole(
         rect,
         boxShadow,
-        _decoration.shadowSide,
+        _decoration,
       );
 
       canvas.drawDRRect(
@@ -232,14 +233,15 @@ class _InnerBoxDecorationPainter extends BoxPainter {
 Rect _areaCastingShadowInHole(
   Rect holeRect,
   BoxShadow shadow,
-  ShadowSide shadowSide,
+  InnerBoxDecoration _decoration,
 ) {
   var bounds = holeRect;
   bounds = inflate(
     bounds,
     shadow.blurRadius,
     shadow.blurRadius,
-    shadowSide,
+    _decoration.shadowSide,
+    _decoration.combine,
   );
 
   if (shadow.spreadRadius < 0) {
@@ -257,42 +259,29 @@ Rect inflate(
   double delta,
   double blurRadius,
   ShadowSide shadowSide,
+  bool combine,
 ) {
   switch (shadowSide) {
     case ShadowSide.left:
       return Rect.fromLTRB(
         rect.left - delta,
-        rect.top - blurRadius,
+        rect.top - (combine ? 0 : blurRadius),
         rect.right,
-        rect.bottom,
+        rect.bottom + blurRadius,
       );
     case ShadowSide.top:
       return Rect.fromLTRB(
-        rect.left,
+        rect.left - blurRadius,
         rect.top - delta,
-        rect.right,
-        rect.bottom,
-      );
-    case ShadowSide.topleft:
-      return Rect.fromLTRB(
-        rect.left - delta,
-        rect.top - delta,
-        rect.right,
-        rect.bottom,
-      );
-    case ShadowSide.topright:
-      return Rect.fromLTRB(
-        rect.left,
-        rect.top - delta,
-        rect.right + delta,
+        rect.right + blurRadius,
         rect.bottom,
       );
     case ShadowSide.right:
       return Rect.fromLTRB(
         rect.left,
-        rect.top - blurRadius,
+        rect.top - (combine ? 0 : blurRadius),
         rect.right + delta,
-        rect.bottom,
+        rect.bottom + blurRadius,
       );
   }
 }
@@ -302,8 +291,9 @@ Rect deflate(
   double delta,
   double blurRadius,
   ShadowSide shadowSide,
+  bool combine,
 ) {
-  return inflate(rect, -delta, blurRadius, shadowSide);
+  return inflate(rect, -delta, blurRadius, shadowSide, combine);
 }
 
 Rect _unionRects(Rect a, Rect b) {

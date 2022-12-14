@@ -40,27 +40,25 @@ class ChildrenBody extends LegendWidget {
           ];
         },
         controller: routeBodyInfo.scrollController,
-        body: InnerElevation(
-          child: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: children.length,
-                  (context, i) => children[i],
+        body: CustomScrollView(
+          slivers: [
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                childCount: children.length,
+                (context, i) => children[i],
+              ),
+            ),
+            SliverFillRemaining(
+              child: SizedBox.shrink(),
+            ),
+            if (showFooter)
+              SliverToBoxAdapter(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(height: footerHeight),
+                  child: const ScaffoldFooter(),
                 ),
               ),
-              SliverFillRemaining(
-                child: SizedBox.shrink(),
-              ),
-              if (showFooter)
-                SliverToBoxAdapter(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(height: footerHeight),
-                    child: const ScaffoldFooter(),
-                  ),
-                ),
-            ],
-          ),
+          ],
         ),
       ),
     );
