@@ -3,34 +3,52 @@ import 'package:legend_utils/functions/functions.dart';
 
 class LegendText extends StatelessWidget {
   final String? data;
-  final TextStyle? textStyle;
+  final TextStyle? style;
   final bool selectable;
   final TextAlign? textAlign;
   final EdgeInsets? padding;
   final TextOverflow? overflow;
   final bool dynamicSizing;
 
+  final double? fontSize;
+  final FontWeight? fontWeight;
+  final Color? color;
+
   const LegendText(
     this.data, {
     this.selectable = true,
     this.dynamicSizing = false,
-    this.textStyle,
+    this.style,
     this.textAlign,
     this.padding,
     this.overflow,
+    this.fontSize,
+    this.fontWeight,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
+    final _style = style != null
+        ? style!.copyWith(
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            color: color,
+          )
+        : TextStyle(
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            color: color,
+          );
     Widget text = dynamicSizing
-        ? _sizedText()
+        ? _sizedText(_style)
         : selectable
-            ? _selectableText()
-            : _text();
+            ? _selectableText(_style)
+            : _text(_style);
 
     return Container(
       padding: padding ?? EdgeInsets.zero,
-      height: textStyle?.height,
+      height: style?.height,
       child: text,
     );
   }
@@ -38,10 +56,10 @@ class LegendText extends StatelessWidget {
   ///
   /// TODO: Pfusch?
   ///
-  Widget _sizedText() {
-    Size s = LegendFunctions.calcTextSize(data ?? '', textStyle ?? TextStyle());
+  Widget _sizedText(TextStyle _style) {
+    Size s = LegendFunctions.calcTextSize(data ?? '', _style);
 
-    Widget text = selectable ? _selectableText() : _text();
+    Widget text = selectable ? _selectableText(_style) : _text(_style);
 
     return Container(
       constraints: BoxConstraints(
@@ -60,10 +78,10 @@ class LegendText extends StatelessWidget {
   ///
   /// Ordinary Text Widget
   ///
-  Widget _text() {
+  Widget _text(TextStyle _style) {
     return Text(
       data ?? '',
-      style: textStyle,
+      style: _style,
       textAlign: textAlign,
       softWrap: true,
     );
@@ -72,10 +90,10 @@ class LegendText extends StatelessWidget {
   ///
   /// Selectable Text
   ///
-  Widget _selectableText() {
+  Widget _selectableText(TextStyle _style) {
     return SelectableText(
       data ?? '',
-      style: textStyle,
+      style: _style,
       textAlign: textAlign,
     );
   }
