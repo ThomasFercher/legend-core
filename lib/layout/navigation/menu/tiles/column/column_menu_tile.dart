@@ -77,7 +77,7 @@ class ColumnMenuTile extends LegendWidget {
                   LegendText(
                     title,
                     padding: EdgeInsets.only(left: spacing),
-                    textStyle: theme.typography.h1.copyWith(
+                    style: theme.typography.h1.copyWith(
                       color: foreground,
                     ),
                     selectable: false,

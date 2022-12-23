@@ -7,10 +7,10 @@ const Color _shadowColor = Color.fromARGB(64, 0, 0, 0);
 ///
 class ElevatedBox extends StatelessWidget {
   final double elevation;
-  final Color shadowColor;
   final Widget child;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry padding;
+  late final Color shadowColor;
   late final BoxDecoration _decoration;
   late final LegendBoxShadow shadow = LegendBoxShadow(
     elevation: elevation,
@@ -22,18 +22,24 @@ class ElevatedBox extends StatelessWidget {
     super.key,
     required this.elevation,
     required this.child,
-    this.shadowColor = _shadowColor,
+    Color? shadowColor,
     this.margin = const EdgeInsets.all(4),
     this.padding = EdgeInsets.zero,
     BoxDecoration? decoration,
   }) {
+    this.shadowColor = shadowColor ?? _shadowColor;
+
     assert(elevation >= 0.0, 'Elevation has to a positive number!');
-    _decoration = decoration?.copyWith(
-          boxShadow: [shadow],
-        ) ??
-        BoxDecoration(
-          boxShadow: [shadow],
-        );
+    if (elevation > 0) {
+      _decoration = decoration?.copyWith(
+            boxShadow: [shadow],
+          ) ??
+          BoxDecoration(
+            boxShadow: [shadow],
+          );
+    } else {
+      _decoration = decoration ?? BoxDecoration();
+    }
   }
 
   @override

@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:legend_design_core/widgets/elevation/elevated_card.dart';
-import '../../styles/legend_theme.dart';
 
 class AnimatedCard extends HookWidget {
   final double elevation;
@@ -17,19 +18,22 @@ class AnimatedCard extends HookWidget {
   final Duration duration;
   final BoxBorder? border;
 
-  AnimatedCard({
-    Key? key,
+  final double selElevation;
+
+  const AnimatedCard({
+    super.key,
     required this.elevation,
+    required this.child,
     this.borderRadius,
     this.background,
-    required this.padding,
-    required this.child,
+    this.padding = EdgeInsets.zero,
     this.border,
     this.onTap,
     this.height,
     this.width,
     this.duration = const Duration(milliseconds: 240),
-  }) : super(key: key);
+    double? selElevation,
+  }) : selElevation = selElevation ?? elevation * 2;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,7 @@ class AnimatedCard extends HookWidget {
     );
 
     Animation<double> offset =
-        Tween<double>(begin: 1, end: 10).animate(controller);
+        Tween<double>(begin: elevation, end: selElevation).animate(controller);
 
     return AnimatedBuilder(
       animation: offset,
@@ -47,6 +51,7 @@ class AnimatedCard extends HookWidget {
         return ElevatedCard(
           width: width,
           height: height,
+          padding: padding,
           border: border,
           borderRadius: borderRadius,
           background: background,

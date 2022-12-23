@@ -1,8 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_utils/extensions/extensions.dart';
 
-class LegendDetector extends StatefulWidget {
+class LegendDetector extends StatelessWidget {
   final void Function(PointerEnterEvent)? onEnter;
   final void Function(PointerExitEvent)? onExit;
   final void Function(bool)? onHover;
@@ -10,82 +9,56 @@ class LegendDetector extends StatefulWidget {
   final void Function()? onTap;
 
   final Widget child;
-  final EdgeInsets padding;
   final BorderRadiusGeometry? borderRadius;
 
   final Color background;
-  late final Color activeBackground;
+  final double elevation;
+  final Color? shadowColor;
 
-  LegendDetector({
-    Key? key,
+  final Duration animationDuration;
+
+  const LegendDetector({
+    super.key,
+    required this.child,
     this.onEnter,
     this.onExit,
     this.onHover,
     this.onTap,
-    required this.child,
-    this.padding = EdgeInsets.zero,
     this.borderRadius,
-    this.background = Colors.transparent,
+    this.shadowColor,
     this.onHoverEvent,
-    Color? activeBackground,
-  }) : super(key: key) {
-    this.activeBackground = activeBackground ?? background.darken(0.1);
-  }
-
-  @override
-  State<LegendDetector> createState() => _LegendDetectorState();
-}
-
-class _LegendDetectorState extends State<LegendDetector> {
-  late bool isHovered;
-  late Color _background;
-
-  @override
-  void initState() {
-    isHovered = false;
-    _background = widget.background;
-    super.initState();
-  }
-
-  void onHover() {
-    if (widget.onHover != null) widget.onHover!(isHovered);
-  }
+    this.elevation = 0,
+    this.animationDuration = const Duration(milliseconds: 200),
+    Color? background,
+  }) : background = background ?? Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      opaque: true,
-      onEnter: (e) {
-        if (isHovered == false) {
-          setState(() {
-            isHovered = true;
-            _background = widget.activeBackground;
-          });
-          if (widget.onEnter != null) widget.onEnter!(e);
-          onHover();
-        }
-      },
-      onExit: (e) {
-        if (isHovered == true) {
-          setState(() {
-            isHovered = false;
-            _background = widget.background;
-          });
-          if (widget.onExit != null) widget.onExit!(e);
-          onHover();
-        }
-      },
-      onHover: widget.onHoverEvent,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          child: widget.child,
-          padding: widget.padding,
-          decoration: BoxDecoration(
-            borderRadius: widget.borderRadius,
-            color: _background,
+    return Material(
+      color: background,
+      borderRadius: borderRadius,
+      shadowColor: shadowColor,
+      elevation: elevation,
+      animationDuration: animationDuration,
+      child: MouseRegion(
+        opaque: true,
+        onEnter: (e) {
+          if (onEnter != null) onEnter!(e);
+          if (onHover != null) onHover!(true);
+        },
+        onExit: (e) {
+          if (onExit != null) onExit!(e);
+          if (onHover != null) onHover!(false);
+        },
+        cursor: SystemMouseCursors.click,
+        onHover: onHoverEvent,
+        child: InkWell(
+          borderRadius: borderRadius?.resolve(
+            Directionality.of(context),
           ),
+          hoverColor: Colors.transparent,
+          onTap: onTap,
+          child: child,
         ),
       ),
     );

@@ -30,7 +30,6 @@ class BottomBarItem extends LegendWidget {
       width: width,
       height: height,
       child: LegendDetector(
-        background: Colors.transparent,
         borderRadius: BorderRadius.all(
           Radius.circular(sizing.height),
         ),
@@ -54,7 +53,7 @@ class BottomBarItem extends LegendWidget {
                   option.title,
                   selectable: false,
                   dynamicSizing: true,
-                  textStyle: theme.typography.h0.copyWith(
+                  style: theme.typography.h0.copyWith(
                     color: color,
                   ),
                 ),

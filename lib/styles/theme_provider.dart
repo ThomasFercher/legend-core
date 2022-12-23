@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_utils/legend_utils.dart';
 
 class ThemeProvider extends ChangeNotifier {
   final LegendSizingTheme sizingTheme;
@@ -22,7 +23,10 @@ class ThemeProvider extends ChangeNotifier {
     final next = sizingTheme.setWidth(size.width);
 
     if (prev != next) {
-      print(size);
+      Logger.log(
+        'Sizing Theme changed from Key=$prev to Key=$next',
+        'ThemeProvider',
+      );
       theme = theme.copyWith(sizing: sizingTheme.sizing);
     }
   }

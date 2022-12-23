@@ -14,6 +14,7 @@ class TabOption extends StatefulWidget {
     required this.icon,
     required this.title,
     required this.selected,
+    required this.selection,
     this.spacing = 6,
     this.padding = const EdgeInsets.symmetric(
       vertical: 4,
@@ -23,6 +24,7 @@ class TabOption extends StatefulWidget {
 
   final Color background;
   final Color border;
+  final Color selection;
   final double height;
   final String title;
   final IconData? icon;
@@ -59,9 +61,9 @@ class _TabOptionState extends State<TabOption> {
           isHovered = p0;
         });
       },
-      padding: EdgeInsets.symmetric(horizontal: 4),
       child: Container(
         height: widget.height,
+        padding: EdgeInsets.symmetric(horizontal: 4),
         width: w,
         child: Stack(
           children: [
@@ -80,7 +82,7 @@ class _TabOptionState extends State<TabOption> {
                   LegendText(
                     widget.title,
                     selectable: false,
-                    textStyle: theme.typography.h1.copyWith(
+                    style: theme.typography.h1.copyWith(
                       color: theme.colors.foreground1,
                     ),
                   ),
@@ -94,9 +96,9 @@ class _TabOptionState extends State<TabOption> {
                 width: w,
                 duration: Duration(milliseconds: 200),
                 color: widget.selected
-                    ? theme.colors.selection
+                    ? widget.selection
                     : isHovered
-                        ? theme.colors.selection
+                        ? widget.selection
                         : widget.background,
               ),
             ),

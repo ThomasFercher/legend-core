@@ -1,17 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/legend_design_core.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/typography/widgets/legend_text.dart';
 import 'package:legend_design_core/widgets/elevation/elevation_box.dart';
-import 'package:legend_utils/legend_utils.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
 class LegendSection extends LegendWidget {
   final Widget child;
   final Color? color;
-  final String? title;
+  final Widget? title;
   final double elevation;
   final double? spacing;
+  final bool centerTitle;
+  final BorderRadiusGeometry? borderRadius;
+  final EdgeInsetsGeometry? padding;
 
   const LegendSection({
     Key? key,
@@ -20,27 +19,28 @@ class LegendSection extends LegendWidget {
     this.color,
     this.elevation = 0,
     this.spacing,
+    this.centerTitle = false,
+    this.padding,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     return ElevatedBox(
+      margin: EdgeInsets.zero,
       elevation: elevation,
       decoration: BoxDecoration(
-        color: color ?? theme.colors.background2,
-        borderRadius: theme.sizing.radius2.asRadius(),
+        color: color,
+        borderRadius: borderRadius,
       ),
-      padding: EdgeInsets.all(
-        theme.sizing.spacing2,
-      ),
+      padding: padding ?? EdgeInsets.zero,
       child: title != null
           ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: centerTitle
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
               children: [
-                LegendText(
-                  title,
-                  textStyle: theme.typography.h5,
-                ),
+                title!,
                 SizedBox(
                   height: spacing ?? theme.sizing.spacing2,
                 ),

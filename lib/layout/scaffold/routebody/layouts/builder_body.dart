@@ -29,8 +29,7 @@ class BuilderBody extends LegendWidget {
             delegate: routeBody.sliverPersistentHeader!,
           ),
         SliverToBoxAdapter(
-          child: Container(
-            color: Colors.red,
+          child: Padding(
             padding: contentPadding,
             child: Builder(
               builder: (context) => routeBody.builder!(

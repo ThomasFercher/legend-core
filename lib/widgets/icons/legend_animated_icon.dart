@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../gestures/detector.dart';
 
+// This widget displays an animated icon that changes color based on whether it is selected or hovered over.
+// The widget uses an AnimationController to animate the color of the icon between enabled and disabled states.
+// The widget also has a LegendDetector child widget that captures tap and hover events and triggers the appropriate actions.
+// When the icon is tapped, the onPressed callback function is called. When the icon is hovered over, the AnimationController is triggered.
+// The widget uses a Container to apply padding and a box shadow effect around the icon.
+// The box shadow effect is based on the current color of the icon, which is determined by the AnimationController.
+// The widget also has an optional iconSize parameter that can be used to specify the size of the icon.
+
 class LegendAnimatedIcon extends StatefulWidget {
   final IconData icon;
   final LegendAnimtedIconTheme theme;
@@ -64,6 +72,7 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
   Widget build(BuildContext context) {
     return LegendDetector(
       background: Colors.transparent,
+      borderRadius: BorderRadius.circular(12),
       onTap: () => widget.onPressed(),
       onHover: (value) {
         if (value && !hovered && !widget.isSelected) {

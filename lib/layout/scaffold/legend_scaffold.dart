@@ -12,6 +12,7 @@ import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -37,7 +38,10 @@ class LegendScaffold extends LegendWidget {
   Widget build(BuildContext context, LegendTheme theme) {
     // Bottom Bar Layout
     final layout = dynamicLayout.getLayout(theme.sizing.key);
-    print(layout.siderLayout);
+
+    final w = SizeInfo.of(
+        context); // TODO: Find a better way to rebuild when theme.sizing.key changes
+
     bool showBottomBar = layout.bottomBarLayout != null;
 
     // Update Navigation Bar Color if needed

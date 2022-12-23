@@ -53,37 +53,33 @@ class RowMenuTile extends LegendWidget {
       child: LegendDetector(
         onHover: onHover,
         onTap: onClicked,
-        child: Container(
-          decoration: BoxDecoration(
-            color: background,
-            borderRadius: borderRadius,
-          ),
-          child: Padding(
-            padding: padding,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (icon != null)
-                  Icon(
-                    icon,
-                    color: foreground,
-                    size: iconSize,
-                  ),
-                if (title != null)
-                  LegendText(
-                    title,
-                    padding: EdgeInsets.only(left: spacing),
-                    selectable: false,
-                    textStyle: textStyle?.copyWith(color: foreground) ??
-                        theme.typography.h2.copyWith(
-                          color: foreground,
-                        ),
-                  ),
-                if (trailling != null) Expanded(child: Container()),
-                if (trailling != null) trailling!,
-              ],
-            ),
+        borderRadius: borderRadius,
+        background: background,
+        child: Padding(
+          padding: padding,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (icon != null)
+                Icon(
+                  icon,
+                  color: foreground,
+                  size: iconSize,
+                ),
+              if (title != null)
+                LegendText(
+                  title,
+                  padding: EdgeInsets.only(left: spacing),
+                  selectable: false,
+                  style: textStyle?.copyWith(color: foreground) ??
+                      theme.typography.h2.copyWith(
+                        color: foreground,
+                      ),
+                ),
+              if (trailling != null) Expanded(child: Container()),
+              if (trailling != null) trailling!,
+            ],
           ),
         ),
       ),

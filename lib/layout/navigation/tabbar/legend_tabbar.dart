@@ -18,7 +18,7 @@ class LegendTabBar extends LegendWidget {
   List<Widget> getOptions(BuildContext context) {
     List<Widget> items = [];
     final theme = LegendTheme.of(context);
-    final routeLayout = ScaffoldInfo.of(context)!.getLayout(theme);
+    final routeLayout = ScaffoldInfo.of(context)!.routeLayout;
     final current = ScaffoldInfo.of(context)!.routeInfo;
 
     if (routeLayout.appBarLayout?.showTabbar == true) {
@@ -27,13 +27,13 @@ class LegendTabBar extends LegendWidget {
       for (int i = 0; i < routes.length; i++) {
         final RouteInfo route = routes[i];
         Widget item = LegendDetector(
-          padding: EdgeInsets.zero,
           onTap: () {
             LegendRouter.of(context).pushPage(
               route.name,
             );
           },
           child: TabOption(
+            selection: theme.colors.appBar.tabbarColors!.selection,
             selected: route.name == current.name,
             icon: route.icon,
             title: route.title,
@@ -69,7 +69,7 @@ class LegendTabBar extends LegendWidget {
           height: height,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: getOptions(context).paddingRow(8),
+            children: getOptions(context).paddingRow(12),
           ),
         ),
       );

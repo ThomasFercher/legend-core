@@ -110,7 +110,7 @@ class LegendApp extends StatelessWidget {
               if (buildSplashscreen != null) {
                 return buildSplashscreen!(context, _theme);
               }
-              return Container();
+              return SizedBox.shrink();
             }
 
             return LegendRouter(

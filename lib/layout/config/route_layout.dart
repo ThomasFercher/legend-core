@@ -13,6 +13,7 @@ part 'route_layout.g.dart';
 /// Both [LegendScaffold] and [LegendRouteBody], which are used to display the core of your app and pages, depend
 /// on [RouteLayout] to layout. This class allows you to define a Layout for every possibility there is in Cross Platform Apps.
 ///
+/// TODO: If default BottomBarLayout is not defined the Override should still be used
 @LegendStyle(nullable: true)
 abstract class RouteLayoutStyle {
   @LegendSubStyleField()
@@ -39,30 +40,4 @@ abstract class RouteLayoutStyle {
   bool get appBarHasTabbar =>
       appBarLayout?.showTabbar == true; // TODO: Copy in Generator
 
-  /* RouteLayout copyWith({
-    AppBarLayout? appBarLayout,
-    SiderLayout? siderLayout,
-    FooterLayout? footerLayout,
-    BottomBarLayout? bottomBarLayout,
-    MenuDrawerLayout? menuDrawerLayout,
-  }) =>
-      RouteLayout(
-        appBarLayout: this.appBarLayout?.copyWithInstance(appBarLayout),
-        siderLayout: this.siderLayout?.copyWithInstance(siderLayout),
-        footerLayout: this.footerLayout?.copyWithInstance(footerLayout),
-        bottomBarLayout:
-            this.bottomBarLayout?.copyWithInstance(bottomBarLayout),
-        menuDrawerLayout:
-            this.menuDrawerLayout?.copyWithInstance(menuDrawerLayout),
-      );
-
-  RouteLayout copyWithInstance(RouteLayout? instance) => RouteLayout(
-        appBarLayout: appBarLayout?.copyWithInstance(instance?.appBarLayout),
-        siderLayout: siderLayout?.copyWithInstance(instance?.siderLayout),
-        footerLayout: footerLayout?.copyWithInstance(instance?.footerLayout),
-        bottomBarLayout:
-            bottomBarLayout?.copyWithInstance(instance?.bottomBarLayout),
-        menuDrawerLayout:
-            menuDrawerLayout?.copyWithInstance(instance?.menuDrawerLayout),
-      );*/
 }

@@ -31,25 +31,25 @@ class ElevatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedBox(
-      decoration: BoxDecoration(
-        borderRadius: borderRadius,
-        border: border,
-        color: background,
-      ),
-      padding: padding,
-      elevation: elevation,
-      child: LegendDetector(
-        onTap: onTap,
-        onEnter: (e) {
-          if (onHover != null) onHover!(true);
-        },
-        onExit: (e) {
-          if (onHover != null) onHover!(false);
-        },
-        child: SizedBox(
-          width: width,
-          height: height,
+    return LegendDetector(
+      onTap: onTap,
+      onEnter: (e) {
+        if (onHover != null) onHover!(true);
+      },
+      onExit: (e) {
+        if (onHover != null) onHover!(false);
+      },
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: ElevatedBox(
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            border: border,
+            color: background,
+          ),
+          padding: padding,
+          elevation: elevation,
           child: child,
         ),
       ),
