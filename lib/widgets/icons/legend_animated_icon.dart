@@ -17,19 +17,17 @@ class LegendAnimatedIcon extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final double? iconSize;
   final bool isSelected;
-  late final bool disableShadow;
+  final bool disableShadow;
 
-  LegendAnimatedIcon({
+  const LegendAnimatedIcon({
     required this.icon,
     required this.theme,
     required this.onPressed,
     this.isSelected = false,
     this.iconSize,
-    this.padding,
-    bool? disableShadow,
-  }) {
-    this.disableShadow = disableShadow ?? false;
-  }
+    this.padding = const EdgeInsets.all(4),
+    this.disableShadow = false,
+  });
 
   @override
   _LegendAnimatedIconState createState() => _LegendAnimatedIconState();

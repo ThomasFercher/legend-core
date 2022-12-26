@@ -34,7 +34,6 @@ class CollapsedMenu extends LegendWidget {
       width: width,
       alignment: Alignment.center,
       child: LegendAnimatedIcon(
-        padding: EdgeInsets.all(0),
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
           if (useMenuDrawerAppBar) {
