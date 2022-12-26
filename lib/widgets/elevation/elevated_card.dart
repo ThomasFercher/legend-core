@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/widgets/elevation/elevation_box.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
@@ -31,26 +33,27 @@ class ElevatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LegendDetector(
-      onTap: onTap,
-      onEnter: (e) {
-        if (onHover != null) onHover!(true);
-      },
-      onExit: (e) {
-        if (onHover != null) onHover!(false);
-      },
-      child: SizedBox(
-        width: width,
-        height: height,
+    return SizedBox(
+      width: width,
+      height: height,
+      child: LegendDetector(
+        onTap: onTap,
+        onEnter: (e) {
+          if (onHover != null) onHover!(true);
+        },
+        onExit: (e) {
+          if (onHover != null) onHover!(false);
+        },
+        background: background,
+        borderRadius: borderRadius,
         child: ElevatedBox(
+          elevation: elevation,
+          child: child,
+          margin: EdgeInsets.zero,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             border: border,
-            color: background,
           ),
-          padding: padding,
-          elevation: elevation,
-          child: child,
         ),
       ),
     );

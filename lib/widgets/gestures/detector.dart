@@ -16,6 +16,7 @@ class LegendDetector extends StatelessWidget {
   final Color? shadowColor;
 
   final Duration animationDuration;
+  final bool disableVisualFeedback;
 
   const LegendDetector({
     super.key,
@@ -29,11 +30,14 @@ class LegendDetector extends StatelessWidget {
     this.onHoverEvent,
     this.elevation = 0,
     this.animationDuration = const Duration(milliseconds: 200),
+    this.disableVisualFeedback = false,
     Color? background,
   }) : background = background ?? Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: Replace Material
+    /// No need for fancy ink effects, just a color change when clicked on same like hover
     return Material(
       color: background,
       borderRadius: borderRadius,
@@ -59,6 +63,7 @@ class LegendDetector extends StatelessWidget {
           hoverColor: Colors.transparent,
           onTap: onTap,
           child: child,
+          enableFeedback: !disableVisualFeedback,
         ),
       ),
     );
