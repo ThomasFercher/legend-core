@@ -8,20 +8,23 @@ class LegendBackButton extends LegendWidget {
 
   @override
   Widget build(BuildContext context, theme) {
-    return LegendAnimatedIcon(
+    return Padding(
       padding: EdgeInsets.only(
-        right: theme.sizing.spacing1,
+        right: 12,
       ),
-      icon: Icons.arrow_back_ios_new,
-      iconSize: theme.sizing.iconSize4,
-      disableShadow: true,
-      theme: LegendAnimtedIconTheme(
-        enabled: theme.colors.selection,
-        disabled: theme.appBarColors.foreground,
+      child: LegendAnimatedIcon(
+        padding: EdgeInsets.all(4),
+        icon: Icons.arrow_back_ios_new,
+        iconSize: theme.sizing.iconSize4,
+        disableShadow: true,
+        theme: LegendAnimtedIconTheme(
+          enabled: theme.colors.selection,
+          disabled: theme.appBarColors.foreground,
+        ),
+        onPressed: () {
+          LegendRouter.of(context).popPage();
+        },
       ),
-      onPressed: () {
-        LegendRouter.of(context).popPage();
-      },
     );
   }
 }
