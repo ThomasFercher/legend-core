@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:legend_design_core/widgets/elevation/elevated_card.dart';
@@ -17,7 +15,7 @@ class AnimatedCard extends HookWidget {
   final double? height;
   final Duration duration;
   final BoxBorder? border;
-
+  final bool disableVisualFeedback;
   final double selElevation;
 
   const AnimatedCard({
@@ -32,6 +30,7 @@ class AnimatedCard extends HookWidget {
     this.height,
     this.width,
     this.duration = const Duration(milliseconds: 240),
+    this.disableVisualFeedback = true,
     double? selElevation,
   }) : selElevation = selElevation ?? elevation * 2;
 
@@ -55,6 +54,7 @@ class AnimatedCard extends HookWidget {
           border: border,
           borderRadius: borderRadius,
           background: background,
+          disableVisualFeedback: disableVisualFeedback,
           elevation: offset.value,
           onHover: (hovered) {
             if (hovered) {

@@ -5,7 +5,7 @@ import 'package:legend_design_core/widgets/elevation/elevation_box.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
 
 class ElevatedCard extends StatelessWidget {
-  ElevatedCard({
+  const ElevatedCard({
     super.key,
     required this.elevation,
     required this.child,
@@ -17,6 +17,7 @@ class ElevatedCard extends StatelessWidget {
     this.width,
     this.height,
     this.border,
+    this.disableVisualFeedback = true,
   });
 
   final double elevation;
@@ -27,7 +28,7 @@ class ElevatedCard extends StatelessWidget {
   final Widget child;
   final void Function(bool hovered)? onHover;
   final void Function()? onTap;
-
+  final bool disableVisualFeedback;
   final double? width;
   final double? height;
 
@@ -46,6 +47,7 @@ class ElevatedCard extends StatelessWidget {
         },
         background: background,
         borderRadius: borderRadius,
+        disableVisualFeedback: disableVisualFeedback,
         child: ElevatedBox(
           elevation: elevation,
           child: child,
@@ -53,6 +55,7 @@ class ElevatedCard extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             border: border,
+            color: disableVisualFeedback ? background : null,
           ),
         ),
       ),

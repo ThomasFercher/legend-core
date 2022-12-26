@@ -7,15 +7,10 @@ class LegendDetector extends StatelessWidget {
   final void Function(bool)? onHover;
   final void Function(PointerHoverEvent event)? onHoverEvent;
   final void Function()? onTap;
-
   final Widget child;
   final BorderRadiusGeometry? borderRadius;
-
   final Color background;
-  final double elevation;
-  final Color? shadowColor;
 
-  final Duration animationDuration;
   final bool disableVisualFeedback;
 
   const LegendDetector({
@@ -26,24 +21,23 @@ class LegendDetector extends StatelessWidget {
     this.onHover,
     this.onTap,
     this.borderRadius,
-    this.shadowColor,
     this.onHoverEvent,
-    this.elevation = 0,
-    this.animationDuration = const Duration(milliseconds: 200),
     this.disableVisualFeedback = false,
     Color? background,
   }) : background = background ?? Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
-    /// TODO: Replace Material
-    /// No need for fancy ink effects, just a color change when clicked on same like hover
+    if (disableVisualFeedback) {
+      return _noFeedBack(context);
+    }
+
+    final _highlightColor =
+        background == Colors.transparent ? Colors.white24 : Colors.transparent;
+
     return Material(
       color: background,
       borderRadius: borderRadius,
-      shadowColor: shadowColor,
-      elevation: elevation,
-      animationDuration: animationDuration,
       child: MouseRegion(
         opaque: true,
         onEnter: (e) {
@@ -63,11 +57,30 @@ class LegendDetector extends StatelessWidget {
           hoverColor: Colors.transparent,
           splashColor: Colors.white10,
           focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
+          highlightColor: _highlightColor,
           onTap: onTap,
           child: child,
-          enableFeedback: !disableVisualFeedback,
         ),
+      ),
+    );
+  }
+
+  Widget _noFeedBack(BuildContext context) {
+    return MouseRegion(
+      opaque: true,
+      onEnter: (e) {
+        if (onEnter != null) onEnter!(e);
+        if (onHover != null) onHover!(true);
+      },
+      onExit: (e) {
+        if (onExit != null) onExit!(e);
+        if (onHover != null) onHover!(false);
+      },
+      cursor: SystemMouseCursors.click,
+      onHover: onHoverEvent,
+      child: GestureDetector(
+        onTap: onTap,
+        child: child,
       ),
     );
   }
