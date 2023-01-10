@@ -9,6 +9,7 @@ import 'package:legend_design_core/layout/config/route_layout.dart';
 import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/layout/scaffold/contents/header/scaffold_header.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
+import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
@@ -102,16 +103,19 @@ class LegendScaffold extends LegendWidget {
   }
 
   Widget headerShadow(
-      RouteLayout routeLayout, LegendTheme theme, BuildContext context) {
-    final siderShowing = routeLayout.siderLayout != null;
-    final appBarShowing = routeLayout.appBarLayout != null &&
-        routeLayout.appBarLayout!.layout == AppBarLayoutConfig.fixedAbove;
-    final tabbarShowing = routeLayout.appBarLayout?.showTabbar ?? false;
+    RouteLayout routeLayout,
+    LegendTheme theme,
+    BuildContext context,
+  ) {
+    final siderShowing = routeLayout.siderLayout is! NoSiderLayout;
+    final appBarShowing = routeLayout.appBarLayout is! NoAppBarLayout &&
+        routeLayout.appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
+    final tabbarShowing = routeLayout.appBarLayout.showTabbar;
 
     final provider = context.watch<AppBarProvider>();
-    final menuDrawerShowing = routeLayout.menuDrawerLayout != null &&
-        routeLayout.menuDrawerLayout!.type ==
-            MenuDrawerLayoutType.beneathAppBar;
+    final menuDrawerShowing = routeLayout.menuDrawerLayout
+            is! NoMenuDrawerLayout &&
+        routeLayout.menuDrawerLayout.type == MenuDrawerLayoutType.beneathAppBar;
 
     // Shadow Positioning
     double top = 0;
