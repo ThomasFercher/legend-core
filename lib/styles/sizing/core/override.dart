@@ -1,3 +1,4 @@
+import 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appBar_sizing.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/legend_sub_sizing.dart';
 import 'package:legend_design_core/styles/typography/style/typography_sizing.dart';
 

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'colors/legend_palette.dart';
-import 'colors/subcolors/appbar/appbar_colors.dart';
 import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
+import 'sizing/sub_sizing/appbar/appBar_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';

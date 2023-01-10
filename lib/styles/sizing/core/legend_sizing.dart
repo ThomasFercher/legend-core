@@ -1,6 +1,7 @@
 // ignore_for_file: comment_references
 
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appBar_sizing.dart';
 
 import '../../typography/style/typography_sizing.dart';
 import '../sub_sizing/legend_sub_sizing.dart';

@@ -1,6 +1,5 @@
+import 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appBar_sizing.dart';
 import 'package:legend_design_core/styles/typography/style/typography_sizing.dart';
-
-import 'appbar/appbar_sizing.dart';
 import 'bottomBar/bottomBar_sizing.dart';
 import 'footer/footer_sizing.dart';
 import 'menuDrawer/menuDrawer_sizing.dart';
