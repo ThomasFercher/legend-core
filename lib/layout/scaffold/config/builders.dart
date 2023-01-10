@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:legend_annotations/legend_annotations.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
-import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
 part 'builders.g.dart';

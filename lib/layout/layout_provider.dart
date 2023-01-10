@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 

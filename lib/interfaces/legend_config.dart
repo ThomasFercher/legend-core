@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:legend_design_core/interfaces/color_delegate.dart';
 import 'package:legend_design_core/interfaces/layout_delegate.dart';
 import 'package:legend_design_core/interfaces/size_delegate.dart';

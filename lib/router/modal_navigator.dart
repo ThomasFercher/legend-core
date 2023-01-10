@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_router/legend_router.dart';
 

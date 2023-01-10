@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
-import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
-
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
-
 import 'package:legend_design_core/state/legend_state.dart';
 
 /// Represents the parent of a submenu

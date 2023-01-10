@@ -61,7 +61,7 @@ class LegendScaffold extends LegendWidget {
 
     final appBarLayout = layout.appBarLayout;
 
-    bool showHeader = appBarLayout != null &&
+    bool showHeader = appBarLayout is! NoAppBarLayout &&
         appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
     return ScaffoldInfo(
       routeLayout: layout,
@@ -144,8 +144,8 @@ class LegendScaffold extends LegendWidget {
     double left = 0;
     double right = 0;
     if (siderShowing) {
-      left = routeLayout.siderLayout!.left ? theme.siderSizing.width : 0;
-      right = routeLayout.siderLayout!.left ? 0 : theme.siderSizing.width;
+      left = routeLayout.siderLayout.left ? theme.siderSizing.width : 0;
+      right = routeLayout.siderLayout.left ? 0 : theme.siderSizing.width;
     }
 
     return Positioned(

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:animations/animations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/modals/modalSheet.dart';
+import 'package:legend_design_core/modals/modal_sheet.dart';
 import 'package:legend_design_core/widgets/elevation/elevated_card.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
@@ -11,10 +11,8 @@ import 'package:legend_router/legend_router.dart';
 import 'package:legend_utils/legend_utils.dart';
 
 import '../../layout/navigation/siderMenu/fixed_sider_menu.dart';
-import '../../styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import '../../styles/legend_theme.dart';
-import '../../styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
-import '../legendPopups.dart';
+import '../legend_popups.dart';
 
 class LegendSubMenu {
   ///

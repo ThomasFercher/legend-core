@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_annotations/legend_annotations.dart';
-import 'package:legend_utils/functions/functions.dart';
 
 part 'bottom_bar_colors.g.dart';
 

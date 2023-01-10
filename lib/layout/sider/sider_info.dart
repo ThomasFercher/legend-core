@@ -4,14 +4,11 @@ import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 class SiderInfo extends InheritedWidget {
   final LegendSider fixedSider;
 
-  SiderInfo({
-    Key? key,
-    required this.child,
+  const SiderInfo({
+    super.key,
+    required super.child,
     required this.fixedSider,
-  }) : super(key: key, child: child);
-
-  @override
-  final Widget child;
+  });
 
   static SiderInfo? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<SiderInfo>();

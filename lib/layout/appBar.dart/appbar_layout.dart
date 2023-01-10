@@ -1,5 +1,4 @@
 import 'package:legend_annotations/legend_annotations.dart';
-import 'layout/appbar_layout.dart';
 
 part 'appbar_layout.g.dart';
 

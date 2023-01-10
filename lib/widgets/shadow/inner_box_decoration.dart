@@ -43,7 +43,6 @@ class _InnerBoxDecorationPainter extends BoxPainter {
   Paint? _cachedBackgroundPaint;
   Rect? _rectForCachedBackgroundPaint;
   Paint _getBackgroundPaint(Rect rect, TextDirection? textDirection) {
-    assert(rect != null);
     assert(
         _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
 
@@ -149,7 +148,6 @@ class _InnerBoxDecorationPainter extends BoxPainter {
   /// Paint the box decoration into the given location on the given canvas.
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    assert(configuration != null);
     assert(configuration.size != null);
     final Rect rect = offset & configuration.size!;
     final TextDirection? textDirection = configuration.textDirection;

@@ -5,7 +5,6 @@ import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_til
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
-import 'package:legend_design_core/styles/legend_theme.dart';
 import 'sider_submenu_header.dart';
 
 class SiderSubMenu extends StatefulWidget {
@@ -77,7 +76,6 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
   List<Widget> getTiles(BuildContext context) {
     List<Widget> tiles = [];
 
-    LegendTheme theme = LegendTheme.of(context);
     Iterable<RouteInfo> options = widget.option.children ?? [];
     for (int i = 0; i < options.length; i++) {
       final RouteInfo option = options.elementAt(i);

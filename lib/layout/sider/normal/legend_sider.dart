@@ -5,7 +5,7 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
-import 'package:legend_design_core/layout/sider/siderInfo.dart';
+import 'package:legend_design_core/layout/sider/sider_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
@@ -26,7 +26,7 @@ class Sider extends LegendWidget {
     final menuSizing = sizing.sideMenuSizing;
     final menuColors = colors.menuColors;
 
-    bool showLogo = layout.appBarLayout == null;
+    bool showLogo = layout.appBarLayout is NoAppBarLayout;
 
     double maxWidth = theme.siderSizing.width;
     String? current = LegendRouter.of(context).routerDelegate.current?.name;

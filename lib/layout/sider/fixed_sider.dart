@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
-import 'package:legend_design_core/layout/sider/siderInfo.dart';
+import 'package:legend_design_core/layout/sider/sider_info.dart';
 import 'normal/legend_sider.dart';
 
 class LegendSider extends StatelessWidget {

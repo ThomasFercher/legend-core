@@ -1,6 +1,5 @@
 // ignore_for_file: comment_references
 
-import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
 import '../../typography/style/typography_sizing.dart';
@@ -12,7 +11,7 @@ export 'package:legend_design_core/styles/sizing/sub_sizing/footer/footer_sizing
 export 'package:legend_design_core/styles/sizing/sub_sizing/menuDrawer/menuDrawer_sizing.dart';
 export '../../typography/typography.dart';
 export '../sub_sizing/sider/sider_sizing.dart';
-export 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appBar_sizing.dart';
+export 'package:legend_design_core/styles/sizing/sub_sizing/appbar/appbar_sizing.dart';
 export 'package:legend_design_core/styles/sizing/sub_sizing/bottomBar/bottomBar_sizing.dart';
 
 /// ## LegendSizing

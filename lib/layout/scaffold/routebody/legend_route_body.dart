@@ -7,6 +7,7 @@ import 'package:legend_design_core/layout/scaffold/routebody/layouts/children_bo
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/single_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/layouts/sliver_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
+import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/layout/has_height.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
@@ -67,11 +68,11 @@ class LegendRouteBody extends HookWidget {
     final single = singlePage ?? scaffold.whether.singlePage;
 
     final bool showSliverBar = sliverAppBar != null &&
-        layout.appBarLayout?.layout == AppBarLayoutConfig.body;
+        layout.appBarLayout.layout == AppBarLayoutConfig.body;
     final ScrollController controller = ScrollController();
     final siderLayout = layout.siderLayout;
 
-    final ShadowSide? shadowSide = siderLayout == null
+    final ShadowSide? shadowSide = siderLayout is NoSiderLayout
         ? null
         : siderLayout.left
             ? ShadowSide.left

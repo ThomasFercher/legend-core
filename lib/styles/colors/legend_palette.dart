@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_initializing_formals
 
 import 'package:flutter/material.dart';
-import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/appbar/appbar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/footer/footer_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
@@ -9,7 +9,6 @@ import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidem
 import 'package:legend_design_core/styles/colors/subcolors/sider/sider_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/sub_colors.dart';
 import 'package:legend_design_core/styles/typography/style/typography_colors.dart';
-import 'package:legend_design_core/styles/typography/typography.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 import 'core_colors.dart';
 import 'subcolors/micros/menu/menu_colors.dart';

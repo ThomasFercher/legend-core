@@ -72,7 +72,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
     final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context)!.getLayout(theme);
 
-    if (layout.appBarLayout?.showTabbar == true && route != null) {
+    if (layout.appBarLayout.showTabbar == true && route != null) {
       var routes = [route];
 
       if (route.children != null && route.children!.isNotEmpty) {

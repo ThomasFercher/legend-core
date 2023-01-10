@@ -4,7 +4,7 @@ import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'colors/legend_palette.dart';
-import 'colors/subcolors/appbar/appBar_colors.dart';
+import 'colors/subcolors/appbar/appbar_colors.dart';
 import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
@@ -12,13 +12,13 @@ import 'sizing/core/legend_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
-export 'colors/subcolors/appbar/appBar_colors.dart';
+export 'colors/subcolors/appbar/appbar_colors.dart';
 export 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 export 'colors/subcolors/footer/footer_colors.dart';
 export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
-export 'sizing/sub_sizing/appbar/appBar_sizing.dart';
+export 'sizing/sub_sizing/appbar/appbar_sizing.dart';
 
 ///
 ///

@@ -1,5 +1,3 @@
-import 'legend_sizing.dart';
-
 abstract class LegendCoreSizing implements LegendCoreSizingNull {
   /// Elevation
   @override

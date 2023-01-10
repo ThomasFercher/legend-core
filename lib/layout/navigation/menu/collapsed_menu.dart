@@ -20,7 +20,7 @@ class CollapsedMenu extends LegendWidget {
     final layout = ScaffoldInfo.of(context)!.getLayout(theme);
 
     final useMenuDrawerAppBar =
-        layout.menuDrawerLayout?.type == MenuDrawerLayoutType.beneathAppBar;
+        layout.menuDrawerLayout.type == MenuDrawerLayoutType.beneathAppBar;
 
     var icon = Icons.menu;
 

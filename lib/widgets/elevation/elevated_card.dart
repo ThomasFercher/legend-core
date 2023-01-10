@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/widgets/elevation/elevation_box.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';

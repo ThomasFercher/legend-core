@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_annotations/legend_annotations.dart';
-import 'package:legend_annotations/legend_annotations.dart';
 import '../micros/sidemenu/sidemenu_colors.dart';
 
 part 'sider_colors.g.dart';
