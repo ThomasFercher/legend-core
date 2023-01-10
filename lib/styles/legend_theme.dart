@@ -9,17 +9,15 @@ import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'colors/subcolors/footer/footer_colors.dart';
 import 'colors/subcolors/sider/sider_colors.dart';
 import 'sizing/core/legend_sizing.dart';
-import 'sizing/sub_sizing/appbar/appBar_sizing.dart';
 
 export 'colors/legend_color_theme.dart';
 export 'colors/legend_palette.dart';
-export 'colors/subcolors/appbar/appbar_colors.dart';
 export 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 export 'colors/subcolors/footer/footer_colors.dart';
 export 'colors/subcolors/sider/sider_colors.dart';
 export 'sizing/core/legend_sizing.dart';
 export 'sizing/legend_sizing_theme.dart';
-export 'sizing/sub_sizing/appbar/appbar_sizing.dart';
+export 'sizing/sub_sizing/appbar/appBar_sizing.dart';
 
 ///
 ///

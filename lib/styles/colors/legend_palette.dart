@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
-import 'package:legend_design_core/styles/colors/subcolors/appbar/appbar_colors.dart';
+import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/footer/footer_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
