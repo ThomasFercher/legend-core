@@ -6,20 +6,9 @@ part of 'route_layout.dart';
 // StyleGenerator
 // **************************************************************************
 
-abstract class RouteLayoutInfoNull {
-  final bool? appBarHasTabbar;
-  const RouteLayoutInfoNull({
-    required this.appBarHasTabbar,
-  });
-}
+abstract class RouteLayoutInfoNull {}
 
-abstract class RouteLayoutInfo implements RouteLayoutInfoNull {
-  @override
-  final bool? appBarHasTabbar;
-  const RouteLayoutInfo({
-    this.appBarHasTabbar,
-  });
-}
+abstract class RouteLayoutInfo implements RouteLayoutInfoNull {}
 
 class RouteLayoutComponentsInfo {
   final AppBarLayoutInfoNull? appBarLayout;
@@ -58,21 +47,21 @@ class RouteLayoutComponentsOverride implements RouteLayoutComponentsInfo {
 
 class RouteLayoutComponents implements RouteLayoutComponentsInfo {
   @override
-  final AppBarLayout? appBarLayout;
+  final AppBarLayout appBarLayout;
   @override
-  final SiderLayout? siderLayout;
+  final SiderLayout siderLayout;
   @override
-  final FooterLayout? footerLayout;
+  final FooterLayout footerLayout;
   @override
-  final BottomBarLayout? bottomBarLayout;
+  final BottomBarLayout bottomBarLayout;
   @override
-  final MenuDrawerLayout? menuDrawerLayout;
+  final MenuDrawerLayout menuDrawerLayout;
   RouteLayoutComponents({
-    this.appBarLayout,
-    this.siderLayout,
-    this.footerLayout,
-    this.bottomBarLayout,
-    this.menuDrawerLayout,
+    required this.appBarLayout,
+    required this.siderLayout,
+    required this.footerLayout,
+    required this.bottomBarLayout,
+    required this.menuDrawerLayout,
   });
 }
 
@@ -89,7 +78,6 @@ class RouteLayoutOverride extends RouteLayoutInfoNull
   @override
   final MenuDrawerLayoutOverride? menuDrawerLayout;
   RouteLayoutOverride({
-    super.appBarHasTabbar,
     this.appBarLayout,
     this.siderLayout,
     this.footerLayout,
@@ -100,30 +88,28 @@ class RouteLayoutOverride extends RouteLayoutInfoNull
 
 class RouteLayout extends RouteLayoutInfo implements RouteLayoutComponents {
   @override
-  final AppBarLayout? appBarLayout;
+  final AppBarLayout appBarLayout;
   @override
-  final SiderLayout? siderLayout;
+  final SiderLayout siderLayout;
   @override
-  final FooterLayout? footerLayout;
+  final FooterLayout footerLayout;
   @override
-  final BottomBarLayout? bottomBarLayout;
+  final BottomBarLayout bottomBarLayout;
   @override
-  final MenuDrawerLayout? menuDrawerLayout;
+  final MenuDrawerLayout menuDrawerLayout;
   RouteLayout({
-    super.appBarHasTabbar,
-    this.appBarLayout,
-    this.siderLayout,
-    this.footerLayout,
-    this.bottomBarLayout,
-    this.menuDrawerLayout,
+    required this.appBarLayout,
+    required this.siderLayout,
+    required this.footerLayout,
+    required this.bottomBarLayout,
+    required this.menuDrawerLayout,
   });
   RouteLayout.copy({
-    super.appBarHasTabbar,
-    this.appBarLayout,
-    this.siderLayout,
-    this.footerLayout,
-    this.bottomBarLayout,
-    this.menuDrawerLayout,
+    required this.appBarLayout,
+    required this.siderLayout,
+    required this.footerLayout,
+    required this.bottomBarLayout,
+    required this.menuDrawerLayout,
   });
 
 // **************************************************************************
@@ -137,37 +123,26 @@ class RouteLayout extends RouteLayoutInfo implements RouteLayoutComponents {
       return def;
     }
     return RouteLayout(
-      appBarHasTabbar: override.appBarHasTabbar ?? def.appBarHasTabbar,
-      appBarLayout: def.appBarLayout != null
-          ? AppBarLayout.override(
-              def.appBarLayout!,
-              override.appBarLayout,
-            )
-          : null,
-      siderLayout: def.siderLayout != null
-          ? SiderLayout.override(
-              def.siderLayout!,
-              override.siderLayout,
-            )
-          : null,
-      footerLayout: def.footerLayout != null
-          ? FooterLayout.override(
-              def.footerLayout!,
-              override.footerLayout,
-            )
-          : null,
-      bottomBarLayout: def.bottomBarLayout != null
-          ? BottomBarLayout.override(
-              def.bottomBarLayout!,
-              override.bottomBarLayout,
-            )
-          : null,
-      menuDrawerLayout: def.menuDrawerLayout != null
-          ? MenuDrawerLayout.override(
-              def.menuDrawerLayout!,
-              override.menuDrawerLayout,
-            )
-          : null,
+      appBarLayout: AppBarLayout.override(
+        def.appBarLayout,
+        override.appBarLayout,
+      ),
+      siderLayout: SiderLayout.override(
+        def.siderLayout,
+        override.siderLayout,
+      ),
+      footerLayout: FooterLayout.override(
+        def.footerLayout,
+        override.footerLayout,
+      ),
+      bottomBarLayout: BottomBarLayout.override(
+        def.bottomBarLayout,
+        override.bottomBarLayout,
+      ),
+      menuDrawerLayout: MenuDrawerLayout.override(
+        def.menuDrawerLayout,
+        override.menuDrawerLayout,
+      ),
     );
   }
 
@@ -175,7 +150,6 @@ class RouteLayout extends RouteLayoutInfo implements RouteLayoutComponents {
 // Copy With
 // **************************************************************************
   RouteLayout copyWith({
-    bool? appBarHasTabbar,
     AppBarLayout? appBarLayout,
     SiderLayout? siderLayout,
     FooterLayout? footerLayout,
@@ -183,7 +157,6 @@ class RouteLayout extends RouteLayoutInfo implements RouteLayoutComponents {
     MenuDrawerLayout? menuDrawerLayout,
   }) {
     return RouteLayout.copy(
-      appBarHasTabbar: appBarHasTabbar ?? this.appBarHasTabbar,
       appBarLayout: appBarLayout ?? this.appBarLayout,
       siderLayout: siderLayout ?? this.siderLayout,
       footerLayout: footerLayout ?? this.footerLayout,

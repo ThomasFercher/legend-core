@@ -8,7 +8,7 @@ enum MenuDrawerLayoutType {
   beneathAppBar,
 }
 
-@legendStyle
+@LegendStyle(init: true)
 class MenuDrawerLayoutStyle {
   final MenuDrawerLayoutType type;
 

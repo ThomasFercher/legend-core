@@ -38,3 +38,7 @@ class FooterLayout extends FooterLayoutInfo {
     return FooterLayout.copy();
   }
 }
+
+class NoFooterLayout extends FooterLayout {
+  NoFooterLayout();
+}

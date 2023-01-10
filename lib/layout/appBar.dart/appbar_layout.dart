@@ -11,10 +11,9 @@ enum AppBarLayoutType {
 enum AppBarLayoutConfig {
   fixedAbove,
   body,
-  none,
 }
 
-@LegendStyle()
+@LegendStyle(init: true)
 abstract class AppBarLayoutStyle {
   final AppBarLayoutConfig layout;
   final AppBarLayoutType aligment;

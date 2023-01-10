@@ -29,6 +29,7 @@ class LegendRouteBody extends HookWidget {
   final Widget Function(BuildContext context, Size s)? builder;
   final HasHeight? sliverAppBar;
   final PersistentHeader? sliverPersistentHeader;
+  final double? maxContentWidth;
 
   LegendRouteBody({
     Key? key,
@@ -39,6 +40,7 @@ class LegendRouteBody extends HookWidget {
     this.disableContentDecoration = false,
     this.sliverAppBar,
     this.sliverPersistentHeader,
+    this.maxContentWidth,
   }) : super(key: key) {
     assert(children.isNotEmpty || builder != null || slivers.isNotEmpty);
   }

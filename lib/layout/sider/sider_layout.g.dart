@@ -61,3 +61,7 @@ class SiderLayout extends SiderLayoutInfo {
     );
   }
 }
+
+class NoSiderLayout extends SiderLayout {
+  NoSiderLayout() : super(left: false);
+}

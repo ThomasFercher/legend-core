@@ -7,7 +7,7 @@ enum BottomBarSelectionType {
   icon,
 }
 
-@legendStyle
+@LegendStyle(init: true)
 class BottomBarLayoutStyle {
   final BottomBarSelectionType selectionType;
 

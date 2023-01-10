@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_layout.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
+import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/legend_bottom_bar.dart';
 import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
 import 'package:legend_design_core/layout/config/route_layout.dart';
@@ -40,9 +41,10 @@ class LegendScaffold extends LegendWidget {
     final layout = dynamicLayout.getLayout(theme.sizing.key);
 
     final w = SizeInfo.of(
-        context); // TODO: Find a better way to rebuild when theme.sizing.key changes
+      context,
+    ); // TODO: Find a better way to rebuild when theme.sizing.key changes
 
-    bool showBottomBar = layout.bottomBarLayout != null;
+    bool showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
 
     // Update Navigation Bar Color if needed
     Color _systemNavigationBarColor = showBottomBar

@@ -29,7 +29,7 @@ class ScaffoldHeader extends StatelessWidget {
       showBackButton: showBackButton,
       showMenu: scaffold.whether.showAppBarMenu,
       bottom: ScaffoldHeaderBottom(
-        appbarLayout: info.routeLayout.appBarLayout!,
+        appbarLayout: info.routeLayout.appBarLayout,
         menuDrawerLayout: info.routeLayout.menuDrawerLayout,
       ),
       config: LegendAppBarConfig(

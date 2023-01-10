@@ -61,3 +61,7 @@ class MenuDrawerLayout extends MenuDrawerLayoutInfo {
     );
   }
 }
+
+class NoMenuDrawerLayout extends MenuDrawerLayout {
+  NoMenuDrawerLayout() : super(type: MenuDrawerLayoutType.values.first);
+}

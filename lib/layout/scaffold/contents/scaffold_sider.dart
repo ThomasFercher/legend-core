@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/scaffold/legend_scaffold.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
+import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import '../../config/route_layout.dart';
 
@@ -13,8 +14,8 @@ class ScaffoldSider extends LegendWidget {
     LegendScaffold scaffold = ScaffoldInfo.of(context)!.scaffold;
     final layout = scaffold.dynamicLayout.getLayout(theme.sizing.key);
 
-    if (layout.siderLayout == null) {
-      return Container();
+    if (layout.siderLayout is NoSiderLayout) {
+      return SizedBox.shrink();
     }
 
     return LegendSider(

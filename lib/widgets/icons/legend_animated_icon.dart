@@ -17,6 +17,7 @@ class LegendAnimatedIcon extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final double? iconSize;
   final bool isSelected;
+  final bool disableFeedback;
   final bool disableShadow;
 
   const LegendAnimatedIcon({
@@ -24,6 +25,7 @@ class LegendAnimatedIcon extends StatefulWidget {
     required this.theme,
     required this.onPressed,
     this.isSelected = false,
+    this.disableFeedback = false,
     this.iconSize,
     this.padding = const EdgeInsets.all(4),
     this.disableShadow = false,
@@ -69,6 +71,7 @@ class _LegendAnimatedIconState extends State<LegendAnimatedIcon>
   @override
   Widget build(BuildContext context) {
     return LegendDetector(
+      disableVisualFeedback: widget.disableFeedback,
       background: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       onTap: () => widget.onPressed(),

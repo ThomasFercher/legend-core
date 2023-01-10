@@ -83,3 +83,12 @@ class AppBarLayout extends AppBarLayoutInfo {
     );
   }
 }
+
+class NoAppBarLayout extends AppBarLayout {
+  NoAppBarLayout()
+      : super(
+          layout: AppBarLayoutConfig.values.first,
+          aligment: AppBarLayoutType.values.first,
+          showTabbar: false,
+        );
+}

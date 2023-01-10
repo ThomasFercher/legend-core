@@ -61,3 +61,10 @@ class BottomBarLayout extends BottomBarLayoutInfo {
     );
   }
 }
+
+class NoBottomBarLayout extends BottomBarLayout {
+  NoBottomBarLayout()
+      : super(
+          selectionType: BottomBarSelectionType.values.first,
+        );
+}

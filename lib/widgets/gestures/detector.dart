@@ -48,12 +48,14 @@ class LegendDetector extends StatelessWidget {
           if (onExit != null) onExit!(e);
           if (onHover != null) onHover!(false);
         },
-        cursor: SystemMouseCursors.click,
         onHover: onHoverEvent,
         child: InkWell(
           borderRadius: borderRadius?.resolve(
             Directionality.of(context),
           ),
+          mouseCursor: onTap == null
+              ? SystemMouseCursors.click
+              : SystemMouseCursors.basic,
           hoverColor: Colors.transparent,
           splashColor: Colors.white10,
           focusColor: Colors.transparent,
@@ -76,7 +78,7 @@ class LegendDetector extends StatelessWidget {
         if (onExit != null) onExit!(e);
         if (onHover != null) onHover!(false);
       },
-      cursor: SystemMouseCursors.click,
+      cursor: SystemMouseCursors.basic,
       onHover: onHoverEvent,
       child: GestureDetector(
         onTap: onTap,

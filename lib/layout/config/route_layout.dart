@@ -14,18 +14,18 @@ part 'route_layout.g.dart';
 /// on [RouteLayout] to layout. This class allows you to define a Layout for every possibility there is in Cross Platform Apps.
 ///
 /// TODO: If default BottomBarLayout is not defined the Override should still be used
-@LegendStyle(nullable: true)
+@LegendStyle()
 abstract class RouteLayoutStyle {
   @LegendSubStyleField()
-  final AppBarLayoutStyle? appBarLayout;
+  final AppBarLayoutStyle appBarLayout;
   @LegendSubStyleField()
-  final SiderLayoutStyle? siderLayout;
+  final SiderLayoutStyle siderLayout;
   @LegendSubStyleField()
-  final FooterLayoutStyle? footerLayout;
+  final FooterLayoutStyle footerLayout;
   @LegendSubStyleField()
-  final BottomBarLayoutStyle? bottomBarLayout;
+  final BottomBarLayoutStyle bottomBarLayout;
   @LegendSubStyleField()
-  final MenuDrawerLayoutStyle? menuDrawerLayout;
+  final MenuDrawerLayoutStyle menuDrawerLayout;
 
   // TODO: Implement Annotation for Fields which need override Methods on for buildMethod (current) and one for without build method
 
@@ -36,8 +36,4 @@ abstract class RouteLayoutStyle {
     required this.bottomBarLayout,
     required this.menuDrawerLayout,
   });
-
-  bool get appBarHasTabbar =>
-      appBarLayout?.showTabbar == true; // TODO: Copy in Generator
-
 }

@@ -52,6 +52,7 @@ class ElevatedCard extends StatelessWidget {
           elevation: elevation,
           child: child,
           margin: EdgeInsets.zero,
+          padding: padding,
           decoration: BoxDecoration(
             borderRadius: borderRadius,
             border: border,
