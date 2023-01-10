@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/widgets/gestures/detector.dart';
