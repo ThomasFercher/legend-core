@@ -45,6 +45,9 @@ class SiderLayout extends SiderLayoutInfo {
     if (override == null) {
       return def;
     }
+    if (override is NoSiderLayoutOverride) {
+      return NoSiderLayout();
+    }
     return SiderLayout(
       left: override.left ?? def.left,
     );
@@ -64,4 +67,8 @@ class SiderLayout extends SiderLayoutInfo {
 
 class NoSiderLayout extends SiderLayout {
   NoSiderLayout() : super(left: false);
+}
+
+class NoSiderLayoutOverride extends SiderLayoutOverride {
+  NoSiderLayoutOverride();
 }

@@ -61,6 +61,9 @@ class AppBarLayout extends AppBarLayoutInfo {
     if (override == null) {
       return def;
     }
+    if (override is NoAppBarLayoutOverride) {
+      return NoAppBarLayout();
+    }
     return AppBarLayout(
       layout: override.layout ?? def.layout,
       aligment: override.aligment ?? def.aligment,
@@ -91,4 +94,8 @@ class NoAppBarLayout extends AppBarLayout {
           aligment: AppBarLayoutType.values.first,
           showTabbar: false,
         );
+}
+
+class NoAppBarLayoutOverride extends AppBarLayoutOverride {
+  NoAppBarLayoutOverride();
 }

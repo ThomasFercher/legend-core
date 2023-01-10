@@ -45,6 +45,9 @@ class MenuDrawerLayout extends MenuDrawerLayoutInfo {
     if (override == null) {
       return def;
     }
+    if (override is NoMenuDrawerLayoutOverride) {
+      return NoMenuDrawerLayout();
+    }
     return MenuDrawerLayout(
       type: override.type ?? def.type,
     );
@@ -64,4 +67,8 @@ class MenuDrawerLayout extends MenuDrawerLayoutInfo {
 
 class NoMenuDrawerLayout extends MenuDrawerLayout {
   NoMenuDrawerLayout() : super(type: MenuDrawerLayoutType.values.first);
+}
+
+class NoMenuDrawerLayoutOverride extends MenuDrawerLayoutOverride {
+  NoMenuDrawerLayoutOverride();
 }

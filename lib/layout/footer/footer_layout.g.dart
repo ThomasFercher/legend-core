@@ -28,6 +28,9 @@ class FooterLayout extends FooterLayoutInfo {
     if (override == null) {
       return def;
     }
+    if (override is NoFooterLayoutOverride) {
+      return NoFooterLayout();
+    }
     return FooterLayout();
   }
 
@@ -41,4 +44,8 @@ class FooterLayout extends FooterLayoutInfo {
 
 class NoFooterLayout extends FooterLayout {
   NoFooterLayout();
+}
+
+class NoFooterLayoutOverride extends FooterLayoutOverride {
+  NoFooterLayoutOverride();
 }

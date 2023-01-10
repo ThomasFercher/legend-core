@@ -45,6 +45,9 @@ class BottomBarLayout extends BottomBarLayoutInfo {
     if (override == null) {
       return def;
     }
+    if (override is NoBottomBarLayoutOverride) {
+      return NoBottomBarLayout();
+    }
     return BottomBarLayout(
       selectionType: override.selectionType ?? def.selectionType,
     );
@@ -67,4 +70,8 @@ class NoBottomBarLayout extends BottomBarLayout {
       : super(
           selectionType: BottomBarSelectionType.values.first,
         );
+}
+
+class NoBottomBarLayoutOverride extends BottomBarLayoutOverride {
+  NoBottomBarLayoutOverride();
 }
