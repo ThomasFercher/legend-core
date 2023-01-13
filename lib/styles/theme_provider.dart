@@ -18,7 +18,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   /// Gets called every time the screen dimension change
-  void changeSize(Size size) {
+  double changeSize(Size size) {
     final prev = sizingTheme.key;
     final next = sizingTheme.setWidth(size.width);
 
@@ -29,6 +29,7 @@ class ThemeProvider extends ChangeNotifier {
       );
       theme = theme.copyWith(sizing: sizingTheme.sizing);
     }
+    return next;
   }
 
   /// Changes the current [LegendPalette] responding to the [type]

@@ -46,13 +46,32 @@ class _MetricReactorState extends State<MetricReactor>
 
   @override
   Widget build(BuildContext context) {
-    context.read<ThemeProvider>().changeSize(mediaQueryData.size);
+    final sKey = context.read<ThemeProvider>().changeSize(mediaQueryData.size);
     return MediaQuery(
       data: mediaQueryData,
       child: SizeInfo(
         window: window,
-        child: widget.child,
+        child: SizingThemeInfo(sKey: sKey, child: widget.child),
       ),
     );
+  }
+}
+
+class SizingThemeInfo extends InheritedWidget {
+  final double sKey;
+
+  SizingThemeInfo({
+    required super.child,
+    required this.sKey,
+    super.key,
+  });
+
+  static SizingThemeInfo? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<SizingThemeInfo>();
+  }
+
+  @override
+  bool updateShouldNotify(SizingThemeInfo oldWidget) {
+    return oldWidget.sKey != sKey;
   }
 }

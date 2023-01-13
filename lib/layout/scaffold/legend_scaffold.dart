@@ -12,7 +12,9 @@ import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/styles/theme_provider.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
+import 'package:legend_design_core/widgets/metric_state.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'contents/scaffold_sider.dart';
@@ -38,12 +40,10 @@ class LegendScaffold extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
+    SizingThemeInfo.of(context);
+
     // Bottom Bar Layout
     final layout = dynamicLayout.getLayout(theme.sizing.key);
-
-    final w = SizeInfo.of(
-      context,
-    ); // TODO: Find a better way to rebuild when theme.sizing.key changes
 
     bool showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
 
