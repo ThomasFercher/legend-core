@@ -32,7 +32,7 @@ class LegendConfig {
   late final ScaffoldConfig scaffoldConfig = layoutDelegate.defaultConfig;
   late final LegendTypography typography = typographyDelegate.typography;
   late final List<RouteInfo> routes = routesDelegate.buildRoutes(routeLayouts);
-  late final Map<String, DynamicRouteLayout> routeLayouts =
+  late final LayoutInfo routeLayouts =
       layoutDelegate.buildLayouts(sizingTheme.splits);
 
   LegendConfig({
