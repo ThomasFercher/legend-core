@@ -8,7 +8,7 @@ class LegendSection extends LegendWidget {
   final Widget? title;
   final double elevation;
   final double? spacing;
-  final bool centerTitle;
+  final AlignmentGeometry titleAligment;
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
 
@@ -19,7 +19,7 @@ class LegendSection extends LegendWidget {
     this.color,
     this.elevation = 0,
     this.spacing,
-    this.centerTitle = false,
+    this.titleAligment = Alignment.centerLeft,
     this.padding,
     this.borderRadius,
   }) : super(key: key);
@@ -36,11 +36,8 @@ class LegendSection extends LegendWidget {
       padding: padding ?? EdgeInsets.zero,
       child: title != null
           ? Column(
-              mainAxisAlignment: centerTitle
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
               children: [
-                title!,
+                Align(alignment: titleAligment, child: title!),
                 SizedBox(
                   height: spacing ?? theme.sizing.spacing2,
                 ),
