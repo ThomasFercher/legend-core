@@ -16,6 +16,7 @@ class ElevatedCard extends StatelessWidget {
     this.height,
     this.border,
     this.disableVisualFeedback = true,
+    this.margin = EdgeInsets.zero,
   });
 
   final double elevation;
@@ -29,32 +30,36 @@ class ElevatedCard extends StatelessWidget {
   final bool disableVisualFeedback;
   final double? width;
   final double? height;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: LegendDetector(
-        onTap: onTap,
-        onEnter: (e) {
-          if (onHover != null) onHover!(true);
-        },
-        onExit: (e) {
-          if (onHover != null) onHover!(false);
-        },
-        background: background,
-        borderRadius: borderRadius,
-        disableVisualFeedback: disableVisualFeedback,
-        child: ElevatedBox(
-          elevation: elevation,
-          child: child,
-          margin: EdgeInsets.zero,
-          padding: padding,
-          decoration: BoxDecoration(
-            borderRadius: borderRadius,
-            border: border,
-            color: disableVisualFeedback ? background : null,
+    return Padding(
+      padding: margin,
+      child: SizedBox(
+        width: width,
+        height: height,
+        child: LegendDetector(
+          onTap: onTap,
+          onEnter: (e) {
+            if (onHover != null) onHover!(true);
+          },
+          onExit: (e) {
+            if (onHover != null) onHover!(false);
+          },
+          background: background,
+          borderRadius: borderRadius,
+          disableVisualFeedback: disableVisualFeedback,
+          child: ElevatedBox(
+            elevation: elevation,
+            child: child,
+            margin: EdgeInsets.zero,
+            padding: padding,
+            decoration: BoxDecoration(
+              borderRadius: borderRadius,
+              border: border,
+              color: disableVisualFeedback ? background : null,
+            ),
           ),
         ),
       ),
