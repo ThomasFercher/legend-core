@@ -15,6 +15,7 @@ import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -38,7 +39,8 @@ class LegendScaffold extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    SizingThemeInfo.of(context);
+    print("Rebuilding Scaffold");
+    SizeInfo.of(context);
 
     // Bottom Bar Layout
     final layout = dynamicLayout.getLayout(theme.sizing.key);

@@ -97,7 +97,7 @@ class LegendBottomBar extends LegendWidget {
 
     final RouteInfo? current = LegendRouter.of(context).current;
     final provider = context.watch<BottomBarProvider>();
-    final layout = ScaffoldInfo.of(context)!.getLayout(theme).bottomBarLayout;
+    final layout = ScaffoldInfo.of(context).getLayout(theme).bottomBarLayout;
     var selected = provider.selectedIndex;
 
     if (current != null && current != provider.current) {

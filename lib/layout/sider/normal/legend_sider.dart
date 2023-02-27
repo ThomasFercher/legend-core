@@ -19,7 +19,7 @@ class Sider extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendSider fixedSider = SiderInfo.of(context)!.fixedSider;
-    RouteLayout layout = ScaffoldInfo.of(context)!.getLayout(theme);
+    RouteLayout layout = ScaffoldInfo.of(context).getLayout(theme);
 
     final colors = theme.siderColors;
     final sizing = theme.siderSizing;

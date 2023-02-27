@@ -16,7 +16,7 @@ class ScaffoldHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final info = ScaffoldInfo.of(context)!;
+    final info = ScaffoldInfo.of(context);
     final scaffold = info.scaffold;
     final theme = LegendTheme.of(context);
     final showBackButton = !PlatformInfo.isWeb &&

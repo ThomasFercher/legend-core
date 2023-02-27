@@ -14,7 +14,7 @@ class SingleBody extends LegendWidget {
     final contentPadding = !routeBody.disableContentDecoration
         ? EdgeInsets.all(theme.sizing.spacing1)
         : EdgeInsets.zero;
-    final bool showFooter = ScaffoldInfo.of(context)!.showFooter(context);
+    final bool showFooter = ScaffoldInfo.of(context).showFooter(context);
     final double footerHeight = showFooter ? theme.footerSizing.height : 0;
     final width = routeBodyInfo.constraints.maxWidth;
     return Column(

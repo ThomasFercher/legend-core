@@ -10,7 +10,7 @@ class ScaffoldFooter extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    LegendScaffold scaffold = ScaffoldInfo.of(context)!.scaffold;
+    LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
 
     final layout =
         scaffold.dynamicLayout.getLayout(theme.sizing.key).footerLayout;
