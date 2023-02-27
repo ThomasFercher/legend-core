@@ -43,7 +43,6 @@ class SizeInfo extends InheritedWidget {
     required super.child,
     required this.window,
   }) {
-    Stopwatch stopwatch = Stopwatch()..start();
     pixelRatio = window.devicePixelRatio;
 
     physicalScreenSize = window.physicalSize;
@@ -62,8 +61,6 @@ class SizeInfo extends InheritedWidget {
 
     safeWidth = logicalWidth - paddingLeft - paddingRight;
     safeHeight = logicalHeight - paddingTop - paddingBottom;
-    stopwatch.stop();
-    print('SizeInfo took ${stopwatch.elapsedMilliseconds}ms');
   }
 
   static SizeInfo of(BuildContext context) {

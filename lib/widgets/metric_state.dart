@@ -66,8 +66,11 @@ class SizingThemeInfo extends InheritedWidget {
     super.key,
   });
 
-  static SizingThemeInfo? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SizingThemeInfo>();
+  static SizingThemeInfo of(BuildContext context) {
+    final result =
+        context.dependOnInheritedWidgetOfExactType<SizingThemeInfo>();
+    assert(result != null, 'No SizingThemeInfo found in context');
+    return result!;
   }
 
   @override

@@ -13,6 +13,7 @@ import 'package:legend_design_core/widgets/layout/has_height.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
+import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_utils/extensions/boolean.dart';
 
 typedef ChildrenBuilder = List<Widget> Function(
@@ -54,13 +55,6 @@ class LegendRouteBody extends HookWidget {
     this.maxContentWidth,
   }) : assert(children != null || builder != null || slivers != null);
 
-  Widget _body(bool single, ChildrenBuilder? children, SliverBuilder? slivers) {
-    if (children.notNull) return ChildrenBody(children: children!);
-    if (slivers.notNull) return SliverBody(slivers: slivers!);
-    if (single) return SingleBody();
-    return BuilderBody();
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = LegendTheme.of(context);
@@ -82,32 +76,50 @@ class LegendRouteBody extends HookWidget {
 
     final showFooter = info.showFooter(context);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return RouteBodyInfo(
-          info: this,
-          constraints: constraints,
-          scrollController: controller,
-          showSliverBar: showSliverBar,
-          showFooter: showFooter,
-          child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(
-              scrollbars: false,
-            ),
-            child: Scrollbar(
-              controller: controller,
-              child: ColoredBox(
-                color: theme.colors.background1,
-                child: InnerElevation(
-                  shadowSide: shadowSide,
-                  combineShadows: combineShadows,
-                  child: _body(single, children, slivers),
-                ),
+    return LayoutBuilder(builder: (context, connstraints) {
+      return RouteBodyInfo(
+        info: this,
+        constraints: connstraints,
+        scrollController: controller,
+        showSliverBar: showSliverBar,
+        showFooter: showFooter,
+        child: ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(
+            scrollbars: false,
+          ),
+          child: Scrollbar(
+            controller: controller,
+            child: ColoredBox(
+              color: theme.colors.background1,
+              child: InnerElevation(
+                shadowSide: shadowSide,
+                combineShadows: combineShadows,
+                child: _Body(single, children, slivers),
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
+  }
+}
+
+class _Body extends StatelessWidget {
+  final ChildrenBuilder? children;
+  final SliverBuilder? slivers;
+  final bool single;
+
+  const _Body(
+    this.single,
+    this.children,
+    this.slivers,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    if (children.notNull) return ChildrenBody(children: children!);
+    if (slivers.notNull) return SliverBody(slivers: slivers!);
+    if (single) return SingleBody();
+    return BuilderBody();
   }
 }

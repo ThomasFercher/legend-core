@@ -15,7 +15,6 @@ import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
-import 'package:legend_design_core/widgets/size_info.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
@@ -29,7 +28,7 @@ class LegendScaffold extends LegendWidget {
   final ScaffoldBuilders builders;
   final ScaffoldWhether whether;
 
-  LegendScaffold({
+  const LegendScaffold({
     required this.child,
     required this.dynamicLayout,
     required this.whether,
@@ -39,16 +38,15 @@ class LegendScaffold extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    print("Rebuilding Scaffold");
-    SizeInfo.of(context);
-
-    // Bottom Bar Layout
-    final layout = dynamicLayout.getLayout(theme.sizing.key);
-
-    bool showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
+    final key = SizingThemeInfo.of(context).sKey;
+    final layout = dynamicLayout.getLayout(key);
+    final showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
+    final appBarLayout = layout.appBarLayout;
+    final showHeader = appBarLayout is! NoAppBarLayout &&
+        appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
 
     // Update Navigation Bar Color if needed
-    Color _systemNavigationBarColor = showBottomBar
+    final _systemNavigationBarColor = showBottomBar
         ? theme.colors.bottomBar.backgroundColor
         : theme.colors.background1;
 
@@ -59,10 +57,6 @@ class LegendScaffold extends LegendWidget {
       ),
     );
 
-    final appBarLayout = layout.appBarLayout;
-
-    bool showHeader = appBarLayout is! NoAppBarLayout &&
-        appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
     return ScaffoldInfo(
       routeLayout: layout,
       routeInfo: route,

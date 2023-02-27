@@ -56,6 +56,6 @@ class ScaffoldInfo extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ScaffoldInfo oldWidget) {
-    return oldWidget != this;
+    return oldWidget.routeLayout != oldWidget.routeLayout;
   }
 }
