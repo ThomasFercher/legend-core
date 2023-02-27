@@ -13,6 +13,16 @@ import 'package:legend_design_core/widgets/layout/has_height.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
+import 'package:legend_utils/extensions/boolean.dart';
+
+typedef ChildrenBuilder = List<Widget> Function(
+  ScrollController controller,
+  Size s,
+);
+
+typedef SliverBuilder = List<Widget> Function(
+  ScrollController controller,
+);
 
 ///
 /// This Widget will displayed directly under the Navigator/Router hence is a Page.
@@ -21,10 +31,10 @@ import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 /// fixed Widgets.
 ///
 class LegendRouteBody extends HookWidget {
-  final List<Widget> children;
+  final ChildrenBuilder? children;
 
-  /// A List of Slivers which will be provided to a CustomScrollView
-  final List<Widget> slivers;
+  final SliverBuilder? slivers;
+
   final bool? singlePage;
   final bool disableContentDecoration;
   final Widget Function(BuildContext context, Size s)? builder;
@@ -32,47 +42,37 @@ class LegendRouteBody extends HookWidget {
   final PersistentHeader? sliverPersistentHeader;
   final double? maxContentWidth;
 
-  LegendRouteBody({
-    Key? key,
-    this.children = const [],
-    this.slivers = const [],
+  const LegendRouteBody({
+    super.key,
+    this.children,
+    this.slivers,
     this.builder,
     this.singlePage,
     this.disableContentDecoration = false,
     this.sliverAppBar,
     this.sliverPersistentHeader,
     this.maxContentWidth,
-  }) : super(key: key) {
-    assert(children.isNotEmpty || builder != null || slivers.isNotEmpty);
-  }
+  }) : assert(children != null || builder != null || slivers != null);
 
-  Widget _body(bool single) {
-    if (children.isNotEmpty) {
-      return ChildrenBody();
-    }
-    if (slivers.isNotEmpty) {
-      return SliverBody();
-    }
-    if (single) {
-      return SingleBody();
-    }
+  Widget _body(bool single, ChildrenBuilder? children, SliverBuilder? slivers) {
+    if (children.notNull) return ChildrenBody(children: children!);
+    if (slivers.notNull) return SliverBody(slivers: slivers!);
+    if (single) return SingleBody();
     return BuilderBody();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = LegendTheme.of(context);
-    final info = ScaffoldInfo.of(context)!;
-    final layout = info.routeLayout;
-    final scaffold = info.scaffold;
-    final single = singlePage ?? scaffold.whether.singlePage;
+    final info = ScaffoldInfo.of(context);
+    final single = singlePage ?? info.scaffold.whether.singlePage;
 
-    final bool showSliverBar = sliverAppBar != null &&
-        layout.appBarLayout.layout == AppBarLayoutConfig.body;
-    final ScrollController controller = ScrollController();
-    final siderLayout = layout.siderLayout;
+    final showSliverBar = sliverAppBar != null &&
+        info.routeLayout.appBarLayout.layout == AppBarLayoutConfig.body;
+    final controller = useScrollController();
+    final siderLayout = info.routeLayout.siderLayout;
 
-    final ShadowSide? shadowSide = siderLayout is NoSiderLayout
+    final shadowSide = siderLayout is NoSiderLayout
         ? null
         : siderLayout.left
             ? ShadowSide.left
@@ -80,7 +80,7 @@ class LegendRouteBody extends HookWidget {
 
     final combineShadows = info.showHeader || showSliverBar;
 
-    final bool showFooter = info.showFooter(context);
+    final showFooter = info.showFooter(context);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -101,7 +101,7 @@ class LegendRouteBody extends HookWidget {
                 child: InnerElevation(
                   shadowSide: shadowSide,
                   combineShadows: combineShadows,
-                  child: _body(single),
+                  child: _body(single, children, slivers),
                 ),
               ),
             ),

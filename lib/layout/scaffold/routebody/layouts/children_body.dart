@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:legend_design_core/layout/scaffold/routebody/legend_route_body.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/widgets/fill_remaining_footer.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -6,7 +7,10 @@ import 'package:legend_design_core/state/legend_state.dart';
 import '../route_body_info.dart';
 
 class ChildrenBody extends LegendWidget {
+  final ChildrenBuilder children;
+
   const ChildrenBody({
+    required this.children,
     super.key,
   });
 
@@ -14,19 +18,14 @@ class ChildrenBody extends LegendWidget {
   Widget build(BuildContext context, theme) {
     final routeBodyInfo = RouteBodyInfo.of(context);
     final routeBody = routeBodyInfo.info;
-    final children = [
-      for (final child in routeBody.children)
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: theme.sizing.spacing1)
-              .boolInit(!routeBody.disableContentDecoration),
-          child: child,
-        ),
-    ];
+    final scrollController = routeBodyInfo.scrollController;
+    final _children =
+        children(scrollController, routeBodyInfo.constraints.biggest);
 
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
       child: CustomScrollView(
-        controller: routeBodyInfo.scrollController,
+        controller: scrollController,
         slivers: [
           if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
           if (routeBody.sliverPersistentHeader != null)
@@ -35,8 +34,8 @@ class ChildrenBody extends LegendWidget {
             ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              childCount: children.length,
-              (context, i) => children[i],
+              childCount: _children.length,
+              (context, i) => _children[i],
             ),
           ),
           if (routeBodyInfo.showFooter) FillRemainingFooter()

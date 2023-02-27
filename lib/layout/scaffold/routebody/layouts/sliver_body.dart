@@ -1,17 +1,21 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/widgets/fill_remaining_footer.dart';
 import 'package:legend_design_core/layout/scaffold/routebody/route_body_info.dart';
+import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 
 class SliverBody extends LegendWidget {
-  const SliverBody({Key? key}) : super(key: key);
+  final SliverBuilder slivers;
+
+  const SliverBody({required this.slivers, super.key});
 
   @override
   Widget build(BuildContext context, theme) {
     final routeBodyInfo = RouteBodyInfo.of(context);
     final routeBody = routeBodyInfo.info;
+    final scrollController = routeBodyInfo.scrollController;
 
-    return Container(
+    return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
       child: CustomScrollView(
         controller: routeBodyInfo.scrollController,
@@ -21,7 +25,7 @@ class SliverBody extends LegendWidget {
             SliverPersistentHeader(
               delegate: routeBody.sliverPersistentHeader!,
             ),
-          ...routeBody.slivers,
+          ...slivers(scrollController),
           if (routeBodyInfo.showFooter) FillRemainingFooter()
         ],
       ),
