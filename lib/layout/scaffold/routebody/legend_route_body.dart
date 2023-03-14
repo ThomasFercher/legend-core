@@ -43,8 +43,11 @@ class LegendRouteBody extends HookWidget {
   final PersistentHeader? sliverPersistentHeader;
   final double? maxContentWidth;
   final ScrollPhysics? physics;
-  final Widget Function(Widget listView, ScrollController scrollController)?
-      listWrapper;
+  final Widget Function(
+    Widget listView,
+    ScrollController scrollController,
+    BuildContext context,
+  )? listWrapper;
 
   const LegendRouteBody({
     super.key,

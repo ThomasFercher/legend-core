@@ -31,6 +31,7 @@ class SliverBody extends LegendWidget {
           ],
         ),
         scrollController,
+        context,
       );
     }
 

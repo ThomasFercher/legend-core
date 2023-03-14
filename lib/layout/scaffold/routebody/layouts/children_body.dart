@@ -42,6 +42,7 @@ class ChildrenBody extends LegendWidget {
           ],
         ),
         scrollController,
+        context,
       );
     }
 
