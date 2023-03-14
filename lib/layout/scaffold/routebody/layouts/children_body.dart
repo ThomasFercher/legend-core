@@ -21,6 +21,29 @@ class ChildrenBody extends LegendWidget {
     final _children =
         children(scrollController, routeBodyInfo.constraints.biggest);
 
+    if (routeBody.listWrapper != null) {
+      return routeBody.listWrapper!(
+        CustomScrollView(
+          physics: routeBody.physics,
+          controller: scrollController,
+          slivers: [
+            if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+            if (routeBody.sliverPersistentHeader != null)
+              SliverPersistentHeader(
+                delegate: routeBody.sliverPersistentHeader!,
+              ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                childCount: _children.length,
+                (context, i) => _children[i],
+              ),
+            ),
+            if (routeBodyInfo.showFooter) FillRemainingFooter()
+          ],
+        ),
+      );
+    }
+
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
       child: CustomScrollView(

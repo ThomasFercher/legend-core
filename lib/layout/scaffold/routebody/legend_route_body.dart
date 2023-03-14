@@ -43,6 +43,7 @@ class LegendRouteBody extends HookWidget {
   final PersistentHeader? sliverPersistentHeader;
   final double? maxContentWidth;
   final ScrollPhysics? physics;
+  final Widget Function(Widget listView)? listWrapper;
 
   const LegendRouteBody({
     super.key,
@@ -54,6 +55,7 @@ class LegendRouteBody extends HookWidget {
     this.sliverAppBar,
     this.sliverPersistentHeader,
     this.maxContentWidth,
+    this.listWrapper,
     this.physics,
   }) : assert(children != null || builder != null || slivers != null);
 
