@@ -18,6 +18,7 @@ class SliverBody extends LegendWidget {
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
       child: CustomScrollView(
+        physics: routeBody.physics,
         controller: routeBodyInfo.scrollController,
         slivers: [
           if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,

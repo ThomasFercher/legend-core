@@ -42,6 +42,7 @@ class LegendRouteBody extends HookWidget {
   final HasHeight? sliverAppBar;
   final PersistentHeader? sliverPersistentHeader;
   final double? maxContentWidth;
+  final ScrollPhysics? physics;
 
   const LegendRouteBody({
     super.key,
@@ -53,6 +54,7 @@ class LegendRouteBody extends HookWidget {
     this.sliverAppBar,
     this.sliverPersistentHeader,
     this.maxContentWidth,
+    this.physics,
   }) : assert(children != null || builder != null || slivers != null);
 
   @override
@@ -86,6 +88,7 @@ class LegendRouteBody extends HookWidget {
         child: ScrollConfiguration(
           behavior: ScrollConfiguration.of(context).copyWith(
             scrollbars: false,
+            physics: physics,
           ),
           child: Scrollbar(
             controller: controller,
