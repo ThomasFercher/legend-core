@@ -41,6 +41,7 @@ class ChildrenBody extends LegendWidget {
             if (routeBodyInfo.showFooter) FillRemainingFooter()
           ],
         ),
+        scrollController,
       );
     }
 

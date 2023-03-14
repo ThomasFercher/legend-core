@@ -30,6 +30,7 @@ class SliverBody extends LegendWidget {
             if (routeBodyInfo.showFooter) FillRemainingFooter()
           ],
         ),
+        scrollController,
       );
     }
 

@@ -26,6 +26,10 @@ class RouteBodyInfo extends InheritedWidget {
 
   @override
   bool updateShouldNotify(RouteBodyInfo oldWidget) {
-    return true;
+    return info != oldWidget.info ||
+        constraints != oldWidget.constraints ||
+        scrollController != oldWidget.scrollController ||
+        showSliverBar != oldWidget.showSliverBar ||
+        showFooter != oldWidget.showFooter;
   }
 }
