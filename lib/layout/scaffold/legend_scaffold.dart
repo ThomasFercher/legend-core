@@ -89,13 +89,16 @@ class LegendScaffold extends LegendWidget {
                   )
               ],
             ),
-            if (showHeader) headerShadow(layout, theme, context),
+            if (showHeader && false) headerShadow(layout, theme, context),
           ],
         ),
       ),
     );
   }
 
+  ///
+  /// TODO: Make optional and also let user define the elevation value
+  ///
   Widget headerShadow(
     RouteLayout routeLayout,
     LegendTheme theme,
