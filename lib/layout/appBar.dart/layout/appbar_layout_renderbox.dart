@@ -37,16 +37,18 @@ class AppBarLayoutRenderBox extends RenderBox
     return width;
   }
 
+  double getWidthForSlot(RenderBox? renderBox) {
+    if (renderBox == null) return 0;
+    renderBox.layout(constraints, parentUsesSize: true);
+    return renderBox.size.width;
+  }
+
   double getMenuWidth() {
     RenderBox? menu = childForSlot(AppBarItem.menu);
 
     if (menu == null) return 0;
 
-    menu.layout(
-        BoxConstraints(
-          maxWidth: 1000,
-        ),
-        parentUsesSize: true);
+    menu.layout(constraints, parentUsesSize: true);
 
     return menu.size.width;
   }
@@ -346,45 +348,60 @@ class AppBarLayoutRenderBox extends RenderBox
   @override
   void performLayout() {
     // Children are allowed to be as big as they want (= unconstrained).
-    BoxConstraints constraints = this.constraints;
-    double maxWidth = constraints.maxWidth;
-    double maxHeight = constraints.maxHeight;
+    final maxWidth = constraints.maxWidth;
+    final maxHeight = constraints.maxHeight;
     contentSize = Size(maxWidth, constraints.maxHeight);
 
     //RenderBoxes
     bool isMenuCollapsed = false;
-    double menuWidth = 0;
-    double spaceFilled = 0;
 
-    RenderBox? actions = childForSlot(AppBarItem.actions);
-    RenderBox? title = childForSlot(AppBarItem.title);
-    RenderBox? menu = childForSlot(AppBarItem.menu);
-    RenderBox? backButton = childForSlot(AppBarItem.backButton);
+    final actions = childForSlot(AppBarItem.actions);
+    final title = childForSlot(AppBarItem.title);
+    final menu = childForSlot(AppBarItem.menu);
+    final backButton = childForSlot(AppBarItem.backButton);
 
-    if (menu != null) {
-      menuWidth = getMenuWidth();
-      spaceFilled = getWidthWithoutMenu(constraints) + 9 * spacing;
-
-      if (menuWidth != 0) {
-        if ((maxWidth - spaceFilled) < menuWidth) {
-          isMenuCollapsed = true;
-          menuWidth = 64;
-        }
-      }
-    }
-
-    // Menu not collapsed
-    double menuCenter = (maxWidth - menuWidth) / 2;
-    double remaining = maxWidth - menuWidth - spaceFilled;
+    final menuWidth = menu != null ? getMenuWidth() + 2 * spacing : 0;
 
     switch (type) {
       case AppBarLayoutType.MeTiAc:
+        final spaceRight = getWidthForSlot(actions);
+        final spaceLeft = getWidthForSlot(backButton) + getWidthForSlot(title);
+        final spaceFilled = spaceLeft + spaceRight;
+        final remaining = maxWidth - menuWidth - spaceFilled;
         MeLoTiAc(
-            maxWidth, maxHeight, remaining, title, menu, actions, backButton);
+          maxWidth,
+          maxHeight,
+          remaining,
+          title,
+          menu,
+          actions,
+          backButton,
+        );
         break;
       case AppBarLayoutType.TiMeAc:
-        LoTiMeAcMe(maxWidth, maxHeight, isMenuCollapsed, menuCenter, remaining,
-            title, menu, actions, backButton);
+        final menuCenterLeft = (maxWidth - menuWidth) / 2;
+        final menuCenterRight = maxWidth - menuCenterLeft;
+        final spaceRight = getWidthForSlot(actions);
+        final spaceLeft = getWidthForSlot(backButton) + getWidthForSlot(title);
+        final spaceFilled = spaceLeft + spaceRight;
+        final remaining = maxWidth - menuWidth - spaceFilled;
+
+        final rightAvailable = maxWidth - menuCenterRight - spaceRight;
+        final leftAvailable = menuCenterLeft - spaceLeft;
+        if (rightAvailable <= 0 || leftAvailable <= 0) {
+          isMenuCollapsed = true;
+        }
+        LoTiMeAcMe(
+          maxWidth,
+          maxHeight,
+          isMenuCollapsed,
+          menuCenterLeft,
+          remaining,
+          title,
+          menu,
+          actions,
+          backButton,
+        );
         break;
     }
 
