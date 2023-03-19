@@ -12,6 +12,7 @@ import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
+import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
@@ -85,7 +86,7 @@ class LegendScaffold extends LegendWidget {
                 ),
                 if (showBottomBar)
                   LegendBottomBar(
-                    options: LegendRouter.of(context).topRoutes,
+                    options: context.menuRoutes,
                   )
               ],
             ),

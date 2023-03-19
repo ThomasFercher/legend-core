@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
 import 'package:legend_design_core/legend_design_core.dart';
+import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 
@@ -38,7 +39,7 @@ class MenuDrawerAppBar extends StatelessWidget {
       return SizedBox.shrink();
     }
 
-    final maxHeight = LegendRouter.of(context).topRoutes.length *
+    final maxHeight = context.menuRoutes.length *
         (menuSizing.spacing + menuSizing.itemHeight);
 
     final minHeightC = menuDrawerOpen ? maxHeight : 0.0;
@@ -61,7 +62,7 @@ class MenuDrawerAppBar extends StatelessWidget {
         child: FixedSiderMenu(
           current: LegendRouter.of(context).current?.name,
           width: width,
-          options: LegendRouter.of(context).topRoutes,
+          options: context.menuRoutes,
           showMenuSubItems: true,
           colors: menuColors,
           sizing: menuSizing,

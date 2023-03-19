@@ -6,6 +6,7 @@ import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/layout/sider/fixed_sider.dart';
 import 'package:legend_design_core/layout/sider/sider_info.dart';
+import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
@@ -52,7 +53,7 @@ class Sider extends LegendWidget {
                 current: current,
                 sizing: menuSizing,
                 colors: menuColors,
-                options: LegendRouter.of(context).topRoutes,
+                options: context.menuRoutes,
                 showMenuSubItems: true,
                 width: maxWidth - sizing.padding.horizontal,
                 textStyle: theme.typography.h2,

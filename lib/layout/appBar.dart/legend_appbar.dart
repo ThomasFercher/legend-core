@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_router/legend_router.dart';
 import 'appbar_layout.dart';
@@ -39,7 +42,10 @@ class LegendAppBar extends LegendWidget {
     LegendTheme theme = LegendTheme.of(context);
     final menuColors = theme.colors.appBar.menuColors;
     final sizing = theme.appBarSizing.menuSizing;
-    final routes = LegendRouter.of(context).topRoutes;
+    final routes = LegendRouter.of(context)
+        .getTopRoutes<PageInfo>()
+        .where((element) => element.isMenu)
+        .toList();
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(

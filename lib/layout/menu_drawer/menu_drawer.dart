@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.dart';
+import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
@@ -185,7 +186,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                             theme.menuDrawerSizing.width - padding.horizontal,
                         hasToPop: true,
                         current: current,
-                        options: LegendRouter.of(context).topRoutes,
+                        options: context.menuRoutes,
                         showMenuSubItems: true,
                         textStyle: theme.typography.h2,
                       ),

@@ -5,12 +5,14 @@ import 'package:legend_router/legend_router.dart';
 
 abstract class LegendRouteInfo extends PageRouteInfo {
   final ScaffoldRouteConfig config;
+  final bool isMenu;
 
   const LegendRouteInfo({
     required this.config,
     required super.name,
     required super.page,
     required super.title,
+    this.isMenu = false,
     super.arguments,
     super.children,
     super.icon,
@@ -23,6 +25,7 @@ class PageInfo extends LegendRouteInfo {
     required super.name,
     required super.page,
     required super.title,
+    super.isMenu,
     super.arguments,
     super.children,
     super.icon,
