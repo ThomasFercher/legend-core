@@ -35,7 +35,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   List<Widget> getSearchItems(List<int> filtered, BuildContext context) {
     LegendTheme theme = LegendTheme.of(context);
-    List<RouteInfo> options = LegendRouter.of(context).routes;
+    List<RouteInfo> options = context.menuRoutes;
     List<Widget> items = [];
     for (var i = 0; i < filtered.length; i++) {
       final Widget widget;
@@ -79,7 +79,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
     });
 
     List<int> items = [];
-    List<RouteInfo> options = LegendRouter.of(context).routes;
+    List<RouteInfo> options = context.menuRoutes;
 
     String filter = text.toLowerCase().trim();
 

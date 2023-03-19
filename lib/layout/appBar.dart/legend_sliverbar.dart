@@ -8,6 +8,7 @@ import 'package:legend_design_core/layout/navigation/tabbar/legend_tabbar.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
+import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
@@ -48,7 +49,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
     LegendTheme theme = LegendTheme.of(context);
     final menuColors = theme.colors.appBar.menuColors;
     final sizing = theme.appBarSizing.menuSizing;
-    final routes = LegendRouter.of(context).routes.get<PageInfo>();
+    final routes = context.menuRoutes;
     switch (type) {
       case AppBarLayoutType.MeTiAc:
         return FixedMenu(
@@ -70,7 +71,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
   PreferredSize _bottom(BuildContext context) {
     RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
     final theme = LegendTheme.of(context);
-    final layout = ScaffoldInfo.of(context)!.getLayout(theme);
+    final layout = ScaffoldInfo.of(context).getLayout(theme);
 
     if (layout.appBarLayout.showTabbar == true && route != null) {
       var routes = [route];
