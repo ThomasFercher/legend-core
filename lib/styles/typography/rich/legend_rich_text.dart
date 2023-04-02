@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class RichTextItem {
@@ -54,6 +55,7 @@ class _LegendRichTextState extends State<LegendRichText> {
             ? SystemMouseCursors.click
             : SystemMouseCursors.text,
         style: hovered[i] ? style.copyWith(color: item.hoverColor) : style,
+        recognizer: item.onTap != null ? TapGestureRecognizer() : null,
         onEnter: hover
             ? (event) {
                 setState(() {
