@@ -41,7 +41,7 @@ class _LegendRichTextState extends State<LegendRichText> {
     List<TextSpan> spans = [];
     String c = ' ';
     for (var i = 0; i < widget.text.length; i++) {
-      RichTextItem item = widget.text[i];
+      final item = widget.text[i];
       String string = item.text;
       TextStyle style = item.style;
       bool hover = item.hoverColor != null;
@@ -49,13 +49,20 @@ class _LegendRichTextState extends State<LegendRichText> {
         string += c;
       }
 
-      TextSpan span = TextSpan(
+      final GestureRecognizer? gestureRecognizer;
+      if (item.onTap != null) {
+        gestureRecognizer = TapGestureRecognizer()..onTap = item.onTap;
+      } else {
+        gestureRecognizer = null;
+      }
+
+      final span = TextSpan(
         text: string,
         mouseCursor: item.onTap != null
             ? SystemMouseCursors.click
             : SystemMouseCursors.text,
         style: hovered[i] ? style.copyWith(color: item.hoverColor) : style,
-        recognizer: item.onTap != null ? TapGestureRecognizer() : null,
+        recognizer: gestureRecognizer,
         onEnter: hover
             ? (event) {
                 setState(() {
