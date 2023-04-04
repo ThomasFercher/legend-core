@@ -6,7 +6,8 @@ class LegendText extends StatelessWidget {
   final TextStyle? style;
   final bool selectable;
   final TextAlign? textAlign;
-  final EdgeInsets? padding;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final TextOverflow? overflow;
   final bool dynamicSizing;
 
@@ -25,6 +26,7 @@ class LegendText extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
     this.color,
+    this.margin,
   });
 
   @override
@@ -47,7 +49,8 @@ class LegendText extends StatelessWidget {
             : _text(_style);
 
     return Container(
-      padding: padding ?? EdgeInsets.zero,
+      padding: padding,
+      margin: margin,
       height: style?.height,
       child: text,
     );
@@ -61,7 +64,7 @@ class LegendText extends StatelessWidget {
 
     Widget text = selectable ? _selectableText(_style) : _text(_style);
 
-    return Container(
+    return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: s.height,
       ),
