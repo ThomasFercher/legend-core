@@ -7,11 +7,9 @@ part of 'footer_sizing.dart';
 // **************************************************************************
 
 abstract class FooterSizingInfoNull {
-  final double? height;
   final double? maxWidth;
   final EdgeInsets? padding;
   const FooterSizingInfoNull({
-    required this.height,
     required this.maxWidth,
     required this.padding,
   });
@@ -19,13 +17,10 @@ abstract class FooterSizingInfoNull {
 
 abstract class FooterSizingInfo implements FooterSizingInfoNull {
   @override
-  final double height;
-  @override
   final double maxWidth;
   @override
   final EdgeInsets padding;
   const FooterSizingInfo({
-    required this.height,
     required this.maxWidth,
     required this.padding,
   });
@@ -33,7 +28,6 @@ abstract class FooterSizingInfo implements FooterSizingInfoNull {
 
 class FooterSizingOverride extends FooterSizingInfoNull {
   FooterSizingOverride({
-    super.height,
     super.maxWidth,
     super.padding,
   });
@@ -41,12 +35,10 @@ class FooterSizingOverride extends FooterSizingInfoNull {
 
 class FooterSizing extends FooterSizingInfo {
   FooterSizing({
-    required super.height,
     required super.maxWidth,
     required super.padding,
   });
   FooterSizing.copy({
-    required super.height,
     required super.maxWidth,
     required super.padding,
   });
@@ -62,7 +54,6 @@ class FooterSizing extends FooterSizingInfo {
       return def;
     }
     return FooterSizing(
-      height: override.height ?? def.height,
       maxWidth: override.maxWidth ?? def.maxWidth,
       padding: override.padding ?? def.padding,
     );
@@ -72,12 +63,10 @@ class FooterSizing extends FooterSizingInfo {
 // Copy With
 // **************************************************************************
   FooterSizing copyWith({
-    double? height,
     double? maxWidth,
     EdgeInsets? padding,
   }) {
     return FooterSizing.copy(
-      height: height ?? this.height,
       maxWidth: maxWidth ?? this.maxWidth,
       padding: padding ?? this.padding,
     );

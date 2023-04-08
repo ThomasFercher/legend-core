@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_annotations/legend_annotations.dart';
-import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 
 part 'builders.g.dart';
@@ -32,7 +31,7 @@ class LegendScaffoldBuilder extends StatelessWidget {
 abstract class ScaffoldBuildersStyle {
   final ScaffoldBuilder? appBarActions;
   final ScaffoldBuilder? menuDrawerActions;
-  final FixedFooter? customFooter;
+  final Widget? customFooter;
   final Widget? appBarBottom;
   final ScaffoldBuilder? siderBuilder;
 

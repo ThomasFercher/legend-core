@@ -14,23 +14,16 @@ class SingleBody extends LegendWidget {
     final contentPadding = !routeBody.disableContentDecoration
         ? EdgeInsets.all(theme.sizing.spacing1)
         : EdgeInsets.zero;
-    final bool showFooter = ScaffoldInfo.of(context).showFooter(context);
-    final double footerHeight = showFooter ? theme.footerSizing.height : 0;
-    final width = routeBodyInfo.constraints.maxWidth;
+    final showFooter = ScaffoldInfo.of(context).showFooter(context);
+
     return Column(
       children: [
         Expanded(
           child: Padding(
             padding: contentPadding,
-            child: Builder(
-              builder: (BuildContext context) {
-                return routeBody.builder!(
-                  context,
-                  Size(
-                    width - contentPadding.horizontal,
-                    routeBodyInfo.constraints.maxHeight - footerHeight,
-                  ),
-                );
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                return routeBody.builder!(context, constraints.biggest);
               },
             ),
           ),

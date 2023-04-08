@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:legend_design_core/layout/footer/fixed_footer.dart';
 
 class LayoutProvider extends InheritedWidget {
-  final FixedFooter? globalFooter;
+  final Widget? globalFooter;
   final Widget Function(BuildContext context)? logoBuilder;
   final String? title;
 

@@ -5,13 +5,15 @@ part 'footer_sizing.g.dart';
 
 @legendStyle
 abstract class FooterSizingStyle {
-  final double height;
   final double maxWidth;
   final EdgeInsets padding;
 
   const FooterSizingStyle({
-    required this.height,
     required this.maxWidth,
     required this.padding,
   });
 }
+
+
+// Flutter build runner command:
+// flutter pub run build_runner build --delete-conflicting-outputs

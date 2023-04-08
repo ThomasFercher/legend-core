@@ -9,7 +9,7 @@ part of 'builders.dart';
 abstract class ScaffoldBuildersInfoNull {
   final Widget Function(BuildContext, LegendTheme)? appBarActions;
   final Widget Function(BuildContext, LegendTheme)? menuDrawerActions;
-  final FixedFooter? customFooter;
+  final Widget? customFooter;
   final Widget? appBarBottom;
   final Widget Function(BuildContext, LegendTheme)? siderBuilder;
   const ScaffoldBuildersInfoNull({
@@ -27,7 +27,7 @@ abstract class ScaffoldBuildersInfo implements ScaffoldBuildersInfoNull {
   @override
   final Widget Function(BuildContext, LegendTheme)? menuDrawerActions;
   @override
-  final FixedFooter? customFooter;
+  final Widget? customFooter;
   @override
   final Widget? appBarBottom;
   @override
@@ -92,7 +92,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
   ScaffoldBuilders copyWith({
     Widget Function(BuildContext, LegendTheme)? appBarActions,
     Widget Function(BuildContext, LegendTheme)? menuDrawerActions,
-    FixedFooter? customFooter,
+    Widget? customFooter,
     Widget? appBarBottom,
     Widget Function(BuildContext, LegendTheme)? siderBuilder,
   }) {
