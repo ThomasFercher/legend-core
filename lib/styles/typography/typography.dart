@@ -11,6 +11,10 @@ class LegendTypography {
   final TextStyle h4;
   final TextStyle h5;
 
+  final IconData backIcon;
+  final IconData menuIcon;
+  final IconData closeIcon;
+
   const LegendTypography({
     required this.h0,
     required this.h1,
@@ -18,6 +22,9 @@ class LegendTypography {
     required this.h3,
     required this.h4,
     required this.h5,
+    this.backIcon = Icons.arrow_back,
+    this.menuIcon = Icons.menu,
+    this.closeIcon = Icons.close,
   });
 
   factory LegendTypography.applyStyles({

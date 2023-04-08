@@ -150,7 +150,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   LegendAnimatedIcon(
-                    icon: Icons.close,
+                    icon: theme.typography.closeIcon,
                     disableShadow: true,
                     theme: LegendAnimtedIconTheme(
                       enabled: colors.foregroundSelection,

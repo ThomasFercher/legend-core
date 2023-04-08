@@ -16,17 +16,17 @@ class CollapsedMenu extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    LegendTheme theme = LegendTheme.of(context);
+    final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context).getLayout(theme);
 
     final useMenuDrawerAppBar =
         layout.menuDrawerLayout.type == MenuDrawerLayoutType.beneathAppBar;
 
-    var icon = Icons.menu;
+    var icon = theme.typography.menuIcon;
 
     if (useMenuDrawerAppBar) {
       if (context.watch<AppBarProvider>().showMenu) {
-        icon = Icons.close_rounded;
+        icon = theme.typography.closeIcon;
       }
     }
 

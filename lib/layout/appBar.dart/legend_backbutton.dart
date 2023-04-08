@@ -14,7 +14,7 @@ class LegendBackButton extends LegendWidget {
       ),
       child: LegendAnimatedIcon(
         padding: EdgeInsets.all(4),
-        icon: Icons.arrow_back_ios_new,
+        icon: theme.typography.backIcon,
         iconSize: theme.sizing.iconSize4,
         disableShadow: true,
         theme: LegendAnimtedIconTheme(
