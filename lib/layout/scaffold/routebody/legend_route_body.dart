@@ -35,6 +35,7 @@ class LegendRouteBody extends HookWidget {
   final ChildrenBuilder? children;
 
   final SliverBuilder? slivers;
+  final double? initalScrollOffset;
 
   final bool? singlePage;
   final bool disableContentDecoration;
@@ -61,6 +62,7 @@ class LegendRouteBody extends HookWidget {
     this.maxContentWidth,
     this.listWrapper,
     this.physics,
+    this.initalScrollOffset,
   }) : assert(children != null || builder != null || slivers != null);
 
   @override
@@ -71,7 +73,10 @@ class LegendRouteBody extends HookWidget {
 
     final showSliverBar = sliverAppBar != null &&
         info.routeLayout.appBarLayout.layout == AppBarLayoutConfig.body;
-    final controller = useScrollController();
+    final controller = useScrollController(
+      initialScrollOffset: initalScrollOffset ?? 0,
+      keys: [initalScrollOffset],
+    );
     final siderLayout = info.routeLayout.siderLayout;
 
     final shadowSide = siderLayout is NoSiderLayout
