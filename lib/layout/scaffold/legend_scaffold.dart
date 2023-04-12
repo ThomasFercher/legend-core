@@ -58,40 +58,42 @@ class LegendScaffold extends LegendWidget {
       ),
     );
 
-    return ScaffoldInfo(
-      routeLayout: layout,
-      routeInfo: route,
-      showHeader: showHeader,
-      scaffold: this,
-      child: Material(
-        type: MaterialType.transparency,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                if (showHeader)
-                  ScaffoldHeader(
-                    context: context,
-                    layout: appBarLayout,
+    return UnfocusHandler(
+      child: ScaffoldInfo(
+        routeLayout: layout,
+        routeInfo: route,
+        showHeader: showHeader,
+        scaffold: this,
+        child: Material(
+          type: MaterialType.transparency,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  if (showHeader)
+                    ScaffoldHeader(
+                      context: context,
+                      layout: appBarLayout,
+                    ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        ScaffoldSider(),
+                        Expanded(
+                          child: child,
+                        ),
+                      ],
+                    ),
                   ),
-                Expanded(
-                  child: Row(
-                    children: [
-                      ScaffoldSider(),
-                      Expanded(
-                        child: child,
-                      ),
-                    ],
-                  ),
-                ),
-                if (showBottomBar)
-                  LegendBottomBar(
-                    options: context.menuRoutes,
-                  )
-              ],
-            ),
-            if (showHeader && false) headerShadow(layout, theme, context),
-          ],
+                  if (showBottomBar)
+                    LegendBottomBar(
+                      options: context.menuRoutes,
+                    )
+                ],
+              ),
+              if (showHeader && false) headerShadow(layout, theme, context),
+            ],
+          ),
         ),
       ),
     );
@@ -161,6 +163,25 @@ class LegendScaffold extends LegendWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class UnfocusHandler extends StatelessWidget {
+  final Widget child;
+
+  const UnfocusHandler({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerDown: (_) {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: child,
     );
   }
 }
