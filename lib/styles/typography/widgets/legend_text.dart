@@ -10,10 +10,10 @@ class LegendText extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final TextOverflow? overflow;
   final bool dynamicSizing;
-
   final double? fontSize;
   final FontWeight? fontWeight;
   final Color? color;
+  final void Function()? onTap;
 
   const LegendText(
     this.data, {
@@ -27,7 +27,11 @@ class LegendText extends StatelessWidget {
     this.fontWeight,
     this.color,
     this.margin,
-  });
+    this.onTap,
+  }) : assert(
+          onTap == null || selectable == false,
+          "You can't use onTap and selectable at the same time",
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -42,17 +46,27 @@ class LegendText extends StatelessWidget {
             fontWeight: fontWeight,
             color: color,
           );
-    Widget text = dynamicSizing
+    Widget widget = dynamicSizing
         ? _sizedText(_style)
         : selectable
             ? _selectableText(_style)
             : _text(_style);
 
+    if (onTap != null) {
+      widget = MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: onTap,
+          child: widget,
+        ),
+      );
+    }
+
     return Container(
       padding: padding,
       margin: margin,
       height: style?.height,
-      child: text,
+      child: widget,
     );
   }
 
