@@ -15,17 +15,18 @@ dependencies:
     sdk: flutter
   provider: ^6.0.4
   flutter_hooks: ^0.18.5+1
-  google_fonts: ^2.1.0
   animations: ^2.0.2
   http: ^0.13.4
   flutter_svg: ^1.1.0
 
   legend_utils:
-    git: 
-      url: https://github.com/ThomasFercher/legend_utils
+    path: ../legend_utils
+    # git: 
+    #   url: https://github.com/ThomasFercher/legend_utils
   legend_router:
-    git:
-      url: https://github.com/ThomasFercher/legend_router
+    path: ../legend_router
+  #  git:
+  #    url: https://github.com/ThomasFercher/legend_router
   legend_annotations:
     git: 
       url: https://github.com/ThomasFercher/legend_annotations
