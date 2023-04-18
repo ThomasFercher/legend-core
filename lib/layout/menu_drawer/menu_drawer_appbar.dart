@@ -4,7 +4,9 @@ import 'package:legend_design_core/layout/navigation/siderMenu/fixed_sider_menu.
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
+import 'package:provider/provider.dart';
 
 const Duration duration = Duration(milliseconds: 250);
 
@@ -31,11 +33,15 @@ class MenuDrawerAppBar extends StatelessWidget {
       menuBackground: theme.appBarColors.background,
       foreground: theme.appBarColors.foreground,
     );
-    final provider = context.watch<AppBarProvider>();
+    final provider = LegendProvider.of<AppBarProvider>(context);
     final menuDrawerOpen = provider.showMenu;
 
     if (provider.hideMenu) {
-      provider.hideMenu = false;
+      ProviderWrapper.of<AppBarProvider>(context).update(
+        (s) => s.copyWith(
+          showMenu: false,
+        ),
+      );
       return SizedBox.shrink();
     }
 

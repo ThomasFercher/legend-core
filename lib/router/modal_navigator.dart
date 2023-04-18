@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
+import 'package:legend_design_core/styles/theme_state.dart';
 import 'package:legend_router/legend_router.dart';
 
 final modalNavKey = GlobalKey<NavigatorState>();
 
-class ModalNavigator extends LegendWidget {
+class ModalNavigator extends StatelessWidget {
   final Widget home;
   final List<RouteInfo> routes;
 
@@ -36,7 +38,8 @@ class ModalNavigator extends LegendWidget {
       WidgetsBinding.instance.platformDispatcher.defaultRouteName;
 
   @override
-  Widget build(BuildContext context, LegendTheme theme) {
+  Widget build(BuildContext context) {
+    final theme = LegendTheme.of(context);
     return Navigator(
       key: modalNavKey,
       onGenerateRoute: (r) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.dart';
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
-import 'package:legend_design_core/styles/theme_provider.dart';
+import 'package:legend_design_core/styles/theme_state.dart';
 import 'package:provider/provider.dart';
 import 'colors/legend_palette.dart';
 import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
@@ -82,6 +83,10 @@ class LegendTheme {
   }
 
   static LegendTheme of(BuildContext context) {
-    return context.watch<ThemeProvider>().theme;
+    return LegendProvider.of<ThemeState>(context).theme;
+  }
+
+  static ThemeState stateOf(BuildContext context) {
+    return LegendProvider.of<ThemeState>(context);
   }
 }

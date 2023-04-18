@@ -5,6 +5,7 @@ import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_item.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_layout.dart';
 import 'package:legend_design_core/layout/bottomBar.dart/bottom_bar_provider.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
@@ -16,7 +17,7 @@ import 'behind/behind_whole.dart';
 const double iosBottomPadding = 12;
 const Duration anmimationDuration = Duration(milliseconds: 220);
 
-class LegendBottomBar extends LegendWidget {
+class LegendBottomBar extends StatefulWidget {
   final bool? fit;
   final List<RouteInfo> options;
 
@@ -26,22 +27,30 @@ class LegendBottomBar extends LegendWidget {
     required this.options,
   });
 
+  @override
+  State<LegendBottomBar> createState() => _LegendBottomBarState();
+}
+
+class _LegendBottomBarState extends State<LegendBottomBar> {
   List<BottomBarItem> getItems(
     BuildContext context,
-    BottomBarProvider provider,
     double itemWidth,
     int selected,
   ) {
     return [
-      for (int i = 0; i < options.length; i++)
+      for (int i = 0; i < widget.options.length; i++)
         BottomBarItem(
           width: itemWidth,
           isSelected: i == selected,
-          option: options[i],
+          option: widget.options[i],
           onSelected: (o) {
-            provider.selected = i;
+            //provider.selected = i;
+
+            ProviderWrapper.of<BottomBarState>(context).update(
+              (p0) => p0.copyWith(selectedIndex: i),
+            );
             LegendRouter.of(context).pushPage(
-              options[i].name,
+              widget.options[i].name,
             );
           },
         )
@@ -68,11 +77,26 @@ class LegendBottomBar extends LegendWidget {
   }
 
   @override
-  Widget build(BuildContext context, LegendTheme theme) {
+  void didChangeDependencies() {
+    final current = LegendRouter.of(context).current;
+    final provider = LegendProvider.of<BottomBarState>(context);
+    if (current != null && current != provider.current) {
+      final index = provider.routes.indexWhere((r) => r.name == current.name);
+      Future.microtask(() => ProviderWrapper.of<BottomBarState>(context).update(
+            (p0) => p0.copyWith(selectedIndex: index),
+          ));
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = LegendTheme.of(context);
     final sizing = theme.bottomBarSizing;
     final colors = theme.bottomBarColors;
 
     double padding = MediaQuery.of(context).padding.bottom;
+    final layout = ScaffoldInfo.of(context).getLayout(theme).bottomBarLayout;
 
     if (PlatformInfo.isIos && (padding - iosBottomPadding) > 0) {
       padding = padding - iosBottomPadding;
@@ -80,7 +104,8 @@ class LegendBottomBar extends LegendWidget {
       padding = 0;
     }
     final width = SizeInfo.of(context).logicalWidth - sizing.padding.horizontal;
-    final length = options.length;
+
+    final length = widget.options.length;
     var itemWidth = sizing.itemWidth;
     var spacing = (width - (length * itemWidth)) / (length + 1);
 
@@ -95,15 +120,9 @@ class LegendBottomBar extends LegendWidget {
       'Not enough space for Routes . Occurred at width ${width}px.',
     );
 
-    final RouteInfo? current = LegendRouter.of(context).current;
-    final provider = context.watch<BottomBarProvider>();
-    final layout = ScaffoldInfo.of(context).getLayout(theme).bottomBarLayout;
-    var selected = provider.selectedIndex;
-
-    if (current != null && current != provider.current) {
-      selected = provider.routes.indexWhere((r) => r.name == current.name);
-    }
-    final left = selected * itemWidth + (selected + 1) * spacing;
+    final provider = LegendProvider.of<BottomBarState>(context);
+    final index = provider.selectedIndex;
+    final left = index * itemWidth + (index + 1) * spacing;
 
     return BottomBarInfo(
       colors: colors,
@@ -127,8 +146,11 @@ class LegendBottomBar extends LegendWidget {
                     _getBehind(layout.selectionType, left, itemWidth),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children:
-                          getItems(context, provider, itemWidth, selected),
+                      children: getItems(
+                        context,
+                        itemWidth,
+                        index,
+                      ),
                     ),
                   ],
                 ),

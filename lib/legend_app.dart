@@ -7,9 +7,11 @@ import 'package:legend_design_core/layout/layout_provider.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/router/modal_navigator.dart';
 import 'package:legend_design_core/router/navigator_frame.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
-import 'package:legend_design_core/styles/theme_provider.dart';
+import 'package:legend_design_core/styles/theme_state.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
+import 'package:provider/provider.dart';
 import 'data/asset_loader.dart';
 import 'layout/bottomBar.dart/bottom_bar_provider.dart';
 
@@ -80,46 +82,43 @@ class LegendApp extends StatelessWidget {
     final bottombarRoutes =
         routes.whereType<PageRouteInfo>().where((r) => r.depth == 1).toList();
 
-    return Localizations(
-      delegates: localizations,
-      locale: Locale('en', 'US'),
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => ThemeProvider(
-              theme: _theme,
-              colorTheme: config.colorTheme,
-              sizingTheme: config.sizingTheme,
-            ),
+    return ProviderWrapper<BottomBarState>(
+      builder: () => BottomBarState(
+        routes: bottombarRoutes,
+      ),
+      child: ProviderWrapper<AppBarProvider>(
+        builder: () => AppBarProvider(),
+        child: ProviderWrapper<ThemeState>(
+          builder: () => ThemeState(
+            theme: _theme,
+            colorTheme: config.colorTheme,
+            sizingTheme: config.sizingTheme,
           ),
-          ChangeNotifierProvider<BottomBarProvider>(
-            create: (_) => BottomBarProvider(
-              routes: bottombarRoutes,
-            ),
-          ),
-          ChangeNotifierProvider<AppBarProvider>(
-            create: (_) => AppBarProvider(),
-          ),
-        ],
-        child: LegendRouter(
-          routerDelegate: routerDelegate,
-          routes: routes,
-          child: LayoutProvider(
-            title: title,
-            logoBuilder: logoBuilder,
-            child: MetricReactor(
-              child: ModalNavigator(
-                routes: routes,
-                home: Router(
-                  routerDelegate: routerDelegate,
-                  routeInformationParser: LegendRouteInformationParser(),
-                  routeInformationProvider: PlatformRouteInformationProvider(
-                    initialRouteInformation: RouteInformation(
-                      location: WidgetsBinding
-                          .instance.platformDispatcher.defaultRouteName,
+          child: Localizations(
+            delegates: localizations,
+            locale: Locale('en', 'US'),
+            child: LegendRouter(
+              routerDelegate: routerDelegate,
+              routes: routes,
+              child: LayoutProvider(
+                title: title,
+                logoBuilder: logoBuilder,
+                child: MetricReactor(
+                  child: ModalNavigator(
+                    routes: routes,
+                    home: Router(
+                      routerDelegate: routerDelegate,
+                      routeInformationParser: LegendRouteInformationParser(),
+                      routeInformationProvider:
+                          PlatformRouteInformationProvider(
+                        initialRouteInformation: RouteInformation(
+                          location: WidgetsBinding
+                              .instance.platformDispatcher.defaultRouteName,
+                        ),
+                      ),
+                      backButtonDispatcher: RootBackButtonDispatcher(),
                     ),
                   ),
-                  backButtonDispatcher: RootBackButtonDispatcher(),
                 ),
               ),
             ),

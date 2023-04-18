@@ -13,8 +13,8 @@ import 'package:legend_design_core/layout/sider/sider_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/router/extension.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/widgets/decoration/inner_elevation.dart';
-import 'package:legend_design_core/widgets/metric_state.dart';
 import 'package:legend_design_core/widgets/shadow/inner_box_decoration.dart';
 import 'contents/scaffold_sider.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -39,7 +39,7 @@ class LegendScaffold extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    final key = SizingThemeInfo.of(context).sKey;
+    final key = theme.sizing.key;
     final layout = dynamicLayout.getLayout(key);
     final showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
     final appBarLayout = layout.appBarLayout;
@@ -112,7 +112,7 @@ class LegendScaffold extends LegendWidget {
         routeLayout.appBarLayout.layout == AppBarLayoutConfig.fixedAbove;
     final tabbarShowing = routeLayout.appBarLayout.showTabbar;
 
-    final provider = context.watch<AppBarProvider>();
+    final provider = LegendProvider.of<AppBarProvider>(context);
     final menuDrawerShowing = routeLayout.menuDrawerLayout
             is! NoMenuDrawerLayout &&
         routeLayout.menuDrawerLayout.type == MenuDrawerLayoutType.beneathAppBar;
@@ -127,18 +127,8 @@ class LegendScaffold extends LegendWidget {
     }
 
     bool show = true;
-    if (menuDrawerShowing) {
-      if (provider.menuShownAfterAnimation && !provider.showMenu) {
-        show = false;
-      }
-
-      if (!provider.menuShownAfterAnimation && provider.showMenu) {
-        show = false;
-      }
-
-      if (provider.menuShownAfterAnimation && provider.showMenu) {
-        show = false;
-      }
+    if (menuDrawerShowing && provider.showMenu) {
+      show = false;
     }
 
     double left = 0;

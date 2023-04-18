@@ -4,6 +4,7 @@ import 'package:legend_design_core/layout/menu_drawer/menu_drawer_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 
 class CollapsedMenu extends LegendWidget {
@@ -25,7 +26,7 @@ class CollapsedMenu extends LegendWidget {
     var icon = theme.typography.menuIcon;
 
     if (useMenuDrawerAppBar) {
-      if (context.watch<AppBarProvider>().showMenu) {
+      if (LegendProvider.of<AppBarProvider>(context).showMenu) {
         icon = theme.typography.closeIcon;
       }
     }
@@ -37,7 +38,13 @@ class CollapsedMenu extends LegendWidget {
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {
           if (useMenuDrawerAppBar) {
-            context.read<AppBarProvider>().toggle();
+            ProviderWrapper.of<AppBarProvider>(context).update(
+              (old) {
+                return old.copyWith(
+                  showMenu: !old.showMenu,
+                );
+              },
+            );
           } else {
             ModalRouter.of(context).push('/menudrawer');
           }

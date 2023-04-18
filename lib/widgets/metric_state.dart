@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
 import 'package:legend_design_core/legend_design_core.dart';
-import 'package:legend_design_core/styles/theme_provider.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
+import 'package:legend_design_core/styles/theme_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 
 class MetricReactor extends StatefulWidget {
@@ -28,6 +29,7 @@ class _MetricReactorState extends State<MetricReactor>
     WidgetsBinding.instance.addObserver(this);
     window = WidgetsBinding.instance.window;
     mediaQueryData = MediaQueryData.fromWindow(window);
+    Future.microtask(() => changeSizing());
   }
 
   @override
@@ -38,43 +40,46 @@ class _MetricReactorState extends State<MetricReactor>
 
   @override
   void didChangeMetrics() {
+    changeSizing();
     setState(() {
       window = WidgetsBinding.instance.window;
       mediaQueryData = MediaQueryData.fromWindow(window);
     });
   }
 
+  void changeSizing() {
+    ProviderWrapper.of<ThemeState>(context).update(
+      (state) {
+        final width = mediaQueryData.size.width;
+        final sizingTheme = state.sizingTheme;
+        final prev = sizingTheme.key;
+        final next = sizingTheme.setWidth(width);
+
+        if (prev != next) {
+          Logger.log(
+            'Sizing Theme changed from Key=$prev to Key=$next',
+            'ThemeProvider',
+          );
+
+          return state.copyWith(
+            theme: state.theme.copyWith(
+              sizing: sizingTheme.sizing,
+            ),
+          );
+        }
+        return state;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final sKey = context.read<ThemeProvider>().changeSize(mediaQueryData.size);
     return MediaQuery(
       data: mediaQueryData,
       child: SizeInfo(
         window: window,
-        child: SizingThemeInfo(sKey: sKey, child: widget.child),
+        child: widget.child,
       ),
     );
-  }
-}
-
-class SizingThemeInfo extends InheritedWidget {
-  final double sKey;
-
-  SizingThemeInfo({
-    required super.child,
-    required this.sKey,
-    super.key,
-  });
-
-  static SizingThemeInfo of(BuildContext context) {
-    final result =
-        context.dependOnInheritedWidgetOfExactType<SizingThemeInfo>();
-    assert(result != null, 'No SizingThemeInfo found in context');
-    return result!;
-  }
-
-  @override
-  bool updateShouldNotify(SizingThemeInfo oldWidget) {
-    return oldWidget.sKey != sKey;
   }
 }

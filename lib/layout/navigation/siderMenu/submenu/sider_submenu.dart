@@ -3,6 +3,7 @@ import 'package:legend_design_core/layout/appBar.dart/appbar_provider.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/column/column_menu_tile.dart';
 import 'package:legend_design_core/layout/navigation/menu/tiles/row/row_menu_tile.dart';
 import 'package:legend_design_core/legend_design_core.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/styles/colors/subcolors/micros/sidemenu/sidemenu_colors.dart';
 import 'package:legend_design_core/styles/sizing/sub_sizing/micros/sidemenu/sidemenu_sizing.dart';
 import 'sider_submenu_header.dart';
@@ -109,7 +110,11 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
               Navigator.of(context).pop();
             }
             if (widget.hasToPopMenudrawer) {
-              context.read<AppBarProvider>().pop();
+              ProviderWrapper.of<AppBarProvider>(context).update(
+                (s) => s.copyWith(
+                  showMenu: false,
+                ),
+              );
             }
             LegendRouter.of(context).pushPage(option.name);
           },
@@ -161,7 +166,11 @@ class _SiderSubMenuState extends State<SiderSubMenu> {
                       selected = headerIndex;
                     });
                     if (widget.hasToPopMenudrawer) {
-                      context.read<AppBarProvider>().pop();
+                      ProviderWrapper.of<AppBarProvider>(context).update(
+                        (s) => s.copyWith(
+                          showMenu: false,
+                        ),
+                      );
                     }
                     if (widget.hasToPop) {
                       Navigator.of(context).pop();
