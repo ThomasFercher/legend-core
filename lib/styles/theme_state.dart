@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:legend_design_core/state/legend_state.dart';
-import 'package:legend_utils/legend_utils.dart';
+import 'package:legend_design_core/state/provider/legend_provider.dart';
 
 @immutable
 class ThemeState {
@@ -27,29 +27,18 @@ class ThemeState {
     );
   }
 
-  // /// Gets called every time the screen dimension change
-  // double changeSize(Size size) {
-  //   final prev = sizingTheme.key;
-  //   final next = sizingTheme.setWidth(size.width);
-
-  //   if (prev != next) {
-  //     Logger.log(
-  //       'Sizing Theme changed from Key=$prev to Key=$next',
-  //       'ThemeProvider',
-  //     );
-  //     theme = theme.copyWith(sizing: sizingTheme.sizing);
-  //   }
-  //   return next;
-  // }
-
-  // /// Changes the current [LegendPalette] responding to the [type]
-  // /// The LegendTypography will be updated accordingly.
-  // ///  and the App will restart.
-  // void changeColorTheme(PaletteType type) {
-  //   colorTheme.type = type;
-  //   theme = theme.copyWith(colors: colorTheme.current);
-  //  // systemUIOverrides();
-  // }
+  static void changeColorTheme(BuildContext context, PaletteType type) {
+    ProviderWrapper.of<ThemeState>(context).update(
+      (old) {
+        old.colorTheme.type = type;
+        return old.copyWith(
+          theme: old.theme.copyWith(
+            colors: old.colorTheme.current,
+          ),
+        );
+      },
+    );
+  }
 
   /// System UI Overrides. This is used to change the colors of the status bar and navigation bar
   void systemUIOverrides() {
