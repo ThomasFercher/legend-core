@@ -2,12 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_router/legend_router.dart';
 
+final modalNavKey = GlobalKey<NavigatorState>();
+
 class ModalNavigator extends LegendWidget {
   final Widget home;
+  final List<RouteInfo> routes;
 
   const ModalNavigator({
     super.key,
     required this.home,
+    required this.routes,
   });
 
   Route<dynamic>? _modalGeneration(
@@ -33,9 +37,6 @@ class ModalNavigator extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    final routes = LegendRouter.of(context).routes;
-    final modalNavKey = GlobalKey<NavigatorState>();
-
     return Navigator(
       key: modalNavKey,
       onGenerateRoute: (r) {
