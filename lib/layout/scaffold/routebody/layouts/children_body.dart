@@ -50,10 +50,12 @@ class ChildrenBody extends LegendWidget {
     final hasToBeCentered =
         maxContentWidth != null && maxWidth > maxContentWidth;
     final inset = hasToBeCentered ? (maxWidth - maxContentWidth) / 2 : 0.0;
-    final padding = routeBodyInfo.info.contentPadding?.copyWith(
-      left: routeBodyInfo.info.contentPadding!.left + inset,
-      right: routeBodyInfo.info.contentPadding!.right + inset,
+    final _padding = routeBodyInfo.info.contentPadding ?? EdgeInsets.zero;
+    final padding = _padding.copyWith(
+      left: _padding.left + inset,
+      right: _padding.right + inset,
     );
+
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
       width: maxWidth,
@@ -66,23 +68,15 @@ class ChildrenBody extends LegendWidget {
             SliverPersistentHeader(
               delegate: routeBody.sliverPersistentHeader!,
             ),
-          if (padding != null)
-            SliverPadding(
-              padding: padding,
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: _children.length,
-                  (context, i) => _children[i],
-                ),
-              ),
-            )
-          else
-            SliverList(
+          SliverPadding(
+            padding: padding,
+            sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 childCount: _children.length,
                 (context, i) => _children[i],
               ),
             ),
+          ),
           if (routeBodyInfo.showFooter) FillRemainingFooter()
         ],
       ),
