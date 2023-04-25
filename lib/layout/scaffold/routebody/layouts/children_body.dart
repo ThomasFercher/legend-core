@@ -48,23 +48,29 @@ class ChildrenBody extends LegendWidget {
 
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
-      child: CustomScrollView(
-        physics: routeBody.physics,
-        controller: scrollController,
-        slivers: [
-          if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-          if (routeBody.sliverPersistentHeader != null)
-            SliverPersistentHeader(
-              delegate: routeBody.sliverPersistentHeader!,
-            ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: _children.length,
-              (context, i) => _children[i],
-            ),
+      width: routeBodyInfo.constraints.maxWidth,
+      child: Center(
+        child: SizedBox(
+          width: routeBodyInfo.info.maxContentWidth,
+          child: CustomScrollView(
+            physics: routeBody.physics,
+            controller: scrollController,
+            slivers: [
+              if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+              if (routeBody.sliverPersistentHeader != null)
+                SliverPersistentHeader(
+                  delegate: routeBody.sliverPersistentHeader!,
+                ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: _children.length,
+                  (context, i) => _children[i],
+                ),
+              ),
+              if (routeBodyInfo.showFooter) FillRemainingFooter()
+            ],
           ),
-          if (routeBodyInfo.showFooter) FillRemainingFooter()
-        ],
+        ),
       ),
     );
   }

@@ -37,18 +37,24 @@ class SliverBody extends LegendWidget {
 
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
-      child: CustomScrollView(
-        physics: routeBody.physics,
-        controller: routeBodyInfo.scrollController,
-        slivers: [
-          if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-          if (routeBody.sliverPersistentHeader != null)
-            SliverPersistentHeader(
-              delegate: routeBody.sliverPersistentHeader!,
-            ),
-          ...slivers(scrollController),
-          if (routeBodyInfo.showFooter) FillRemainingFooter()
-        ],
+      width: routeBodyInfo.constraints.maxWidth,
+      child: Center(
+        child: SizedBox(
+          width: routeBodyInfo.info.maxContentWidth,
+          child: CustomScrollView(
+            physics: routeBody.physics,
+            controller: routeBodyInfo.scrollController,
+            slivers: [
+              if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+              if (routeBody.sliverPersistentHeader != null)
+                SliverPersistentHeader(
+                  delegate: routeBody.sliverPersistentHeader!,
+                ),
+              ...slivers(scrollController),
+              if (routeBodyInfo.showFooter) FillRemainingFooter()
+            ],
+          ),
+        ),
       ),
     );
   }
