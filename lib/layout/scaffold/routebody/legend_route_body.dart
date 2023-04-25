@@ -36,7 +36,7 @@ class LegendRouteBody extends HookWidget {
 
   final SliverBuilder? slivers;
   final double? initalScrollOffset;
-
+  final EdgeInsets? contentPadding;
   final bool? singlePage;
   final bool disableContentDecoration;
   final Widget Function(BuildContext context, Size s)? builder;
@@ -63,6 +63,7 @@ class LegendRouteBody extends HookWidget {
     this.listWrapper,
     this.physics,
     this.initalScrollOffset,
+    this.contentPadding,
   }) : assert(children != null || builder != null || slivers != null);
 
   @override

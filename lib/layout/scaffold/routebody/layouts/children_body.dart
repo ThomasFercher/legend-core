@@ -45,32 +45,46 @@ class ChildrenBody extends LegendWidget {
         context,
       );
     }
-
+    final maxWidth = routeBodyInfo.constraints.maxWidth;
+    final maxContentWidth = routeBody.maxContentWidth;
+    final hasToBeCentered =
+        maxContentWidth != null && maxWidth > maxContentWidth;
+    final inset = hasToBeCentered ? (maxWidth - maxContentWidth) / 2 : 0.0;
+    final padding = routeBodyInfo.info.contentPadding?.copyWith(
+      left: routeBodyInfo.info.contentPadding!.left + inset,
+      right: routeBodyInfo.info.contentPadding!.right + inset,
+    );
     return SizedBox(
       height: routeBodyInfo.constraints.maxHeight,
-      width: routeBodyInfo.constraints.maxWidth,
-      child: Center(
-        child: SizedBox(
-          width: routeBodyInfo.info.maxContentWidth,
-          child: CustomScrollView(
-            physics: routeBody.physics,
-            controller: scrollController,
-            slivers: [
-              if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
-              if (routeBody.sliverPersistentHeader != null)
-                SliverPersistentHeader(
-                  delegate: routeBody.sliverPersistentHeader!,
-                ),
-              SliverList(
+      width: maxWidth,
+      child: CustomScrollView(
+        physics: routeBody.physics,
+        controller: scrollController,
+        slivers: [
+          if (routeBodyInfo.showSliverBar) routeBody.sliverAppBar!,
+          if (routeBody.sliverPersistentHeader != null)
+            SliverPersistentHeader(
+              delegate: routeBody.sliverPersistentHeader!,
+            ),
+          if (padding != null)
+            SliverPadding(
+              padding: padding,
+              sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: _children.length,
                   (context, i) => _children[i],
                 ),
               ),
-              if (routeBodyInfo.showFooter) FillRemainingFooter()
-            ],
-          ),
-        ),
+            )
+          else
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                childCount: _children.length,
+                (context, i) => _children[i],
+              ),
+            ),
+          if (routeBodyInfo.showFooter) FillRemainingFooter()
+        ],
       ),
     );
   }
