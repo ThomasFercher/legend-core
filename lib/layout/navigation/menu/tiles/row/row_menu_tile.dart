@@ -26,7 +26,7 @@ class RowMenuTile extends LegendWidget {
   final void Function()? onClicked;
   final void Function(bool value)? onHover;
 
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   final TextStyle? textStyle;
 
@@ -47,7 +47,7 @@ class RowMenuTile extends LegendWidget {
     this.height,
     this.onClicked,
     this.onHover,
-    this.padding = const EdgeInsets.symmetric(horizontal: 8),
+    this.padding,
     this.spacing = 4,
     this.shadow,
     this.border,
@@ -68,7 +68,7 @@ class RowMenuTile extends LegendWidget {
         onTap: onClicked,
         borderRadius: borderRadius,
         child: Padding(
-          padding: padding,
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -7,12 +7,12 @@ part 'menu_sizing.g.dart';
 abstract class MenuSizingStyle {
   final double spacing;
   final double itemSpacing;
-  final EdgeInsetsGeometry padding;
-  final BorderRadius borderRadius;
+  final EdgeInsetsGeometry? padding;
+  final BorderRadius? borderRadius;
   final double height;
   final double iconSize;
-  final BoxShadow shadow;
-  final BoxBorder border;
+  final BoxShadow? shadow;
+  final BoxBorder? border;
 
   const MenuSizingStyle({
     required this.spacing,

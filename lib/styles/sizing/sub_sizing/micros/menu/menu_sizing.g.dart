@@ -18,12 +18,12 @@ abstract class MenuSizingInfoNull {
   const MenuSizingInfoNull({
     required this.spacing,
     required this.itemSpacing,
-    required this.padding,
-    required this.borderRadius,
+    this.padding,
+    this.borderRadius,
     required this.height,
     required this.iconSize,
-    required this.shadow,
-    required this.border,
+    this.shadow,
+    this.border,
   });
 }
 
@@ -33,26 +33,26 @@ abstract class MenuSizingInfo implements MenuSizingInfoNull {
   @override
   final double itemSpacing;
   @override
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   @override
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   @override
   final double height;
   @override
   final double iconSize;
   @override
-  final BoxShadow shadow;
+  final BoxShadow? shadow;
   @override
-  final BoxBorder border;
+  final BoxBorder? border;
   const MenuSizingInfo({
     required this.spacing,
     required this.itemSpacing,
-    required this.padding,
-    required this.borderRadius,
+    this.padding,
+    this.borderRadius,
     required this.height,
     required this.iconSize,
-    required this.shadow,
-    required this.border,
+    this.shadow,
+    this.border,
   });
 }
 
@@ -73,22 +73,22 @@ class MenuSizing extends MenuSizingInfo {
   MenuSizing({
     required super.spacing,
     required super.itemSpacing,
-    required super.padding,
-    required super.borderRadius,
+    super.padding,
+    super.borderRadius,
     required super.height,
     required super.iconSize,
-    required super.shadow,
-    required super.border,
+    super.shadow,
+    super.border,
   });
   MenuSizing.copy({
     required super.spacing,
     required super.itemSpacing,
-    required super.padding,
-    required super.borderRadius,
+    super.padding,
+    super.borderRadius,
     required super.height,
     required super.iconSize,
-    required super.shadow,
-    required super.border,
+    super.shadow,
+    super.border,
   });
 
 // **************************************************************************
