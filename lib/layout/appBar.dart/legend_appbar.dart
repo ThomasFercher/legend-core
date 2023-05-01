@@ -22,6 +22,7 @@ class LegendAppBar extends LegendWidget {
   final bool showLogo;
   final bool showBackButton;
   final AppBarLayoutType type;
+  final BoxDecoration collapsedMenuDecoration;
 
   final Widget? bottom;
 
@@ -36,6 +37,7 @@ class LegendAppBar extends LegendWidget {
     this.showBackButton = true,
     required this.type,
     this.bottom,
+    this.collapsedMenuDecoration = const BoxDecoration(),
   });
 
   FixedMenu getMenu(BuildContext context) {
@@ -53,6 +55,7 @@ class LegendAppBar extends LegendWidget {
           showMenuSubItems: false,
           colors: menuColors,
           options: routes,
+          collapsedMenuDecoration: collapsedMenuDecoration,
         );
       case AppBarLayoutType.TiMeAc:
         return FixedMenu(
@@ -60,6 +63,7 @@ class LegendAppBar extends LegendWidget {
           showMenuSubItems: false,
           colors: menuColors,
           options: routes,
+          collapsedMenuDecoration: collapsedMenuDecoration,
         );
     }
   }

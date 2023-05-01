@@ -9,10 +9,12 @@ import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 
 class CollapsedMenu extends LegendWidget {
   final double width;
+  final BoxDecoration decoration;
 
   const CollapsedMenu({
     super.key,
     required this.width,
+    required this.decoration,
   });
 
   @override
@@ -34,6 +36,7 @@ class CollapsedMenu extends LegendWidget {
     return Container(
       width: width,
       alignment: Alignment.center,
+      decoration: decoration,
       child: LegendAnimatedIcon(
         iconSize: theme.appBarSizing.iconSize,
         onPressed: () {

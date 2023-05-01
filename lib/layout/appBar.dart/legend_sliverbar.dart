@@ -9,7 +9,6 @@ import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/router/extension.dart';
-import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/widgets/layout/has_height.dart';
@@ -32,6 +31,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
   final bool showLogo;
   final bool showBackButton;
   final AppBarLayoutType type;
+  final BoxDecoration collapsedMenuDecoration;
 
   const LegendSliverBar({
     required this.config,
@@ -43,6 +43,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
     this.showTitle = true,
     this.showBackButton = true,
     this.type = AppBarLayoutType.TiMeAc,
+    this.collapsedMenuDecoration = const BoxDecoration(),
   });
 
   FixedMenu getMenu(BuildContext context) {
@@ -56,6 +57,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
           showMenuSubItems: false,
           colors: menuColors,
           sizing: sizing,
+          collapsedMenuDecoration: collapsedMenuDecoration,
           options: routes,
         );
       case AppBarLayoutType.TiMeAc:
@@ -63,6 +65,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
           showMenuSubItems: false,
           colors: menuColors,
           sizing: sizing,
+          collapsedMenuDecoration: collapsedMenuDecoration,
           options: routes,
         );
     }
