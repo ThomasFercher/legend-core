@@ -13,6 +13,8 @@ abstract class MenuSizingInfoNull {
   final BorderRadius? borderRadius;
   final double? height;
   final double? iconSize;
+  final BoxShadow? shadow;
+  final BoxBorder? border;
   const MenuSizingInfoNull({
     required this.spacing,
     required this.itemSpacing,
@@ -20,6 +22,8 @@ abstract class MenuSizingInfoNull {
     required this.borderRadius,
     required this.height,
     required this.iconSize,
+    required this.shadow,
+    required this.border,
   });
 }
 
@@ -36,6 +40,10 @@ abstract class MenuSizingInfo implements MenuSizingInfoNull {
   final double height;
   @override
   final double iconSize;
+  @override
+  final BoxShadow shadow;
+  @override
+  final BoxBorder border;
   const MenuSizingInfo({
     required this.spacing,
     required this.itemSpacing,
@@ -43,6 +51,8 @@ abstract class MenuSizingInfo implements MenuSizingInfoNull {
     required this.borderRadius,
     required this.height,
     required this.iconSize,
+    required this.shadow,
+    required this.border,
   });
 }
 
@@ -54,6 +64,8 @@ class MenuSizingOverride extends MenuSizingInfoNull {
     super.borderRadius,
     super.height,
     super.iconSize,
+    super.shadow,
+    super.border,
   });
 }
 
@@ -65,6 +77,8 @@ class MenuSizing extends MenuSizingInfo {
     required super.borderRadius,
     required super.height,
     required super.iconSize,
+    required super.shadow,
+    required super.border,
   });
   MenuSizing.copy({
     required super.spacing,
@@ -73,6 +87,8 @@ class MenuSizing extends MenuSizingInfo {
     required super.borderRadius,
     required super.height,
     required super.iconSize,
+    required super.shadow,
+    required super.border,
   });
 
 // **************************************************************************
@@ -92,6 +108,8 @@ class MenuSizing extends MenuSizingInfo {
       borderRadius: override.borderRadius ?? def.borderRadius,
       height: override.height ?? def.height,
       iconSize: override.iconSize ?? def.iconSize,
+      shadow: override.shadow ?? def.shadow,
+      border: override.border ?? def.border,
     );
   }
 
@@ -105,6 +123,8 @@ class MenuSizing extends MenuSizingInfo {
     BorderRadius? borderRadius,
     double? height,
     double? iconSize,
+    BoxShadow? shadow,
+    BoxBorder? border,
   }) {
     return MenuSizing.copy(
       spacing: spacing ?? this.spacing,
@@ -113,6 +133,8 @@ class MenuSizing extends MenuSizingInfo {
       borderRadius: borderRadius ?? this.borderRadius,
       height: height ?? this.height,
       iconSize: iconSize ?? this.iconSize,
+      shadow: shadow ?? this.shadow,
+      border: border ?? this.border,
     );
   }
 }

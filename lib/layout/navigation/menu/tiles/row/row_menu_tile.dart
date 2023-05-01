@@ -30,6 +30,10 @@ class RowMenuTile extends LegendWidget {
 
   final TextStyle? textStyle;
 
+  final BoxShadow? shadow;
+
+  final BoxBorder? border;
+
   RowMenuTile({
     required this.foreground,
     required this.background,
@@ -45,17 +49,24 @@ class RowMenuTile extends LegendWidget {
     this.onHover,
     this.padding = const EdgeInsets.symmetric(horizontal: 8),
     this.spacing = 4,
+    this.shadow,
+    this.border,
   });
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    return SizedBox(
+    return Container(
       height: height,
+      decoration: BoxDecoration(
+        borderRadius: borderRadius,
+        color: background,
+        border: border,
+        boxShadow: [if (shadow != null) shadow!],
+      ),
       child: LegendDetector(
         onHover: onHover,
         onTap: onClicked,
         borderRadius: borderRadius,
-        background: background,
         child: Padding(
           padding: padding,
           child: Row(

@@ -73,6 +73,8 @@ class _FixedMenuState extends State<FixedMenu> {
           height: sizing.height,
           padding: sizing.padding,
           borderRadius: sizing.borderRadius,
+          border: sizing.border,
+          shadow: sizing.shadow,
           key: widget.optionsKeys[i],
           onHover: (_isHovered) {
             setState(() {

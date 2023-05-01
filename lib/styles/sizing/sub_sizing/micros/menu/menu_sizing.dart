@@ -11,6 +11,8 @@ abstract class MenuSizingStyle {
   final BorderRadius borderRadius;
   final double height;
   final double iconSize;
+  final BoxShadow shadow;
+  final BoxBorder border;
 
   const MenuSizingStyle({
     required this.spacing,
@@ -19,5 +21,7 @@ abstract class MenuSizingStyle {
     required this.height,
     required this.padding,
     required this.itemSpacing,
+    required this.shadow,
+    required this.border,
   });
 }
