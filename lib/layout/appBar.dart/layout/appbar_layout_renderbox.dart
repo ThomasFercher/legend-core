@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import '../appbar_layout.dart';
@@ -150,19 +152,17 @@ class AppBarLayoutRenderBox extends RenderBox
     Size menuSize = Size.zero;
     if (menu != null && !isMenuCollapsed) {
       // Center Menu Horizontally
-      double left = titleSize.width;
-
-      double padd = menuCenter - left;
-      if (padd < 0) padd = 0;
-      offset = offset.translate(padd, 0);
+      offset = Offset(
+        menuCenter,
+        centerVertically(maxHeight, menuSize),
+      );
 
       // Layout
       menu.layout(childConstraints, parentUsesSize: true);
       menuSize = menu.size;
 
       // Center Vertically
-      offset = Offset(
-          offset.dx + 4 * spacing, centerVertically(maxHeight, menuSize));
+      offset = Offset(offset.dx, centerVertically(maxHeight, menuSize));
 
       final BoxParentData parentData = menu.parentData! as BoxParentData;
       parentData.offset = offset;
@@ -360,7 +360,7 @@ class AppBarLayoutRenderBox extends RenderBox
     final menu = childForSlot(AppBarItem.menu);
     final backButton = childForSlot(AppBarItem.backButton);
 
-    final menuWidth = menu != null ? getMenuWidth() + 2 * spacing : 0;
+    final menuWidth = menu != null ? getMenuWidth() : 0;
 
     switch (type) {
       case AppBarLayoutType.MeTiAc:
@@ -379,23 +379,22 @@ class AppBarLayoutRenderBox extends RenderBox
         );
         break;
       case AppBarLayoutType.TiMeAc:
-        final menuCenterLeft = (maxWidth - menuWidth) / 2;
-        final menuCenterRight = maxWidth - menuCenterLeft;
         final spaceRight = getWidthForSlot(actions);
         final spaceLeft = getWidthForSlot(backButton) + getWidthForSlot(title);
         final spaceFilled = spaceLeft + spaceRight;
         final remaining = maxWidth - menuWidth - spaceFilled;
+        final biggestIndent = max(spaceLeft, spaceRight) + spacing;
+        final indent = (maxWidth - menuWidth - 2 * biggestIndent) / 2;
+        final menuCenter = biggestIndent + indent;
 
-        final rightAvailable = maxWidth - menuCenterRight - spaceRight;
-        final leftAvailable = menuCenterLeft - spaceLeft;
-        if (rightAvailable <= 0 || leftAvailable <= 0) {
+        if (indent <= 0) {
           isMenuCollapsed = true;
         }
         LoTiMeAcMe(
           maxWidth,
           maxHeight,
           isMenuCollapsed,
-          menuCenterLeft,
+          menuCenter,
           remaining,
           title,
           menu,
