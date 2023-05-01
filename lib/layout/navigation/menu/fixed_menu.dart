@@ -159,9 +159,9 @@ class _FixedMenuState extends State<FixedMenu> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth == 32) {
+        if (constraints.maxWidth == 48) {
           return CollapsedMenu(
-            width: 32,
+            width: 48,
             decoration: widget.collapsedMenuDecoration,
           );
         } else {

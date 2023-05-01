@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import '../appbar_layout.dart';
 import 'appbar_layout.dart';
 
+const kMenuWidth = 48.0;
+
 class AppBarLayoutRenderBox extends RenderBox
     with
         SlottedContainerRenderObjectMixin<AppBarItem>,
@@ -174,7 +176,7 @@ class AppBarLayoutRenderBox extends RenderBox
 
     if (menu != null && isMenuCollapsed) {
       // Layout
-      menu.layout(BoxConstraints(maxWidth: 32), parentUsesSize: true);
+      menu.layout(BoxConstraints(maxWidth: kMenuWidth), parentUsesSize: true);
       menuSize = menu.size;
 
       // Center Vertically
@@ -257,7 +259,7 @@ class AppBarLayoutRenderBox extends RenderBox
     Size menuSize = Size.zero;
     if (menu != null && isMenuCollapsed) {
       // Layout
-      menu.layout(BoxConstraints(maxWidth: 32), parentUsesSize: true);
+      menu.layout(BoxConstraints(maxWidth: kMenuWidth), parentUsesSize: true);
       menuSize = menu.size;
 
       // Center Vertically
