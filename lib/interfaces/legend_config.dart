@@ -2,7 +2,6 @@ import 'package:legend_design_core/interfaces/color_delegate.dart';
 import 'package:legend_design_core/interfaces/layout_delegate.dart';
 import 'package:legend_design_core/interfaces/size_delegate.dart';
 import 'package:legend_design_core/interfaces/typography_delegate.dart';
-import 'package:legend_design_core/layout/config/dynamic_route_layout.dart';
 import 'package:legend_design_core/legend_design_core.dart';
 import 'package:legend_design_core/libraries/scaffold.dart';
 import 'package:legend_design_core/state/legend_state.dart';
@@ -15,7 +14,6 @@ class LegendConfig {
   final TypographyDelegate typographyDelegate;
   final LayoutDelegate layoutDelegate;
   final RoutesDelegate routesDelegate;
-
   final PaletteType initalColors;
 
   late final LegendSizingTheme sizingTheme = LegendSizingTheme(

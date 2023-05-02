@@ -11,7 +11,6 @@ import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_design_core/styles/theme_state.dart';
 import 'package:legend_design_core/widgets/metric_state.dart';
-import 'package:provider/provider.dart';
 import 'data/asset_loader.dart';
 import 'layout/bottomBar.dart/bottom_bar_provider.dart';
 
@@ -23,7 +22,7 @@ const List<LocalizationsDelegate<dynamic>> localizations = [
 
 final navKey = GlobalKey<NavigatorState>();
 
-class LegendApp extends StatelessWidget {
+class LegendApp extends StatefulWidget {
   final LegendConfig config;
   final Widget Function(BuildContext context)? logoBuilder;
   final String title;
@@ -35,8 +34,6 @@ class LegendApp extends StatelessWidget {
   final Widget Function(BuildContext context, LegendTheme theme)?
       buildSplashscreen;
 
-  final LegendRouterDelegate routerDelegate;
-
   LegendApp({
     super.key,
     required this.config,
@@ -44,20 +41,41 @@ class LegendApp extends StatelessWidget {
     this.logoBuilder,
     this.future,
     this.buildSplashscreen,
-  }) : routerDelegate = LegendRouterDelegate(
-          frame: LegendNavigatorFrame(),
-          routes: config.routes,
-          navigatorKey: navKey,
-        );
+  });
+
+  @override
+  State<LegendApp> createState() => _LegendAppState();
+}
+
+class _LegendAppState extends State<LegendApp> {
+  late final LegendRouterDelegate _routerDelegate;
+
+  LegendConfig get config => widget.config;
+
+  @override
+  void initState() {
+    _routerDelegate = LegendRouterDelegate(
+      frame: LegendNavigatorFrame(),
+      routes: config.routes,
+      navigatorKey: navKey,
+      onGenerateRoute: config.routesDelegate.onGenerateRoute,
+      hideRoutes: (c) => config.routesDelegate.hideRoutes(c, context),
+    );
+    Future.microtask(() async {
+      await _init(context);
+      setState(() {});
+    });
+    super.initState();
+  }
 
   ///
   /// Do things before any page is built.
   ///
   Future<bool> _init(BuildContext context) async {
     // Await User defined Futrure
-    if (future != null) {
-      await future;
-    }
+    // if (widget.future != null) {
+    //   await widget.future;
+    // }
 
     // Prechache Asset Images
     await AssetLoader.prechacheAssets(context);
@@ -67,8 +85,6 @@ class LegendApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logger.log("LegendApp: Build");
-
     // Config
     final _theme = LegendTheme(
       scaffoldConfig: config.scaffoldConfig,
@@ -98,16 +114,16 @@ class LegendApp extends StatelessWidget {
             delegates: localizations,
             locale: Locale('en', 'US'),
             child: LegendRouter(
-              routerDelegate: routerDelegate,
+              routerDelegate: _routerDelegate,
               routes: routes,
               child: LayoutProvider(
-                title: title,
-                logoBuilder: logoBuilder,
+                title: widget.title,
+                logoBuilder: widget.logoBuilder,
                 child: MetricReactor(
                   child: ModalNavigator(
                     routes: routes,
                     home: Router(
-                      routerDelegate: routerDelegate,
+                      routerDelegate: _routerDelegate,
                       routeInformationParser: LegendRouteInformationParser(),
                       routeInformationProvider:
                           PlatformRouteInformationProvider(
