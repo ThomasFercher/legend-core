@@ -16,15 +16,24 @@ class SingleBody extends LegendWidget {
         : EdgeInsets.zero;
     final showFooter = ScaffoldInfo.of(context).showFooter(context);
 
+    final maxContentWidth = routeBody.maxContentWidth;
+
     return Column(
       children: [
         Expanded(
-          child: Padding(
-            padding: contentPadding,
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return routeBody.builder!(context, constraints.biggest);
-              },
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: maxContentWidth ?? double.infinity,
+              ),
+              child: Padding(
+                padding: contentPadding,
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return routeBody.builder!(context, constraints.biggest);
+                  },
+                ),
+              ),
             ),
           ),
         ),

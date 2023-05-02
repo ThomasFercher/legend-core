@@ -14,11 +14,19 @@ class BuilderBody extends LegendWidget {
         ? EdgeInsets.all(theme.sizing.spacing1)
         : EdgeInsets.zero;
     final width = routeBodyInfo.constraints.maxWidth;
+
+    final scrollController = routeBodyInfo.scrollController;
+
+    final maxContentWidth = routeBody.maxContentWidth;
+    final availableWidth = width - contentPadding.horizontal;
+    final contentWidth =
+        maxContentWidth != null && maxContentWidth < availableWidth
+            ? maxContentWidth
+            : availableWidth;
     final contentSize = Size(
-      width - contentPadding.horizontal,
+      contentWidth,
       double.infinity,
     );
-    final scrollController = routeBodyInfo.scrollController;
 
     return CustomScrollView(
       controller: scrollController,
@@ -29,12 +37,19 @@ class BuilderBody extends LegendWidget {
             delegate: routeBody.sliverPersistentHeader!,
           ),
         SliverToBoxAdapter(
-          child: Padding(
-            padding: contentPadding,
-            child: Builder(
-              builder: (context) => routeBody.builder!(
-                context,
-                contentSize,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: contentWidth,
+              ),
+              child: Padding(
+                padding: contentPadding,
+                child: Builder(
+                  builder: (context) => routeBody.builder!(
+                    context,
+                    contentSize,
+                  ),
+                ),
               ),
             ),
           ),
