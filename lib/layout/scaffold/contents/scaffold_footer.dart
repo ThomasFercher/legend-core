@@ -9,9 +9,8 @@ class ScaffoldFooter extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     final scaffold = ScaffoldInfo.of(context).scaffold;
-    final layout =
-        scaffold.dynamicLayout.getLayout(theme.sizing.key).footerLayout;
-    final override = scaffold.builders.customFooter;
+    final layout = scaffold.routeLayout.get(theme.sizing.key).footerLayout;
+    final override = scaffold.config.builders.customFooter;
     if (layout is NoFooterLayout || override == null) {
       return SizedBox.shrink();
     }

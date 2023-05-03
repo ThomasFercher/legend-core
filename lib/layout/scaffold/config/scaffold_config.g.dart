@@ -6,9 +6,20 @@ part of 'scaffold_config.dart';
 // StyleGenerator
 // **************************************************************************
 
-abstract class ScaffoldConfigInfoNull {}
+abstract class ScaffoldConfigInfoNull {
+  final DynamicRouteLayout? layout;
+  const ScaffoldConfigInfoNull({
+    required this.layout,
+  });
+}
 
-abstract class ScaffoldConfigInfo implements ScaffoldConfigInfoNull {}
+abstract class ScaffoldConfigInfo implements ScaffoldConfigInfoNull {
+  @override
+  final DynamicRouteLayout layout;
+  const ScaffoldConfigInfo({
+    required this.layout,
+  });
+}
 
 class ScaffoldConfigComponentsInfo {
   final ScaffoldBuildersInfoNull? builders;
@@ -48,6 +59,7 @@ class ScaffoldConfigOverride extends ScaffoldConfigInfoNull
   @override
   final ScaffoldWhetherOverride? whether;
   ScaffoldConfigOverride({
+    super.layout,
     this.builders,
     this.whether,
   });
@@ -60,10 +72,12 @@ class ScaffoldConfig extends ScaffoldConfigInfo
   @override
   final ScaffoldWhether whether;
   ScaffoldConfig({
+    required super.layout,
     required this.builders,
     required this.whether,
   });
   ScaffoldConfig.copy({
+    required super.layout,
     required this.builders,
     required this.whether,
   });
@@ -79,6 +93,7 @@ class ScaffoldConfig extends ScaffoldConfigInfo
       return def;
     }
     return ScaffoldConfig(
+      layout: override.layout ?? def.layout,
       builders: ScaffoldBuilders.override(
         def.builders,
         override.builders,
@@ -94,10 +109,12 @@ class ScaffoldConfig extends ScaffoldConfigInfo
 // Copy With
 // **************************************************************************
   ScaffoldConfig copyWith({
+    DynamicRouteLayout? layout,
     ScaffoldBuilders? builders,
     ScaffoldWhether? whether,
   }) {
     return ScaffoldConfig.copy(
+      layout: layout ?? this.layout,
       builders: builders ?? this.builders,
       whether: whether ?? this.whether,
     );

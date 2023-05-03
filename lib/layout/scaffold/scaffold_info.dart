@@ -21,9 +21,11 @@ class ScaffoldInfo extends InheritedWidget {
     required this.showHeader,
   }) : super(key: key, child: child);
 
-  ScaffoldBuilders get builders => scaffold.builders;
+  ScaffoldBuilders get builders => scaffold.config.builders;
 
-  ScaffoldWhether get whether => scaffold.whether;
+  ScaffoldWhether get whether => scaffold.config.whether;
+
+  ScaffoldConfig get config => scaffold.config;
 
   RouteInfo get route => routeInfo;
 
@@ -38,21 +40,15 @@ class ScaffoldInfo extends InheritedWidget {
   }
 
   RouteLayout getLayout(LegendTheme theme) {
-    return scaffold.dynamicLayout.getLayout(theme.sizing.key);
+    return scaffold.routeLayout.get(theme.split);
   }
 
   bool showFooter(BuildContext context) {
-    final layout = scaffold.dynamicLayout
-        .getLayout(LegendTheme.of(context).sizing.key)
-        .footerLayout;
+    final layout =
+        scaffold.routeLayout.get(LegendTheme.of(context).split).footerLayout;
 
     return layout is! NoFooterLayout;
   }
-
-  ScaffoldConfig get getConfig => ScaffoldConfig(
-        builders: scaffold.builders,
-        whether: scaffold.whether,
-      );
 
   @override
   bool updateShouldNotify(ScaffoldInfo oldWidget) {

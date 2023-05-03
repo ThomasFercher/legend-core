@@ -21,20 +21,20 @@ class ScaffoldHeader extends StatelessWidget {
     final theme = LegendTheme.of(context);
     final showBackButton = !PlatformInfo.isWeb &&
         !LegendRouter.of(context).isFirstOnStack &&
-        scaffold.whether.showBackButton;
+        scaffold.config.whether.showBackButton;
 
     return LegendAppBar(
       type: layout.aligment,
-      actions: scaffold.builders.appBarActions,
+      actions: scaffold.config.builders.appBarActions,
       showBackButton: showBackButton,
-      showMenu: scaffold.whether.showAppBarMenu,
+      showMenu: scaffold.config.whether.showAppBarMenu,
       bottom: ScaffoldHeaderBottom(
         appbarLayout: info.routeLayout.appBarLayout,
         menuDrawerLayout: info.routeLayout.menuDrawerLayout,
       ),
       config: LegendAppBarConfig(
         appBarHeight: theme.appBarSizing.appBarHeight,
-        showSubMenu: scaffold.whether.showTopSubMenu,
+        showSubMenu: scaffold.config.whether.showTopSubMenu,
         elevation: 1,
         pinned: true,
         horizontalPadding: theme.appBarSizing.contentPadding.left,

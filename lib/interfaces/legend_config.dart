@@ -27,7 +27,8 @@ class LegendConfig {
     initalType: initalColors,
   );
 
-  late final ScaffoldConfig scaffoldConfig = layoutDelegate.defaultConfig;
+  late final ScaffoldConfig scaffoldConfig =
+      layoutDelegate.buildConfig(routeLayouts);
   late final LegendTypography typography = typographyDelegate.typography;
   late final List<RouteInfo> routes = routesDelegate.buildRoutes(routeLayouts);
   late final LayoutInfo routeLayouts =

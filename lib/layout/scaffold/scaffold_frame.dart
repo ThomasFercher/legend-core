@@ -16,16 +16,13 @@ class ScaffoldFrame extends LegendWidget {
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
-    final config = page.config;
-    final builders = ScaffoldBuilders.override(
-        theme.scaffoldConfig.builders, config.builders);
-    final whether =
-        ScaffoldWhether.override(theme.scaffoldConfig.whether, config.whether);
+    final routeConfig = page.config;
+    final scaffoldConfig = theme.scaffoldConfig;
+
+    final config = ScaffoldConfig.override(scaffoldConfig, routeConfig);
 
     return LegendScaffold(
-      dynamicLayout: config.layout,
-      builders: builders,
-      whether: whether,
+      config: config,
       child: child,
       route: page,
     );

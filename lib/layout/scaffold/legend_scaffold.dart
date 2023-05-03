@@ -25,22 +25,24 @@ class LegendScaffold extends LegendWidget {
   final RouteInfo route;
 
   // Configs
-  final DynamicRouteLayout dynamicLayout;
-  final ScaffoldBuilders builders;
-  final ScaffoldWhether whether;
+  final ScaffoldConfig config;
 
   const LegendScaffold({
     required this.child,
-    required this.dynamicLayout,
-    required this.whether,
-    required this.builders,
     required this.route,
+    required this.config,
   });
+
+  DynamicRouteLayout get routeLayout => config.layout;
+
+  ScaffoldBuilders get builders => config.builders;
+
+  ScaffoldWhether get whether => config.whether;
 
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     final key = theme.sizing.key;
-    final layout = dynamicLayout.getLayout(key);
+    final layout = routeLayout.get(key);
     final showBottomBar = layout.bottomBarLayout is! NoBottomBarLayout;
     final appBarLayout = layout.appBarLayout;
     final showHeader = appBarLayout is! NoAppBarLayout &&

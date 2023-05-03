@@ -12,12 +12,15 @@ abstract class ScaffoldBuildersInfoNull {
   final Widget? customFooter;
   final Widget? appBarBottom;
   final Widget Function(BuildContext, LegendTheme)? siderBuilder;
+  final Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
+      fixedMenuBuilder;
   const ScaffoldBuildersInfoNull({
     this.appBarActions,
     this.menuDrawerActions,
     this.customFooter,
     this.appBarBottom,
     this.siderBuilder,
+    this.fixedMenuBuilder,
   });
 }
 
@@ -32,12 +35,16 @@ abstract class ScaffoldBuildersInfo implements ScaffoldBuildersInfoNull {
   final Widget? appBarBottom;
   @override
   final Widget Function(BuildContext, LegendTheme)? siderBuilder;
+  @override
+  final Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
+      fixedMenuBuilder;
   const ScaffoldBuildersInfo({
     this.appBarActions,
     this.menuDrawerActions,
     this.customFooter,
     this.appBarBottom,
     this.siderBuilder,
+    this.fixedMenuBuilder,
   });
 }
 
@@ -48,6 +55,7 @@ class ScaffoldBuildersOverride extends ScaffoldBuildersInfoNull {
     super.customFooter,
     super.appBarBottom,
     super.siderBuilder,
+    super.fixedMenuBuilder,
   });
 }
 
@@ -58,6 +66,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     super.customFooter,
     super.appBarBottom,
     super.siderBuilder,
+    super.fixedMenuBuilder,
   });
   ScaffoldBuilders.copy({
     super.appBarActions,
@@ -65,6 +74,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     super.customFooter,
     super.appBarBottom,
     super.siderBuilder,
+    super.fixedMenuBuilder,
   });
 
 // **************************************************************************
@@ -83,6 +93,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
       customFooter: override.customFooter ?? def.customFooter,
       appBarBottom: override.appBarBottom ?? def.appBarBottom,
       siderBuilder: override.siderBuilder ?? def.siderBuilder,
+      fixedMenuBuilder: override.fixedMenuBuilder ?? def.fixedMenuBuilder,
     );
   }
 
@@ -95,6 +106,8 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     Widget? customFooter,
     Widget? appBarBottom,
     Widget Function(BuildContext, LegendTheme)? siderBuilder,
+    Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
+        fixedMenuBuilder,
   }) {
     return ScaffoldBuilders.copy(
       appBarActions: appBarActions ?? this.appBarActions,
@@ -102,6 +115,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
       customFooter: customFooter ?? this.customFooter,
       appBarBottom: appBarBottom ?? this.appBarBottom,
       siderBuilder: siderBuilder ?? this.siderBuilder,
+      fixedMenuBuilder: fixedMenuBuilder ?? this.fixedMenuBuilder,
     );
   }
 }

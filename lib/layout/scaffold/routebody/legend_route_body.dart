@@ -70,7 +70,7 @@ class LegendRouteBody extends HookWidget {
   Widget build(BuildContext context) {
     final theme = LegendTheme.of(context);
     final info = ScaffoldInfo.of(context);
-    final single = singlePage ?? info.scaffold.whether.singlePage;
+    final single = singlePage ?? info.scaffold.config.whether.singlePage;
 
     final showSliverBar = sliverAppBar != null &&
         info.routeLayout.appBarLayout.layout == AppBarLayoutConfig.body;

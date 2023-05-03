@@ -8,6 +8,12 @@ import 'package:legend_router/legend_router.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
 import 'package:legend_utils/extensions/extensions.dart';
 
+typedef FixedMenuBuilder = Widget Function(
+  BuildContext context,
+  List<RouteInfo> menuRoutes,
+  RouteInfo? current,
+);
+
 class FixedMenu extends StatefulWidget {
   final bool showMenuSubItems;
 
@@ -56,14 +62,13 @@ class _FixedMenuState extends State<FixedMenu> {
     RouteInfo? sel,
   ) {
     List<RowMenuTile> tiles = [];
-    String? currentRoute =
-        LegendRouter.of(context).routerDelegate.current?.name;
-    LegendTheme theme = LegendTheme.of(context);
+    final currentRoute = LegendRouter.of(context).current?.name;
+    final theme = LegendTheme.of(context);
 
     for (int i = 0; i < widget.options.length; i++) {
-      final RouteInfo option = widget.options[i];
-      bool isSelected = i == hovered || option.name == currentRoute;
-      List<RouteInfo> subOptions = option.children?.toList() ?? [];
+      final option = widget.options[i];
+      final isSelected = i == hovered || option.name == currentRoute;
+      final subOptions = option.children?.toList() ?? [];
       tiles.add(
         RowMenuTile(
           iconSize: sizing.iconSize,

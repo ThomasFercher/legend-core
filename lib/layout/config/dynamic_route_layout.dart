@@ -7,7 +7,7 @@ class DynamicRouteLayout {
     required this.layouts,
   });
 
-  RouteLayout getLayout(double split) {
+  RouteLayout get(double split) {
     return layouts[split] ?? layouts.values.first;
   }
 

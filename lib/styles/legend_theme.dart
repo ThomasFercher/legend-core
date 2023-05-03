@@ -51,6 +51,8 @@ class LegendTheme {
   SiderSizing get siderSizing => sizing.siderSizing;
   MenuDrawerSizing get menuDrawerSizing => sizing.menuDrawerSizing;
 
+  double get split => sizing.key;
+
   /// Returns the splits of the Sizing Theme as a List
   final List<double> splits;
 

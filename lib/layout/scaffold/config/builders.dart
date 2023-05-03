@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:legend_annotations/legend_annotations.dart';
 import 'package:legend_design_core/styles/legend_theme.dart';
+import 'package:legend_router/legend_router.dart';
 
 part 'builders.g.dart';
 
@@ -35,12 +36,19 @@ abstract class ScaffoldBuildersStyle {
   final Widget? appBarBottom;
   final ScaffoldBuilder? siderBuilder;
 
+  final Widget Function(
+    BuildContext context,
+    List<RouteInfo> menuRoutes,
+    RouteInfo? current,
+  )? fixedMenuBuilder;
+
   const ScaffoldBuildersStyle({
     required this.appBarActions,
     required this.menuDrawerActions,
     required this.customFooter,
     required this.appBarBottom,
     required this.siderBuilder,
+    required this.fixedMenuBuilder,
   });
 
   /* factory ScaffoldBuilders.copyWith(

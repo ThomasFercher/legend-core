@@ -11,18 +11,18 @@ class ScaffoldSider extends LegendWidget {
   @override
   Widget build(BuildContext context, LegendTheme theme) {
     LegendScaffold scaffold = ScaffoldInfo.of(context).scaffold;
-    final layout = scaffold.dynamicLayout.getLayout(theme.sizing.key);
+    final layout = scaffold.routeLayout.get(theme.sizing.key);
 
     if (layout.siderLayout is NoSiderLayout) {
       return SizedBox.shrink();
     }
 
     return LegendSider(
-      builder: scaffold.builders.siderBuilder,
-      showMenu: scaffold.whether.showSiderMenu,
-      showSubMenu: scaffold.whether.showSiderSubMenu,
-      showChildMenu: scaffold.whether.showSiderChildMenu,
-      showParentMenu: scaffold.whether.shareParentSiderMenu,
+      builder: scaffold.config.builders.siderBuilder,
+      showMenu: scaffold.config.whether.showSiderMenu,
+      showSubMenu: scaffold.config.whether.showSiderSubMenu,
+      showChildMenu: scaffold.config.whether.showSiderChildMenu,
+      showParentMenu: scaffold.config.whether.shareParentSiderMenu,
     );
   }
 }
