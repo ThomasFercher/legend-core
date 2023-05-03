@@ -9,6 +9,7 @@ import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/layout/scaffold/scaffold_info.dart';
 import 'package:legend_design_core/router/extension.dart';
+import 'package:legend_design_core/router/scaffold_route_info.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
 import 'package:legend_design_core/widgets/layout/has_height.dart';
@@ -46,33 +47,29 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
     this.collapsedMenuDecoration = const BoxDecoration(),
   });
 
-  FixedMenu getMenu(BuildContext context) {
-    LegendTheme theme = LegendTheme.of(context);
+  Widget _menu(BuildContext context) {
+    final theme = LegendTheme.of(context);
+    final router = context.legendRouter;
     final menuColors = theme.colors.appBar.menuColors;
     final sizing = theme.appBarSizing.menuSizing;
-    final routes = context.menuRoutes;
-    switch (type) {
-      case AppBarLayoutType.MeTiAc:
-        return FixedMenu(
+    final routes = List.of(
+      router.getTopRoutes<PageInfo>().where((element) => element.isMenu),
+    );
+
+    final scaffoldConfig = ScaffoldInfo.of(context).config;
+    final builder = scaffoldConfig.builders.fixedMenuBuilder;
+    return builder?.call(context, routes, router.current) ??
+        FixedMenu(
+          sizing: sizing,
           showMenuSubItems: false,
           colors: menuColors,
-          sizing: sizing,
-          collapsedMenuDecoration: collapsedMenuDecoration,
           options: routes,
-        );
-      case AppBarLayoutType.TiMeAc:
-        return FixedMenu(
-          showMenuSubItems: false,
-          colors: menuColors,
-          sizing: sizing,
           collapsedMenuDecoration: collapsedMenuDecoration,
-          options: routes,
         );
-    }
   }
 
   PreferredSize _bottom(BuildContext context) {
-    RouteInfo? route = LegendRouter.of(context).routerDelegate.current;
+    final route = LegendRouter.of(context).routerDelegate.current;
     final theme = LegendTheme.of(context);
     final layout = ScaffoldInfo.of(context).getLayout(theme);
 
@@ -82,8 +79,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
       if (route.children != null && route.children!.isNotEmpty) {
         routes.addAll(route.children!);
       } else {
-        RouteInfo? parent =
-            RouteInfoProvider.getParentRouteInfo(context, route);
+        final parent = RouteInfoProvider.getParentRouteInfo(context, route);
         if (parent != null) {
           routes = [parent];
           if (parent.children != null) routes.addAll(parent.children!);
@@ -132,7 +128,7 @@ class LegendSliverBar extends LegendWidget implements HasHeight {
             children: {
               if (_showBackButton) AppBarItem.backButton: LegendBackButton(),
               if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
-              if (showMenu) AppBarItem.menu: getMenu(context),
+              if (showMenu) AppBarItem.menu: _menu(context),
               if (actions != null)
                 AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
             },
