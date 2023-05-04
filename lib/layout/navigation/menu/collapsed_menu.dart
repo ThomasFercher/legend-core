@@ -8,12 +8,10 @@ import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/widgets/icons/legend_animated_icon.dart';
 
 class CollapsedMenu extends LegendWidget {
-  final double width;
   final BoxDecoration decoration;
 
   const CollapsedMenu({
     super.key,
-    required this.width,
     required this.decoration,
   });
 
@@ -33,32 +31,35 @@ class CollapsedMenu extends LegendWidget {
       }
     }
 
-    return Container(
-      width: width,
-      alignment: Alignment.center,
-      decoration: decoration,
-      child: LegendAnimatedIcon(
-        iconSize: theme.appBarSizing.iconSize,
-        onPressed: () {
-          if (useMenuDrawerAppBar) {
-            ProviderWrapper.of<AppBarProvider>(context).update(
-              (old) {
-                return old.copyWith(
-                  showMenu: !old.showMenu,
+    return LayoutBuilder(builder: (context, contraints) {
+      return Container(
+        width: contraints.maxWidth,
+        height: contraints.maxHeight,
+        alignment: Alignment.center,
+        child: Container(
+          decoration: decoration,
+          child: LegendAnimatedIcon(
+            iconSize: theme.appBarSizing.iconSize,
+            onPressed: () {
+              if (useMenuDrawerAppBar) {
+                ProviderWrapper.of<AppBarProvider>(context).update(
+                  (old) => old.copyWith(
+                    showMenu: !old.showMenu,
+                  ),
                 );
-              },
-            );
-          } else {
-            ModalRouter.of(context).push('/menudrawer');
-          }
-        },
-        icon: icon,
-        disableShadow: true,
-        theme: LegendAnimtedIconTheme(
-          disabled: theme.colors.appBar.foreground,
-          enabled: theme.colors.selection,
+              } else {
+                ModalRouter.of(context).push('/menudrawer');
+              }
+            },
+            icon: icon,
+            disableShadow: true,
+            theme: LegendAnimtedIconTheme(
+              disabled: theme.colors.appBar.foreground,
+              enabled: theme.colors.selection,
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

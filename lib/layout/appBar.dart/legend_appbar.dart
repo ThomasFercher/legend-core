@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legend_design_core/layout/appBar.dart/appbar_config.dart';
 import 'package:legend_design_core/layout/appBar.dart/layout/appbar_layout.dart';
+import 'package:legend_design_core/layout/navigation/menu/collapsed_menu.dart';
 import 'package:legend_design_core/layout/navigation/menu/fixed_menu.dart';
 import 'package:legend_design_core/layout/scaffold/contents/scaffold_title.dart';
 import 'package:legend_design_core/libraries/scaffold.dart';
@@ -55,7 +56,17 @@ class LegendAppBar extends LegendWidget {
           showMenuSubItems: false,
           colors: menuColors,
           options: routes,
-          collapsedMenuDecoration: collapsedMenuDecoration,
+        );
+  }
+
+  Widget _collapsedMenu(BuildContext context) {
+    return ScaffoldInfo.of(context)
+            .config
+            .builders
+            .collapsedMenuBuilder
+            ?.call(context) ??
+        CollapsedMenu(
+          decoration: collapsedMenuDecoration,
         );
   }
 
@@ -75,7 +86,10 @@ class LegendAppBar extends LegendWidget {
               children: {
                 if (showBackButton) AppBarItem.backButton: LegendBackButton(),
                 if (showTitle) AppBarItem.title: title ?? ScaffoldTitle(),
-                if (showMenu) AppBarItem.menu: _menu(context),
+                if (showMenu) ...{
+                  AppBarItem.menu: _menu(context),
+                  AppBarItem.collapsedMenu: _collapsedMenu(context),
+                },
                 if (actions != null)
                   AppBarItem.actions: LegendScaffoldBuilder(builder: actions!),
               },

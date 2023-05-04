@@ -81,6 +81,7 @@ class AppBarLayoutRenderBox extends RenderBox
     RenderBox? menu,
     RenderBox? actions,
     RenderBox? backButton,
+    RenderBox? collapsedMenu,
   ) {
     BoxConstraints childConstraints = constraints;
 
@@ -152,32 +153,50 @@ class AppBarLayoutRenderBox extends RenderBox
 
     // Menu
     Size menuSize = Size.zero;
-    if (menu != null && !isMenuCollapsed) {
-      // Center Menu Horizontally
-      offset = Offset(
-        menuCenter,
-        centerVertically(maxHeight, menuSize),
-      );
+    if (menu != null) {
+      if (!isMenuCollapsed) {
+        // Center Menu Horizontally
+        offset = Offset(
+          menuCenter,
+          centerVertically(maxHeight, menuSize),
+        );
 
-      // Layout
-      menu.layout(childConstraints, parentUsesSize: true);
-      menuSize = menu.size;
+        // Layout
+        menu.layout(childConstraints, parentUsesSize: true);
+        menuSize = menu.size;
 
-      // Center Vertically
-      offset = Offset(offset.dx, centerVertically(maxHeight, menuSize));
+        // Center Vertically
+        offset = Offset(offset.dx, centerVertically(maxHeight, menuSize));
 
-      final BoxParentData parentData = menu.parentData! as BoxParentData;
-      parentData.offset = offset;
+        final parentData = menu.parentData! as BoxParentData;
+        parentData.offset = offset;
 
-      childConstraints = childConstraints.copyWith(
-        maxWidth: childConstraints.maxWidth - menuSize.width,
-      );
+        childConstraints = childConstraints.copyWith(
+          maxWidth: childConstraints.maxWidth - menuSize.width,
+        );
+      } else {
+        // ?
+        menu.layout(
+          BoxConstraints(
+            maxHeight: 0,
+            maxWidth: 0,
+            minHeight: 0,
+            minWidth: 0,
+          ),
+        );
+      }
     }
 
-    if (menu != null && isMenuCollapsed) {
+    if (collapsedMenu != null && isMenuCollapsed) {
       // Layout
-      menu.layout(BoxConstraints(maxWidth: kMenuWidth), parentUsesSize: true);
-      menuSize = menu.size;
+      collapsedMenu.layout(
+        BoxConstraints(
+          maxWidth: kMenuWidth,
+          maxHeight: maxHeight,
+        ),
+        parentUsesSize: true,
+      );
+      menuSize = collapsedMenu.size;
 
       // Center Vertically
       offset = Offset(
@@ -185,7 +204,8 @@ class AppBarLayoutRenderBox extends RenderBox
         centerVertically(maxHeight, menuSize),
       );
 
-      final BoxParentData parentData = menu.parentData! as BoxParentData;
+      final BoxParentData parentData =
+          collapsedMenu.parentData! as BoxParentData;
       parentData.offset = offset;
     }
 
@@ -361,6 +381,7 @@ class AppBarLayoutRenderBox extends RenderBox
     final title = childForSlot(AppBarItem.title);
     final menu = childForSlot(AppBarItem.menu);
     final backButton = childForSlot(AppBarItem.backButton);
+    final collapsedMenu = childForSlot(AppBarItem.collapsedMenu);
 
     final menuWidth = menu != null ? getMenuWidth() : 0;
 
@@ -402,6 +423,7 @@ class AppBarLayoutRenderBox extends RenderBox
           menu,
           actions,
           backButton,
+          collapsedMenu,
         );
         break;
     }

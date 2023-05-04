@@ -19,7 +19,6 @@ class FixedMenu extends StatefulWidget {
 
   final List<RouteInfo> options;
   late final List<GlobalKey> optionsKeys;
-  final BoxDecoration collapsedMenuDecoration;
 
   final MenuSizing sizing;
   final MenuColors colors;
@@ -30,7 +29,6 @@ class FixedMenu extends StatefulWidget {
     required this.colors,
     required this.sizing,
     required this.showMenuSubItems,
-    this.collapsedMenuDecoration = const BoxDecoration(),
   }) : super(key: key) {
     optionsKeys = options
         .map((option) => GlobalKey(
@@ -162,29 +160,18 @@ class _FixedMenuState extends State<FixedMenu> {
   Widget build(BuildContext context) {
     RouteInfo? sel = LegendRouter.of(context).routerDelegate.current;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        if (constraints.maxWidth == 48) {
-          return CollapsedMenu(
-            width: 48,
-            decoration: widget.collapsedMenuDecoration,
-          );
-        } else {
-          List<RowMenuTile> tiles = getTiles(
-            context,
-            sel,
-          );
-          return Container(
-            color: colors.menuBackground,
-            height: sizing.height,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: tiles.traillingPaddingRow(sizing.spacing),
-            ),
-          );
-        }
-      },
+    List<RowMenuTile> tiles = getTiles(
+      context,
+      sel,
+    );
+    return Container(
+      color: colors.menuBackground,
+      height: sizing.height,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: tiles.traillingPaddingRow(sizing.spacing),
+      ),
     );
   }
 }

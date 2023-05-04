@@ -7,6 +7,7 @@ enum AppBarItem {
   menu,
   actions,
   backButton,
+  collapsedMenu,
 }
 
 class AppBarDelegate extends RenderObjectWidget

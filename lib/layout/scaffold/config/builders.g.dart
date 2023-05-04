@@ -14,6 +14,7 @@ abstract class ScaffoldBuildersInfoNull {
   final Widget Function(BuildContext, LegendTheme)? siderBuilder;
   final Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
       fixedMenuBuilder;
+  final Widget Function(BuildContext)? collapsedMenuBuilder;
   const ScaffoldBuildersInfoNull({
     this.appBarActions,
     this.menuDrawerActions,
@@ -21,6 +22,7 @@ abstract class ScaffoldBuildersInfoNull {
     this.appBarBottom,
     this.siderBuilder,
     this.fixedMenuBuilder,
+    this.collapsedMenuBuilder,
   });
 }
 
@@ -38,6 +40,8 @@ abstract class ScaffoldBuildersInfo implements ScaffoldBuildersInfoNull {
   @override
   final Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
       fixedMenuBuilder;
+  @override
+  final Widget Function(BuildContext)? collapsedMenuBuilder;
   const ScaffoldBuildersInfo({
     this.appBarActions,
     this.menuDrawerActions,
@@ -45,6 +49,7 @@ abstract class ScaffoldBuildersInfo implements ScaffoldBuildersInfoNull {
     this.appBarBottom,
     this.siderBuilder,
     this.fixedMenuBuilder,
+    this.collapsedMenuBuilder,
   });
 }
 
@@ -56,6 +61,7 @@ class ScaffoldBuildersOverride extends ScaffoldBuildersInfoNull {
     super.appBarBottom,
     super.siderBuilder,
     super.fixedMenuBuilder,
+    super.collapsedMenuBuilder,
   });
 }
 
@@ -67,6 +73,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     super.appBarBottom,
     super.siderBuilder,
     super.fixedMenuBuilder,
+    super.collapsedMenuBuilder,
   });
   ScaffoldBuilders.copy({
     super.appBarActions,
@@ -75,6 +82,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     super.appBarBottom,
     super.siderBuilder,
     super.fixedMenuBuilder,
+    super.collapsedMenuBuilder,
   });
 
 // **************************************************************************
@@ -94,6 +102,8 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
       appBarBottom: override.appBarBottom ?? def.appBarBottom,
       siderBuilder: override.siderBuilder ?? def.siderBuilder,
       fixedMenuBuilder: override.fixedMenuBuilder ?? def.fixedMenuBuilder,
+      collapsedMenuBuilder:
+          override.collapsedMenuBuilder ?? def.collapsedMenuBuilder,
     );
   }
 
@@ -108,6 +118,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
     Widget Function(BuildContext, LegendTheme)? siderBuilder,
     Widget Function(BuildContext, List<RouteInfo>, RouteInfo?)?
         fixedMenuBuilder,
+    Widget Function(BuildContext)? collapsedMenuBuilder,
   }) {
     return ScaffoldBuilders.copy(
       appBarActions: appBarActions ?? this.appBarActions,
@@ -116,6 +127,7 @@ class ScaffoldBuilders extends ScaffoldBuildersInfo {
       appBarBottom: appBarBottom ?? this.appBarBottom,
       siderBuilder: siderBuilder ?? this.siderBuilder,
       fixedMenuBuilder: fixedMenuBuilder ?? this.fixedMenuBuilder,
+      collapsedMenuBuilder: collapsedMenuBuilder ?? this.collapsedMenuBuilder,
     );
   }
 }

@@ -42,6 +42,8 @@ abstract class ScaffoldBuildersStyle {
     RouteInfo? current,
   )? fixedMenuBuilder;
 
+  final WidgetBuilder? collapsedMenuBuilder;
+
   const ScaffoldBuildersStyle({
     required this.appBarActions,
     required this.menuDrawerActions,
@@ -49,6 +51,7 @@ abstract class ScaffoldBuildersStyle {
     required this.appBarBottom,
     required this.siderBuilder,
     required this.fixedMenuBuilder,
+    required this.collapsedMenuBuilder,
   });
 
   /* factory ScaffoldBuilders.copyWith(
@@ -62,3 +65,6 @@ abstract class ScaffoldBuildersStyle {
     );
   }*/
 }
+
+
+// flutter pub run build_runner build --delete-conflicting-outputs
