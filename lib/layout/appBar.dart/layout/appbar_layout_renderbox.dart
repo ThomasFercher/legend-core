@@ -5,8 +5,6 @@ import 'package:flutter/rendering.dart';
 import '../appbar_layout.dart';
 import 'appbar_layout.dart';
 
-const kMenuWidth = 48.0;
-
 class AppBarLayoutRenderBox extends RenderBox
     with
         SlottedContainerRenderObjectMixin<AppBarItem>,
@@ -191,10 +189,7 @@ class AppBarLayoutRenderBox extends RenderBox
       if (isMenuCollapsed) {
         // Layout
         collapsedMenu.layout(
-          BoxConstraints(
-            maxWidth: kMenuWidth,
-            maxHeight: maxHeight,
-          ),
+          childConstraints,
           parentUsesSize: true,
         );
         menuSize = collapsedMenu.size;
@@ -208,6 +203,10 @@ class AppBarLayoutRenderBox extends RenderBox
         final BoxParentData parentData =
             collapsedMenu.parentData! as BoxParentData;
         parentData.offset = offset;
+
+        childConstraints = childConstraints.copyWith(
+          maxWidth: childConstraints.maxWidth - menuSize.width,
+        );
       } else {
         collapsedMenu.layout(
           BoxConstraints(
@@ -289,7 +288,7 @@ class AppBarLayoutRenderBox extends RenderBox
     Size menuSize = Size.zero;
     if (menu != null && isMenuCollapsed) {
       // Layout
-      menu.layout(BoxConstraints(maxWidth: kMenuWidth), parentUsesSize: true);
+      menu.layout(childConstraints, parentUsesSize: true);
       menuSize = menu.size;
 
       // Center Vertically
@@ -301,6 +300,9 @@ class AppBarLayoutRenderBox extends RenderBox
       final BoxParentData parentData = menu.parentData! as BoxParentData;
       parentData.offset = offset;
 
+      childConstraints = childConstraints.copyWith(
+        maxWidth: childConstraints.maxWidth - menuSize.width,
+      );
       offset = offset.translate(menuSize.width, 0);
     }
 
