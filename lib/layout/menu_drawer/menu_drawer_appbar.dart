@@ -6,7 +6,6 @@ import 'package:legend_design_core/router/extension.dart';
 import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/state/provider/legend_provider.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
-import 'package:provider/provider.dart';
 
 const Duration duration = Duration(milliseconds: 250);
 

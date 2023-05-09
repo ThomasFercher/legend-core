@@ -4,7 +4,6 @@ import 'package:legend_design_core/styles/colors/subcolors/appbar/appBar_colors.
 import 'package:legend_design_core/styles/colors/subcolors/menuDrawer/menu_drawer_colors.dart';
 import 'package:legend_design_core/layout/scaffold/config/scaffold_config.dart';
 import 'package:legend_design_core/styles/theme_state.dart';
-import 'package:provider/provider.dart';
 import 'colors/legend_palette.dart';
 import 'colors/subcolors/bottomBar/bottom_bar_colors.dart';
 import 'colors/subcolors/footer/footer_colors.dart';

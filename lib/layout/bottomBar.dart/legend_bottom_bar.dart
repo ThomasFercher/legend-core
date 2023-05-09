@@ -10,8 +10,6 @@ import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_design_core/widgets/size_info.dart';
 import 'package:legend_router/legend_router.dart';
 import 'package:legend_design_core/styles/platform_info.dart';
-import 'package:provider/provider.dart';
-
 import 'behind/behind_whole.dart';
 
 const double iosBottomPadding = 12;
