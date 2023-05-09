@@ -187,28 +187,38 @@ class AppBarLayoutRenderBox extends RenderBox
       }
     }
 
-    if (collapsedMenu != null && isMenuCollapsed) {
-      // Layout
-      collapsedMenu.layout(
-        BoxConstraints(
-          maxWidth: kMenuWidth,
-          maxHeight: maxHeight,
-        ),
-        parentUsesSize: true,
-      );
-      menuSize = collapsedMenu.size;
+    if (collapsedMenu != null) {
+      if (isMenuCollapsed) {
+        // Layout
+        collapsedMenu.layout(
+          BoxConstraints(
+            maxWidth: kMenuWidth,
+            maxHeight: maxHeight,
+          ),
+          parentUsesSize: true,
+        );
+        menuSize = collapsedMenu.size;
 
-      // Center Vertically
-      offset = Offset(
-        maxWidth - menuSize.width,
-        centerVertically(maxHeight, menuSize),
-      );
+        // Center Vertically
+        offset = Offset(
+          maxWidth - menuSize.width,
+          centerVertically(maxHeight, menuSize),
+        );
 
-      final BoxParentData parentData =
-          collapsedMenu.parentData! as BoxParentData;
-      parentData.offset = offset;
+        final BoxParentData parentData =
+            collapsedMenu.parentData! as BoxParentData;
+        parentData.offset = offset;
+      } else {
+        collapsedMenu.layout(
+          BoxConstraints(
+            maxHeight: 0,
+            maxWidth: 0,
+            minHeight: 0,
+            minWidth: 0,
+          ),
+        );
+      }
     }
-
     // Actions When Collapsed
     actionSize = Size.zero;
     if (actions != null && isMenuCollapsed) {
