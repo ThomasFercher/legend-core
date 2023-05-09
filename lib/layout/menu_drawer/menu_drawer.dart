@@ -10,6 +10,8 @@ import 'package:legend_design_core/state/legend_state.dart';
 import 'package:legend_router/legend_router.dart';
 
 class MenuDrawer extends StatefulWidget {
+  static const route = '/menudrawer';
+
   final List<Widget>? actions;
 
   const MenuDrawer({Key? key, this.actions}) : super(key: key);
