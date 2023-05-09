@@ -24,7 +24,7 @@ class LegendConfig {
     dark: colorsDelegate.darkTheme,
     light: colorsDelegate.lightTheme,
     custom: colorsDelegate.customThemes,
-    initalType: initalColors,
+    type: initalColors,
   );
 
   late final ScaffoldConfig scaffoldConfig =

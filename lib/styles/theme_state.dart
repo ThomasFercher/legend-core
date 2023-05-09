@@ -27,6 +27,12 @@ class ThemeState {
     );
   }
 
+  bool get isDark => colorTheme.type == PaletteType.dark();
+
+  bool get isLight => colorTheme.type == PaletteType.light();
+
+  bool isCustomTheme(String key) => colorTheme.type == PaletteType.custom(key);
+
   static void changeColorTheme(BuildContext context, PaletteType type) {
     ProviderWrapper.of<ThemeState>(context).update(
       (old) {

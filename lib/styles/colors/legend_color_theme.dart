@@ -8,9 +8,9 @@ class LegendColorTheme {
   final LegendPalette dark;
   final Map<String, LegendPalette>? custom;
 
-  PaletteType _type;
-  set type(PaletteType type) => _type = type;
-  String get key => _type.key;
+  PaletteType type;
+
+  String get key => type.key;
 
   LegendPalette get current {
     if (key == darkKey) return dark;
@@ -20,11 +20,11 @@ class LegendColorTheme {
   }
 
   LegendColorTheme({
-    required PaletteType initalType,
+    required this.type,
     required this.light,
     required this.dark,
     this.custom,
-  }) : _type = initalType;
+  });
 }
 
 class PaletteType {
