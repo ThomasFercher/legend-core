@@ -10,6 +10,7 @@ class LegendDetector extends StatelessWidget {
   final Widget child;
   final BorderRadiusGeometry? borderRadius;
   final Color background;
+  final double elevation;
 
   final bool disableVisualFeedback;
 
@@ -23,6 +24,7 @@ class LegendDetector extends StatelessWidget {
     this.borderRadius,
     this.onHoverEvent,
     this.disableVisualFeedback = false,
+    this.elevation = 0,
     Color? background,
   }) : background = background ?? Colors.transparent;
 
@@ -38,6 +40,7 @@ class LegendDetector extends StatelessWidget {
     return Material(
       color: background,
       borderRadius: borderRadius,
+      elevation: elevation,
       child: MouseRegion(
         opaque: true,
         onEnter: (e) {
